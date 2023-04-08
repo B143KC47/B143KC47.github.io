@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn"> 
+<head>
+    <meta charset="UTF-8">
+        <!--移动端屏幕固定尺寸，这是一条响应式布局语句，会在后面的文章中介绍，现在只需要知道，使用这条语句包含在头部后，用手机打开这个页面，将不能调整页面大小（比如有些页面可以双击或使用屏幕手势来放大局部）-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+        <!--文档的描述信息-->
+<header>    
+        <meta name="description" content="DreamCat工作室是一个专注于创造性思维和创新的工作室，旨在帮助人们发挥他们的创造力，创造出独特的作品。我们提供一个安静的环境，让人们可以放松自己，放空思维，激发创造力，创造出独特的作品。我们提供各种资源，包括设备、软件、技术支持和专业建议，以帮助人们实现他们的创作梦想。">
+    
+
+    
+        <!--文档的关键字信息，关键字方便搜索引擎收录并排序，识别出这个文档包含了哪些关键内容-->
+    
+        <meta name="keywords" content="DreamCat,studio">
+    
+     
+    
+
+    
+        <!--设置浏览器标签前面的小图标，href属性中包含了这个小图标相对此文档的路径，大家有没有发现打开本页的时候，在浏览器标签前面那个小太阳图标？就是通过下面这条语句设置的-->
+    
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',filename='img/smallicon.png')}}">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <title>DreamSky</title>
+        <link rel="stylesheet" type="text/css" href="css/Dreamcat_web.css">
+    
+</head>
+<body>
+    <header>    
+        <div id="topline"></div>
+        <nav>
+            <strong id="name">DreamSky Studio</strong>
+        </nav>
+    </header>
+        <main>
+            <img src="" alt="">
+            <div id="introduction">
+            <h1>Name:Black Cat</h1>
+            <h2>Subject: Computer Science</h2>
+            <h3>Based on Hong Kong</h3>
+            
+            <p>Hong Kong Olympiad in Informatics (HKOI)：<a href="https://judge.hkoi.org/user/ylmass_s20200057">BlackCat</a></p>
+            </div>
+        </main>
+    <footer>
+    </footer>
+</body>
+</html>
