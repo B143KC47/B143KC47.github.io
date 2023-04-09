@@ -35,8 +35,8 @@ body{
 
 }
 main{
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 .centered-element {
     margin: 0 auto;
