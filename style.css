@@ -1,9 +1,10 @@
 @font-face {
-  font-family: ProggyTiny;
-  src: url(Resource/font/ProggyTiny.ttf);
+  font-family: 'OpenSans-Light';
+  src: url('/Resource/Font/ProggyTiny.ttf') format('truetype');
 }
-body{
-  font-family: ProggyTiny;
+body {
+  font-family: ProggyTiny, Arial, sans-serif;
+  color: rgb(250, 253, 255);
 }
 
 a{
