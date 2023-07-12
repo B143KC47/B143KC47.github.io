@@ -41,33 +41,13 @@ h2{
 
 .typing {
   color: white;
-  font-size: 1vw+5px; /* Use vw unit for font size */
-  width: 21em;
-  height: 1.5em;
+  font-size: calc(1vw + 5px); /* Use calc() function for responsive font size */
+  width: 100%; /* Set the width to 100% for responsiveness */
+  height: auto; /* Set height to auto for dynamic height */
   border-right: 1px solid transparent;
-  animation: typing 4s steps(30) forwards, blink-caret .75s step-end infinite;
   word-break: break-all;
   overflow: hidden;
-}
-/* Typing Animation */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-/* Cursor Animation */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: currentColor;
-  }
+  white-space: pre-line; /* Preserve line breaks */
 }
 
 
