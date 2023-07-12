@@ -5,6 +5,7 @@
 body {
   font-family: ProggyTiny, Arial, sans-serif;
   color: rgb(250, 253, 255);
+  background-color: white;
 }
 
 img {
@@ -26,20 +27,84 @@ p{
 h1{
   font-size: xx-large;
   color: #000000;
+
 }
 h2{
   color: white;
+  color: white;
+  text-shadow: 0px 0px 15px #00FFFF,0px 0px 15px #00FFFF,0px 0px 15px #00FFFF;
 }
 
 
 ul {
   list-style-type: disc;
   color: black;
+  font-style: italic;
+}
+.footer-margin{
+  text-align: center;
+  width: 40%;
+  margin: 0 auto;
+}
+
+footer {
+  display: inline-block;
+  height: auto;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
 }
 
 
 
 
+
+.text {
+  font-size: 0.5em;
+  font-weight: 600;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+main {
+  opacity: 0; /* 初始透明度为0 */
+}
+
+
+.fade-in {
+  opacity: 0; /* 初始透明度为0 */
+  transition: opacity 1s ease-in; /* 使用过渡属性进行淡入 */
+}
+.fade-in.active {
+  opacity: 1; /* 滑到部分后的透明度为1 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* 动画开始时的透明度 */
+  }
+  to {
+    opacity: 1; /* 动画结束时的透明度 */
+  }
+}
 
 
 .typing {
@@ -158,4 +223,18 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+
+
+.github_icon, .IG_icon, .Lt_icon {
+  width: 10%;
+  height: 10%;
+  margin-right: 5%;
+  transition: transform 0.3s ease;
+}
+
+.github_icon:hover, .IG_icon:hover, .Lt_icon:hover {
+  transform: scale(1.2);
 }
