@@ -20,7 +20,7 @@ a{
 
 p{
   color: #424242;
-  font-size: 30px;
+  font-size: 1vh;
 }
 
 h1{
@@ -32,7 +32,10 @@ h2{
 }
 
 
-
+ul {
+  list-style-type: disc;
+  color: black;
+}
 
 
 
@@ -114,12 +117,12 @@ h2{
   background-color: #ffffff;
   position: relative;
   z-index: 2;  
-  margin-bottom: 200px;
+  margin-bottom: 1vh;
 
 }
 
 .journey-contect{
-  width: 50%;
+  width: 80%;
   height: 100%;
   background-color: #ffffff;
   position: relative;
@@ -149,4 +152,10 @@ h2{
   height: 3px;
   background: linear-gradient(to bottom, #0051ff, #00d4ff);
   margin-bottom: 50px;
+}
+
+.MIT_pictrue{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
