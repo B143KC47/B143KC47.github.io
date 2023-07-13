@@ -231,6 +231,23 @@ main {
   transition: transform 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .github_icon, .IG_icon, .Lt_icon {
+    width: 15%;
+    height: 15%;
+    margin-right: 2.5%;
+  }
+}
+
+
 .github_icon:hover, .IG_icon:hover, .Lt_icon:hover {
   transform: scale(1.2);
+}
+
+
+@media (max-width: 768px) {
+  video {
+    width: 100%;
+    height: auto;
+  }
 }
