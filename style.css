@@ -238,7 +238,7 @@ main {
 
 
 
-.github_icon, .IG_icon, .Lt_icon {
+.github_icon, .IG_icon, .in_icon {
   width: 140px;
   height: 140px;
   margin-right: 5%;
@@ -248,7 +248,7 @@ main {
 
 
 
-.github_icon:hover, .IG_icon:hover, .Lt_icon:hover {
+.github_icon:hover, .IG_icon:hover, .in_icon:hover {
   transform: scale(1.2);
 }
 
