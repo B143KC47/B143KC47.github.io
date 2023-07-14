@@ -48,7 +48,7 @@ ul {
 }
 .footer-margin{
   text-align: center;
-  width: 40%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -193,6 +193,7 @@ main {
   position: relative;
   z-index: 2;  
   margin-bottom: 1vh;
+  display: block;
 
 }
 
@@ -239,8 +240,8 @@ main {
 
 
 .github_icon, .IG_icon, .in_icon {
-  width: 140px;
-  height: 140px;
+  width: 4vw;
+  height: 4vw;
   margin-right: 5%;
   transition: transform 0.3s ease;
 }
