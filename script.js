@@ -22,3 +22,6 @@ rankingContainer.addEventListener('mouseover', () => {
 rankingContainer.addEventListener('mouseout', () => {
   line.style.width = '0';
 });
+
+
+
