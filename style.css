@@ -280,6 +280,8 @@ main {
   height: 4vw;
   margin-right: 20px;
   transition: transform 0.3s ease;
+  min-height:70px ;
+  min-width:70px;
 }
 
 
