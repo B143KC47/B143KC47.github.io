@@ -26,5 +26,9 @@ rankingContainer.addEventListener('mouseout', () => {
   line.style.width = '0';
 });
 
+// Get the current year
+var currentYear = new Date().getFullYear();
 
+// Update the year in the paragraph element
+document.getElementById("year").innerHTML = "© 2023-" + (currentYear + 1) + " Powered by BlackCat";
 
