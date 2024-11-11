@@ -1,0 +1,190 @@
+
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+    margin: 0;
+    padding: 0;
+}
+/** 设置默认字体 **/
+body,
+button, input, select, textarea /* for ie */ {
+    font: 14px/1.5 tahoma, \5b8b\4f53, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal;}
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读, 让 small 正常化 */
+/** 重置文本格式元素 **/
+a { text-decoration: none;color: rgb(190, 190, 190); }
+a:hover { text-decoration: underline; }
+sup { vertical-align: text-top; } /* 重置, 减少对行高的影响 */
+sub { vertical-align: text-bottom; }
+/** 重置表单元素 **/
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+/* 重置 HTML5 元素 */
+article, aside, details, figcaption, figure, footer,header, hgroup, menu, nav, section,
+summary, time, mark, audio, video {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+mark { background: #ff0; }
+/* 设置placeholder的默认样式 */
+:-moz-placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+::-moz-placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+input:-ms-input-placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+input::-webkit-input-placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #414141;
+}
+
+h1 {
+    color: red; /* 设置字体颜色为红色 */
+    font-weight: bold; /* 设置字体为粗体 */
+    text-decoration: underline; /* 添加下划线 */
+    text-decoration-color: red; /* 设置下划线颜色为红色 */
+    text-underline-offset: 10px; /* 调整下划线与文字之间的距离 */
+    font-size: 200%;
+}
+
+h2{
+    margin-top: 2%; /* 上边距 */
+    margin-bottom: 2%; /* 下边距 */
+    line-height: 200%;
+    font-size:180%;
+    font-weight: bold;
+}
+
+img{
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+p {
+    margin-top: 2%; /* 上边距 */
+    margin-bottom: 2%; /* 下边距 */
+    line-height: 200%;
+    font-size:180%;
+}
+li{
+    line-height: 200%;
+    font-size:180%;
+}
+.profile-photo {
+    display: block;
+    margin: 20px auto; /* X轴置中并增加与导航栏的距离 */
+    width: 80%; /* 根据屏幕宽度的比例 */
+}
+
+main {
+    display: flex;
+    flex-direction: column; /* 使内容垂直排列 */
+    align-items: center; /* X轴置中 */
+    padding: 20px; /* 增加内边距 */
+    background-color: rgb(51, 51, 51); /* 设置白色背景 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    border-radius: 1px; /* 添加圆角 */
+    margin: 20px auto; /* 增加与导航栏的距离，并使其水平居中 */
+    width: 80%; /* 根据需要调整宽度 */
+    color: rgb(201, 201, 201); /* 设置白色字体 */
+}
+main section {
+    width: 80%; /* 根据需要调整宽度 */
+}
+
+footer{
+    display: flex;
+    flex-direction: column; /* 使内容垂直排列 */
+    align-items: center; /* X轴置中 */
+    margin: 40px auto; /* 增加与导航栏的距离，并使其水平居中 */
+    width: 80%; /* 根据需要调整宽度 */
+    color: rgb(201, 201, 201); /* 设置白色字体 */
+}
+.navbar {
+    display: flex;
+    background-color: #333;
+    justify-content: space-around; /* Distributes items evenly */
+    align-items: center; /* Centers items vertically */
+}
+
+.navbar {
+    display: flex;
+    background-color: #333;
+    justify-content: space-around; /* Distributes items evenly */
+    align-items: center; /* Centers items vertically */
+}
+
+.navbar a, .dropdown a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 150%;
+    display: block;
+    height: 100%;
+}
+
+.navbar a:hover, .dropdown:hover > a {
+    background-color: #555;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    text-align: center;  /* Center-aligns the dropdown links */
+}
