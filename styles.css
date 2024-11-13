@@ -138,7 +138,6 @@ footer{
 @media (max-width: 600px) {
     .navbar {
         flex-direction: row;
-        justify-content: space-around;
     }
 
     .navbar a, .dropdown a {
