@@ -80,8 +80,8 @@ h2{
     font-weight: bold;
 }
 
-img{
-    max-width: 80%;
+img {
+    max-width: 100%;
     height: auto;
     display: block;
     margin-left: auto;
@@ -105,15 +105,19 @@ li{
 
 main {
     display: flex;
-    flex-direction: column; /* 使内容垂直排列 */
-    align-items: center; /* X轴置中 */
-    padding: 20px; /* 增加内边距 */
-    background-color: rgb(51, 51, 51); /* 设置白色背景 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-    border-radius: 1px; /* 添加圆角 */
-    margin: 20px auto; /* 增加与导航栏的距离，并使其水平居中 */
-    width: 80%; /* 根据需要调整宽度 */
-    color: rgb(201, 201, 201); /* 设置白色字体 */
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(51, 51, 51);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1px;
+    margin: 20px auto;
+    width: 80%;
+    color: rgb(201, 201, 201);
+}
+
+main section {
+    width: 100%;
 }
 main section {
     width: 80%; /* 根据需要调整宽度 */
@@ -127,6 +131,52 @@ footer{
     width: 80%; /* 根据需要调整宽度 */
     color: rgb(201, 201, 201); /* 设置白色字体 */
 }
+
+
+
+/* 针对手机屏幕的媒体查询 */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar a, .dropdown a {
+        font-size: 120%;
+        padding: 10px;
+    }
+
+    main, footer {
+        width: 100%;
+        padding: 10px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    h1, h2, p, li {
+        font-size: 100%;
+    }
+
+    .ieee_summer_school, .microsoft_ai {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .navbar {
     display: flex;
     background-color: #333;
