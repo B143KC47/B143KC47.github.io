@@ -137,8 +137,8 @@ footer{
 /* 针对手机屏幕的媒体查询 */
 @media (max-width: 600px) {
     .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-around;
     }
 
     .navbar a, .dropdown a {
