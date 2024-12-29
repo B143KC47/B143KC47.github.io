@@ -267,6 +267,32 @@ footer {
     }
 }
 
+@media (max-width: 600px) {
+    .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 10px;
+    }
+    .navbar a, .dropdown a {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 0;
+        border-bottom: 1px solid #333;
+    }
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border-top: 1px solid #333;
+    }
+    /* 去除主内容区域的过大边距，适应小屏 */
+    main, footer {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
 .navbar {
     display: flex;
     background-color: #000000;
