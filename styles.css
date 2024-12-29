@@ -232,14 +232,15 @@ footer {
   }
 
 /* 针对手机屏幕的媒体查询 */
-@media (max-width: 600px) {
+@media (max-width: 100%) {
     .navbar {
         flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .navbar a, .dropdown a {
         font-size: 120%;
-        padding: 10px;
+        padding: 8px;
     }
 
     main, footer {
