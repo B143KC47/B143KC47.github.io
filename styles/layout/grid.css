@@ -1,0 +1,35 @@
+.container {
+    width: min(var(--section-max-width), 100% - var(--container-padding));
+    margin-inline: auto;
+    padding-inline: calc(var(--container-padding) / 2);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--grid-gap);
+}
+
+/* 新增灵活的布局类 */
+.flex-layout {
+    display: flex;
+    gap: var(--grid-gap);
+    flex-wrap: wrap;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+}
+
+@media (max-width: var(--breakpoint-md)) {
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 新增间距工具类 */
+.gap-sm { gap: calc(var(--grid-gap) * 0.5); }
+.gap-md { gap: var(--grid-gap); }
+.gap-lg { gap: calc(var(--grid-gap) * 2); }

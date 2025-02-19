@@ -1,0 +1,145 @@
+.about-section {
+    background: rgba(16, 18, 27, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    margin: 4rem auto;
+    max-width: var(--max-width);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+.about-section:hover {
+    transform: translateY(-5px);
+}
+
+.about-container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    width: 100%; /* 确保容器占据整个section */
+    flex-direction: row; /* 默认是row，但显式指定更清晰 */
+}
+
+.profile-container { 
+    flex: 0 0 350px;
+    position: relative;
+    width: 300px; /* 固定宽度 */
+}
+
+.profile-container-glass {
+    background: rgba(16, 18, 27, 0.4);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image-container {
+    position: relative;
+}
+
+.profile-image-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--accent-color); /* 添加外框 */
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.profile-image-wrapper:hover .profile-image {
+    transform: scale(1.05);
+}
+
+.profile-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(16, 163, 127, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-image-wrapper:hover .profile-image-overlay {
+    opacity: 1;
+}
+
+.about-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.about-header {
+    margin-bottom: 1rem;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.profile-info {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.skill-tag {
+    background: rgba(16, 163, 127, 0.1);
+    color: var(--accent-color);
+    padding: 0.8rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(16, 163, 127, 0.2);
+}
+
+.skill-tag:hover {
+    background: rgba(16, 163, 127, 0.2);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 968px) {
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-container {
+        flex: 0 0 auto;
+        width: 280px;
+        margin: 0 auto;
+    }
+
+    .skills-grid {
+        justify-content: center;
+    }
+}

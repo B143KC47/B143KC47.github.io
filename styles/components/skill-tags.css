@@ -1,0 +1,22 @@
+/* 添加专业技能标签样式 */
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.skill-tag {
+    background: rgba(16, 163, 127, 0.1);
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all var(--transition-bounce);
+}
+
+.skill-tag:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: var(--gradient-secondary);
+    box-shadow: var(--shadow-hover);
+}

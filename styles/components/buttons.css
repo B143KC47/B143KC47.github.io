@@ -1,0 +1,35 @@
+/* 按钮样式 */
+.button {
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+  }
+  
+  .button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      margin: 0.5rem;
+  }
+  
+  .button.primary {
+      background: var(--primary-color);
+      color: white;
+  }
+  
+  .button.secondary {
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+  }
+  
+  .button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }

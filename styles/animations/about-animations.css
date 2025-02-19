@@ -1,0 +1,47 @@
+@keyframes profileImageFade {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes profileInfoFade {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.about-container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: containerFade 0.8s ease forwards;
+}
+
+.profile-image {
+    animation: profileImageFade 1s ease forwards;
+}
+
+.profile-info {
+    animation: profileInfoFade 1s ease forwards;
+}
+
+.skill-tag {
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.skills-container .skill-tag:nth-child(1) { animation-delay: 0.1s; }
+.skills-container .skill-tag:nth-child(2) { animation-delay: 0.2s; }
+.skills-container .skill-tag:nth-child(3) { animation-delay: 0.3s; }
+.skills-container .skill-tag:nth-child(4) { animation-delay: 0.4s; }
+.skills-container .skill-tag:nth-child(5) { animation-delay: 0.5s; }
+.skills-container .skill-tag:nth-child(6) { animation-delay: 0.6s; }

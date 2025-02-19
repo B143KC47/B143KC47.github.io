@@ -1,0 +1,72 @@
+.navbar {
+    display: flex;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: center; /* 居中对齐 */
+    align-items: center;
+    padding: 0 100px; /* 左右间距 */
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem var(--container-padding-x);
+}
+
+.navbar a, .dropdown a {
+    color: #888888; /* 默认低灰度 */
+    padding: 10px 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 120%; /* 较小的字体 */
+    display: block;
+    height: 100%;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar a {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar a:hover::after {
+    width: 80%;
+}
+
+.navbar a:hover, 
+.dropdown:hover > a,
+.navbar a:active {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.navbar a.active {
+    color: #ffffff; /* 激活状态为白色 */
+}

@@ -1,0 +1,107 @@
+/* 导入基础样式 */
+@import 'base/reset.css';
+@import 'base/variables.css';
+@import 'base/typography.css';
+@import 'base/resoibsuce.css';
+@import 'components/effects.css';  /* 添加新的效果样式 */
+
+/* 导入布局样式 */
+@import 'layout/grid.css';
+@import 'layout/section.css';
+@import 'layout/grid-system.css';
+@import 'layout/page-layout.css';
+
+@import 'utils/helpers.css';
+@import 'utils/layout-utilities.css';
+
+/* 导入组件样式 */
+@import 'components/navbar.css';
+@import 'components/dropdown.css';
+@import 'components/buttons.css';
+@import 'components/image-container.css';
+@import 'components/gradient-text.css';
+@import 'components/card.css';
+@import 'components/hero.css';
+@import 'components/content-block.css';
+@import 'components/responsive-video.css';
+@import 'components/profile-photo.css';
+@import 'components/footer.css';
+@import 'components/skill-tags.css';
+@import 'components/honor-certificate.css';
+@import 'components/layout.css';
+@import 'components/typography.css';
+
+/* 导入页面特定样式 */
+@import 'pages/certificates.css';
+@import 'pages/profile.css';
+@import 'pages/contact.css';
+
+/* 导入动画样式 */
+@import 'animations/transitions.css';
+
+/* 导入组件样式 */
+@import 'components/profile.css';
+@import 'components/contact.css';
+
+body {
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-x);
+}
+
+section {
+    margin: var(--section-spacing-y) 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-icon {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-3px);
+    color: var(--accent-color);
+}
+
+.footer-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--accent-color);
+}
+
+.footer-section i {
+    margin-right: 0.5rem;
+}
+
+
