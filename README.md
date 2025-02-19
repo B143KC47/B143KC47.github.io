@@ -1,3 +1,5 @@
+All Rights Reserved
+
 #Message
 
 Here is a website that I built for my profile and for fun: [B143KC47.github.io](https://B143KC47.github.io). 
