@@ -1,0 +1,31 @@
+.page-layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.section {
+    padding: var(--section-spacing-y) 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: var(--container-max-width);
+}
+
+.content-area {
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-padding-x);
+}
+
+.sticky-sidebar {
+    position: sticky;
+    top: var(--header-height);
+    height: fit-content;
+    padding: var(--grid-gutter);
+}
+
+.flex-layout {
+    display: flex;
+    gap: var(--layout-gap);
+    flex-wrap: wrap;
+}

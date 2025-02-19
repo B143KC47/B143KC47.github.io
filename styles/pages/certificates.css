@@ -1,0 +1,22 @@
+/* 更新证书展示区域 */
+#certificates .certificate-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+/* 改进证书网格布局 */
+.certificate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: 1rem;
+    justify-content: center; /* 水平居中 */
+}
+
+.certificate-grid > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}

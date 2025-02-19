@@ -1,0 +1,16 @@
+/* 文本渐变效果 */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #10a37f, #3090FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}

@@ -1,0 +1,176 @@
+/* 基础响应式布局 */
+@media (max-width: var(--breakpoint-sm)) {
+    :root {
+        --content-padding: 1rem;
+        --section-spacing: 2rem;
+        --grid-gap: 1rem;
+    }
+    
+    .container {
+        padding-inline: 1rem;
+    }
+}
+
+@media (max-width: var(--breakpoint-md)) {
+    .hero-content h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    
+    .profile-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: var(--breakpoint-lg)) {
+    .navbar {
+        padding: 0.5rem;
+    }
+    
+    .certificate-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+/* 移动优先的响应式断点 */
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .hide-on-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: var(--container-max-width);
+    }
+}
+
+/* 响应式工具类 */
+.hide-on-mobile {
+    @media (max-width: 767px) {
+        display: none;
+    }
+}
+
+.show-on-mobile {
+    @media (min-width: 768px) {
+        display: none;
+    }
+}
+
+/* 针对手机屏幕的媒体查询 */
+@media (max-width: 100%) {
+    .navbar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .navbar a, .dropdown a {
+        font-size: 120%;
+        padding: 8px;
+    }
+
+    main, footer {
+        width: 100%;
+        padding: 10px;
+    }
+
+    main section > * {
+        padding: 15px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    h1, h2, p, li {
+        font-size: 100%;
+    }
+
+    .ieee_summer_school, .microsoft_ai {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 10px;
+    }
+    .navbar a, .dropdown a {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 0;
+        border-bottom: 1px solid #333;
+    }
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border-top: 1px solid #333;
+    }
+    /* 去除主内容区域的过大边距，适应小屏 */
+    main, footer {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .navbar {
+        padding: 0.5rem;
+    }
+    
+    .navbar a {
+        padding: 0.5rem 1rem;
+    }
+    
+    .profile-section {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        gap: 2rem;
+        text-align: center; /* 内部元素居中 */
+    }
+}
+
+/* 打印样式优化 */
+@media print {
+    .navbar, 
+    .hero-background,
+    .button {
+        display: none;
+    }
+    
+    body {
+        color: black;
+        background: white;
+    }
+    
+    .content-block {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}

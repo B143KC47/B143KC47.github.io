@@ -1,0 +1,63 @@
+/* 1. Hero区域样式 */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 5%;
+    background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000 100%);
+    overflow: hidden;
+  }
+  
+  .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+      position: relative;
+      overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,1)),
+      radial-gradient(circle at 50% 0%, rgba(16,163,127,0.1), transparent 70%);
+    pointer-events: none;
+  }
+  
+  .hero-content {
+    text-align: center;
+    max-width: 800px;
+    z-index: 1;
+  }
+  
+  .hero-content {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto; /* 水平居中 */
+      padding: 2rem;
+  }
+  
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    background: linear-gradient(45deg, #fff, #10a37f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+  }

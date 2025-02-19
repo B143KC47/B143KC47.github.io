@@ -1,0 +1,8 @@
+.text-center { text-align: center; }
+.gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+

@@ -1,0 +1,84 @@
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover ~ .blur-overlay,
+.dropdown:hover ~ main,
+.dropdown:hover ~ img {
+    filter: blur(5px);
+}
+
+.dropdown:hover .blur-overlay {
+    display: block;
+}
+
+/* 当下拉菜单显示时，其他导航项变为灰色 */
+.dropdown:hover ~ a {
+    color: #888888;
+}
+
+/* 保持当前悬停项为白色 */
+.dropdown:hover > a {
+    color: #ffffff;
+}
+
+.dropdown-content a {
+    color: #ffffff;
+    padding: 12px 16px;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+.dropdown:hover ~ .blur-overlay {
+    display: block;
+}
+
+.dropdown:hover {
+    z-index: 1000;
+}
+
+.dropdown-content {
+    background-color: #000000;
+    min-width: 140px;
+}
+
+.dropdown-content a {
+    color: #ffffff;
+    font-size: 110%;
+}
+
+.dropdown-content a:hover {
+    background-color: #000000;
+    color: #888888;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+/* 下拉菜单相关样式 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.9);
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

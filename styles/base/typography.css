@@ -1,0 +1,52 @@
+/* 基础文本样式 */
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* 统一标题样式 */
+h1 {
+    font-size: 120%;
+    color: #ffffff;
+    font-weight: normal;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+h2 {
+    font-size: 110%;
+    color: #ffffff;
+    font-weight: normal;
+    margin: 12px 0;
+}
+
+/* 段落和列表样式 */
+p, li {
+    font-size: 100%;
+    line-height: 1.6;
+    margin: 8px 0;
+    color: #ffffff;
+}
+
+/* 链接样式统一 */
+a {
+    color: #888888;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
