@@ -53,3 +53,16 @@ input::-webkit-input-placeholder {
     color: #ddd;
     opacity: 1;
 }
+body, html {
+    overflow-x: hidden;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+} 
+
+/* *{
+    outline: solid #f00 1px !important;
+    background: #000 !important;
+    color: #fff !important;
+} */
