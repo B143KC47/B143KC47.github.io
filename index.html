@@ -41,8 +41,8 @@
     <div class="blur-overlay"></div>
 
     <!-- 优化 Hero 区域 -->
-    <div class="hero">
-        <div class="hero-content">
+    <div class="hero" style="position: relative;">
+        <div class="hero-content centered">
             <h1 class="gradient-text animate-title">Engineering & Design Innovation</h1>
             <p class="hero-subtitle animate-subtitle">Exploring the intersection of technology and creativity</p>
             <div class="hero-buttons animate-buttons">
@@ -53,123 +53,147 @@
         <div class="hero-background"></div>
     </div>
 
-<main class="container">
-    <div class="container">
-        <!-- 替换为新的合并后的About Me部分 -->
-        <section id="about-me" class="about-section">
-            <div class="about-container">
-                <div class="profile-container-glass"> <!-- 新增玻璃态容器 -->
-                    <div class="profile-image-wrapper">
-                        <img src="assets/avatar.jpg" 
-                             alt="KO Ho Tin - Profile Photo" 
-                             class="profile-image"
-                             loading="lazy">
-                        <div class="profile-image-overlay"></div>
+<main>
+    <section id="about-me" class="about-section">
+        <div class="about-container">
+            <div class="profile-container-glass">
+                <div class="profile-image-wrapper">
+                    <img src="assets/avatar.jpg" alt="KO Ho Tin - Profile Photo" class="profile-image" loading="lazy">
+                    <div class="profile-image-overlay"></div>
+                </div>
+            </div>
+            <div class="about-content">
+                <div class="about-header">
+                    <h2 class="about-title">About Me</h2>
+                    <h3 class="profile-name">KO Ho Tin (BlackCat)</h3>
+                    <p class="profile-role">Engineering Student & Design Enthusiast</p>
+                </div>
+                <div class="profile-info">
+                    <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
+                </div>
+                <div class="skills-grid">
+                    <span class="skill-tag">Machine Learning</span>
+                    <span class="skill-tag">Deep Learning</span>
+                    <span class="skill-tag">Computer Vision</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">TensorFlow</span>
+                    <span class="skill-tag">PyTorch</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 优化证书展示区域 -->
+    <section id="certificates" class="certificates-container">
+        <h2 class="section-title gradient-text">Certificates & Achievements</h2>
+        <div class="certificate-grid">
+            <!-- JA证书 -->
+            <div class="certificate-item" onclick="showCertificateDetails('ja')">
+                <div class="certificate-header">
+                    <h3 class="certificate-title">JA Student Company Program</h3>
+                </div>
+                <img src="assets/Honors_Awards_Certificates/JA.jpg" 
+                     alt="JA Program" 
+                     class="certificate-image"
+                     loading="lazy">
+                <div class="certificate-details">
+                    <p>HSBC x JA Company Programme for entrepreneurship development</p>
+                    <div class="certificate-tags">
+                        <span class="certificate-tag">Entrepreneurship</span>
+                        <span class="certificate-tag">Leadership</span>
+                        <span class="certificate-tag">Business</span>
+                    </div>
+                    <p class="certificate-date">2024</p>
+                </div>
+            </div>
+
+            <!-- MIT证书 -->
+            <div class="certificate-item" onclick="showCertificateDetails('mit')">
+                <div class="certificate-header">
+                    <h3 class="certificate-title">MIT Innovation Academy</h3>
+                </div>
+                <img src="assets/Honors_Awards_Certificates/MIT.jpg" 
+                     alt="MIT Program" 
+                     class="certificate-image"
+                     loading="lazy">
+                <div class="certificate-details">
+                    <p>Student bootcamp focused on IoT and smart home innovations</p>
+                    <div class="certificate-tags">
+                        <span class="certificate-tag">IoT</span>
+                        <span class="certificate-tag">Innovation</span>
+                        <span class="certificate-tag">Technology</span>
+                    </div>
+                    <p class="certificate-date">2024</p>
+                </div>
+            </div>
+
+            <!-- IEEE证书 -->
+            <div class="certificate-item" onclick="showCertificateDetails('ieee')">
+                <div class="certificate-header">
+                    <h3 class="certificate-title">IEEE CIS Summer School</h3>
+                </div>
+                <img src="assets/Honors_Awards_Certificates/IEEE_Summer_school.png" 
+                     alt="IEEE Program" 
+                     class="certificate-image"
+                     loading="lazy">
+                <div class="certificate-details">
+                    <p>Quantum Computational Intelligence program in Yokohama</p>
+                    <div class="certificate-tags">
+                        <span class="certificate-tag">Quantum Computing</span>
+                        <span class="certificate-tag">AI</span>
+                        <span class="certificate-tag">Research</span>
+                    </div>
+                    <p class="certificate-date">June 26-28, 2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 优化联系方式区域 -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title gradient-text">Get in Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3 class="card-title">Contact Information</h3>
+                <div class="contact-method">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>s20200057@ylmass.edu.hk</p>
                     </div>
                 </div>
-                <div class="about-content">
-                    <div class="about-header">
-                        <h2 class="about-title">About Me</h2>
-                        <h3 class="profile-name">KO Ho Tin (BlackCat)</h3>
-                        <p class="profile-role">Engineering Student & Design Enthusiast</p>
+                <div class="contact-method">
+                    <i class="fab fa-github contact-icon"></i>
+                    <div>
+                        <h4>GitHub</h4>
+                        <p><a href="https://github.com/B143KC47">B143KC47</a></p>
                     </div>
-                    <div class="profile-info">
-                        <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
+                </div>
+                <div class="contact-method">
+                    <i class="fab fa-linkedin contact-icon"></i>
+                    <div>
+                        <h4>LinkedIn</h4>
+                        <p><a href="https://www.linkedin.com/in/blackcat/">BlackCat</a></p>
                     </div>
-                    <div class="skills-grid">
-                        <span class="skill-tag">Machine Learning</span>
-                        <span class="skill-tag">Deep Learning</span>
-                        <span class="skill-tag">Computer Vision</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">PyTorch</span>
+                </div>
+                <div class="contact-method">
+                    <i class="fab fa-instagram contact-icon"></i>
+                    <div>
+                        <h4>Instagram</h4>
+                        <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- 优化证书展示区域 -->
-        <section id="certificates" class="certificates-container">
-            <h2 class="section-title gradient-text">Certificates & Achievements</h2>
-            <div class="certificate-grid">
-                <!-- JA证书 -->
-                <div class="certificate-item" data-aos="fade-up">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">JA Student Company Program</h3>
-                    </div>
-                    <img src="assets/Honors_Awards_Certificates/JA.jpg" 
-                         alt="JA Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>HSBC x JA Company Programme for entrepreneurship development</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Entrepreneurship</span>
-                            <span class="certificate-tag">Leadership</span>
-                            <span class="certificate-tag">Business</span>
-                        </div>
-                        <p class="certificate-date">2024</p>
-                    </div>
-                </div>
-
-                <!-- MIT证书 -->
-                <div class="certificate-item" data-aos="fade-up">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">MIT Innovation Academy</h3>
-                    </div>
-                    <img src="assets/Honors_Awards_Certificates/MIT.jpg" 
-                         alt="MIT Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>Student bootcamp focused on IoT and smart home innovations</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">IoT</span>
-                            <span class="certificate-tag">Innovation</span>
-                            <span class="certificate-tag">Technology</span>
-                        </div>
-                        <p class="certificate-date">2024</p>
-                    </div>
-                </div>
-
-                <!-- IEEE证书 -->
-                <div class="certificate-item" data-aos="fade-up">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">IEEE CIS Summer School</h3>
-                    </div>
-                    <img src="assets/Honors_Awards_Certificates/IEEE_Summer_school.png" 
-                         alt="IEEE Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>Quantum Computational Intelligence program in Yokohama</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Quantum Computing</span>
-                            <span class="certificate-tag">AI</span>
-                            <span class="certificate-tag">Research</span>
-                        </div>
-                        <p class="certificate-date">June 26-28, 2024</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 优化联系方式区域 -->
-        <section id="contact" class="section">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h1>Contact</h1> 
-                    <p>
-                        <b>Email : </b> s20200057@ylmass.edu.hk <br>
-                        <b>Github : </b> <a href="https://github.com/B143KC47">B143KC47</a> <br>
-                        <b>Instagram : </b> <a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a> <br>
-                        <b>Linkedin : </b> <a href="https://www.linkedin.com/in/blackcat/">BlackCat</a> <br>
-                    </p>
-                </div>
-            </div>
-        </section>
-    </div>
+            
+            <a href="https://your-blog-url.com" class="blog-card">
+                <h3 class="blog-title">Visit My Blog</h3>
+                <p class="blog-description">Explore my thoughts on technology, engineering, and creative design. Regular updates on my latest projects and research.</p>
+                <span class="blog-link">
+                    Read More <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
+        </div>
+    </section>
 </main>
 <footer class="footer">
     <div class="footer-content">
@@ -206,6 +230,21 @@
         <p id="year"><i class="far fa-copyright"></i> 2023-2024 Powered by KO Ho Tin</p>
     </div>
 </footer>
-</body>
 
+<!-- 添加证书详情模态框 -->
+<div id="certificateModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-body">
+            <img id="modalImage" src="" alt="Certificate Detail" class="modal-image">
+            <div class="modal-info">
+                <h3 id="modalTitle"></h3>
+                <p id="modalDescription"></p>
+                <div id="modalTags" class="certificate-tags"></div>
+                <p id="modalDate" class="certificate-date"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

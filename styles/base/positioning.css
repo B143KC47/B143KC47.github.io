@@ -1,0 +1,77 @@
+/* 位置定位系统 */
+.pos-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pos-center-x {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.pos-center-y {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 固定定位工具 */
+.fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+}
+
+/* 吸顶效果 */
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+}
+
+/* 层叠控制 */
+.layer-base { z-index: 1; }
+.layer-middle { z-index: 10; }
+.layer-top { z-index: 100; }
+.layer-popup { z-index: 1000; }
+.layer-modal { z-index: 2000; }
+
+/* 偏移系统 */
+.offset-1 { margin-left: 8.333333%; }
+.offset-2 { margin-left: 16.666667%; }
+.offset-3 { margin-left: 25%; }
+.offset-4 { margin-left: 33.333333%; }
+.offset-5 { margin-left: 41.666667%; }
+.offset-6 { margin-left: 50%; }
+
+/* 内容可见性控制 */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+.overflow-visible { overflow: visible; }
+
+/* 响应式隐藏 */
+@media (max-width: 768px) {
+    .hide-sm { display: none !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hide-md { display: none !important; }
+}
+
+@media (min-width: 1025px) {
+    .hide-lg { display: none !important; }
+}

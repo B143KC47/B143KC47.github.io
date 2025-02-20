@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
-    document.getElementById('year').textContent = `©2023-${currentYear} Powered by KO Ho Tin`;
+    document.getElementById('year').textContent = `© ${currentYear} Powered by KO Ho Tin`;
 
     // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -12,7 +12,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // 渐入动画
+    // 统一滚动动画和视差效果
+    const hero = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+    const heroBackground = document.querySelector('.hero-background');
+    let lastScrollY = 0;
+    let ticking = false;
+    const dampFactor = 0.4;
+
+    const updateParallax = () => {
+        const scrollY = window.scrollY;
+        const easedScroll = lastScrollY + (scrollY - lastScrollY) * dampFactor;
+        lastScrollY = easedScroll;
+
+        document.body.classList.toggle('scrolled', easedScroll > 50);
+
+        const contentTranslate = easedScroll * 0.3;
+        const bgTranslate = easedScroll * 0.5;
+        const scaleValue = 1 + (easedScroll * 0.0005);
+        const opacityValue = Math.max(0, 1 - easedScroll * 0.002);
+
+        heroContent.style.transform = `translate3d(0, ${contentTranslate}px, 0)`;
+        heroBackground.style.transform = `translate3d(0, ${bgTranslate}px, 0) scale(${scaleValue})`;
+        heroContent.style.opacity = opacityValue;
+
+        ticking = false;
+    };
+
+    const onScroll = () => {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateParallax();
+
+    // 统一 Intersection Observer
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '50px'
@@ -21,154 +58,120 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('fade-up');
+                // 添加统一的类名，表示元素已进入可视区域
+                entry.target.classList.add('in-view');
+
+                // 根据不同的元素，执行不同的操作
+                if (entry.target.classList.contains('fade-up')) {
+                    entry.target.classList.add('fade-up-animation');
+                }
+                if (entry.target.classList.contains('fade-in')) {
+                    entry.target.classList.add('fade-in-animation');
+                }
+                if (entry.target.classList.contains('section')) {
+                    entry.target.classList.add('section-animation');
+                }
+
+                // 停止观察，避免重复执行
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
+    // 观察所有需要使用 Intersection Observer 的元素
+    document.querySelectorAll('section, .fade-up, .fade-in').forEach(element => {
+        observer.observe(element);
     });
 
-    // 动态年份
-    document.getElementById('year').textContent = `© ${new Date().getFullYear()} KO Ho Tin`;
-
-    // 优化滚动动画性能
-    const optimizedScroll = () => {
-        const scrolled = window.pageYOffset;
-        requestAnimationFrame(() => {
-            document.querySelector('.hero').style.transform = 
-                `translateY(${scrolled * 0.3}px)`;
-        });
-    };
-    
-    window.addEventListener('scroll', optimizedScroll, { passive: true });
-    
-    // 添加平滑滚动到指定位置功能
-    const scrollToSection = (e, section) => {
-        e.preventDefault();
-        const target = document.querySelector(section);
-        const navHeight = document.querySelector('.navbar').offsetHeight;
-        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
-        
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    };
-
-    // 优化卡片动画效果
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('mouseenter', (e) => {
+    // 鼠标跟踪效果
+    document.querySelectorAll('.card, .certificate-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
             card.style.setProperty('--mouse-x', `${x}px`);
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
-});
 
-// 在移动端可选添加下拉连接的显隐控制
-function toggleMobileNav() {
-    const nav = document.querySelector('.navbar');
-    if (nav.style.display === 'none') {
-        nav.style.display = 'flex';
-    } else {
-        nav.style.display = 'none';
-    }
-}
-
-// 添加滚动渐入效果
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('section > *').forEach(element => {
-    element.classList.add('fade-out');
-    observer.observe(element);
-});
-
-// 平滑滚动
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// 添加视差滚动效果
-document.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    document.querySelector('.hero').style.transform = `translateY(${scrolled * 0.5}px)`;
-});
-
-// 统一滚动动画
-const scrollObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  },
-  {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  }
-);
-
-document.querySelectorAll('.fade-up').forEach(element => {
-  scrollObserver.observe(element);
-});
-
-// 统一鼠标跟踪效果
-const updateMousePosition = (e, element) => {
-  const rect = element.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  element.style.setProperty('--mouse-x', `${x}px`);
-  element.style.setProperty('--mouse-y', `${y}px`);
-};
-
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('mousemove', e => updateMousePosition(e, card));
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.certificate-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
-    });
-    
-    // 添加图片加载动画
-    const images = document.querySelectorAll('.certificate-image');
-    images.forEach(img => {
+    // 图片加载动画
+    document.querySelectorAll('.certificate-image').forEach(img => {
         img.addEventListener('load', () => {
             img.classList.add('loaded');
+            img.removeEventListener('load', arguments.callee);
         });
     });
+
+    const modal = document.getElementById('certificateModal');
+    const closeBtn = document.querySelector('.close-modal');
+    
+    closeBtn.onclick = () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    };
+    
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            closeBtn.onclick();
+        }
+    };
 });
+
+// 移动端导航栏控制
+function toggleMobileNav() {
+    const nav = document.querySelector('.navbar');
+    nav.style.display = nav.style.display === 'none' ? 'flex' : 'none';
+}
+
+// 证书数据
+const certificateData = {
+    'ja': {
+        title: 'JA Student Company Program',
+        description: 'HSBC x JA Company Programme for entrepreneurship development. Learn business operations and leadership skills through practical experience.',
+        image: 'assets/Honors_Awards_Certificates/JA.jpg',
+        tags: ['Entrepreneurship', 'Leadership', 'Business'],
+        date: '2024'
+    },
+    'mit': {
+        title: 'MIT Innovation Academy',
+        description: 'Student bootcamp focused on IoT and smart home innovations. Hands-on experience with cutting-edge technology.',
+        image: 'assets/Honors_Awards_Certificates/MIT.jpg',
+        tags: ['IoT', 'Innovation', 'Technology'],
+        date: '2024'
+    },
+    'ieee': {
+        title: 'IEEE CIS Summer School',
+        description: 'Quantum Computational Intelligence program in Yokohama. Advanced research and practical applications in quantum computing.',
+        image: 'assets/Honors_Awards_Certificates/IEEE_Summer_school.png',
+        tags: ['Quantum Computing', 'AI', 'Research'],
+        date: 'June 26-28, 2024'
+    }
+};
+
+// 更新证书点击事件处理函数
+function showCertificateDetails(certificateId) {
+    const data = certificateData[certificateId];
+    const modal = document.getElementById('certificateModal');
+    
+    // 更新模态框内容
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalDescription').textContent = data.description;
+    document.getElementById('modalImage').src = data.image;
+    document.getElementById('modalDate').textContent = data.date;
+    
+    // 更新标签
+    const tagsContainer = document.getElementById('modalTags');
+    tagsContainer.innerHTML = data.tags.map(tag => 
+        `<span class="certificate-tag">${tag}</span>`
+    ).join('');
+    
+    // 显示模态框
+    modal.style.display = 'block';
+    setTimeout(() => modal.classList.add('show'), 10);
+    
+    // 禁止背景滚动
+    document.body.style.overflow = 'hidden';
+}

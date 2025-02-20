@@ -1,0 +1,86 @@
+.main-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - var(--navbar-height));
+    margin-top: var(--navbar-height);
+    overflow: hidden;
+    background: var(--primary-bg);
+    z-index: 1;
+}
+
+.main-container {
+    position: relative;
+    width: min(var(--container-max-width), 100%);
+    margin: 0 auto;
+    padding: var(--section-spacing-y) var(--container-padding-x);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--section-spacing-y);
+    z-index: 2;
+}
+
+/* 主容器背景效果 */
+.main-wrapper::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(var(--accent-color-rgb), 0.05),
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 主要内容区块样式 */
+.content-block {
+    position: relative;
+    width: 100%;
+    background: var(--card-gradient);
+    border-radius: var(--card-border-radius);
+    backdrop-filter: var(--blur-backdrop);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* 内容区块间距控制 */
+.content-block + .content-block {
+    margin-top: var(--element-spacing);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .main-container {
+        padding: var(--section-spacing-y) var(--container-padding-x);
+        gap: calc(var(--section-spacing-y) * 0.75);
+    }
+}
+
+/* 滚动容器优化 */
+.scroll-container {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+}
+
+/* 自定义滚动条样式 */
+.scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
