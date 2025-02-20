@@ -1,0 +1,96 @@
+:root {
+    /* 布局常量 */
+    --site-max-width: 1440px;
+    --content-max-width: 1200px;
+    --navbar-height: 80px;
+    --section-spacing: 6rem;
+    --container-padding: 2rem;
+    
+    /* 网格系统 */
+    --grid-columns: 12;
+    --grid-gap: 2rem;
+    --grid-container: min(var(--content-max-width), 100% - var(--container-padding) * 2);
+}
+
+/* 基础布局容器 */
+.site-wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.main-content {
+    flex: 1;
+    width: 100%;
+    padding-top: var(--navbar-height);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 内容容器 */
+.container {
+    width: min(var(--content-max-width), 100% - var(--container-padding) * 2);
+    margin-inline: auto;
+    padding: 0 var(--container-padding);
+}
+
+.container-fluid {
+    width: 100%;
+    padding-inline: var(--container-padding);
+}
+
+/* 部分布局 */
+.section {
+    position: relative;
+    padding: var(--section-spacing) 0;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 定位工具类 */
+.position-relative { position: relative; }
+.position-absolute { position: absolute; }
+.position-fixed { position: fixed; }
+.position-sticky { position: sticky; }
+
+/* Z-index 系统 */
+.z-0 { z-index: 0; }
+.z-1 { z-index: 1; }
+.z-10 { z-index: 10; }
+.z-100 { z-index: 100; }
+.z-1000 { z-index: 1000; }
+
+/* 弹性布局工具类 */
+.d-flex {
+    display: flex;
+    gap: var(--grid-gap);
+}
+
+.flex-column { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+
+/* 间距系统 */
+.m-auto { margin: auto; }
+.mx-auto { margin-inline: auto; }
+.my-auto { margin-block: auto; }
+
+/* 响应式处理 */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: 1rem;
+        --section-spacing: 4rem;
+        --grid-gap: 1rem;
+    }
+}

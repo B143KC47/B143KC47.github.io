@@ -6,6 +6,10 @@ h1, h2, h3, h4, h5, h6 {
     transition: transform 0.3s ease;
 }
 
+html{
+    background-color: #000000;
+}
+
 /* 主标题样式 */
 h1, .h1-style {
     font-size: 3.5rem;

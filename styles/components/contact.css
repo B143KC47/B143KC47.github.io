@@ -6,73 +6,77 @@
 
 .contact-grid {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .contact-card {
-    background: var(--card-gradient);
-    backdrop-filter: blur(12px);
-    border-radius: var(--card-border-radius);
-    padding: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    padding: 2rem;
 }
 
-.contact-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.contact-item {
+.contact-method {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    margin: 1.5rem 0;
     padding: 1rem;
-    margin: 1rem 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
     transition: all 0.3s ease;
 }
 
-.contact-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(10px);
+.contact-method:hover {
+    transform: translateX(5px);
 }
 
-.contact-item i {
+.contact-icon {
     font-size: 1.5rem;
+    margin-right: 1rem;
     color: var(--accent-color);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(16, 163, 127, 0.1);
-    border-radius: 50%;
 }
 
-.contact-info {
-    flex: 1;
-}
-
-.contact-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
-    color: var(--text-primary);
-}
-
-.contact-info p, .contact-info a {
-    color: var(--text-secondary);
+.blog-card {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.contact-info a:hover {
-    color: var(--accent-color);
+.blog-card:hover {
+    transform: translateY(-5px);
 }
 
-/* 响应式布局 */
+.blog-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.blog-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.blog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.blog-link i {
+    transition: transform 0.3s ease;
+}
+
+.blog-link:hover i {
+    transform: translateX(5px);
+}
+
 @media (max-width: 768px) {
     .contact-section {
         padding: 2rem 1rem;
@@ -81,4 +85,27 @@
     .contact-card {
         padding: 1.5rem;
     }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.social-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.social-link-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link-card:hover {
+    transform: translateY(-3px);
 }

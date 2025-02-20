@@ -30,7 +30,9 @@
 @import 'components/honor-certificate.css';
 @import 'components/layout.css';
 @import 'components/typography.css';
-
+@import 'components/about.css';  /* 添加新的About样式 */
+@import 'components/contact.css';  /* 添加新的Contact样式 */
+@import 'components/certificates.css';
 /* 导入页面特定样式 */
 @import 'pages/certificates.css';
 @import 'pages/profile.css';
@@ -63,14 +65,60 @@ section {
     animation: fadeInUp 0.8s ease forwards;
 }
 
+/* 优化后的动画效果 */
+.fade-up-animation {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    will-change: transform, opacity; /* 提前告知浏览器 */
+}
+
+.fade-up-animation.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 移除未使用的动画 */
+/*
 @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+*/
 
-.social-links {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.fade-in-animation {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.section-animation {
+    animation: slideIn 0.8s ease forwards;
+}
+
+social-links {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
@@ -102,6 +150,234 @@ section {
 
 .footer-section i {
     margin-right: 0.5rem;
+}
+
+/* 优化证书展示区域 */
+.certificates-container {
+    width: 100%;
+    max-width: var(--container-max-width); /* 已定义的最大宽度 */
+    margin: 0 auto; /* 确保容器居中显示 */
+    padding: 2rem var(--container-padding-x); /* 内边距调整为左右均有 */
+    box-sizing: border-box; /* 确保内边距包含在宽度内 */
+    height: auto; /* 移除固定的最小高度 */
+    padding-bottom: 3rem; /* 增加 padding-bottom，确保能包住内容 */
+}
+
+.certificate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 调整最小宽度 */
+    gap: 1.2rem; /* 减小间距 */
+    margin-top: 2rem;
+    width: 100%;
+    height: auto;
+    padding-bottom: 3rem;
+}
+
+.certificate-item {
+    width: 100%;
+    max-width: 320px; /* 进一步减小最大宽度 */
+    margin: 0 auto;
+    background: var(--card-bg); /* 修改背景颜色 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* 添加点击效果 */
+    will-change: transform; /* 提前告知浏览器，transform 属性将会发生变化 */
+}
+
+.certificate-item:hover {
+    transform: translateY(-3px); /* 减小 transform 效果 */
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */ /* 移除 box-shadow 效果 */
+    background: var(--secondary-bg); /* 修改 hover 时的背景颜色 */
+}
+
+.certificate-header {
+    padding: 0.75rem; /* 减小 padding */
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--card-header-bg); /* 修改 header 背景颜色 */
+}
+
+.certificate-title {
+    font-size: 1.1rem; /* 减小字体大小 */
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.certificate-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    transition: opacity 0.5s ease, transform 0.3s ease; /* 添加 transform 过渡效果 */
+    opacity: 0; /* 初始透明度为0 */
+    transform: scale(1); /* 初始缩放比例为1 */
+}
+
+.certificate-item:hover .certificate-image {
+    transform: scale(1.1); /* hover 时放大图片 */
+}
+
+.certificate-image.loaded {
+    opacity: 1; /* 加载完成后显示 */
+}
+
+.certificate-details {
+    padding: 0.75rem; /* 减小 padding */
+}
+
+.certificate-details p {
+    color: var(--text-secondary);
+    font-size: 0.85rem; /* 减小字体大小 */
+    margin-bottom: 0.4rem; /* 减小 margin-bottom */
+    line-height: 1.4; /* 增加行高 */
+}
+
+.certificate-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem; /* 减小间距 */
+    margin-bottom: 0.5rem;
+}
+
+.certificate-tag {
+    background: var(--accent-color);
+    color: var(--text-light);
+    padding: 0.2rem 0.4rem; /* 减小 padding */
+    border-radius: 5px;
+    font-size: 0.7rem; /* 减小字体大小 */
+}
+
+.certificate-date {
+    font-size: 0.8rem;
+    color: var(--text-hint);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .certificate-grid {
+        grid-template-columns: 1fr; /* 小屏幕上每行显示一个证书 */
+    }
+
+    .certificates-container {
+        padding: 1rem; /* 小屏幕上减少内边距 */
+    }
+}
+
+/* 优化 "About Me" 部分的标签样式 */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem; /* 调整标签间距 */
+    margin-top: 1rem;
+}
+
+.skill-tag {
+    background: var(--tag-bg); /* 修改背景颜色 */
+    color: var(--text-light); /* 修改文字颜色 */
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    font-size: 0.85rem; /* 调整字体大小 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 添加动画效果 */
+    will-change: background-color, box-shadow; /* 提前告知浏览器，background-color 和 box-shadow 属性将会发生变化 */
+}
+
+.skill-tag:hover {
+    background-color: var(--accent-color); /* 修改 hover 时的背景颜色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加 hover 时的阴影效果 */
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    color: var(--text-primary);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.modal-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-info {
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 优化证书卡片样式 */
+.certificate-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.certificate-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), 
+                               rgba(255,255,255,0.1) 0%,
+                               transparent 80%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.certificate-item:hover::after {
+    opacity: 1;
 }
 
 
