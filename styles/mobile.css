@@ -49,13 +49,22 @@
 
     /* 3. Hero区域优化 */
     .hero {
-        height: 80vh;
+        height: 100vh;
         margin-top: 4rem;  /* 为fixed导航栏留出空间 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-content {
         width: 100%;
-        padding: 2rem 1rem;
+        max-width: 100%;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .hero-title {
@@ -67,10 +76,83 @@
         font-size: clamp(1rem, 4vw, 1.5rem); /* 调整副标题字体大小 */
     }
 
+    /* Hero按钮优化 */
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;  /* 改为垂直排列 */
+        gap: 1rem;              /* 按钮之间的间距 */
+        width: 100%;            /* 占满容器宽度 */
+        max-width: 280px;       /* 调整最大宽度 */
+        margin: 2rem auto 0;    /* 增加顶部间距 */
+        padding: 0;             /* 移除内边距 */
+    }
+
+    .hero-buttons .button {
+        width: 100%;            /* 按钮占满容器宽度 */
+        padding: 0.8rem 0;      /* 调整内边距 */
+        text-align: center;     /* 文字居中 */
+        justify-content: center; /* flex内容居中 */
+        font-size: 1rem;        /* 调整字体大小 */
+        border-radius: 12px;    /* 圆角 */
+        min-height: 48px;       /* 确保足够的触摸区域 */
+    }
+
+    .hero-buttons .button.primary {
+        margin-bottom: 0.5rem;  /* 主按钮底部间距 */
+    }
+
     /* 4. About Me部分优化 */
+    .about-section {
+        width: 100%;
+        padding: 1rem 0;  /* 修改padding */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
     .about-container {
-        grid-template-columns: 1fr;  /* 改为单列布局 */
+        grid-template-columns: 1fr;
         gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;  /* 添加水平内边距 */
+        margin: 0;       /* 重置margin */
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-container-glass {
+        width: 100%;
+        max-width: 300px;  /* 限制最大宽度 */
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .about-content {
+        width: 100%;
+        max-width: 600px;  /* 限制内容最大宽度 */
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+    }
+
+    .profile-info {
+        width: 100%;
+        margin: 1.5rem 0;  /* 修改margin */
+        padding: 0 0.5rem; /* 添加小边距 */
+        box-sizing: border-box;
+    }
+
+    .skills-grid {
+        justify-content: center;  /* 技能标签居中 */
+        margin: 1rem auto;       /* 居中对齐 */
+        gap: 0.8rem;
     }
 
     .profile-image-wrapper {
@@ -90,19 +172,44 @@
     }
 
     /* 5. 证书展示优化 */
+    .certificates-container {
+        padding: 1rem;  /* 添加内边距 */
+        overflow: hidden;  /* 防止溢出 */
+    }
+
     .certificate-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr;  /* 单列布局 */
+        gap: 1.5rem;  /* 减小间距 */
+        margin: 0 auto;  /* 居中对齐 */
+        max-width: 100%;  /* 确保不超出容器 */
     }
 
     .certificate-item {
-        max-width: none;
-        margin: 0;
+        width: 100%;  /* 占满容器宽度 */
+        max-width: 100%;  /* 限制最大宽度 */
+        margin: 0;  /* 移除外边距 */
+        box-sizing: border-box;  /* 包含内边距和边框 */
     }
 
     .certificate-image {
-        height: 200px;
-        object-fit: cover; /* 确保图片正确缩放 */
+        width: 100%;  /* 图片宽度占满容器 */
+        height: 180px;  /* 固定高度 */
+        object-fit: cover;  /* 保持比例裁剪 */
+        border-radius: 8px;  /* 圆角 */
+    }
+
+    .certificate-details {
+        padding: 0.8rem;  /* 减小内边距 */
+    }
+
+    .certificate-tags {
+        flex-wrap: wrap;  /* 标签自动换行 */
+        gap: 0.5rem;  /* 标签间距 */
+    }
+
+    .certificate-tag {
+        padding: 0.3rem 0.6rem;  /* 减小标签内边距 */
+        font-size: 0.8rem;  /* 减小标签字体 */
     }
 
     /* 6. 联系方式区域优化 */
@@ -166,6 +273,11 @@
     .certificate-item:hover {
         transform: translateY(-5px);  /* 减小悬停效果 */
     }
+
+    .animate-buttons {
+        animation: fadeIn 0.6s ease forwards;
+        animation-delay: 0.4s;
+    }
 }
 
 /* 超小屏幕额外优化 */
@@ -186,5 +298,45 @@
     .skill-tag {
         padding: 0.5rem 0.8rem;
         font-size: 0.85rem;
+    }
+
+    .certificate-image {
+        height: 150px;  /* 更小的图片高度 */
+    }
+
+    .certificate-title {
+        font-size: 1.1rem;  /* 更小的标题 */
+    }
+
+    .about-section {
+        padding: 0 0.5rem;  /* 更小的内边距 */
+    }
+
+    .about-container {
+        padding: 0 0.5rem;  /* 减小内边距 */
+    }
+
+    .profile-container-glass {
+        max-width: 250px;  /* 减小最大宽度 */
+    }
+
+    .hero-buttons {
+        max-width: 250px;  /* 更小屏幕下减小最大宽度 */
+    }
+
+    .hero-buttons .button {
+        padding: 0.7rem 0;  /* 减小内边距 */
+        font-size: 0.95rem; /* 减小字体 */
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
