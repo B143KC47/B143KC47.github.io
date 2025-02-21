@@ -2,14 +2,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
     document.getElementById('year').textContent = `© ${currentYear} Powered by KO Ho Tin`;
 
-    // 平滑滚动
+    // 优化平滑滚动
+    function smoothScroll(targetId) {
+        const targetElement = document.querySelector(targetId);
+        if (!targetElement) return;
+
+        const headerOffset = 60; // 导航栏高度
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+
+        // 更新 URL，但不触发实际跳转
+        history.pushState(null, '', targetId);
+    }
+
+    // 处理所有页内导航链接
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href');
+            smoothScroll(targetId);
         });
+    });
+
+    // 特别处理 hero 按钮
+    document.querySelector('.hero-buttons .primary').addEventListener('click', function(e) {
+        e.preventDefault();
+        smoothScroll('#about-me');
+    });
+
+    document.querySelector('.hero-buttons .secondary').addEventListener('click', function(e) {
+        e.preventDefault();
+        smoothScroll('#contact');
+    });
+
+    // 处理浏览器后退/前进按钮
+    window.addEventListener('popstate', () => {
+        const hash = window.location.hash;
+        if (hash) {
+            const targetElement = document.querySelector(hash);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
     });
 
     // 统一滚动动画和视差效果
