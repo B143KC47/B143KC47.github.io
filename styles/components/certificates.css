@@ -1,5 +1,5 @@
 .certificates-section {
-    padding: 6rem 2rem;
+    padding: 2rem;
     background: linear-gradient(
         165deg,
         rgba(255, 255, 255, 0.02) 0%,
@@ -13,8 +13,10 @@
     box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.1),
         inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    max-width: 1200px; /* 限制最大宽度 */
-    margin: 0 auto; /* 居中显示 */
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .certificates-section::before {
@@ -33,12 +35,16 @@
 }
 
 .certificate-grid {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 自适应列数 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem; /* 调整间距 */
-    padding: 2rem 0;
+    padding: 2rem;
     position: relative;
     z-index: 1;
+    box-sizing: border-box;
 }
 
 .certificate-item {
@@ -225,11 +231,13 @@
 
 @media (max-width: 768px) {
     .certificates-section {
-        padding: 4rem 1.5rem;
+        padding: 1rem;
         border-radius: 20px;
     }
 
     .certificate-grid {
+        padding: 1rem;
+        grid-template-columns: 1fr;
         gap: 2rem;
     }
 
@@ -323,7 +331,7 @@
 
 @media (max-width: 768px) {
     .certificates-section {
-        padding: 4rem 1.5rem;
+        padding: 1rem;
     }
 
     .section-title {
