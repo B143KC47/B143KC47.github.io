@@ -1,7 +1,6 @@
 @media (max-width: 768px) {
     /* 1. 基础布局优化 */
     body {
-        padding: 1.5rem;  /* 增加页面整体内边距 */
         font-size: 15px;  /* 调整基础字体大小 */
     }
 
@@ -10,7 +9,10 @@
         padding: 0;
         margin: 0;
     }
-
+    main{
+        padding: 1rem;  /* 调整主要内容内边距 */
+    }
+    
     section {
         margin: 3rem 0;  /* 增加段落间距 */
         padding: 0;
