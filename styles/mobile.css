@@ -1,0 +1,188 @@
+@media (max-width: 768px) {
+    /* 1. 基础布局优化 */
+    body {
+        padding: 1.5rem;  /* 增加页面整体内边距 */
+        font-size: 15px;  /* 调整基础字体大小 */
+    }
+
+    .container {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    section {
+        margin: 3rem 0;  /* 增加段落间距 */
+        padding: 0;
+    }
+
+    /* 2. 导航栏改进 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0.8rem;
+        background: rgba(var(--primary-bg-rgb), 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .navbar a:not(.active) {
+        display: none;  /* 默认隐藏非活动链接 */
+    }
+
+    .navbar.responsive {
+        height: auto;
+    }
+
+    .navbar.responsive a {
+        display: block;
+        padding: 0.8rem; /* 调整内边距 */
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-size: 1rem; /* 调整字体大小 */
+    }
+
+    /* 3. Hero区域优化 */
+    .hero {
+        height: 80vh;
+        margin-top: 4rem;  /* 为fixed导航栏留出空间 */
+    }
+
+    .hero-content {
+        width: 100%;
+        padding: 2rem 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem);  /* 响应式字体大小 */
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1rem, 4vw, 1.5rem); /* 调整副标题字体大小 */
+    }
+
+    /* 4. About Me部分优化 */
+    .about-container {
+        grid-template-columns: 1fr;  /* 改为单列布局 */
+        gap: 2rem;
+    }
+
+    .profile-image-wrapper {
+        width: 180px;  /* 增大头像尺寸 */
+        height: 180px;
+        margin: 0 auto;
+    }
+
+    .skills-grid {
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .skill-tag {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* 5. 证书展示优化 */
+    .certificate-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .certificate-item {
+        max-width: none;
+        margin: 0;
+    }
+
+    .certificate-image {
+        height: 200px;
+        object-fit: cover; /* 确保图片正确缩放 */
+    }
+
+    /* 6. 联系方式区域优化 */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-method {
+        padding: 1.2rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .contact-icon {
+        font-size: 1.5rem; /* 减小图标尺寸 */
+        margin-right: 0.5rem; /* 调整间距 */
+    }
+
+    .contact-method:active {
+        transform: scale(0.98);
+    }
+
+    /* 7. 模态框优化 */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 5vh auto;
+        overflow-y: auto;
+    }
+
+    .modal-body {
+        padding: 1rem; /* 调整内边距 */
+    }
+
+    .close-modal {
+        padding: 1rem;
+        font-size: 2rem;
+    }
+
+    /* 8. 页脚优化 */
+
+    .social-links {
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    /* 9. 交互优化 */
+    a, button {
+        min-height: 44px;  /* 确保触摸目标够大 */
+        min-width: 44px;
+        padding: 12px;
+    }
+
+    /* 10. 动画优化 */
+    .fade-up-animation {
+        transform: translateY(10px);  /* 减小动画距离 */
+    }
+
+    .certificate-item:hover {
+        transform: translateY(-5px);  /* 减小悬停效果 */
+    }
+}
+
+/* 超小屏幕额外优化 */
+@media (max-width: 375px) {
+    body {
+        padding: 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .profile-image-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+
+    .skill-tag {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}
