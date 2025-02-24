@@ -186,17 +186,38 @@ const certificateData = {
     },
     'ieee': {
         title: 'IEEE CIS Summer School',
-        description: 'Quantum Computational Intelligence program in Yokohama. Advanced research and practical applications in quantum computing.',
+        description: 'Quantum Computational Intelligence program in Yokohama',
         image: 'assets/Certificates/IEEE_Summer_school.png',
         tags: ['Quantum Computing', 'AI', 'Research'],
         date: 'June 26-28, 2024'
     },
     'hkujsi': {
-        title: 'HONG KONG University Junior Science Institute',
-        description: 'Through a variety of inspiring workshops, laboratory exercises, lectures and other interactive activities, participants are able to embark on a journey of science exploration.',
+        title: 'HKU JSI',
+        description: 'HKU JSI',
         image: 'assets/Certificates/hkujsi.jpg',
-        tags: ['HKU', 'Earth Science', 'Research'],
-        date: 'June 26-28, 2024'
+        tags: ['Innovation', 'Science', 'Technology'],
+        date: 'Summer, 2024'
+    },
+    'econ_workshop': {
+        title: 'Econ Workshop',
+        description: 'Econ Workshop',
+        image: 'assets/Certificates/econ_workshop.jpg',
+        tags: ['Economics', 'Business'],
+        date: 'Summer, 2024'
+    },
+    'cityu_ai': {
+        title: 'CityU Gifted Program for AI and Hardware',
+        description: 'CityU Gifted Program focused on AI and Hardware',
+        image: 'assets/Certificates/cityu_gef.jpg',
+        tags: ['AI', 'Hardware', 'Technology'],
+        date: 'Summer, 2024'
+    },
+    'space_tech': {
+        title: 'Space Tech Competition',
+        description: 'Space Tech Competition',
+        image: 'assets/Certificates/space_comp.jpg',
+        tags: ['Space', 'Technology', 'Engineering'],
+        date: 'Summer, 2024'
     }
 };
 
