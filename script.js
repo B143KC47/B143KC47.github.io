@@ -173,22 +173,29 @@ const certificateData = {
     'ja': {
         title: 'JA Student Company Program',
         description: 'HSBC x JA Company Programme for entrepreneurship development. Learn business operations and leadership skills through practical experience.',
-        image: 'assets/Honors_Awards_Certificates/JA.jpg',
+        image: 'assets/Certificates/JA.jpg',
         tags: ['Entrepreneurship', 'Leadership', 'Business'],
         date: '2024'
     },
     'mit': {
         title: 'MIT Innovation Academy',
         description: 'Student bootcamp focused on IoT and smart home innovations. Hands-on experience with cutting-edge technology.',
-        image: 'assets/Honors_Awards_Certificates/MIT.jpg',
+        image: 'assets/Certificates/MIT.jpg',
         tags: ['IoT', 'Innovation', 'Technology'],
         date: '2024'
     },
     'ieee': {
         title: 'IEEE CIS Summer School',
         description: 'Quantum Computational Intelligence program in Yokohama. Advanced research and practical applications in quantum computing.',
-        image: 'assets/Honors_Awards_Certificates/IEEE_Summer_school.png',
+        image: 'assets/Certificates/IEEE_Summer_school.png',
         tags: ['Quantum Computing', 'AI', 'Research'],
+        date: 'June 26-28, 2024'
+    },
+    'hkujsi': {
+        title: 'HONG KONG University Junior Science Institute',
+        description: 'Through a variety of inspiring workshops, laboratory exercises, lectures and other interactive activities, participants are able to embark on a journey of science exploration.',
+        image: 'assets/Certificates/hkujsi.jpg',
+        tags: ['HKU', 'Earth Science', 'Research'],
         date: 'June 26-28, 2024'
     }
 };
