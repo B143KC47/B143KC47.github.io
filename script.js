@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 最优先：确保证书和项目区域立即可见
+    // 这些样式应该在DOM加载时就被应用，而不是等待其他操作
+    document.querySelectorAll('.certificates-section, .github-projects-section').forEach(section => {
+        section.style.display = 'block';
+        section.style.opacity = '1';
+        section.style.visibility = 'visible';
+        section.style.transform = 'translateY(0)';
+    });
+
+    document.querySelectorAll('.certificate-grid, .projects-grid').forEach(grid => {
+        grid.style.display = 'grid';
+        grid.style.opacity = '1';
+        grid.style.visibility = 'visible';
+    });
+
+    document.querySelectorAll('.certificate-item, .project-card').forEach(item => {
+        item.style.display = 'block';
+        item.style.opacity = '1';
+        item.style.visibility = 'visible';
+    });
+
     const currentYear = new Date().getFullYear();
     document.getElementById('year').textContent = `© ${currentYear} Powered by KO Ho Tin`;
 
@@ -185,8 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectsGrid = document.querySelector('.projects-grid');
     if (projectsGrid) {
         // 立即显示项目区域，即使在加载中
-        document.querySelector('.github-projects-section').style.opacity = '1';
-        document.querySelector('.github-projects-section').style.visibility = 'visible';
+        const projectsSection = document.querySelector('.github-projects-section');
+        if (projectsSection) {
+            projectsSection.style.display = 'block';
+            projectsSection.style.opacity = '1';
+            projectsSection.style.visibility = 'visible';
+        }
         
         fetchGitHubProjects().catch(error => {
             console.error('Error fetching GitHub projects:', error);
