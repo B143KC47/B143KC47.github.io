@@ -31,8 +31,9 @@
 
 /* 内容容器 */
 .container {
-    width: min(var(--content-max-width), 100% - var(--container-padding) * 2);
-    margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
     padding: 0 var(--container-padding);
 }
 
@@ -116,7 +117,6 @@
 .progressive-img-container .placeholder {
     position: absolute;
     inset: 0;
-    filter: blur(10px);
     transform: scale(1.1);
     transition: opacity 0.5s ease;
     opacity: 1;
@@ -161,4 +161,71 @@
 .perf-offscreen {
     content-visibility: auto;
     contain-intrinsic-size: 0;
+}
+
+/* 响应式布局基础 */
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* 响应式栅格系统 */
+.grid {
+    display: grid;
+    gap: var(--grid-gap);
+}
+
+/* 移动优先的响应式布局 */
+@media (max-width: var(--breakpoint-md)) {
+    .container {
+        padding: var(--mobile-padding);
+    }
+
+    .grid {
+        gap: var(--mobile-gap);
+    }
+
+    /* 移动端布局优化 */
+    .stack > * + * {
+        margin-top: var(--mobile-space-md);
+    }
+
+    /* 调整节距 */
+    section {
+        padding: var(--mobile-section-padding) 0;
+    }
+
+    /* 改进容器内边距 */
+    .content-wrapper {
+        padding: var(--mobile-padding);
+    }
+}
+
+/* 响应式间距系统 */
+@media (max-width: var(--breakpoint-sm)) {
+    .spacing-responsive {
+        padding: var(--mobile-space-sm);
+        margin: var(--mobile-space-sm);
+    }
+
+    /* 优化图片布局 */
+    .image-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* 调整flex布局 */
+    .flex-responsive {
+        flex-direction: column;
+        gap: var(--mobile-space-md);
+    }
+}
+
+/* 安全区域适配 */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .safe-area-bottom {
+        padding-bottom: calc(var(--mobile-padding) + env(safe-area-inset-bottom));
+    }
 }

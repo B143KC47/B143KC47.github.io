@@ -76,3 +76,55 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* 移动端优化 */
+@media (max-width: var(--breakpoint-md)) {
+    .certificates-grid {
+        grid-template-columns: 1fr;
+        gap: var(--mobile-space-md);
+        padding: var(--mobile-padding);
+    }
+
+    .certificate-card {
+        padding: var(--mobile-card-padding);
+    }
+
+    .certificate-image {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+    }
+
+    .certificate-content {
+        gap: var(--mobile-space-sm);
+    }
+
+    .certificate-title {
+        font-size: var(--mobile-font-h3);
+    }
+
+    .certificate-issuer {
+        font-size: var(--mobile-font-base);
+    }
+
+    /* 触摸优化 */
+    .certificate-card:active {
+        transform: scale(0.98);
+        background: var(--mobile-touch-feedback);
+    }
+
+    /* 图片加载优化 */
+    .certificate-image.loading {
+        background: linear-gradient(110deg, 
+            var(--secondary-bg) 8%, 
+            var(--glass-effect) 18%, 
+            var(--secondary-bg) 33%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s linear infinite;
+    }
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}

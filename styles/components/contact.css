@@ -215,3 +215,62 @@
 .social-link-card:hover {
     transform: translateY(-3px);
 }
+
+/* 移动端表单优化 */
+@media (max-width: var(--breakpoint-md)) {
+    .contact-form {
+        padding: var(--mobile-padding);
+        gap: var(--mobile-space-md);
+    }
+
+    .form-group {
+        margin-bottom: var(--mobile-space-sm);
+    }
+
+    .form-control {
+        min-height: var(--mobile-touch-target);
+        padding: calc(var(--mobile-space-sm) + 2px);
+        font-size: var(--mobile-font-base);
+    }
+
+    textarea.form-control {
+        min-height: 120px;
+    }
+
+    .submit-button {
+        width: 100%;
+        min-height: var(--mobile-touch-target);
+        padding: var(--mobile-space-sm) var(--mobile-space-lg);
+        font-size: var(--mobile-font-base);
+    }
+
+    /* 触摸反馈优化 */
+    .submit-button:active {
+        transform: scale(0.98);
+        background: var(--primary-color-dark);
+    }
+
+    /* 表单验证提示优化 */
+    .form-control:invalid {
+        border-color: rgba(255, 0, 0, 0.3);
+    }
+
+    .error-message {
+        font-size: calc(var(--mobile-font-base) * 0.9);
+        padding: var(--mobile-space-xs);
+    }
+}
+
+/* 表单字段动画 */
+.form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+}
+
+/* 移动端触摸反馈 */
+@media (hover: none) and (pointer: coarse) {
+    .form-control:active,
+    .submit-button:active {
+        background: var(--mobile-touch-feedback);
+    }
+}
