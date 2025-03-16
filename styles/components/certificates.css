@@ -2,8 +2,8 @@
     padding: var(--spacing-xl);
     background: radial-gradient(
         circle at center,
-        rgba(var(--accent-color-rgb), 0.03) 0%,
-        rgba(255, 255, 255, 0.02) 100%
+        rgba(var(--accent-color-rgb), 0.05) 0%, /* 增加透明度使背景更亮 */
+        rgba(255, 255, 255, 0.03) 100%
     );
     border-radius: var(--border-radius-lg);
     backdrop-filter: var(--blur-md);
@@ -12,9 +12,11 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    max-width: var(--container-width);
-    margin: 0 auto;
+    max-width: var(--section-max-width);
+    margin: 4rem auto;
+    padding: 2rem;
     box-sizing: border-box;
+    transition: width 0.3s ease-in-out;
 }
 
 .certificates-section::before {
@@ -34,22 +36,44 @@
     opacity: 1;
 }
 
+.section-container {
+    width: 80%;
+    margin: 0 auto;
+    transition: width 0.3s ease;
+}
+
 .certificate-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
     padding: var(--spacing-lg);
     position: relative;
     z-index: 1;
+    width: 100%;
+    justify-content: center;
+    align-items: start;
+    grid-auto-rows: 1fr; /* 确保每行的卡片高度一致 */
+    margin-top: 2rem;
+}
+
+/* 当只有一行且未填满时的对齐方式 */
+@supports (grid-template-columns: subgrid) {
+    .certificate-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        justify-items: center;
+    }
 }
 
 .certificate-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    background: var(--glass-effect);
-    border-radius: var(--border-radius-md);
+    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
     transition: var(--transition-bounce);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
     backdrop-filter: var(--blur-sm);
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -60,6 +84,7 @@
     transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
     border-color: rgba(var(--accent-color-rgb), 0.3);
+    background: rgba(255, 255, 255, 0.1); /* 修改：hover状态背景更亮 */
 }
 
 .certificate-item:nth-child(2) { animation-delay: 0.2s; }
@@ -69,11 +94,11 @@
 .certificate-item:nth-child(6) { animation-delay: 0.6s; }
 
 .certificate-header {
-    padding: var(--spacing-md);
-    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.08), /* 修改：增强背景渐变可见度 */
         transparent
     );
 }
@@ -81,14 +106,15 @@
 .certificate-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
     margin: 0;
 }
 
 .certificate-image-wrapper {
+    aspect-ratio: 16/9;
+    width: 100%;
     position: relative;
     overflow: hidden;
-    aspect-ratio: 16/9;
 }
 
 .certificate-image-wrapper::after {
@@ -111,10 +137,13 @@
 
 .certificate-image {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
     transition: var(--transition-normal);
     transform: translateZ(0);
+    aspect-ratio: 16/9;
+    display: block; /* 确保图片正确显示 */
+    opacity: 1; /* 确保图片可见 */
 }
 
 .certificate-item:hover .certificate-image {
@@ -122,7 +151,11 @@
 }
 
 .certificate-details {
-    padding: var(--spacing-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem;
     background: linear-gradient(
         to bottom,
         transparent,
@@ -131,7 +164,7 @@
 }
 
 .certificate-details p {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: var(--spacing-sm);
@@ -140,28 +173,28 @@
 .certificate-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: calc(var(--spacing-xs) * 0.8);
-    margin: var(--spacing-sm) 0;
+    gap: 0.5rem;
+    margin: 1rem 0;
 }
 
 .certificate-tag {
     padding: 0.4rem 0.8rem;
-    background: rgba(var(--accent-color-rgb), 0.1);
-    border: 1px solid rgba(var(--accent-color-rgb), 0.2);
+    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：增强标签背景 */
+    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 修改：增强标签边框 */
     border-radius: var(--border-radius-sm);
-    font-size: 0.8rem;
-    color: var(--text-primary);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9); /* 修改：增强标签文字 */
     transition: var(--transition-bounce);
 }
 
 .certificate-tag:hover {
-    background: rgba(var(--accent-color-rgb), 0.2);
+    background: rgba(var(--accent-color-rgb), 0.25);
     transform: translateY(-2px);
 }
 
 .certificate-date {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.65); /* 修改：增强日期文字可见度 */
 }
 
 .certificate-date i {
@@ -176,6 +209,12 @@
 @media (max-width: 768px) {
     .certificates-section {
         padding: var(--spacing-md);
+        width: 100%;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .section-container {
+        width: 95%;
     }
 
     .certificate-grid {
@@ -190,6 +229,23 @@
 
     .certificate-image {
         height: 180px;
+        aspect-ratio: 16/9;
+    }
+}
+
+@media (max-width: 480px) {
+    .certificate-header,
+    .certificate-details {
+        padding: 1rem;
+    }
+    
+    .certificate-tags {
+        gap: 0.4rem;
+    }
+    
+    .certificate-tag {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
     }
 }
 

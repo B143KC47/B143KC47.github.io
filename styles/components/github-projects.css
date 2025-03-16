@@ -1,34 +1,62 @@
 .github-projects-section {
-    padding: 4rem 2rem;
+    width: 100%;
+    max-width: var(--section-max-width);
+    margin: 4rem auto;
+    padding: 2rem;
+    box-sizing: border-box;
     background: rgba(16, 18, 27, 0.4);
     backdrop-filter: blur(20px);
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 0 auto;
-    max-width: var(--max-width);
     box-shadow: var(--card-shadow);
+}
+
+.section-container {
+    width: 80%;
+    margin: 0 auto;
+    transition: width 0.3s ease;
 }
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 2rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
+/* 处理最后一行不足时的对齐 */
+.projects-grid::after {
+    content: '';
+    grid-column: 1 / -1;
+    height: 0;
 }
 
 .project-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
+    border-radius: var(--border-radius-lg);
     padding: 1.5rem;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
+    transition: var(--transition-normal);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     overflow: hidden;
+    position: relative;
+    outline: transparent;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1); /* 修改：hover 状态背景更亮 */
     border-color: rgba(16, 163, 127, 0.3);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3); /* 添加：漂浮感更强的阴影 */
+}
+
+.project-card:focus-within {
+    outline: 2px solid var(--accent-color);
 }
 
 .project-header {
@@ -36,21 +64,24 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 添加：标题区域下边框 */
+    padding-bottom: 0.8rem; /* 添加：标题区域下内边距 */
 }
 
 .project-icon {
     font-size: 1.5rem;
     color: var(--accent-color);
+    filter: drop-shadow(0 0 8px rgba(var(--accent-color-rgb), 0.4)); /* 添加：图标发光效果 */
 }
 
 .project-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
 }
 
 .project-description {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1rem;
@@ -61,14 +92,14 @@
     gap: 1.5rem;
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
 }
 
 .stat-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75); /* 修改：增强统计信息可见度 */
     font-size: 0.9rem;
 }
 
@@ -81,10 +112,11 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.3rem 0.8rem;
-    background: rgba(16, 163, 127, 0.1);
+    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：使用 RGB 变量增强透明度 */
+    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
     border-radius: 20px;
     font-size: 0.85rem;
-    color: var(--accent-color);
+    color: rgba(255, 255, 255, 0.9); /* 修改：增强语言标签文本亮度 */
 }
 
 .language-dot {
@@ -92,6 +124,7 @@
     height: 8px;
     border-radius: 50%;
     background: var(--accent-color);
+    box-shadow: 0 0 5px rgba(var(--accent-color-rgb), 0.5); /* 添加：语言点发光效果 */
 }
 
 .loading-spinner {
@@ -106,7 +139,7 @@
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.2); /* 修改：增强边框对比度 */
     border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -120,5 +153,39 @@
 
 .loading-spinner p {
     margin-top: 1rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.8); /* 修改：增强加载文本可见度 */
+}
+
+@media (max-width: 768px) {
+    .github-projects-section {
+        width: 95%;  /* 移动端95%宽度 */
+        padding: 1rem;
+    }
+
+    .section-container {
+        width: 95%;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .project-stats {
+        flex-wrap: wrap; /* 状态栏在需要时换行 */
+        gap: 1rem;
+    }
+}
+
+/* 针对更小屏幕的优化 */
+@media (max-width: 480px) {
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .project-card {
+        padding: 1rem;
+    }
 }

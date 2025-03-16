@@ -145,165 +145,159 @@
         </section>
 
         <!-- GitHub 项目展示区域 -->
-        <section id="github-projects" class="github-projects-section"></section>
-            <h2 class="section-title gradient-text">热门项目</h2>
-            <div class="projects-grid">
-                <!-- 项目卡片将由 JavaScript 动态加载 -->
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                    <p>加载项目中...</p>
+        <section class="section github-projects-section">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Popular Project</h2>
+                <div class="projects-grid">
+                    <!-- 项目卡片将由 JavaScript 动态加载 -->
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>加载项目中...</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 优化证书展示区域 -->
-        <section id="certificates" class="certificates-container">
-            <h2 class="section-title gradient-text">Certificates & Achievements</h2>
-            <div class="certificate-grid">
-                <!-- JA证书 -->
-                <div class="certificate-item" onclick="showCertificateDetails('ja')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">JA Student Company Program</h3>
-                    </div>
-                    <img src="assets/Certificates/JA.jpg" 
-                         alt="JA Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details"></div>
-                        <p>HSBC x JA Company Programme for entrepreneurship development</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Entrepreneurship</span>
-                            <span class="certificate-tag">Leadership</span>
-                            <span class="certificate-tag">Business</span>
+        <!-- 证书展示区域 -->
+        <section class="section certificates-section">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Certificates & Achievements</h2>
+                <div class="certificate-grid">
+                    <div class="certificate-item" onclick="showCertificateDetails('ja')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">JA Student Company Program</h3>
                         </div>
-                        <p class="certificate-date">2024</p>
+                        <img src="assets/Certificates/JA.jpg" 
+                             alt="JA Program" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>HSBC x JA Company Programme for entrepreneurship development</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">Entrepreneurship</span>
+                                <span class="certificate-tag">Leadership</span>
+                                <span class="certificate-tag">Business</span>
+                            </div>
+                            <p class="certificate-date">2024</p>
+                        </div>
+                    </div>
+
+                    <!-- MIT证书 -->
+                    <div class="certificate-item" onclick="showCertificateDetails('mit')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">MIT Innovation Academy</h3>
+                        </div>
+                        <img src="assets/Certificates/MIT.jpg" 
+                             alt="MIT Program" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>Student bootcamp focused on IoT and smart home innovations</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">IoT</span>
+                                <span class="certificate-tag">Innovation</span>
+                                <span class="certificate-tag">Technology</span>
+                            </div>
+                            <p class="certificate-date">2024</p>
+                        </div>
+                    </div>
+
+                    <!-- IEEE证书 -->
+                    <div class="certificate-item" onclick="showCertificateDetails('ieee')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">IEEE CIS Summer School</h3>
+                        </div>
+                        <img src="assets/Certificates/IEEE_Summer_school.png" 
+                             alt="IEEE Program" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>Quantum Computational Intelligence program in Yokohama</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">Quantum Computing</span>
+                                <span class="certificate-tag">AI</span>
+                                <span class="certificate-tag">Research</span>
+                            </div>
+                            <p class="certificate-date">June 26-28, 2024</p>
+                        </div>
+                    </div>
+
+
+                    <div class="certificate-item" onclick="showCertificateDetails('hkujsi')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">HKU JSI</h3>
+                        </div>
+                        <img src="assets\Certificates\hkujsi.jpg" 
+                             alt="HKU Program" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>HKU JSI</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">Innovation</span>
+                                <span class="certificate-tag">Science</span>
+                                <span class="certificate-tag">Technology</span>
+                            </div>
+                            <p class="certificate-date">Summer, 2024</p>
+                        </div>
+                    </div>
+
+                    <div class="certificate-item" onclick="showCertificateDetails('econ_workshop')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">Econ Workshop</h3>
+                        </div>
+                        <img src="assets\Certificates\econ_workshop.jpg" 
+                             alt="Econ Workshop" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>Econ Workshop</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">Economics</span>
+                                <span class="certificate-tag">Business</span>
+                            </div>
+                            <p class="certificate-date">Summer, 2024</p>
+                        </div>
+                    </div>
+
+                    <div class="certificate-item" onclick="showCertificateDetails('cityu_ai')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">CityU Gifted Program for AI and Hardware</h3>
+                        </div>
+                        <img src="assets/Certificates/cityu_gef.jpg" 
+                             alt="CityU AI Program" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>CityU Gifted Program focused on AI and Hardware</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">AI</span>
+                                <span class="certificate-tag">Hardware</span>
+                                <span class="certificate-tag">Technology</span>
+                            </div>
+                            <p class="certificate-date">Summer, 2024</p>
+                        </div>
+                    </div>
+
+                    <div class="certificate-item" onclick="showCertificateDetails('space_tech')">
+                        <div class="certificate-header">
+                            <h3 class="certificate-title">Space Tech Competition</h3>
+                        </div>
+                        <img src="assets/Certificates/space_comp.jpg" 
+                             alt="Space Tech Competition" 
+                             class="certificate-image"
+                             loading="lazy">
+                        <div class="certificate-details">
+                            <p>Space Tech Competition</p>
+                            <div class="certificate-tags">
+                                <span class="certificate-tag">Space</span>
+                                <span class="certificate-tag">Technology</span>
+                                <span class="certificate-tag">Engineering</span>
+                            </div>
+                            <p class="certificate-date">Summer, 2024</p>
+                        </div>
                     </div>
                 </div>
-
-                <!-- MIT证书 -->
-                <div class="certificate-item" onclick="showCertificateDetails('mit')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">MIT Innovation Academy</h3>
-                    </div>
-                    <img src="assets/Certificates/MIT.jpg" 
-                         alt="MIT Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>Student bootcamp focused on IoT and smart home innovations</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">IoT</span>
-                            <span class="certificate-tag">Innovation</span>
-                            <span class="certificate-tag">Technology</span>
-                        </div>
-                        <p class="certificate-date">2024</p>
-                    </div>
-                </div>
-
-                <!-- IEEE证书 -->
-                <div class="certificate-item" onclick="showCertificateDetails('ieee')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">IEEE CIS Summer School</h3>
-                    </div>
-                    <img src="assets/Certificates/IEEE_Summer_school.png" 
-                         alt="IEEE Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>Quantum Computational Intelligence program in Yokohama</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Quantum Computing</span>
-                            <span class="certificate-tag">AI</span>
-                            <span class="certificate-tag">Research</span>
-                        </div>
-                        <p class="certificate-date">June 26-28, 2024</p>
-                    </div>
-                </div>
-
-
-                <div class="certificate-item" onclick="showCertificateDetails('hkujsi')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">HKU JSI</h3>
-                    </div>
-                    <img src="assets\Certificates\hkujsi.jpg" 
-                         alt="HKU Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>HKU JSI</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Innovation</span>
-                            <span class="certificate-tag">Science</span>
-                            <span class="certificate-tag">Technology</span>
-                        </div>
-                        <p class="certificate-date">Summer, 2024</p>
-                    </div>
-                </div>
-
-                <div class="certificate-item" onclick="showCertificateDetails('econ_workshop')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">Econ Workshop</h3>
-                    </div>
-                    <img src="assets\Certificates\econ_workshop.jpg" 
-                         alt="Econ Workshop" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>Econ Workshop</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Economics</span>
-                            <span class="certificate-tag">Business</span>
-                        </div>
-                        <p class="certificate-date">Summer, 2024</p>
-                    </div>
-                </div>
-
-                <div class="certificate-item" onclick="showCertificateDetails('cityu_ai')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">CityU Gifted Program for AI and Hardware</h3>
-                    </div>
-                    <img src="assets/Certificates/cityu_gef.jpg" 
-                         alt="CityU AI Program" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details">
-                        <p>CityU Gifted Program focused on AI and Hardware</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">AI</span>
-                            <span class="certificate-tag">Hardware</span>
-                            <span class="certificate-tag">Technology</span>
-                        </div>
-                        <p class="certificate-date">Summer, 2024</p>
-                    </div>
-                </div>
-
-                <div class="certificate-item" onclick="showCertificateDetails('space_tech')">
-                    <div class="certificate-header">
-                        <h3 class="certificate-title">Space Tech Competition</h3>
-                    </div>
-                    <img src="assets/Certificates/space_comp.jpg" 
-                         alt="Space Tech Competition" 
-                         class="certificate-image"
-                         loading="lazy">
-                    <div class="certificate-details"></div>
-                        <p>Space Tech Competition</p>
-                        <div class="certificate-tags">
-                            <span class="certificate-tag">Space</span>
-                            <span class="certificate-tag">Technology</span>
-                            <span class="certificate-tag">Engineering</span>
-                        </div>
-                        <p class="certificate-date">Summer, 2024</p>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
             </div>
         </section>
 

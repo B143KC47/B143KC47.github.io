@@ -6,8 +6,47 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: var(--grid-gap);
+}
+
+/* 自适应列数布局 */
+.grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    justify-content: center;
+}
+
+.grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    justify-content: start;
+}
+
+/* 等宽两列布局 */
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* 卡片网格布局 */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: stretch;
+}
+
+/* 确保卡片等高 */
+.cards-grid > * {
+    height: 100%;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .cards-grid {
+        gap: 1.5rem;
+    }
 }
 
 /* 新增灵活的布局类 */

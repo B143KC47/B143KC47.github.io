@@ -60,8 +60,17 @@ body {
     padding: 0 var(--container-padding-x);
 }
 
+/* 关键修复：确保所有section元素始终可见 */
 section {
     margin: var(--section-spacing-y) 0;
+    opacity: 1 !important; /* 强制可见 */
+    transform: translateY(0) !important; /* 强制无位移 */
+    visibility: visible !important; /* 确保可见性 */
+    display: block !important; /* 确保显示 */
+}
+
+/* 如果需要动画效果，可以添加特定的类 */
+section.animate-when-visible {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.8s ease forwards;
@@ -80,8 +89,7 @@ section {
     transform: translateY(0);
 }
 
-/* 移除未使用的动画 */
-/*
+/* 保留关键动画 */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -92,7 +100,6 @@ section {
         transform: translateY(0);
     }
 }
-*/
 
 @keyframes fadeIn {
     from {
@@ -163,6 +170,8 @@ social-links {
     box-sizing: border-box; /* 确保内边距包含在宽度内 */
     height: auto; /* 移除固定的最小高度 */
     padding-bottom: 3rem; /* 增加 padding-bottom，确保能包住内容 */
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
 }
 
 .certificate-grid {
@@ -173,57 +182,62 @@ social-links {
     width: 100%;
     height: auto;
     padding-bottom: 3rem;
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
 }
 
 .certificate-item {
     width: 100%;
     max-width: 320px; /* 进一步减小最大宽度 */
     margin: 0 auto;
-    background: var(--card-bg); /* 修改背景颜色 */
+    background: rgba(255, 255, 255, 0.07); /* 修改：增强卡片背景亮度 */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer; /* 添加点击效果 */
     will-change: transform; /* 提前告知浏览器，transform 属性将会发生变化 */
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
 }
 
 .certificate-item:hover {
     transform: translateY(-3px); /* 减小 transform 效果 */
-    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */ /* 移除 box-shadow 效果 */
-    background: var(--secondary-bg); /* 修改 hover 时的背景颜色 */
+    background: rgba(255, 255, 255, 0.1); /* 修改：hover状态背景更亮 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .certificate-header {
     padding: 0.75rem; /* 减小 padding */
     text-align: center;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--card-header-bg); /* 修改 header 背景颜色 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.08), /* 修改：增强背景可见度 */
+        transparent
+    );
 }
 
 .certificate-title {
     font-size: 1.1rem; /* 减小字体大小 */
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
     margin: 0;
 }
 
+/* 修复图片加载问题 */
 .certificate-image {
     width: 100%;
     height: auto;
-    display: block;
+    display: block !important; /* 强制显示 */
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    transition: opacity 0.5s ease, transform 0.3s ease; /* 添加 transform 过渡效果 */
-    opacity: 0; /* 初始透明度为0 */
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    opacity: 1 !important; /* 强制可见 */
     transform: scale(1); /* 初始缩放比例为1 */
 }
 
 .certificate-item:hover .certificate-image {
-    transform: scale(1.1); /* hover 时放大图片 */
-}
-
-.certificate-image.loaded {
-    opacity: 1; /* 加载完成后显示 */
+    transform: scale(1.05); /* hover 时放大图片 */
 }
 
 .certificate-details {
@@ -231,7 +245,7 @@ social-links {
 }
 
 .certificate-details p {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
     font-size: 0.85rem; /* 减小字体大小 */
     margin-bottom: 0.4rem; /* 减小 margin-bottom */
     line-height: 1.4; /* 增加行高 */
@@ -245,16 +259,17 @@ social-links {
 }
 
 .certificate-tag {
-    background: var(--accent-color);
-    color: var(--text-light);
+    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：使用RGB变量，增强背景 */
+    color: rgba(255, 255, 255, 0.9); /* 修改：增强标签文字 */
     padding: 0.2rem 0.4rem; /* 减小 padding */
     border-radius: 5px;
+    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
     font-size: 0.7rem; /* 减小字体大小 */
 }
 
 .certificate-date {
     font-size: 0.8rem;
-    color: var(--text-hint);
+    color: rgba(255, 255, 255, 0.65); /* 修改：增强日期文字可见度 */
 }
 
 /* 响应式调整 */
@@ -277,18 +292,18 @@ social-links {
 }
 
 .skill-tag {
-    background: var(--tag-bg); /* 修改背景颜色 */
-    color: var(--text-light); /* 修改文字颜色 */
+    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：增强背景 */
+    color: rgba(255, 255, 255, 0.9); /* 修改：增强文字可见度 */
     padding: 0.5rem 0.75rem;
     border-radius: 5px;
+    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
     font-size: 0.85rem; /* 调整字体大小 */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 添加动画效果 */
-    will-change: background-color, box-shadow; /* 提前告知浏览器，background-color 和 box-shadow 属性将会发生变化 */
+    transition: all 0.3s ease; /* 添加动画效果 */
 }
 
 .skill-tag:hover {
-    background-color: var(--accent-color); /* 修改 hover 时的背景颜色 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加 hover 时的阴影效果 */
+    background: rgba(var(--accent-color-rgb), 0.25); /* 修改：hover状态背景更亮 */
+    transform: translateY(-2px); /* 添加：微小的上升效果 */
 }
 
 /* 模态框样式 */
@@ -314,8 +329,9 @@ social-links {
     width: 90%;
     max-width: 800px;
     margin: 50px auto;
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
     border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
     overflow: hidden;
     transform: translateY(-20px);
     transition: transform 0.3s ease;
@@ -351,6 +367,7 @@ social-links {
 
 .modal-info {
     padding: 20px;
+    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
 }
 
 @media (max-width: 768px) {
@@ -380,6 +397,22 @@ social-links {
 
 .certificate-item:hover::after {
     opacity: 1;
+}
+
+/* 修复项目区域 */
+.github-projects-section {
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
+}
+
+.projects-grid {
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
+}
+
+.project-card {
+    opacity: 1 !important; /* 强制可见 */
+    visibility: visible !important; /* 确保可见性 */
 }
 
 
