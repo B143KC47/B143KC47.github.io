@@ -9,13 +9,88 @@
 
 <url>
   <loc>https://b143kc47.github.io/</loc>
-  <lastmod>2024-11-29T10:05:35+00:00</lastmod>
+  <lastmod>2025-03-16T13:35:41+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://b143kc47.github.io/index.html</loc>
-  <lastmod>2024-11-29T10:05:35+00:00</lastmod>
+  <lastmod>2025-03-16T13:35:41+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/archives/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/categories/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/tags/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/search/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/about/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/2025/03/13/panda/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/2025/02/23/machine%20learning%20basic/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/2025/02/23/Image%20Generation/Scalable%20Diffusion%20Models%20with%20Transformers/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/tags/ai/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/tags/image-generation/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/tags/kaggle/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/tags/machine-learning/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/categories/Introduction-to-Machine-learning/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://b143kc47.github.io/blog/categories/Image-Generation/</loc>
+  <lastmod>2025-03-16T03:12:24+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 
 
