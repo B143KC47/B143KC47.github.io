@@ -71,11 +71,18 @@ body {
 }
 
 .page-container {
+    position: relative;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: var(--primary-bg);
-    overflow-x: hidden;
+    z-index: 1;
+}
+
+.page-content {
+    position: relative;
+    z-index: 2;
+}
+
+.blur-overlay {
+    display: none;
 }
 
 .main-content {

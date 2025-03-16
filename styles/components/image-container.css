@@ -2,14 +2,19 @@
 .image-container {
     position: relative;
     overflow: hidden;
-    background: var(--secondary-bg);
 }
 
 .image-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: var(--transition-normal);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .lazy-image {

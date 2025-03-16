@@ -51,10 +51,10 @@
     --container-width: 1200px;
     --section-spacing: clamp(3rem, 8vh, 6rem);
     
-    /* 模糊效果 */
-    --blur-sm: blur(8px);
-    --blur-md: blur(12px);
-    --blur-lg: blur(20px);
+    /* 模糊效果 - 仅用于特定元素 */
+    --blur-sm: none;
+    --blur-md: none;
+    --blur-lg: none;
 
     /* 响应式断点 */
     --breakpoint-sm: 576px;
@@ -124,12 +124,34 @@
     --touch-target-spacing: 8px;
 
     /* 统一响应式断点系统 */
-    --breakpoint-xs: 320px;
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px;
-    --breakpoint-xxl: 1400px;
+    --breakpoint-xs: 320px;  /* 超小屏幕手机 */
+    --breakpoint-sm: 576px;  /* 小屏幕手机 */
+    --breakpoint-md: 768px;  /* 平板 */
+    --breakpoint-lg: 992px;  /* 小型笔记本 */
+    --breakpoint-xl: 1200px; /* 桌面显示器 */
+    --breakpoint-xxl: 1400px;/* 大屏显示器 */
+
+    /* 移动优先的容器宽度 */
+    --container-xs: 100%;
+    --container-sm: 540px;
+    --container-md: 720px;
+    --container-lg: 960px;
+    --container-xl: 1140px;
+    --container-xxl: 1320px;
+
+    /* 移动端优化变量 */
+    --mobile-header-height: 60px;
+    --mobile-padding: 1rem;
+    --mobile-section-padding: 2rem;
+    --mobile-font-base: 14px;
+    --mobile-line-height: 1.4;
+    --mobile-nav-height: 50px;
+    
+    /* 触摸设备优化 */
+    --touch-target-size: 44px; /* 最小触摸目标大小 */
+    --touch-target-spacing: 8px;
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
 
     /* 移动端优化变量 */
     --mobile-header-height: 60px;
@@ -198,6 +220,53 @@
     /* 移动端交互优化 */
     --mobile-touch-target: 44px;
     --mobile-safe-area: env(safe-area-inset-bottom);
+
+    /* 移动端优化变量 */
+    --mobile-nav-height: 60px;
+    --mobile-container-padding: 1rem;
+    --mobile-section-padding: 2rem;
+    --mobile-card-padding: 1rem;
+    --mobile-gap: 1rem;
+    
+    /* 移动端字体大小 */
+    --mobile-font-h1: clamp(1.8rem, 5vw, 2.5rem);
+    --mobile-font-h2: clamp(1.4rem, 4vw, 2rem);
+    --mobile-font-h3: clamp(1.2rem, 3vw, 1.5rem);
+    --mobile-font-base: 0.9rem;
+    
+    /* 移动端间距 */
+    --mobile-space-xs: 0.5rem;
+    --mobile-space-sm: 0.75rem;
+    --mobile-space-md: 1rem;
+    --mobile-space-lg: 1.5rem;
+    --mobile-space-xl: 2rem;
+
+    /* 移动端核心变量 */
+    --mobile-header-height: 60px;
+    --mobile-nav-height: 50px;
+    --mobile-padding: 1rem;
+    --mobile-section-padding: 2rem;
+    --mobile-container-padding: 1rem;
+    --mobile-gap: 1rem;
+    
+    /* 移动端触摸优化 */
+    --mobile-touch-target: 44px;  /* 最小触摸区域 */
+    --mobile-button-height: 44px;
+    --mobile-touch-feedback: rgba(var(--accent-color-rgb), 0.15);
+    
+    /* 移动端排版 */
+    --mobile-font-size-base: 14px;
+    --mobile-line-height: 1.4;
+    --mobile-font-h1: clamp(1.8rem, 5vw, 2.5rem);
+    --mobile-font-h2: clamp(1.4rem, 4vw, 2rem);
+    --mobile-font-h3: clamp(1.2rem, 3vw, 1.5rem);
+    
+    /* 移动端间距 */
+    --mobile-space-xs: 0.5rem;
+    --mobile-space-sm: 0.75rem;
+    --mobile-space-md: 1rem;
+    --mobile-space-lg: 1.5rem;
+    --mobile-space-xl: 2rem;
 }
 
 /* 深色模式变量 */
@@ -212,14 +281,14 @@
 /* 响应式字体大小调整 */
 @media (max-width: 768px) {
     :root {
-        --spacing-xs: 0.4rem;
-        --spacing-sm: 0.8rem;
-        --spacing-md: 1.2rem;
-        --spacing-lg: 1.6rem;
-        --spacing-xl: 2rem;
-        --section-spacing: 3rem;
-        --grid-gap: 1rem;
-        --card-padding: 1rem;
+        --spacing-xs: var(--mobile-space-xs);
+        --spacing-sm: var(--mobile-space-sm);
+        --spacing-md: var(--mobile-space-md);
+        --spacing-lg: var(--mobile-space-lg);
+        --spacing-xl: var(--mobile-space-xl);
+        --container-padding: var(--mobile-container-padding);
+        --header-height: var(--mobile-header-height);
+        --section-spacing: var(--mobile-section-padding);
     }
 }
 
@@ -230,6 +299,16 @@
         --hover-scale: 1;
         --transition-bounce: none;
         --touch-feedback-color: rgba(var(--accent-color-rgb), 0.15);
+        --button-min-height: var(--touch-target-size);
+        --input-min-height: var(--touch-target-size);
+    }
+    
+    /* 增强触摸反馈 */
+    .button:active,
+    .card:active,
+    .nav-link:active {
+        background: var(--touch-feedback-color);
+        transform: scale(0.98);
     }
 }
 
@@ -287,5 +366,49 @@
         --spacing-md: 1rem;
         --spacing-lg: 1.5rem;
         --spacing-xl: 2rem;
+    }
+}
+
+/* 移动端媒体查询适配 */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: var(--mobile-padding);
+        --section-spacing: var(--mobile-section-padding);
+        
+        /* 移动端下调整字体大小和间距 */
+        --font-size-base: var(--mobile-font-base);
+        --line-height-base: var(--mobile-line-height);
+        --spacing-unit: 0.75rem;
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    :root {
+        --header-height: var(--mobile-header-height);
+        --nav-height: var(--mobile-nav-height);
+        --container-padding: var(--mobile-container-padding);
+        --section-spacing: var(--mobile-space-xl);
+        
+        /* 间距调整 */
+        --spacing-xs: var(--mobile-space-xs);
+        --spacing-sm: var(--mobile-space-sm);
+        --spacing-md: var(--mobile-space-md);
+        --spacing-lg: var(--mobile-space-lg);
+        --spacing-xl: var(--mobile-space-xl);
+        
+        /* 字体大小调整 */
+        --font-size-base: var(--mobile-font-size-base);
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    :root {
+        --hover-scale: 1;
+        --hover-opacity: 1;
+        --transition-bounce: none;
+        --button-min-height: var(--touch-target-size);
+        --input-min-height: var(--touch-target-size);
     }
 }

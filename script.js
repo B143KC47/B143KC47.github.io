@@ -301,6 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (reducedMotion.matches) {
         document.documentElement.classList.add('reduced-motion');
     }
+
+    updateNavDropdown();
 });
 
 // 动态调整视差效果
@@ -482,6 +484,55 @@ function getLanguageColor(language) {
         'C++': '#f34b7d'
     };
     return colors[language] || '#8b8b8b';
+}
+
+// 获取热门仓库用于导航栏
+async function fetchTopRepositories() {
+    const username = 'B143KC47';
+    try {
+        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=stars&per_page=10`);
+        const repos = await response.json();
+        
+        // 过滤并排序仓库
+        const topRepos = repos
+            .filter(repo => !repo.fork && repo.stargazers_count > 0)
+            .sort((a, b) => b.stargazers_count - a.stargazers_count)
+            .slice(0, 3);
+            
+        return topRepos;
+    } catch (error) {
+        console.error('Error fetching top repositories:', error);
+        return [];
+    }
+}
+
+// 更新导航栏下拉菜单
+async function updateNavDropdown() {
+    const dropdownContent = document.querySelector('.dropdown-content');
+    if (!dropdownContent) return;
+
+    try {
+        const topRepos = await fetchTopRepositories();
+        
+        // 如果没有找到符合条件的仓库，显示默认消息
+        if (topRepos.length === 0) {
+            dropdownContent.innerHTML = '<a href="https://github.com/B143KC47">访问我的 GitHub</a>';
+            return;
+        }
+
+        // 更新下拉菜单内容
+        dropdownContent.innerHTML = topRepos.map(repo => `
+            <a href="${repo.html_url}" target="_blank">
+                ${repo.name}
+                <span class="repo-stars">
+                    <i class="fas fa-star"></i> ${repo.stargazers_count}
+                </span>
+            </a>
+        `).join('') + '<a href="https://github.com/B143KC47">查看更多</a>';
+    } catch (error) {
+        console.error('Error updating dropdown:', error);
+        dropdownContent.innerHTML = '<a href="https://github.com/B143KC47">访问我的 GitHub</a>';
+    }
 }
 
 // 添加触摸手势支持
