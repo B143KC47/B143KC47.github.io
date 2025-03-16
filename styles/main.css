@@ -33,6 +33,8 @@
 @import 'components/about.css';  /* 添加新的About样式 */
 @import 'components/contact.css';  /* 添加新的Contact样式 */
 @import 'components/certificates.css';
+@import 'components/github-projects.css';  /* 添加GitHub项目样式 */
+
 /* 导入页面特定样式 */
 @import 'pages/certificates.css';
 @import 'pages/profile.css';

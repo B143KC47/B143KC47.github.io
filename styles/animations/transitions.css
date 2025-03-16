@@ -34,3 +34,98 @@
     color: transparent;
 }
 
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--primary-bg);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.6s ease-out;
+}
+
+.page-loaded .page-transition {
+    opacity: 0;
+}
+
+/* 内容淡入效果 */
+.content-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 逐项加载效果 */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 页面切换过渡 */
+.page-enter {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.6s ease-out;
+}
+
+.page-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.page-exit-active {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease-in;
+}
+
+/* 图片加载过渡 */
+.image-loading {
+    filter: blur(10px);
+    transform: scale(1.05);
+}
+
+.image-loaded {
+    filter: blur(0);
+    transform: scale(1);
+    transition: all 0.6s ease-out;
+}
+
+/* 滚动触发动画 */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 性能优化 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
