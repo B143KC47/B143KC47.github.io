@@ -1,16 +1,12 @@
 .certificates-section {
     padding: var(--spacing-xl);
-    background: radial-gradient(
-        circle at center,
-        rgba(var(--accent-color-rgb), 0.05) 0%, /* 增加透明度使背景更亮 */
-        rgba(255, 255, 255, 0.03) 100%
-    );
-    border-radius: var(--border-radius-lg);
-    backdrop-filter: var(--blur-md);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
+    background: transparent; /* 修改：移除背景 */
+    border-radius: 0; /* 修改：移除边框圆角 */
+    backdrop-filter: none; /* 修改：移除模糊效果 */
+    border: none; /* 修改：移除边框 */
+    box-shadow: none; /* 修改：移除阴影 */
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* 修改：确保内容可见 */
     width: 100%;
     max-width: var(--section-max-width);
     margin: 4rem auto;
