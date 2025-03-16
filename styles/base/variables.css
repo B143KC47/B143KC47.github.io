@@ -3,6 +3,7 @@
     --primary-bg: linear-gradient(135deg, #000000, #1a1a1a);
     --secondary-bg: rgba(255, 255, 255, 0.02);
     --accent-color: #10a37f;
+    --accent-color-rgb: 16, 163, 127;  /* 新增：用于rgba()函数 */
     --accent-hover: #15c767;
     
     /* 新增渐变效果 */
