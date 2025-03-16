@@ -47,3 +47,169 @@
     );
     background-size: 20px 20px;
 }
+
+/* 动态背景效果 */
+.background-animation {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    mix-blend-mode: screen;
+    animation: orbFloat 20s ease-in-out infinite;
+    will-change: transform;
+}
+
+.orb-1 {
+    top: -10%;
+    left: -10%;
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--accent-color-rgb), 0.2),
+        transparent 70%
+    );
+    animation-delay: -5s;
+}
+
+.orb-2 {
+    bottom: -20%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--primary-color), 0.15),
+        transparent 70%
+    );
+    animation-delay: -2s;
+}
+
+.ambient-light {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--accent-color-rgb), 0.03),
+        transparent 70%
+    );
+    animation: rotate 60s linear infinite;
+    will-change: transform;
+}
+
+.grain-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(30px, 20px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 鼠标互动效果 */
+.interactive-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(var(--accent-color-rgb), 0.1),
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.section:hover .interactive-bg {
+    opacity: 1;
+}
+
+/* 发光边框效果 */
+.glow-border {
+    position: relative;
+}
+
+.glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: var(--gradient-primary);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.glow-border:hover::before {
+    opacity: 0.5;
+}
+
+/* 流动边框效果 */
+.flowing-border {
+    position: relative;
+    overflow: hidden;
+}
+
+.flowing-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--accent-color-rgb), 0.2),
+        transparent
+    );
+    transform: translateX(-100%);
+    animation: flowingBorder 3s linear infinite;
+}
+
+@keyframes flowingBorder {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* 性能优化 */
+@media (prefers-reduced-motion: reduce) {
+    .gradient-orb,
+    .ambient-light,
+    .flowing-border::before {
+        animation: none;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .gradient-orb {
+        filter: blur(100px);
+        opacity: 0.2;
+    }
+}

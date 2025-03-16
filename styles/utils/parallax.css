@@ -1,13 +1,15 @@
 .parallax-wrapper {
     position: relative;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     transform-style: preserve-3d;
     perspective: 1000px;
 }
 
 .parallax-element {
+    position: relative;
     will-change: transform;
-    transform: translateZ(0);
 }
 
 .parallax-bg {
@@ -19,23 +21,135 @@
     will-change: transform;
 }
 
+.parallax-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    transform: translateZ(-10px) scale(2);
+    z-index: -1;
+}
+
+.parallax-content {
+    position: relative;
+    transform: translateZ(0);
+    z-index: 1;
+}
+
+.parallax-slow {
+    transform: translateZ(-5px) scale(1.5);
+}
+
+.parallax-medium {
+    transform: translateZ(-3px) scale(1.3);
+}
+
+.parallax-fast {
+    transform: translateZ(-1px) scale(1.1);
+}
+
 /* 优化移动端体验 */
 @media (max-width: 768px) {
     .parallax-wrapper {
+        perspective: none;
         transform-style: flat;
     }
     
     .parallax-element,
-    .parallax-bg {
+    .parallax-bg,
+    .parallax-background,
+    .parallax-slow,
+    .parallax-medium,
+    .parallax-fast {
         transform: none !important;
     }
 }
 
 /* 针对不喜欢动画的用户 */
 @media (prefers-reduced-motion: reduce) {
+    .parallax-wrapper,
     .parallax-element,
-    .parallax-bg {
-        transition: none !important;
+    .parallax-bg,
+    .parallax-background,
+    .mouse-parallax-element,
+    .scroll-parallax-bg {
         transform: none !important;
+        transition: none !important;
+        will-change: auto;
     }
+}
+
+/* 鼠标视差效果 */
+.mouse-parallax-container {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.mouse-parallax-element {
+    transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
+    will-change: transform;
+}
+
+.mouse-parallax-deep {
+    --parallax-strength: 30;
+}
+
+.mouse-parallax-medium {
+    --parallax-strength: 20;
+}
+
+.mouse-parallax-light {
+    --parallax-strength: 10;
+}
+
+/* 滚动视差效果 */
+.scroll-parallax {
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-parallax-bg {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+/* 视差卡片效果 */
+.parallax-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+.parallax-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.parallax-card-shadow {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateZ(-1px);
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.parallax-card:hover {
+    transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+}
+
+.parallax-card:hover .parallax-card-shadow {
+    opacity: 1;
 }

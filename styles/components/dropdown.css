@@ -14,24 +14,30 @@
 
 /* 当下拉菜单显示时，其他导航项变为灰色 */
 .dropdown:hover ~ a {
-    color: #888888;
+    color: rgba(255, 255, 255, 0.5);  /* 使用rgba增强半透明感 */
+    transition: all 0.3s ease;  /* 添加过渡动画 */
 }
 
 /* 保持当前悬停项为白色 */
 .dropdown:hover > a {
     color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);  /* 与navbar hover效果一致 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);  /* 添加阴影提升立体感 */
 }
 
 .dropdown-content a {
-    color: #ffffff;
-    padding: 12px 16px;
+    color: rgba(255, 255, 255, 0.8);  /* 提高可读性 */
+    padding: 0.85rem 1.3rem;  /* 稍微增加内边距 */
     display: block;
+    transition: all 0.25s ease;  /* 加快过渡动画 */
 }
 
 .dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);  /* 增强悬浮效果 */
     color: #ffffff;
+    transform: translateX(5px);  /* 添加横向移动效果 */
 }
+
 .dropdown:hover ~ .blur-overlay {
     display: block;
 }
@@ -47,30 +53,47 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    min-width: 180px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
+    top: calc(100% + 10px);  /* 增加与导航栏的距离 */
+    left: 50%;  /* 居中定位 */
+    transform: translateX(-50%) translateY(10px);  /* 水平居中并添加垂直偏移 */
+    background: rgba(0, 0, 0, 0.6);  /* 调整透明度 */
+    backdrop-filter: blur(25px);  /* 增强模糊效果 */
+    -webkit-backdrop-filter: blur(25px);
+    min-width: 200px;  /* 稍微加宽 */
+    border: 1px solid rgba(255, 255, 255, 0.15);  /* 增强边框可见度 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);  /* 增强阴影效果 */
+    border-radius: 12px;
     overflow: hidden;
     z-index: 1000;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);  /* 使用缓动函数 */
+}
+
+/* 添加小三角形指示器 */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid rgba(255, 255, 255, 0.15);
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
-    transform: translateY(0);
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);  /* 保持水平居中并取消垂直偏移 */
+    display: block;  /* 确保显示 */
 }
 
 .dropdown-content a {
-    color: rgba(255, 255, 255, 0.7);
-    padding: 0.8rem 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 0.85rem 1.3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;  /* 用于添加悬浮时的侧边指示器 */
 }
 
 .dropdown-content a:last-child {
@@ -78,23 +101,79 @@
 }
 
 .dropdown-content a:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    padding-left: 1.5rem;
+    padding-left: 1.8rem;  /* 增加左边距效果 */
 }
 
-/* 添加过渡动画 */
+/* 添加左侧指示器 */
+.dropdown-content a:hover::before {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* 优化过渡动画 */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(15px) translateX(-50%);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) translateX(-50%);
     }
 }
 
 .dropdown:hover .dropdown-content {
     animation: fadeIn 0.3s ease forwards;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        transform: none;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 0;
+        margin-top: 0;
+        box-shadow: none;
+        border: none;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .dropdown:hover .dropdown-content {
+        transform: none;
+    }
+
+    .dropdown-content a {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    .dropdown-content a:hover {
+        transform: none;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* 优化模糊效果在移动端的性能 */
+    .dropdown:hover ~ .blur-overlay,
+    .dropdown:hover ~ main,
+    .dropdown:hover ~ img {
+        filter: none;
+    }
+}
+
+/* 平板设备优化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dropdown-content {
+        min-width: 180px;
+    }
 }

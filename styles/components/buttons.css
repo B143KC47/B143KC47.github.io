@@ -1,35 +1,163 @@
 /* 按钮样式 */
 .button {
-    background: var(--gradient-primary);
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
     font-weight: 500;
-    transition: var(--transition-smooth);
-  }
-  
-  .button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
-      margin: 0.5rem;
-  }
-  
-  .button.primary {
-      background: var(--primary-color);
-      color: white;
-  }
-  
-  .button.secondary {
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
-  }
-  
-  .button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
+    letter-spacing: 0.5px;
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-bounce);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    gap: var(--spacing-sm);
+}
+
+/* 主按钮样式 */
+.button.primary {
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.button.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* 次要按钮样式 */
+.button.secondary {
+    background: var(--glass-effect);
+    backdrop-filter: var(--blur-sm);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.button.secondary:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-color);
+    background: rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* 轮廓按钮样式 */
+.button.outline {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.button.outline:hover {
+    background: var(--accent-color);
+    color: var(--text-primary);
+    transform: translateY(-3px);
+}
+
+/* 幽灵按钮样式 */
+.button.ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.button.ghost:hover {
+    color: var(--text-primary);
+    background: var(--glass-effect);
+    transform: translateY(-3px);
+}
+
+/* 按钮大小变体 */
+.button.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.button.large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* 图标按钮 */
+.button-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 加载状态 */
+.button.loading {
+    position: relative;
+    cursor: wait;
+}
+
+.button.loading::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: rotate 0.6s linear infinite;
+}
+
+/* 禁用状态 */
+.button:disabled,
+.button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 按钮组 */
+.button-group {
+    display: inline-flex;
+    gap: var(--spacing-sm);
+}
+
+.button-group.vertical {
+    flex-direction: column;
+}
+
+/* 波纹效果 */
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.2),
+        transparent 80%
+    );
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.button:hover::before {
+    opacity: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .button {
+        padding: 0.7rem 1.4rem;
+    }
+
+    .button.large {
+        padding: 0.9rem 1.8rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .button-group .button {
+        width: 100%;
+    }
+}

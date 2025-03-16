@@ -1,99 +1,291 @@
 :root {
-    /* 更新颜色系统 */
-    --primary-bg: linear-gradient(135deg, #000000, #1a1a1a);
-    --secondary-bg: rgba(255, 255, 255, 0.02);
-    --accent-color: #10a37f;
-    --accent-color-rgb: 16, 163, 127;  /* 新增：用于rgba()函数 */
-    --accent-hover: #15c767;
-    
-    /* 新增渐变效果 */
-    --glass-gradient: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.05)
-    );
-    --card-gradient: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.05) 0%,
-        rgba(255, 255, 255, 0.02) 100%
-    );
-    
-    /* 更新阴影效果 */
-    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    
-    /* 新增动画变量 */
-    --hover-transform: translateY(-5px);
-    --hover-transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 主题色系 */
+    --primary-color: #10a37f;
+    --primary-color-dark: #0d8264;
+    --primary-color-light: #1ac99d;
+    --accent-color: #3090FF;
+    --accent-color-rgb: 48, 144, 255;
 
-    /* 颜色系统 */
-    --text-primary: #ffffff;
-    --text-secondary: #8e8ea0;
+    /* 背景色系 */
+    --primary-bg: linear-gradient(135deg, #000000, #0a0a0a);
+    --secondary-bg: rgba(255, 255, 255, 0.03);
+    --card-bg: rgba(255, 255, 255, 0.05);
     
-    /* 渐变 */
-    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
-    --gradient-tertiary: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    /* 文本颜色 */
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.5);
     
-    /* 阴影 */
-    --shadow-hover: 0 8px 30px rgba(16, 163, 127, 0.2);
+    /* 渐变效果 */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    --glass-effect: rgba(255, 255, 255, 0.05);
     
-    /* 间距 */
-    --max-width: 1200px;
-    --content-padding: clamp(1rem, 5%, 3rem);
-    --section-spacing: clamp(2rem, 8vh, 6rem);
-    --card-spacing: clamp(1rem, 4vh, 3rem);
+    /* 阴影效果 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(var(--accent-color-rgb), 0.15);
     
-    /* 动画 */
+    /* 边框和圆角 */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 20px;
+    
+    /* 间距系统 */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* 动画效果 */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: 0.5s var(--bounce);
-    
-    /* 添加新的布局变量 */
-    --section-max-width: 1400px;
-    --container-padding: clamp(1rem, 5vw, 3rem);
-    --grid-gap: clamp(1.5rem, 3vw, 2.5rem);
-    --card-border-radius: 16px;
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* 布局变量 */
     --header-height: 70px;
+    --container-width: 1200px;
+    --section-spacing: clamp(3rem, 8vh, 6rem);
     
-    /* 新增响应式断点 */
+    /* 模糊效果 */
+    --blur-sm: blur(8px);
+    --blur-md: blur(12px);
+    --blur-lg: blur(20px);
+
+    /* 响应式断点 */
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
 
-    /* 新增现代风格变量 */
-    --primary-color: #10a37f;
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --card-bg: rgba(32, 32, 32, 0.95);
-    --hover-color: #2a2a2a;
-    --accent-glow: rgba(16, 163, 127, 0.15);
-    --blur-backdrop: blur(12px);
-    --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* 响应式断点系统 */
+    --mobile: 480px;
+    --tablet: 768px;
+    --laptop: 1024px;
+    --desktop: 1200px;
+    --large-desktop: 1440px;
 
-    /* 新增布局系统变量 */
-    --layout-gap: clamp(1rem, 3vw, 2rem);
-    --container-max-width: 1400px;
-    --container-padding-x: max(1rem, 5vw);
-    --section-spacing-y: clamp(3rem, 8vh, 6rem);
-    --content-max-width: 65ch;
-    
-    /* 新增栅格系统变量 */
-    --grid-columns: 12;
-    --grid-gutter: clamp(1rem, 2vw, 2rem);
-    --grid-container: min(var(--container-max-width), 100% - (2 * var(--container-padding-x)));
-    
-    /* 新增层级系统变量 */
-    --z-index-dropdown: 100;
-    --z-index-sticky: 200;
-    --z-index-fixed: 300;
-    --z-index-modal: 400;
-    --z-index-popover: 500;
-    --z-index-tooltip: 600;
+    /* 响应式容器宽度 */
+    --container-mobile: 100%;
+    --container-tablet: 720px;
+    --container-laptop: 960px;
+    --container-desktop: 1140px;
+    --container-large: 1320px;
 
-    /* 标题阴影 */
-    --title-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    /* 响应式布局变量 */
+    --mobile-nav-height: 60px;
+    --mobile-padding: 1rem;
+    --mobile-font-scale: 0.9;
+    
+    /* 断点系统（移动优先） */
+    --bp-mobile-sm: 320px;
+    --bp-mobile: 480px;
+    --bp-tablet: 768px;
+    --bp-desktop: 1024px;
+    --bp-desktop-lg: 1200px;
+    --bp-desktop-xl: 1440px;
+    
+    /* 移动端特定变量 */
+    --mobile-menu-bg: rgba(0, 0, 0, 0.95);
+    --mobile-menu-height: 100vh;
+    --mobile-menu-transition: 0.3s ease-in-out;
+    --mobile-menu-blur: blur(10px);
+    
+    /* 触摸设备优化 */
+    --touch-target-size: 44px;
+    --touch-safe-area-top: env(safe-area-inset-top);
+    --touch-safe-area-bottom: env(safe-area-inset-bottom);
+
+    /* 响应式断点系统 - 更细致的划分 */
+    --screen-xs: 320px;    /* 超小屏幕 */
+    --screen-sm: 576px;    /* 小屏幕 */
+    --screen-md: 768px;    /* 中等屏幕 */
+    --screen-lg: 992px;    /* 大屏幕 */
+    --screen-xl: 1200px;   /* 超大屏幕 */
+    --screen-xxl: 1400px;  /* 特大屏幕 */
+
+    /* 响应式容器宽度 */
+    --container-xs: 100%;
+    --container-sm: 540px;
+    --container-md: 720px;
+    --container-lg: 960px;
+    --container-xl: 1140px;
+    --container-xxl: 1320px;
+
+    /* 移动端专用变量 */
+    --mobile-font-size-base: 14px;
+    --mobile-line-height: 1.4;
+    
+    /* 触摸屏交互优化 */
+    --touch-target-spacing: 8px;
+
+    /* 统一响应式断点系统 */
+    --breakpoint-xs: 320px;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1400px;
+
+    /* 移动端优化变量 */
+    --mobile-header-height: 60px;
+    --mobile-padding: 1rem;
+    --mobile-font-size-base: 14px;
+    --mobile-line-height: 1.4;
+    --mobile-nav-height: 50px;
+    --mobile-menu-transition: 0.3s ease-in-out;
+    
+    /* 触摸设备优化 */
+    --touch-target-size: 44px;
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+
+    /* 移动端间距系统 */
+    --mobile-spacing-xs: 0.5rem;
+    --mobile-spacing-sm: 0.75rem;
+    --mobile-spacing-md: 1rem;
+    --mobile-spacing-lg: 1.5rem;
+    --mobile-spacing-xl: 2rem;
+
+    /* 移动端专用变量 */
+    --mobile-nav-padding: 0.8rem;
+    --mobile-section-spacing: 2rem;
+    --mobile-container-padding: 1rem;
+    --mobile-button-height: 44px;
+    --mobile-touch-target: 44px;
+    
+    /* 移动端字体大小 */
+    --mobile-font-h1: clamp(2rem, 6vw, 2.5rem);
+    --mobile-font-h2: clamp(1.5rem, 4vw, 2rem);
+    --mobile-font-h3: clamp(1.2rem, 3vw, 1.5rem);
+    --mobile-font-base: 16px;
+    
+    /* 移动端间距系统 */
+    --mobile-space-xs: 0.5rem;
+    --mobile-space-sm: 0.75rem;
+    --mobile-space-md: 1rem;
+    --mobile-space-lg: 1.5rem;
+    --mobile-space-xl: 2rem;
+
+    /* 移动端动画时间 */
+    --mobile-transition-fast: 0.2s;
+    --mobile-transition-normal: 0.3s;
+
+    /* 响应式容器宽度 - 优化移动优先设计 */
+    --container-xs: 100%;
+    --container-sm: 540px;
+    --container-md: 720px;
+    --container-lg: 960px;
+    --container-xl: 1140px;
+    --container-xxl: 1320px;
+
+    /* 移动端专用变量 */
+    --mobile-header-height: 60px;
+    --mobile-nav-height: 50px;
+    --mobile-padding: 1rem;
+    --mobile-section-margin: 2rem;
+    
+    /* 移动端字体大小系统 */
+    --mobile-font-h1: clamp(1.75rem, 5vw, 2.5rem);
+    --mobile-font-h2: clamp(1.5rem, 4vw, 2rem);
+    --mobile-font-h3: clamp(1.25rem, 3vw, 1.75rem);
+    --mobile-font-base: 16px;
+    
+    /* 移动端交互优化 */
+    --mobile-touch-target: 44px;
+    --mobile-safe-area: env(safe-area-inset-bottom);
+}
+
+/* 深色模式变量 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --mobile-menu-bg: rgba(20, 20, 20, 0.98);
+        --glass-effect: rgba(0, 0, 0, 0.2);
+        --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* 响应式字体大小调整 */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xs: 0.4rem;
+        --spacing-sm: 0.8rem;
+        --spacing-md: 1.2rem;
+        --spacing-lg: 1.6rem;
+        --spacing-xl: 2rem;
+        --section-spacing: 3rem;
+        --grid-gap: 1rem;
+        --card-padding: 1rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    :root {
+        --hover-opacity: 1;
+        --hover-scale: 1;
+        --transition-bounce: none;
+        --touch-feedback-color: rgba(var(--accent-color-rgb), 0.15);
+    }
+}
+
+/* 移动优先的响应式媒体查询 */
+@media (max-width: 576px) {
+    :root {
+        --container-width: 100%;
+        --spacing-xs: var(--mobile-spacing-xs);
+        --spacing-sm: var(--mobile-spacing-sm);
+        --spacing-md: var(--mobile-spacing-md);
+        --spacing-lg: var(--mobile-spacing-lg);
+        --spacing-xl: var(--mobile-spacing-xl);
+        --header-height: var(--mobile-header-height);
+    }
+}
+
+/* 移动端媒体查询变量 */
+@media (max-width: 768px) {
+    :root {
+        --header-height: var(--mobile-header-height);
+        --section-spacing: var(--mobile-section-spacing);
+        --container-padding: var(--mobile-container-padding);
+        --button-height: var(--mobile-button-height);
+        
+        /* 字体大小调整 */
+        --font-size-base: var(--mobile-font-base);
+        --transition-normal: var(--mobile-transition-normal);
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --header-height: var(--mobile-header-height);
+        --nav-height: var(--mobile-nav-height);
+        --container-padding: var(--mobile-padding);
+        --section-spacing: var(--mobile-space-xl);
+        --spacing-xs: var(--mobile-space-xs);
+        --spacing-sm: var(--mobile-space-sm);
+        --spacing-md: var(--mobile-space-md);
+        --spacing-lg: var(--mobile-space-lg);
+        --spacing-xl: var(--mobile-space-xl);
+    }
+}
+
+/* 移动端媒体查询适配 */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: var(--mobile-padding);
+        --header-height: var(--mobile-header-height);
+        --section-spacing: var(--mobile-section-margin);
+        
+        /* 移动端下调整间距 */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 0.75rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+    }
 }

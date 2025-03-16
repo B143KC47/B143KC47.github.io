@@ -1,64 +1,276 @@
 .navbar {
     display: flex;
-    background: rgba(0, 0, 0, 0.6);  /* 调整透明度让玻璃效果更明显 */
-    backdrop-filter: blur(20px);  /* 增加模糊效果 */
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);  /* 稍微增加边框亮度 */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);  /* 微调阴影 */
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     justify-content: center;
     align-items: center;
-    padding: 0.8rem var(--container-padding-x);
+    padding: var(--spacing-sm) var(--container-padding-x);
     width: 100%;
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: var(--transition-normal);
 }
 
 .navbar a, .dropdown a {
-    color: rgba(255, 255, 255, 0.8);  /* 增加文字透明度 */
+    color: var(--text-secondary);
     padding: 0.8rem 1.2rem;
     text-decoration: none;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: 0.5px;
-    display: block;
-    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-normal);
 }
 
-.navbar a::after {
+.navbar a::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, 
-        rgba(255, 255, 255, 0.8),
-        rgba(255, 255, 255, 0.2)
-    );
-    transition: all 0.3s ease;
+    background: var(--gradient-primary);
     transform: translateX(-50%);
+    transition: var(--transition-normal);
 }
 
 .navbar a:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);  /* 增加悬浮时的透明效果 */
+    color: var(--text-primary);
+    background: var(--glass-effect);
+    transform: translateY(-2px);
 }
 
-.navbar a:hover::after {
-    width: 80%;
+.navbar a:hover::before {
+    width: 70%;
 }
 
 .navbar a.active {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.15);  /* 增加活动项的透明效果 */
+    color: var(--text-primary);
+    background: var(--glass-effect);
+    box-shadow: var(--shadow-sm);
 }
 
-.navbar a.active::after {
-    width: 80%;
-    background: #ffffff;
+.navbar a.active::before {
+    width: 70%;
+}
+
+/* 滚动时导航栏变化效果 */
+.navbar.scrolled {
+    background: rgba(0, 0, 0, 0.8);
+    padding: calc(var(--spacing-sm) * 0.8) var(--container-padding-x);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* 添加导航项动画 */
+.navbar a {
+    animation: navItemFade 0.5s ease backwards;
+}
+
+.navbar a:nth-child(1) { animation-delay: 0.1s; }
+.navbar a:nth-child(2) { animation-delay: 0.2s; }
+.navbar a:nth-child(3) { animation-delay: 0.3s; }
+.navbar a:nth-child(4) { animation-delay: 0.4s; }
+.navbar a:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes navItemFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: var(--spacing-sm);
+    }
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+    }
+
+    .navbar a, .dropdown a {
+        padding: var(--spacing-sm);
+        font-size: 1rem;
+        text-align: center;
+        border-radius: 0;
+    }
+
+    .navbar a::before {
+        display: none;
+    }
+
+    .navbar a:hover {
+        transform: none;
+        background: var(--glass-effect);
+    }
+}
+
+/* 导航栏滚动效果 */
+.navbar.scroll-up {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.navbar.scroll-down {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* 移动端菜单按钮 */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 24px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: var(--transition-normal);
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .navbar-container {
+        position: fixed;
+        top: var(--header-height);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background: var(--mobile-menu-bg);
+        backdrop-filter: var(--blur-md);
+        transition: var(--transition-normal);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 2rem;
+    }
+
+    .navbar-container.active {
+        left: 0;
+    }
+
+    .navbar a, .dropdown > a {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.1rem;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .navbar-container.active .navbar a,
+    .navbar-container.active .dropdown > a {
+        animation: navItemFade 0.5s ease forwards;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        transform: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+        transform: none;
+    }
+}
+
+/* 移动端导航栏 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--navbar-height);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--navbar-height));
+        background: var(--mobile-menu-bg);
+        backdrop-filter: blur(10px);
+        transition: 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem;
+        z-index: 1000;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background: var(--text-primary);
+        margin: 5px 0;
+        transition: 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 0.8rem;
+        width: 100%;
+        text-align: center;
+        border-radius: var(--border-radius-md);
+    }
 }

@@ -1,20 +1,18 @@
 .certificates-section {
-    padding: 2rem;
-    background: linear-gradient(
-        165deg,
-        rgba(255, 255, 255, 0.02) 0%,
-        rgba(var(--accent-color-rgb), 0.03) 50%,
-        rgba(255, 255, 255, 0.05) 100%
+    padding: var(--spacing-xl);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--accent-color-rgb), 0.03) 0%,
+        rgba(255, 255, 255, 0.02) 100%
     );
-    border-radius: 30px;
-    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    backdrop-filter: var(--blur-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.1),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     width: 100%;
-    max-width: var(--max-width);
+    max-width: var(--container-width);
     margin: 0 auto;
     box-sizing: border-box;
 }
@@ -22,96 +20,57 @@
 .certificates-section::before {
     content: '';
     position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
+    inset: 0;
     background: radial-gradient(
-        circle,
-        rgba(var(--accent-color-rgb), 0.1) 0%,
+        circle at 50% 0%,
+        rgba(var(--accent-color-rgb), 0.1),
         transparent 70%
     );
-    animation: rotate 20s linear infinite;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.certificates-section:hover::before {
+    opacity: 1;
 }
 
 .certificate-grid {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem; /* 调整间距 */
-    padding: 2rem;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
     position: relative;
     z-index: 1;
-    box-sizing: border-box;
 }
 
 .certificate-item {
     position: relative;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 20px;
+    background: var(--glass-effect);
+    border-radius: var(--border-radius-md);
     overflow: hidden;
-    transition: all 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
+    transition: var(--transition-bounce);
+    border: 1px solid var(--border-color);
+    backdrop-filter: var(--blur-sm);
     transform-style: preserve-3d;
     perspective: 1000px;
-    padding: 1rem; /* 调整内边距 */
-}
-
-.certificate-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.08),
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.certificate-item::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.08),
-        transparent
-    );
-    transform: translateX(-100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: fadeInUp 0.6s ease backwards;
 }
 
 .certificate-item:hover {
     transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
-    box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 0 30px rgba(var(--accent-color-rgb), 0.1);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-color: rgba(var(--accent-color-rgb), 0.3);
 }
 
-.certificate-item:hover::before {
-    opacity: 1;
-}
-
-.certificate-item:hover::after {
-    opacity: 1;
-    animation: shimmer 1.5s infinite;
-}
+.certificate-item:nth-child(2) { animation-delay: 0.2s; }
+.certificate-item:nth-child(3) { animation-delay: 0.3s; }
+.certificate-item:nth-child(4) { animation-delay: 0.4s; }
+.certificate-item:nth-child(5) { animation-delay: 0.5s; }
+.certificate-item:nth-child(6) { animation-delay: 0.6s; }
 
 .certificate-header {
-    padding: 1.2rem; /* 调整内边距 */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
-    z-index: 1;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
     background: linear-gradient(
         to bottom,
         rgba(255, 255, 255, 0.05),
@@ -120,17 +79,10 @@
 }
 
 .certificate-title {
-    font-size: 1.2rem; /* 调整字体大小 */
-    font-weight: 700;
-    background: linear-gradient(
-        135deg,
-        var(--accent-color),
-        var(--secondary-color)
-    );
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
 }
 
 .certificate-image-wrapper {
@@ -159,69 +111,61 @@
 
 .certificate-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* 确保图片完整显示 */
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: brightness(0.95);
+    height: 200px;
+    object-fit: cover;
+    transition: var(--transition-normal);
+    transform: translateZ(0);
 }
 
 .certificate-item:hover .certificate-image {
-    transform: scale(1.08);
-    filter: brightness(1);
+    transform: scale(1.1) translateZ(20px);
 }
 
 .certificate-details {
-    padding: 1.2rem; /* 调整内边距 */
+    padding: var(--spacing-md);
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.02),
-        transparent
+        transparent,
+        rgba(0, 0, 0, 0.2)
     );
+}
+
+.certificate-details p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
 }
 
 .certificate-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem; /* 调整间距 */
-    margin: 1rem 0;
+    gap: calc(var(--spacing-xs) * 0.8);
+    margin: var(--spacing-sm) 0;
 }
 
 .certificate-tag {
     padding: 0.4rem 0.8rem;
-    background: linear-gradient(
-        135deg,
-        rgba(var(--accent-color-rgb), 0.08),
-        rgba(var(--accent-color-rgb), 0.12)
-    );
-    border: 1px solid rgba(var(--accent-color-rgb), 0.15);
-    border-radius: 100px;
-    font-size: 0.8rem; /* 调整字体大小 */
-    font-weight: 500;
-    color: var(--accent-color);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: rgba(var(--accent-color-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-color-rgb), 0.2);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    transition: var(--transition-bounce);
 }
 
 .certificate-tag:hover {
-    background: rgba(var(--accent-color-rgb), 0.15);
+    background: rgba(var(--accent-color-rgb), 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(var(--accent-color-rgb), 0.15);
 }
 
 .certificate-date {
-    font-size: 0.8rem; /* 调整字体大小 */
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0.8;
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
 .certificate-date i {
-    font-size: 0.75rem; /* 调整字体大小 */
+    font-size: 0.75rem;
 }
 
 @keyframes rotate {
@@ -231,18 +175,21 @@
 
 @media (max-width: 768px) {
     .certificates-section {
-        padding: 1rem;
-        border-radius: 20px;
+        padding: var(--spacing-md);
     }
 
     .certificate-grid {
-        padding: 1rem;
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
     }
 
     .certificate-item {
         transform: none !important;
+    }
+
+    .certificate-image {
+        height: 180px;
     }
 }
 
@@ -268,18 +215,6 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.certificate-item {
-    animation: fadeInUp 0.6s ease backwards;
-}
-
-.certificate-item:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.certificate-item:nth-child(3) {
-    animation-delay: 0.4s;
 }
 
 @keyframes shimmer {
@@ -341,5 +276,33 @@
 
     .certificate-grid {
         gap: 1.5rem;
+    }
+}
+
+/* 证书详情模态框样式 */
+.modal {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: var(--blur-lg);
+}
+
+.modal-content {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.modal.show .modal-content {
+    animation: modalSlideIn 0.4s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

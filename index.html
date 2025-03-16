@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>KO Ho Tin Personal Profile - Engineering and Design Enthusiast</title>
+    <title>BlackCat Personal Profile</title>
     
     <!-- 更新CSS引用路径 -->
     <link rel="stylesheet" href="styles/main.css">
@@ -23,315 +23,387 @@
     <link rel="preload" href="script.js" as="script">
     <link rel="preload" href="assets/screen.jpeg" as="image">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+
+    <!-- 预加载主要样式和脚本 -->
+    <link rel="preload" href="styles/main.css" as="style">
+    <link rel="preload" href="styles/animations/animations.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+
+    <!-- 预加载关键字体 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- 预加载关键图片 -->
+    <link rel="preload" href="assets/screen.jpeg" as="image" type="image/jpeg">
+    <link rel="preload" href="assets/avatar.jpg" as="image" type="image/jpeg">
+
+    <!-- DNS 预解析 -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://api.github.com">
+
+    <!-- 预连接 -->
+    <link rel="preconnect" href="https://api.github.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Meta 标签优化 -->
+    <meta name="description" content="KO Ho Tin's personal portfolio - Showcasing engineering and design projects, certifications, and achievements">
+    <meta name="keywords" content="KO Ho Tin, engineering, design, portfolio, AI researcher">
+    <meta name="theme-color" content="#10a37f">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Open Graph 标签 -->
+    <meta property="og:title" content="KO Ho Tin - Portfolio">
+    <meta property="og:description" content="Engineering and Design Portfolio">
+    <meta property="og:image" content="assets/avatar.jpg">
+    <meta property="og:type" content="website">
+
+    <!-- 性能优化 -->
+    <script>
+        // 检测用户的网络状况
+        if ('connection' in navigator) {
+            document.documentElement.classList.add('network-' + navigator.connection.effectiveType);
+        }
+        
+        // 检测设备性能
+        if ('deviceMemory' in navigator) {
+            document.documentElement.classList.add('memory-' + navigator.deviceMemory + 'gb');
+        }
+    </script>
 </head>
 <body>
-    <div class="navbar">
-        <a href="index.html" class="active gradient-text">Home</a>
-        <a href="#about-me">About Me</a>
-        <div class="dropdown">
-            <a href="#portfolio">Portfolio</a>
-            <div class="dropdown-content">
-                <a href="project1.html">Project 1</a>
-                <a href="project2.html">Project 2</a>
-                <a href="project3.html">Project 3</a>
-            </div>
-        </div>
-        <a href="#publication">Publications</a>
-        <a href="#certificates">Certificates</a>
-        <a href="#contact">Contact</a>
-    </div>
-    <div class="blur-overlay"></div>
-
-    <!-- 优化 Hero 区域 -->
-    <div class="hero" style="position: relative;">
-        <div class="hero-content centered">
-            <h1 class="gradient-text animate-title">Engineering & Design Innovation</h1>
-            <p class="hero-subtitle animate-subtitle">Exploring the intersection of technology and creativity</p>
-            <div class="hero-buttons animate-buttons">
-                <a href="#about-me" class="button primary">View Portfolio</a>
-                <a href="#contact" class="button secondary">Contact Me</a>
-            </div>
-        </div>
-        <div class="hero-background"></div>
+    <!-- 背景动画效果 -->
+    <div class="background-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="ambient-light"></div>
+        <div class="grain-overlay"></div>
     </div>
 
-<main>
-    <section id="about-me" class="about-section">
-        <div class="about-container">
-            <div class="profile-container-glass">
-                <div class="profile-image-wrapper">
-                    <img src="assets/avatar.jpg" alt="KO Ho Tin - Profile Photo" class="profile-image" loading="lazy">
-                    <div class="profile-image-overlay"></div>
+    <!-- 主要内容 -->
+    <div class="page-container">
+        <div class="navbar">
+            <a href="index.html" class="active gradient-text">Home</a>
+            <a href="#about-me">About Me</a>
+            <div class="dropdown">
+                <a href="#portfolio">Portfolio</a>
+                <div class="dropdown-content">
+                    <a href="project1.html">Project 1</a>
+                    <a href="project2.html">Project 2</a>
+                    <a href="project3.html">Project 3</a>
                 </div>
             </div>
-            <div class="about-content">
-                <div class="about-header">
-                    <h2 class="about-title">About Me</h2>
-                    <h3 class="profile-name">KO Ho Tin (BlackCat)</h3>
-                    <p class="profile-role">Engineering Student & Design Enthusiast</p>
-                </div>
-                <div class="profile-info">
-                    <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
-                </div>
-                <div class="skills-grid">
-                    <span class="skill-tag">Machine Learning</span>
-                    <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">Computer Vision</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">TensorFlow</span>
-                    <span class="skill-tag">PyTorch</span>
-                </div>
-            </div>
+            <a href="#publication">Publications</a>
+            <a href="#certificates">Certificates</a>
+            <a href="#contact">Contact</a>
         </div>
-    </section>
+        <div class="blur-overlay"></div>
 
-    <!-- 优化证书展示区域 -->
-    <section id="certificates" class="certificates-container">
-        <h2 class="section-title gradient-text">Certificates & Achievements</h2>
-        <div class="certificate-grid">
-            <!-- JA证书 -->
-            <div class="certificate-item" onclick="showCertificateDetails('ja')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">JA Student Company Program</h3>
-                </div>
-                <img src="assets/Certificates/JA.jpg" 
-                     alt="JA Program" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>HSBC x JA Company Programme for entrepreneurship development</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">Entrepreneurship</span>
-                        <span class="certificate-tag">Leadership</span>
-                        <span class="certificate-tag">Business</span>
-                    </div>
-                    <p class="certificate-date">2024</p>
+        <!-- 优化 Hero 区域 -->
+        <div class="hero" style="position: relative;">
+            <div class="hero-content centered">
+                <h1 class="gradient-text animate-title">AI Researcher</h1>
+                <p class="hero-subtitle animate-subtitle">Exploring the intersection of technology and creativity</p>
+                <div class="hero-buttons animate-buttons">
+                    <a href="#about-me" class="button primary">View Portfolio</a>
+                    <a href="#contact" class="button secondary">Contact Me</a>
                 </div>
             </div>
-
-            <!-- MIT证书 -->
-            <div class="certificate-item" onclick="showCertificateDetails('mit')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">MIT Innovation Academy</h3>
-                </div>
-                <img src="assets/Certificates/MIT.jpg" 
-                     alt="MIT Program" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>Student bootcamp focused on IoT and smart home innovations</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">IoT</span>
-                        <span class="certificate-tag">Innovation</span>
-                        <span class="certificate-tag">Technology</span>
-                    </div>
-                    <p class="certificate-date">2024</p>
-                </div>
-            </div>
-
-            <!-- IEEE证书 -->
-            <div class="certificate-item" onclick="showCertificateDetails('ieee')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">IEEE CIS Summer School</h3>
-                </div>
-                <img src="assets/Certificates/IEEE_Summer_school.png" 
-                     alt="IEEE Program" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>Quantum Computational Intelligence program in Yokohama</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">Quantum Computing</span>
-                        <span class="certificate-tag">AI</span>
-                        <span class="certificate-tag">Research</span>
-                    </div>
-                    <p class="certificate-date">June 26-28, 2024</p>
-                </div>
-            </div>
-
-
-            <div class="certificate-item" onclick="showCertificateDetails('hkujsi')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">HKU JSI</h3>
-                </div>
-                <img src="assets\Certificates\hkujsi.jpg" 
-                     alt="HKU Program" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>HKU JSI</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">Innovation</span>
-                        <span class="certificate-tag">Science</span>
-                        <span class="certificate-tag">Technology</span>
-                    </div>
-                    <p class="certificate-date">Summer, 2024</p>
-                </div>
-            </div>
-
-            <div class="certificate-item" onclick="showCertificateDetails('econ_workshop')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">Econ Workshop</h3>
-                </div>
-                <img src="assets\Certificates\econ_workshop.jpg" 
-                     alt="Econ Workshop" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>Econ Workshop</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">Economics</span>
-                        <span class="certificate-tag">Business</span>
-                    </div>
-                    <p class="certificate-date">Summer, 2024</p>
-                </div>
-            </div>
-
-            <div class="certificate-item" onclick="showCertificateDetails('cityu_ai')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">CityU Gifted Program for AI and Hardware</h3>
-                </div>
-                <img src="assets/Certificates/cityu_gef.jpg" 
-                     alt="CityU AI Program" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>CityU Gifted Program focused on AI and Hardware</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">AI</span>
-                        <span class="certificate-tag">Hardware</span>
-                        <span class="certificate-tag">Technology</span>
-                    </div>
-                    <p class="certificate-date">Summer, 2024</p>
-                </div>
-            </div>
-
-            <div class="certificate-item" onclick="showCertificateDetails('space_tech')">
-                <div class="certificate-header">
-                    <h3 class="certificate-title">Space Tech Competition</h3>
-                </div>
-                <img src="assets/Certificates/space_comp.jpg" 
-                     alt="Space Tech Competition" 
-                     class="certificate-image"
-                     loading="lazy">
-                <div class="certificate-details">
-                    <p>Space Tech Competition</p>
-                    <div class="certificate-tags">
-                        <span class="certificate-tag">Space</span>
-                        <span class="certificate-tag">Technology</span>
-                        <span class="certificate-tag">Engineering</span>
-                    </div>
-                    <p class="certificate-date">Summer, 2024</p>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
+            <div class="hero-background"></div>
         </div>
-    </section>
 
-    <!-- 优化联系方式区域 -->
-    <section id="contact" class="contact-section">
-        <h2 class="section-title gradient-text">Get in Touch</h2>
-        <div class="contact-grid">
-            <div class="contact-card">
-                <h3 class="card-title">Contact Information</h3>
-                <div class="contact-method">
-                    <i class="fas fa-envelope contact-icon"></i>
-                    <div>
-                        <h4>Email</h4>
-                        <p>s20200057@ylmass.edu.hk</p>
+    <main>
+        <section id="about-me" class="about-section">
+            <div class="about-container">
+                <div class="profile-container-glass">
+                    <div class="profile-image-wrapper">
+                        <img src="assets/avatar.jpg" alt="KO Ho Tin - Profile Photo" class="profile-image" loading="lazy">
+                        <div class="profile-image-overlay"></div>
                     </div>
                 </div>
-                <div class="contact-method">
-                    <i class="fab fa-github contact-icon"></i>
-                    <div>
-                        <h4>GitHub</h4>
-                        <p><a href="https://github.com/B143KC47">B143KC47</a></p>
+                <div class="about-content">
+                    <div class="about-header">
+                        <h2 class="about-title">About Me</h2>
+                        <h3 class="profile-name">KO Ho Tin (BlackCat)</h3>
+                        <p class="profile-role">Engineering Student & Design Enthusiast</p>
                     </div>
-                </div>
-                <div class="contact-method">
-                    <i class="fab fa-linkedin contact-icon"></i>
-                    <div>
-                        <h4>LinkedIn</h4>
-                        <p><a href="https://www.linkedin.com/in/blackcat/">BlackCat</a></p>
+                    <div class="profile-info">
+                        <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
                     </div>
-                </div>
-                <div class="contact-method">
-                    <i class="fab fa-instagram contact-icon"></i>
-                    <div>
-                        <h4>Instagram</h4>
-                        <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Deep Learning</span>
+                        <span class="skill-tag">Computer Vision</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">PyTorch</span>
                     </div>
                 </div>
             </div>
-            
-            <a href="https://b143kc47.github.io/blog/" class="blog-card">
-                <h3 class="blog-title">Visit My Blog</h3>
-                <p class="blog-description">Explore my thoughts on technology, engineering, and creative design. Regular updates on my latest projects and research.</p>
-                <span class="blog-link">
-                    Read More <i class="fas fa-arrow-right"></i>
-                </span>
-            </a>
-        </div>
-    </section>
-</main>
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3 class="gradient-text">KO Ho Tin</h3>
-            <p>Engineering & Design Innovation</p>
-            <div class="social-links">
-                <a href="https://github.com/B143KC47" class="social-icon">
-                    <i class="fab fa-github"></i>
+        </section>
+
+        <!-- GitHub 项目展示区域 -->
+        <section id="github-projects" class="github-projects-section"></section>
+            <h2 class="section-title gradient-text">热门项目</h2>
+            <div class="projects-grid">
+                <!-- 项目卡片将由 JavaScript 动态加载 -->
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>加载项目中...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 优化证书展示区域 -->
+        <section id="certificates" class="certificates-container">
+            <h2 class="section-title gradient-text">Certificates & Achievements</h2>
+            <div class="certificate-grid">
+                <!-- JA证书 -->
+                <div class="certificate-item" onclick="showCertificateDetails('ja')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">JA Student Company Program</h3>
+                    </div>
+                    <img src="assets/Certificates/JA.jpg" 
+                         alt="JA Program" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details"></div>
+                        <p>HSBC x JA Company Programme for entrepreneurship development</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">Entrepreneurship</span>
+                            <span class="certificate-tag">Leadership</span>
+                            <span class="certificate-tag">Business</span>
+                        </div>
+                        <p class="certificate-date">2024</p>
+                    </div>
+                </div>
+
+                <!-- MIT证书 -->
+                <div class="certificate-item" onclick="showCertificateDetails('mit')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">MIT Innovation Academy</h3>
+                    </div>
+                    <img src="assets/Certificates/MIT.jpg" 
+                         alt="MIT Program" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details">
+                        <p>Student bootcamp focused on IoT and smart home innovations</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">IoT</span>
+                            <span class="certificate-tag">Innovation</span>
+                            <span class="certificate-tag">Technology</span>
+                        </div>
+                        <p class="certificate-date">2024</p>
+                    </div>
+                </div>
+
+                <!-- IEEE证书 -->
+                <div class="certificate-item" onclick="showCertificateDetails('ieee')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">IEEE CIS Summer School</h3>
+                    </div>
+                    <img src="assets/Certificates/IEEE_Summer_school.png" 
+                         alt="IEEE Program" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details">
+                        <p>Quantum Computational Intelligence program in Yokohama</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">Quantum Computing</span>
+                            <span class="certificate-tag">AI</span>
+                            <span class="certificate-tag">Research</span>
+                        </div>
+                        <p class="certificate-date">June 26-28, 2024</p>
+                    </div>
+                </div>
+
+
+                <div class="certificate-item" onclick="showCertificateDetails('hkujsi')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">HKU JSI</h3>
+                    </div>
+                    <img src="assets\Certificates\hkujsi.jpg" 
+                         alt="HKU Program" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details">
+                        <p>HKU JSI</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">Innovation</span>
+                            <span class="certificate-tag">Science</span>
+                            <span class="certificate-tag">Technology</span>
+                        </div>
+                        <p class="certificate-date">Summer, 2024</p>
+                    </div>
+                </div>
+
+                <div class="certificate-item" onclick="showCertificateDetails('econ_workshop')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">Econ Workshop</h3>
+                    </div>
+                    <img src="assets\Certificates\econ_workshop.jpg" 
+                         alt="Econ Workshop" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details">
+                        <p>Econ Workshop</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">Economics</span>
+                            <span class="certificate-tag">Business</span>
+                        </div>
+                        <p class="certificate-date">Summer, 2024</p>
+                    </div>
+                </div>
+
+                <div class="certificate-item" onclick="showCertificateDetails('cityu_ai')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">CityU Gifted Program for AI and Hardware</h3>
+                    </div>
+                    <img src="assets/Certificates/cityu_gef.jpg" 
+                         alt="CityU AI Program" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details">
+                        <p>CityU Gifted Program focused on AI and Hardware</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">AI</span>
+                            <span class="certificate-tag">Hardware</span>
+                            <span class="certificate-tag">Technology</span>
+                        </div>
+                        <p class="certificate-date">Summer, 2024</p>
+                    </div>
+                </div>
+
+                <div class="certificate-item" onclick="showCertificateDetails('space_tech')">
+                    <div class="certificate-header">
+                        <h3 class="certificate-title">Space Tech Competition</h3>
+                    </div>
+                    <img src="assets/Certificates/space_comp.jpg" 
+                         alt="Space Tech Competition" 
+                         class="certificate-image"
+                         loading="lazy">
+                    <div class="certificate-details"></div>
+                        <p>Space Tech Competition</p>
+                        <div class="certificate-tags">
+                            <span class="certificate-tag">Space</span>
+                            <span class="certificate-tag">Technology</span>
+                            <span class="certificate-tag">Engineering</span>
+                        </div>
+                        <p class="certificate-date">Summer, 2024</p>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </section>
+
+        <!-- 优化联系方式区域 -->
+        <section id="contact" class="contact-section">
+            <h2 class="section-title gradient-text">Get in Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3 class="card-title">Contact Information</h3>
+                    <div class="contact-method">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>s20200057@ylmass.edu.hk</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fab fa-github contact-icon"></i>
+                        <div>
+                            <h4>GitHub</h4>
+                            <p><a href="https://github.com/B143KC47">B143KC47</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fab fa-linkedin contact-icon"></i>
+                        <div>
+                            <h4>LinkedIn</h4>
+                            <p><a href="https://www.linkedin.com/in/blackcat/">BlackCat</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fab fa-instagram contact-icon"></i>
+                        <div>
+                            <h4>Instagram</h4>
+                            <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://b143kc47.github.io/blog/" class="blog-card">
+                    <h3 class="blog-title">Visit My Blog</h3>
+                    <p class="blog-description">Explore my thoughts on technology, engineering, and creative design. Regular updates on my latest projects and research.</p>
+                    <span class="blog-link">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </span>
                 </a>
-                <a href="https://www.linkedin.com/in/blackcat/" class="social-icon">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://www.instagram.com/b14ckc4t1337/" class="social-icon">
-                    <i class="fab fa-instagram"></i>
-                </a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="gradient-text">KO Ho Tin</h3>
+                <p>Engineering & Design Innovation</p>
+                <div class="social-links">
+                    <a href="https://github.com/B143KC47" class="social-icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/blackcat/" class="social-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.instagram.com/b14ckc4t1337/" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <nav class="footer-nav">
+                    <a href="#about-me"><i class="fas fa-user"></i> About Me</a>
+                    <a href="#portfolio"><i class="fas fa-briefcase"></i> Portfolio</a>
+                    <a href="#certificates"><i class="fas fa-certificate"></i> Certificates</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                </nav>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> s20200057@ylmass.edu.hk</p>
             </div>
         </div>
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <nav class="footer-nav">
-                <a href="#about-me"><i class="fas fa-user"></i> About Me</a>
-                <a href="#portfolio"><i class="fas fa-briefcase"></i> Portfolio</a>
-                <a href="#certificates"><i class="fas fa-certificate"></i> Certificates</a>
-                <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
-            </nav>
+        <div class="copyright">
+            <p id="year"><i class="far fa-copyright"></i> 2023-2024 Powered by KO Ho Tin</p>
         </div>
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <p><i class="fas fa-envelope"></i> s20200057@ylmass.edu.hk</p>
-        </div>
-    </div>
-    <div class="copyright">
-        <p id="year"><i class="far fa-copyright"></i> 2023-2024 Powered by KO Ho Tin</p>
-    </div>
-</footer>
+    </footer>
 
-<!-- 添加证书详情模态框 -->
-<div id="certificateModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div class="modal-body">
-            <img id="modalImage" src="" alt="Certificate Detail" class="modal-image">
-            <div class="modal-info">
-                <h3 id="modalTitle"></h3>
-                <p id="modalDescription"></p>
-                <div id="modalTags" class="certificate-tags"></div>
-                <p id="modalDate" class="certificate-date"></p>
+    <!-- 添加证书详情模态框 -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Certificate Detail" class="modal-image">
+                <div class="modal-info">
+                    <h3 id="modalTitle"></h3>
+                    <p id="modalDescription"></p>
+                    <div id="modalTags" class="certificate-tags"></div>
+                    <p id="modalDate" class="certificate-date"></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
