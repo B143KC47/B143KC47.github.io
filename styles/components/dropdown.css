@@ -40,21 +40,6 @@
     z-index: 1000;
 }
 
-.dropdown-content {
-    background-color: #000000;
-    min-width: 140px;
-}
-
-.dropdown-content a {
-    color: #ffffff;
-    font-size: 110%;
-}
-
-.dropdown-content a:hover {
-    background-color: #000000;
-    color: #888888;
-}
-
 .dropdown {
     position: relative;
 }
@@ -64,21 +49,52 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.95);
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 3;
-}
-/* 下拉菜单相关样式 */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.9);
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 3;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-width: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
+    transform: translateY(0);
+}
+
+.dropdown-content a {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding-left: 1.5rem;
+}
+
+/* 添加过渡动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown:hover .dropdown-content {
+    animation: fadeIn 0.3s ease forwards;
 }
