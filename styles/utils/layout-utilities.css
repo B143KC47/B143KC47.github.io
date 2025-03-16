@@ -19,6 +19,12 @@
 .mx-auto { margin-left: auto; margin-right: auto; }
 .my-auto { margin-top: auto; margin-bottom: auto; }
 
+/* 水平外边距 */
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* 对齐工具类 */
 .align-center { align-items: center; }
 .justify-center { justify-content: center; }
@@ -64,6 +70,22 @@
 .max-w-full { max-width: 100%; }
 .max-w-screen { max-width: 100vw; }
 .max-w-container { max-width: var(--container-width); }
+
+/* 容器宽度工具类 */
+.w-80 {
+    width: 80%;
+    margin-inline: auto;
+}
+
+.w-90 {
+    width: 90%;
+    margin-inline: auto;
+}
+
+.w-95 {
+    width: 95%;
+    margin-inline: auto;
+}
 
 /* 高度工具类 */
 .h-full { height: 100%; }
@@ -111,12 +133,54 @@
     .md\:w-full { width: 100%; }
 }
 
+/* 响应式容器宽度 */
+.container-responsive {
+    width: var(--container-width-lg);
+    margin: 0 auto;
+    transition: width var(--transition-normal);
+}
+
+/* 响应式间距调整 */
+@media (max-width: 768px) {
+    .container-responsive {
+        width: var(--container-width-sm);
+    }
+}
+
 @media (max-width: 640px) {
     .sm\:flex-col { flex-direction: column; }
     .sm\:items-center { align-items: center; }
     .sm\:text-center { text-align: center; }
     .sm\:hidden { display: none; }
     .sm\:w-full { width: 100%; }
+}
+
+/* 均匀间距布局 */
+.stack > * + * {
+    margin-top: var(--spacing-md);
+}
+
+/* 网格对齐 */
+.grid-center {
+    justify-items: center;
+    align-items: center;
+}
+
+/* 卡片容器布局 */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--grid-gap-default);
+    width: 80%;
+    margin: 0 auto;
+    transition: width var(--transition-normal);
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        width: 95%;
+        gap: var(--mobile-space-md);
+    }
 }
 
 /* Z-index 层级 */

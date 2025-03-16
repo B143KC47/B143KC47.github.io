@@ -7,12 +7,80 @@ main section {
 }
 
 main section {
+    opacity: 1; /* 修改：默认可见，从0改为1 */
+    transform: translateY(0); /* 修改：默认无位移，从translateY(20px)改为0 */
+    transition: all 0.6s ease-out;
+}
+
+/* 旧的不可见状态改为进入动画类 */
+main section.animate-in {
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.6s ease-out;
 }
 
 main section.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* 页面区块通用样式 */
+.section {
+    margin: 6rem 0;
+    position: relative;
+    width: 100%;
+}
+
+/* 区块内容容器 */
+.section-container {
+    width: 80%;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+/* 区块标题样式 */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+/* 渐变文字效果 */
+.gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+}
+
+/* 相邻区块间距 */
+.section + .section {
+    margin-top: 8rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .section {
+        margin: 4rem 0;
+    }
+
+    .section-container {
+        width: 95%;
+        padding: 0 1rem;
+    }
+
+    .section + .section {
+        margin-top: 4rem;
+    }
+}
+
+/* 内容布局控制 */
+.section-content {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
 }

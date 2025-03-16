@@ -91,7 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     updateParallax();
 
-    // 统一 Intersection Observer
+    // 修改：确保证书和项目区域默认可见
+    document.querySelectorAll('.certificates-section, .github-projects-section').forEach(section => {
+        section.style.opacity = '1';
+        section.style.visibility = 'visible';
+        section.style.transform = 'translateY(0)';
+    });
+
+    document.querySelectorAll('.certificate-grid, .projects-grid').forEach(grid => {
+        grid.style.opacity = '1';
+        grid.style.visibility = 'visible';
+    });
+
+    document.querySelectorAll('.certificate-item, .project-card').forEach(item => {
+        item.style.opacity = '1';
+        item.style.visibility = 'visible';
+    });
+
+    // 统一 Intersection Observer - 修改为仅处理动画效果，不影响可见性
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '50px'
@@ -103,14 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 添加统一的类名，表示元素已进入可视区域
                 entry.target.classList.add('in-view');
 
-                // 根据不同的元素，执行不同的操作
+                // 根据不同的元素，执行不同的动画效果，但不影响可见性
                 if (entry.target.classList.contains('fade-up')) {
                     entry.target.classList.add('fade-up-animation');
                 }
                 if (entry.target.classList.contains('fade-in')) {
                     entry.target.classList.add('fade-in-animation');
                 }
-                if (entry.target.classList.contains('section')) {
+                if (entry.target.classList.contains('section') && !entry.target.classList.contains('certificates-section') && !entry.target.classList.contains('github-projects-section')) {
                     entry.target.classList.add('section-animation');
                 }
 
@@ -120,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // 观察所有需要使用 Intersection Observer 的元素
-    document.querySelectorAll('section, .fade-up, .fade-in').forEach(element => {
+    // 观察所有需要动画效果的元素，但排除证书区域和项目区域
+    document.querySelectorAll('section:not(.certificates-section):not(.github-projects-section), .fade-up, .fade-in').forEach(element => {
         observer.observe(element);
     });
 
@@ -138,9 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 图片加载动画
     document.querySelectorAll('.certificate-image').forEach(img => {
+        // 直接设置图片为可见
+        img.classList.add('loaded');
+        
+        // 添加加载事件以防万一
         img.addEventListener('load', () => {
             img.classList.add('loaded');
-            img.removeEventListener('load', arguments.callee);
         });
     });
 
@@ -161,7 +181,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    fetchGitHubProjects();
+    // 修改：立即调用 fetchGitHubProjects 并处理项目区域
+    const projectsGrid = document.querySelector('.projects-grid');
+    if (projectsGrid) {
+        // 立即显示项目区域，即使在加载中
+        document.querySelector('.github-projects-section').style.opacity = '1';
+        document.querySelector('.github-projects-section').style.visibility = 'visible';
+        
+        fetchGitHubProjects().catch(error => {
+            console.error('Error fetching GitHub projects:', error);
+            projectsGrid.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>加载项目时出现错误</p>
+                </div>
+            `;
+        });
+    }
 
     // 页面加载进度指示器
     const loadingIndicator = document.createElement('div');
@@ -190,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingProgress.style.width = `${progress}%`;
     }, 200);
 
-    // 图片延迟加载
+    // 图片延迟加载 - 修改为确保所有证书和项目图片立即加载
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -211,10 +247,25 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: '50px'
     });
 
-    lazyImages.forEach(img => imageObserver.observe(img));
+    // 立即加载证书和项目区域的图片，其他图片正常延迟加载
+    lazyImages.forEach(img => {
+        const isInCertificateOrProject = 
+            img.closest('.certificate-item') || 
+            img.closest('.project-card');
+            
+        if (isInCertificateOrProject) {
+            const src = img.getAttribute('data-src');
+            if (src) {
+                img.src = src;
+                img.classList.add('loaded');
+            }
+        } else {
+            imageObserver.observe(img);
+        }
+    });
 
-    // 滚动动画
-    const scrollElements = document.querySelectorAll('.scroll-reveal');
+    // 滚动动画 - 修改为不影响证书和项目区域的可见性
+    const scrollElements = document.querySelectorAll('.scroll-reveal:not(.certificates-section):not(.github-projects-section):not(.certificate-item):not(.project-card)');
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -227,6 +278,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     scrollElements.forEach(el => scrollObserver.observe(el));
+
+    // 直接添加可见类到证书和项目元素
+    document.querySelectorAll('.certificates-section, .github-projects-section, .certificate-item, .project-card').forEach(el => {
+        el.classList.add('visible');
+    });
 
     // 鼠标跟随效果
     document.addEventListener('mousemove', (e) => {
@@ -424,6 +480,8 @@ async function fetchGitHubProjects() {
             const card = createProjectCard(repo);
             projectsGrid.appendChild(card);
         });
+        
+        return filteredRepos;
     } catch (error) {
         console.error('Error fetching GitHub projects:', error);
         const projectsGrid = document.querySelector('.projects-grid');
@@ -433,12 +491,15 @@ async function fetchGitHubProjects() {
                 <p>加载项目时出现错误</p>
             </div>
         `;
+        throw error;
     }
 }
 
 function createProjectCard(repo) {
     const card = document.createElement('div');
     card.className = 'project-card';
+    card.style.opacity = '1'; // 确保卡片可见
+    card.style.visibility = 'visible'; // 确保卡片可见
     
     const languageColor = getLanguageColor(repo.language);
     
@@ -678,5 +739,10 @@ const imageObserver = new IntersectionObserver((entries) => {
 });
 
 document.querySelectorAll('.progressive-img-container img[data-src]').forEach(img => {
-    imageObserver.observe(img);
+    // 如果是证书或项目图片，立即加载
+    if (img.closest('.certificate-item') || img.closest('.project-card')) {
+        loadImage(img);
+    } else {
+        imageObserver.observe(img);
+    }
 });

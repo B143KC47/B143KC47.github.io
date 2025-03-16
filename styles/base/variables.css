@@ -267,6 +267,32 @@
     --mobile-space-md: 1rem;
     --mobile-space-lg: 1.5rem;
     --mobile-space-xl: 2rem;
+
+    /* 布局相关变量 */
+    --section-max-width: 1400px;
+    --section-width: 80%;
+    --section-width-mobile: 95%;
+    
+    /* 过渡动画 */
+    --transition-normal: all 0.3s ease;
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* 容器响应式宽度 */
+    --container-width-lg: 80%;
+    --container-width-md: 90%;
+    --container-width-sm: 95%;
+    
+    /* 内容最大宽度 */
+    --content-max-width: 1400px;
+    --content-width-default: min(var(--container-width-lg), var(--content-max-width));
+    
+    /* 网格系统变量 */
+    --grid-column-width: minmax(280px, 1fr);
+    --grid-gap-default: clamp(1rem, 3vw, 2rem);
+    
+    /* 过渡动画 */
+    --transition-width: width 0.3s ease;
 }
 
 /* 深色模式变量 */
