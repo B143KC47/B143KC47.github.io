@@ -17,145 +17,156 @@
     transition: width 0.3s ease;
 }
 
+/* 项目网格布局 */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 2rem;
     width: 100%;
-    justify-content: center;
+    padding: 1.5rem;
+    margin: 0 auto;
 }
 
-/* 处理最后一行不足时的对齐 */
+/* 确保最后一行对齐 */
 .projects-grid::after {
     content: '';
     grid-column: 1 / -1;
     height: 0;
 }
 
+/* 项目卡片基础样式 */
 .project-card {
-    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
-    border-radius: var(--border-radius-lg);
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
-    transition: var(--transition-normal);
+    background: var(--card-bg);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    position: relative;
-    outline: transparent;
+    gap: 1rem;
+    animation: fadeInUp 0.6s ease-out backwards;
 }
 
+/* 项目卡片悬浮效果 */
 .project-card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.1); /* 修改：hover 状态背景更亮 */
-    border-color: rgba(16, 163, 127, 0.3);
-    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3); /* 添加：漂浮感更强的阴影 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.project-card:focus-within {
-    outline: 2px solid var(--accent-color);
-}
-
+/* 项目卡片头部 */
 .project-header {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 添加：标题区域下边框 */
-    padding-bottom: 0.8rem; /* 添加：标题区域下内边距 */
+    margin-bottom: 0.5rem;
 }
 
 .project-icon {
     font-size: 1.5rem;
     color: var(--accent-color);
-    filter: drop-shadow(0 0 8px rgba(var(--accent-color-rgb), 0.4)); /* 添加：图标发光效果 */
 }
 
 .project-title {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
+.project-title:hover {
+    color: var(--accent-color);
+}
+
+/* 项目描述 */
 .project-description {
-    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
+    color: var(--text-secondary);
     font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
+    line-height: 1.5;
+    flex: 1;
 }
 
+/* 项目语言指示器 */
+.project-language {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
+.language-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* 项目统计信息 */
 .project-stats {
     display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
+    gap: 1rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: rgba(255, 255, 255, 0.75); /* 修改：增强统计信息可见度 */
+    color: var(--text-secondary);
     font-size: 0.9rem;
 }
 
 .stat-item i {
-    color: var(--accent-color);
+    font-size: 1rem;
 }
 
-.project-language {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 0.8rem;
-    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：使用 RGB 变量增强透明度 */
-    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
-    border-radius: 20px;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9); /* 修改：增强语言标签文本亮度 */
-}
-
-.language-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    box-shadow: 0 0 5px rgba(var(--accent-color-rgb), 0.5); /* 添加：语言点发光效果 */
-}
-
+/* 加载状态 */
 .loading-spinner {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
+    padding: 2rem;
+    gap: 1rem;
     grid-column: 1 / -1;
 }
 
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.2); /* 修改：增强边框对比度 */
+    border: 3px solid rgba(255, 255, 255, 0.1);
     border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
-.loading-spinner p {
-    margin-top: 1rem;
-    color: rgba(255, 255, 255, 0.8); /* 修改：增强加载文本可见度 */
+/* 错误状态 */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    grid-column: 1 / -1;
 }
 
+.error-message i {
+    font-size: 2rem;
+    color: var(--error-color);
+}
+
+/* 响应式调整 */
 @media (max-width: 768px) {
     .github-projects-section {
         width: 95%;  /* 移动端95%宽度 */
@@ -169,6 +180,16 @@
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .project-card {
+        margin-bottom: 0;
+    }
+    
+    .project-header {
+        flex-direction: row;
+        align-items: flex-start;
     }
 
     .project-stats {
@@ -177,7 +198,19 @@
     }
 }
 
-/* 针对更小屏幕的优化 */
+/* 动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 优化移动端体验 */
 @media (max-width: 480px) {
     .project-header {
         flex-direction: column;
@@ -187,5 +220,17 @@
 
     .project-card {
         padding: 1rem;
+    }
+    
+    .project-title {
+        font-size: 1.1rem;
+    }
+    
+    .project-description {
+        font-size: 0.9rem;
+    }
+    
+    .project-stats {
+        flex-wrap: wrap;
     }
 }

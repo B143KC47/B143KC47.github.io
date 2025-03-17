@@ -1,6 +1,7 @@
 /* 全局布局容器 */
 .container {
     width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
     display: flex;
@@ -11,14 +12,18 @@
 
 /* 统一section样式 */
 section {
-    padding: 5rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 4rem 0;
     position: relative;
     overflow: hidden;
-    justify-content: center;
+    min-height: auto; /* 移除固定高度，改为自适应内容 */
+}
+
+/* 特殊section样式 */
+.full-height-section {
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 内容区块通用样式 */
@@ -31,9 +36,11 @@ section {
     border-radius: 24px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative; /* 添加相对定位 */
+    z-index: 1; /* 确保内容在正确的层级 */
 }
 
-/* 栅格系统 */
+/* 栅格系统优化 */
 .grid {
     display: grid;
     gap: 2rem;
@@ -41,14 +48,14 @@ section {
 }
 
 .grid-2 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .grid-3 {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-/* 居中布局工具类 */
+/* 布局工具类 */
 .center-content {
     display: flex;
     justify-content: center;
@@ -59,12 +66,15 @@ section {
     text-align: center;
 }
 
-/* 新增绝对居中工具类 */
+/* 绝对居中工具类优化 */
 .centered {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    padding: 0 1rem;
+    z-index: 2;
 }
 
 /* 间距系统 */
@@ -72,12 +82,13 @@ section {
 .spacing-md { gap: 2rem; }
 .spacing-lg { gap: 3rem; }
 
-/* 响应式布局 */
+/* Section 间距 */
+.section-spacing {
+    margin-bottom: 4rem;
+}
+
+/* 响应式布局优化 */
 @media (max-width: 768px) {
-    .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
-    }
-    
     section {
         padding: 3rem 0;
     }
@@ -85,4 +96,19 @@ section {
     .content-wrapper {
         padding: 1.5rem;
     }
+
+    .section-spacing {
+        margin-bottom: 2.5rem;
+    }
+}
+
+/* 防止内容重叠的额外样式 */
+.section + .section {
+    margin-top: 2rem;
+}
+
+/* 确保内容不会被背景遮挡 */
+.content-wrapper > * {
+    position: relative;
+    z-index: 2;
 }

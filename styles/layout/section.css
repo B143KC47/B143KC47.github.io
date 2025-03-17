@@ -25,26 +25,34 @@ main section.visible {
 
 /* 页面区块通用样式 */
 .section {
-    margin: 6rem 0;
     position: relative;
+    padding: 5rem 0;
+    margin: 2rem 0;
     width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* 区块内容容器 */
 .section-container {
-    width: 80%;
-    max-width: var(--section-max-width);
+    max-width: var(--container-width);
     margin: 0 auto;
+    padding: 0 var(--container-padding);
     position: relative;
-    z-index: 1;
-    transition: width 0.3s ease;
+    z-index: 2;
 }
 
 /* 区块标题样式 */
 .section-title {
     text-align: center;
     margin-bottom: 3rem;
-    font-size: clamp(2rem, 5vw, 3rem);
+    position: relative;
 }
 
 /* 渐变文字效果 */
@@ -59,28 +67,140 @@ main section.visible {
 
 /* 相邻区块间距 */
 .section + .section {
-    margin-top: 8rem;
+    padding-top: 3rem;
 }
 
 /* 响应式调整 */
 @media (max-width: 768px) {
     .section {
-        margin: 4rem 0;
+        padding: 3rem 0;
+        margin: 1rem 0;
     }
 
     .section-container {
-        width: 95%;
-        padding: 0 1rem;
+        padding: 0 var(--container-padding-mobile);
     }
 
     .section + .section {
         margin-top: 4rem;
     }
+
+    .section-title {
+        margin-bottom: 2rem;
+    }
+
+    .hero-section {
+        min-height: calc(100vh - var(--navbar-height));
+    }
 }
 
 /* 内容布局控制 */
 .section-content {
-    display: grid;
-    gap: 2rem;
-    margin-top: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* 特殊部分样式 */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.about-section {
+    padding: 6rem 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.projects-section {
+    padding: 5rem 0;
+    position: relative;
+}
+
+.certificates-section {
+    padding: 5rem 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.contact-section {
+    padding: 5rem 0;
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* 背景效果容器 */
+.section-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* 确保内容不会重叠的辅助类 */
+.section-spacing {
+    margin-bottom: 4rem;
+}
+
+.section-spacing-sm {
+    margin-bottom: 2rem;
+}
+
+.section-spacing-lg {
+    margin-bottom: 6rem;
+}
+
+/* 内容对齐控制 */
+.content-width-normal {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-width-wide {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 确保内容不会与固定导航栏重叠 */
+.section:first-of-type {
+    margin-top: var(--navbar-height);
+}
+
+/* 渐变背景支持 */
+.section-gradient {
+    position: relative;
+}
+
+.section-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-overlay);
+    opacity: 0.1;
+    z-index: 1;
+}
+
+/* 自适应内容高度 */
+.section.auto-height {
+    min-height: auto;
+    height: auto;
+}
+
+/* 确保内容可见性 */
+.section > * {
+    position: relative;
+    z-index: 2;
 }
