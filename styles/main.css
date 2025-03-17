@@ -6,9 +6,9 @@
 @import 'components/effects.css';  /* 添加新的效果样式 */
 
 /* 导入布局样式 */
-@import 'layout/grid.css';
-@import 'layout/section.css';
-@import 'layout/grid-system.css';
+@import 'layout/new-grid.css';
+@import 'layout/new-section.css';
+@import 'layout/new-container.css';
 @import 'layout/page-layout.css';
 
 @import 'utils/helpers.css';
