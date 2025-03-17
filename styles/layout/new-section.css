@@ -1,0 +1,77 @@
+/* 
+ * 优化后的section系统
+ * 合并了原有的多个文件中的section相关样式
+ * 统一使用变量并移除重复定义
+ */
+
+/* 基础section样式 */
+section, .section {
+    position: relative;
+    padding: var(--section-spacing, 4rem) 0;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 区块内容容器 */
+.section-container {
+    max-width: var(--container-width, var(--content-max-width, 1200px));
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 2rem);
+    position: relative;
+    z-index: 2;
+}
+
+/* 全高section */
+.full-height-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Section间距 */
+.section + .section {
+    margin-top: var(--section-spacing, 4rem);
+}
+
+/* 特定页面section样式 */
+.hero-section {
+    padding-top: calc(var(--navbar-height, 80px) + var(--section-spacing, 4rem));
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.about-section {
+    background: var(--section-bg-alt, transparent);
+}
+
+.projects-section {
+    position: relative;
+}
+
+.certificates-section {
+    position: relative;
+    background: var(--section-bg, transparent);
+}
+
+.contact-section {
+    position: relative;
+    background: var(--section-bg-alt, transparent);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    section, .section {
+        padding: var(--section-spacing-mobile, 2rem) 0;
+    }
+    
+    .section + .section {
+        margin-top: var(--section-spacing-mobile, 2rem);
+    }
+    
+    .hero-section {
+        padding-top: calc(var(--navbar-height-mobile, 60px) + var(--section-spacing-mobile, 2rem));
+    }
+}

@@ -1,0 +1,92 @@
+/* 
+ * 优化后的容器系统
+ * 合并了原有的多个文件中的container相关样式
+ * 统一使用变量并移除重复定义
+ */
+
+/* 基础容器 */
+.container {
+    width: 100%;
+    max-width: var(--container-width, var(--content-max-width, 1200px));
+    margin-inline: auto;
+    padding-inline: var(--container-padding, 2rem);
+}
+
+/* 流体容器 - 宽度100%但保留内边距 */
+.container-fluid {
+    width: 100%;
+    padding-inline: var(--container-padding, 2rem);
+}
+
+/* 内容容器 - 用于页面主要内容区域 */
+.content-container {
+    width: 100%;
+    max-width: var(--content-max-width, 1000px);
+    margin: 0 auto;
+    padding: var(--content-padding, 2rem);
+    position: relative;
+    z-index: 1;
+}
+
+/* 带背景效果的内容容器 */
+.content-wrapper {
+    width: 100%;
+    max-width: var(--content-max-width, 1000px);
+    margin: 0 auto;
+    padding: var(--content-padding, 2rem);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius, 24px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 1;
+}
+
+/* 主容器 - 用于整个页面的主要内容区域 */
+.main-container {
+    position: relative;
+    width: min(var(--container-max-width, 1200px), 100%);
+    margin: 0 auto;
+    padding: var(--section-spacing, 4rem) var(--container-padding, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-spacing, 4rem);
+    z-index: 2;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .container, .content-container, .content-wrapper {
+        padding: var(--container-padding-mobile, 1rem);
+    }
+    
+    .main-container {
+        padding: var(--section-spacing-mobile, 2rem) var(--container-padding-mobile, 1rem);
+        gap: var(--section-spacing-mobile, 2rem);
+    }
+}
+
+/* 移动优先的响应式断点 */
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: var(--container-max-width, 1200px);
+    }
+}
