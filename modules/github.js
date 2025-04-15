@@ -9,8 +9,8 @@ const GitHubModule = {
 
     async fetchGitHubProjects() {
         try {
-            // 增加获取的项目数量到10个
-            const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=10`);
+            // 增加获取的项目数量到16个，确保有足够的内容填充网格
+            const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=16`);
             const repos = await response.json();
             
             const filteredRepos = repos.filter(repo => !repo.fork);
@@ -30,10 +30,15 @@ const GitHubModule = {
                 `;
                 return filteredRepos;
             }
-            
-            // 创建项目卡片
-            filteredRepos.forEach(repo => {
+              // 创建项目卡片并添加渐进式加载和延迟动画效果
+            filteredRepos.forEach((repo, index) => {
                 const card = this.createProjectCard(repo);
+                
+                // 添加延迟动画效果，创建瀑布流显示效果
+                const row = Math.floor(index / 2); // 假设每行大约2个卡片
+                const col = index % 2;
+                card.style.animationDelay = `${row * 0.1 + col * 0.05}s`;
+                
                 projectsGrid.appendChild(card);
             });
             
@@ -59,32 +64,44 @@ const GitHubModule = {
         card.style.opacity = '1';
         card.style.visibility = 'visible';
         
+        // 处理过长的项目名称
+        const displayName = repo.name.length > 25 ? repo.name.substring(0, 22) + '...' : repo.name;
+        
+        // 确保项目描述不为空，并处理过长的描述
+        let description = repo.description || '暂无项目描述';
+        if (description.length > 100) {
+            description = description.substring(0, 97) + '...';
+        }
+        
         const languageColor = this.getLanguageColor(repo.language);
         
+        // 优化HTML结构
         card.innerHTML = `
             <div class="project-header">
                 <i class="far fa-folder-open project-icon"></i>
-                <a href="${repo.html_url}" target="_blank" class="project-title">${repo.name}</a>
+                <a href="${repo.html_url}" target="_blank" class="project-title" title="${repo.name}">${displayName}</a>
             </div>
-            <p class="project-description">${repo.description || '暂无描述'}</p>
-            ${repo.language ? `
-                <div class="project-language">
-                    <span class="language-dot" style="background-color: ${languageColor}"></span>
-                    ${repo.language}
-                </div>
-            ` : ''}
-            <div class="project-stats">
-                <div class="stat-item">
-                    <i class="far fa-star"></i>
-                    ${repo.stargazers_count}
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-code-branch"></i>
-                    ${repo.forks_count}
-                </div>
-                <div class="stat-item">
-                    <i class="far fa-eye"></i>
-                    ${repo.watchers_count}
+            <p class="project-description">${description}</p>
+            <div class="project-footer">
+                ${repo.language ? `
+                    <div class="project-language">
+                        <span class="language-dot" style="background-color: ${languageColor}"></span>
+                        ${repo.language}
+                    </div>
+                ` : '<div class="project-language"><span class="language-dot" style="background-color: #8b8b8b"></span>未指定</div>'}
+                <div class="project-stats">
+                    <div class="stat-item" title="Stars">
+                        <i class="far fa-star"></i>
+                        ${repo.stargazers_count}
+                    </div>
+                    <div class="stat-item" title="Forks">
+                        <i class="fas fa-code-branch"></i>
+                        ${repo.forks_count}
+                    </div>
+                    <div class="stat-item" title="Watchers">
+                        <i class="far fa-eye"></i>
+                        ${repo.watchers_count}
+                    </div>
                 </div>
             </div>
         `;
