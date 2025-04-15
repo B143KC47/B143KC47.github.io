@@ -10,16 +10,37 @@
     z-index: 1000; /* 确保导航栏始终在最上层 */
     transition: transform 0.3s ease, background-color 0.3s ease;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex; /* 使用flexbox布局 */
+    justify-content: space-between; /* Logo和导航链接分别靠左右对齐 */
+    align-items: center; /* 垂直居中对齐 */
 }
 
 /* 导航栏内容布局 */
 .navbar > * {
-    margin: 0 1rem;
     text-decoration: none;
     color: var(--text-primary);
     font-weight: 500;
     transition: color 0.2s ease;
     position: relative;
+}
+
+/* 导航Logo样式 */
+.nav-logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-right: 2rem;
+}
+
+/* 导航链接容器样式 */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* 链接之间的间距 */
+}
+
+/* 隐藏汉堡菜单(桌面端) */
+.hamburger-menu {
+    display: none;
 }
 
 /* 导航栏链接悬浮效果 */

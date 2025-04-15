@@ -57,134 +57,120 @@
     }
 }
 
-/* 光晕扫描效果 */
+/* 脉冲动画 - 用于吸引注意力 */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 加载指示器动画 */
+@keyframes progressGrow {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+/* 加载指示器的闪烁效果 */
 @keyframes shimmer {
     0% {
-        background-position: -200% 0;
+        background-position: -100% 0;
     }
     100% {
         background-position: 200% 0;
     }
 }
 
-/* 渐变背景动画 */
-@keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+/* 图片淡入效果 */
+.progressive-image {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
-/* 旋转动画 */
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.progressive-image.loaded {
+    opacity: 1;
 }
 
-/* 脉冲动画 */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.05);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+/* 视口内元素动画 */
+.viewport-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* 应用类 */
-.animate-fadeIn {
-    animation: fadeIn 0.6s ease-out forwards;
+.viewport-element.in-view {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.animate-fadeInUp {
-    animation: fadeInUp 0.6s ease-out forwards;
+/* 针对减少动画偏好的用户，提供更温和的动画效果 */
+.reduced-motion .viewport-element {
+    transition: opacity 0.3s ease;
+    transform: none;
 }
 
-.animate-fadeInDown {
-    animation: fadeInDown 0.6s ease-out forwards;
+.reduced-motion .progressive-image {
+    transition: opacity 0.3s ease-in-out;
 }
 
-.animate-scaleIn {
-    animation: scaleIn 0.6s ease-out forwards;
+/* 部分可见模块支持 */
+.section-visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
 }
 
-.animate-float {
-    animation: float 3s ease-in-out infinite;
+.grid-visible {
+    display: grid;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.animate-shimmer {
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
+.item-visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* 为不同尺寸设备优化的懒加载占位符 */
+.placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
-    animation: shimmer 2s infinite;
+    animation: shimmer 1.5s infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: opacity 0.3s ease;
 }
 
-.animate-gradient {
-    background-size: 200% 200%;
-    animation: gradientFlow 3s ease infinite;
-}
-
-.animate-rotate {
-    animation: rotate 2s linear infinite;
-}
-
-.animate-pulse {
-    animation: pulse 2s ease infinite;
-}
-
-/* 延迟类 */
-.delay-1 { animation-delay: 0.2s; }
-.delay-2 { animation-delay: 0.4s; }
-.delay-3 { animation-delay: 0.6s; }
-.delay-4 { animation-delay: 0.8s; }
-.delay-5 { animation-delay: 1s; }
-
-/* 动画持续时间类 */
-.duration-fast { animation-duration: 0.3s; }
-.duration-normal { animation-duration: 0.6s; }
-.duration-slow { animation-duration: 0.9s; }
-
-/* 性能优化 */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-/* 视差滚动效果 */
-.parallax-container {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-.parallax-element {
-    will-change: transform;
-}
-
-/* 鼠标跟随效果 */
-.mouse-parallax {
-    transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
-    will-change: transform;
+.placeholder.hidden {
+    opacity: 0;
 }
