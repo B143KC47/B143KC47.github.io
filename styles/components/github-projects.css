@@ -4,11 +4,11 @@
     margin: 4rem auto;
     padding: 2rem;
     box-sizing: border-box;
-    background: transparent; /* 修改：移除背景 */
-    backdrop-filter: none; /* 修改：移除模糊效果 */
-    border-radius: 0; /* 修改：移除圆角 */
-    border: none; /* 修改：移除边框 */
-    box-shadow: none; /* 修改：移除阴影 */
+    background: transparent;
+    backdrop-filter: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
 }
 
 .section-container {
@@ -17,14 +17,15 @@
     transition: width 0.3s ease;
 }
 
-/* 项目网格布局 */
+/* 改进项目网格布局 - 使用auto-fit而不是auto-fill可以更好地填充空间 */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     width: 100%;
     padding: 1.5rem;
     margin: 0 auto;
+    align-items: stretch; /* 确保所有卡片拉伸到相同高度 */
 }
 
 /* 确保最后一行对齐 */
@@ -36,24 +37,27 @@
 
 /* 项目卡片基础样式 */
 .project-card {
-    background: var(--card-bg);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
+    background: var(--card-bg, rgba(255, 255, 255, 0.05));
+    border-radius: var(--card-border-radius, 12px);
+    padding: var(--card-padding, 1.5rem);
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    height: 100%;
+    min-height: 220px; /* 设置最小高度确保卡片不会太矮 */
     display: flex;
     flex-direction: column;
     gap: 1rem;
     animation: fadeInUp 0.6s ease-out backwards;
+    /* 添加弹性盒子布局以处理不同内容长度 */
+    justify-content: space-between;
 }
 
 /* 项目卡片悬浮效果 */
 .project-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* 项目卡片头部 */
@@ -67,6 +71,7 @@
 .project-icon {
     font-size: 1.5rem;
     color: var(--accent-color);
+    flex-shrink: 0; /* 防止图标被压缩 */
 }
 
 .project-title {
@@ -75,18 +80,28 @@
     color: var(--text-primary);
     text-decoration: none;
     transition: color 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* 防止标题过长换行 */
 }
 
 .project-title:hover {
     color: var(--accent-color);
 }
 
-/* 项目描述 */
+/* 项目描述 - 控制描述的高度一致性 */
 .project-description {
     color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.5;
-    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 限制最多显示3行 */
+    line-clamp: 3; /* 标准属性，增强兼容性 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 4.5em; /* 约3行文字的高度 */
+    max-height: 4.5em; /* 限制最大高度 */
 }
 
 /* 项目语言指示器 */
@@ -96,12 +111,14 @@
     gap: 0.5rem;
     margin-top: auto;
     padding-top: 0.5rem;
+    flex-shrink: 0; /* 防止被压缩 */
 }
 
 .language-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* 项目统计信息 */
@@ -111,6 +128,7 @@
     margin-top: 0.5rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0; /* 确保统计区域不被压缩 */
 }
 
 .stat-item {
@@ -166,35 +184,49 @@
     color: var(--error-color);
 }
 
-/* 响应式调整 */
+/* 项目页脚样式 - 包装语言标签和统计信息 */
+.project-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto; /* 推到卡片底部 */
+    padding-top: 0.5rem;
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+/* 改进项目卡片响应式布局 */
 @media (max-width: 768px) {
-    .github-projects-section {
-        width: 95%;  /* 移动端95%宽度 */
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         padding: 1rem;
     }
-
-    .section-container {
-        width: 95%;
+    
+    .project-card {
+        padding: 1.25rem;
     }
+    
+    .section-container {
+        width: 90%;
+    }
+}
 
+/* 特小屏幕优化 */
+@media (max-width: 480px) {
     .projects-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 1rem;
+        padding: 0.5rem;
     }
-
+    
     .project-card {
-        margin-bottom: 0;
+        padding: 1rem;
     }
     
     .project-header {
-        flex-direction: row;
-        align-items: flex-start;
+        margin-bottom: 0.75rem;
     }
-
-    .project-stats {
-        flex-wrap: wrap; /* 状态栏在需要时换行 */
-        gap: 1rem;
+    
+    .project-description {
+        min-height: auto; /* 在特小屏幕上不强制最小高度 */
     }
 }
 
@@ -207,30 +239,5 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* 优化移动端体验 */
-@media (max-width: 480px) {
-    .project-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .project-card {
-        padding: 1rem;
-    }
-    
-    .project-title {
-        font-size: 1.1rem;
-    }
-    
-    .project-description {
-        font-size: 0.9rem;
-    }
-    
-    .project-stats {
-        flex-wrap: wrap;
     }
 }
