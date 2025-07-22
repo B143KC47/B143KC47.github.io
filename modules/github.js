@@ -11,6 +11,11 @@ const GitHubModule = {
         try {
             // 增加获取的项目数量到16个，确保有足够的内容填充网格
             const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=16`);
+            
+            // Check if response is ok
+            if (!response.ok) {
+                throw new Error(`GitHub API returned ${response.status}`);
+            }
             const repos = await response.json();
             
             const filteredRepos = repos.filter(repo => !repo.fork);
@@ -48,9 +53,10 @@ const GitHubModule = {
             const projectsGrid = document.querySelector('.projects-grid');
             if (projectsGrid) {
                 projectsGrid.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>加载项目时出现错误</p>
+                    <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ff4444; margin-bottom: 1rem; display: block;"></i>
+                        <p style="color: var(--text-secondary);">加载项目时出现错误</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">请稍后重试</p>
                     </div>
                 `;
             }

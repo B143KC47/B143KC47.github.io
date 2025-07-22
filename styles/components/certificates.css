@@ -1,5 +1,4 @@
 .certificates-section {
-    padding: var(--spacing-xl);
     background: transparent; /* 修改：移除背景 */
     border-radius: 0; /* 修改：移除边框圆角 */
     backdrop-filter: none; /* 修改：移除模糊效果 */
@@ -8,9 +7,8 @@
     position: relative;
     overflow: visible; /* 修改：确保内容可见 */
     width: 100%;
-    max-width: var(--section-max-width);
-    margin: 4rem auto;
-    padding: 2rem;
+    margin: 4rem 0;
+    padding: 0;
     box-sizing: border-box;
     transition: width 0.3s ease-in-out;
 }
@@ -32,17 +30,19 @@
     opacity: 1;
 }
 
-.section-container {
-    width: 80%;
+.certificates-section .section-container {
+    width: 100%;
+    max-width: var(--container-max-width, 1200px);
     margin: 0 auto;
+    padding: 0 var(--container-padding-x, 2rem);
     transition: width 0.3s ease;
 }
 
 .certificate-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    padding: var(--spacing-lg);
+    padding: 0;
     position: relative;
     z-index: 1;
     width: 100%;
@@ -50,6 +50,7 @@
     align-items: start;
     grid-auto-rows: 1fr; /* 确保每行的卡片高度一致 */
     margin-top: 2rem;
+    box-sizing: border-box;
 }
 
 /* 当只有一行且未填满时的对齐方式 */
@@ -209,8 +210,9 @@
         transition: width 0.3s ease-in-out;
     }
 
-    .section-container {
-        width: 95%;
+    .certificates-section .section-container {
+        width: 100%;
+        padding: 0 var(--container-padding-mobile, 1rem);
     }
 
     .certificate-grid {

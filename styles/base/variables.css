@@ -12,9 +12,14 @@
     /* 布局变量 */
     --navbar-height: 60px;
     --container-width: 1200px;
+    --container-max-width: 1200px;
+    --section-max-width: 1200px;
+    --content-max-width: 1200px;
     --container-padding: 2rem;
+    --container-padding-x: 2rem;
     --container-padding-mobile: 1rem;
     --section-spacing: 5rem;
+    --section-spacing-y: 5rem;
     --card-padding: 1.5rem;
     --mobile-nav-height: 50px;
     --mobile-touch-target: 44px;

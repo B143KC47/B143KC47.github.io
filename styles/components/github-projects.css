@@ -1,8 +1,7 @@
 .github-projects-section {
     width: 100%;
-    max-width: var(--section-max-width);
-    margin: 4rem auto;
-    padding: 2rem;
+    margin: 4rem 0;
+    padding: 2rem 0;
     box-sizing: border-box;
     background: transparent;
     backdrop-filter: none;
@@ -11,9 +10,11 @@
     box-shadow: none;
 }
 
-.section-container {
-    width: 80%;
+.github-projects-section .section-container {
+    width: 100%;
+    max-width: var(--container-max-width, 1200px);
     margin: 0 auto;
+    padding: 0 var(--container-padding-x, 2rem);
     transition: width 0.3s ease;
 }
 
@@ -23,9 +24,10 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     width: 100%;
-    padding: 1.5rem;
-    margin: 0 auto;
+    padding: 0;
+    margin: 0;
     align-items: stretch; /* 确保所有卡片拉伸到相同高度 */
+    box-sizing: border-box;
 }
 
 /* 确保最后一行对齐 */
@@ -149,9 +151,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 3rem;
     gap: 1rem;
     grid-column: 1 / -1;
+    min-height: 200px;
 }
 
 .spinner {
@@ -173,15 +176,24 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    padding: 2rem;
+    padding: 3rem 2rem;
     text-align: center;
     color: var(--text-secondary);
     grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .error-message i {
-    font-size: 2rem;
+    font-size: 3rem;
     color: var(--error-color);
+    opacity: 0.8;
+}
+
+.error-message p {
+    margin: 0;
+    line-height: 1.5;
 }
 
 /* 项目页脚样式 - 包装语言标签和统计信息 */
@@ -195,6 +207,16 @@
 }
 
 /* 改进项目卡片响应式布局 */
+/* 添加section标题样式确保可见性 */
+.github-projects-section .section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+    color: var(--text-primary);
+}
+
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -205,8 +227,14 @@
         padding: 1.25rem;
     }
     
-    .section-container {
-        width: 90%;
+    .github-projects-section .section-container {
+        width: 100%;
+        padding: 0 var(--container-padding-mobile, 1rem);
+    }
+    
+    .github-projects-section .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
 }
 
