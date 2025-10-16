@@ -3,28 +3,71 @@ const GitHubModule = {
     username: 'B143KC47',
 
     async init() {
-        await this.fetchGitHubProjects();
-        await this.updateNavDropdown();
+        await Promise.all([
+            this.fetchUserProfile(),
+            this.fetchGitHubProjects(),
+            this.updateNavDropdown()
+        ]);
+    },
+
+    async fetchUserProfile() {
+        try {
+            const response = await fetch(`https://api.github.com/users/${this.username}`);
+
+            if (!response.ok) {
+                throw new Error(`GitHub API returned ${response.status}`);
+            }
+
+            const userData = await response.json();
+
+            if (userData.avatar_url) {
+                const profileImg = document.querySelector('.profile-image');
+                if (profileImg) {
+                    const img = new Image();
+                    img.onload = () => {
+                        profileImg.src = userData.avatar_url;
+                        profileImg.style.transition = 'opacity 0.3s ease';
+                    };
+                    img.onerror = () => {
+                        // Silent fallback to avatar.png
+                    };
+                    img.src = userData.avatar_url;
+                }
+            }
+
+            console.log('✅ GitHub profile loaded');
+            return userData;
+        } catch (error) {
+            // Silent - fallback to static avatar
+            return null;
+        }
     },
 
     async fetchGitHubProjects() {
+        const projectsGrid = document.querySelector('.projects-grid');
+        if (!projectsGrid) return;
+
+        // Show bento-grid-aware skeleton loaders
+        this.showBentoSkeletons(projectsGrid);
+
         try {
-            // 增加获取的项目数量到16个，确保有足够的内容填充网格
-            const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=16`);
-            
+            // Add a minimum delay to show skeletons for better UX
+            const [response] = await Promise.all([
+                fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=16`),
+                new Promise(resolve => setTimeout(resolve, 600))
+            ]);
+
             // Check if response is ok
             if (!response.ok) {
                 throw new Error(`GitHub API returned ${response.status}`);
             }
             const repos = await response.json();
-            
-            const filteredRepos = repos.filter(repo => !repo.fork);
-            
-            const projectsGrid = document.querySelector('.projects-grid');
-            if (!projectsGrid) return;
 
+            const filteredRepos = repos.filter(repo => !repo.fork);
+
+            // Clear skeletons
             projectsGrid.innerHTML = '';
-            
+
             // 如果没有项目，显示提示信息
             if (filteredRepos.length === 0) {
                 projectsGrid.innerHTML = `
@@ -35,31 +78,31 @@ const GitHubModule = {
                 `;
                 return filteredRepos;
             }
-              // 创建项目卡片并添加渐进式加载和延迟动画效果
+
+            // 创建项目卡片并添加渐进式加载和延迟动画效果
             filteredRepos.forEach((repo, index) => {
                 const card = this.createProjectCard(repo);
-                
+
                 // 添加延迟动画效果，创建瀑布流显示效果
                 const row = Math.floor(index / 2); // 假设每行大约2个卡片
                 const col = index % 2;
                 card.style.animationDelay = `${row * 0.1 + col * 0.05}s`;
-                
+                card.classList.add('content-reveal');
+
                 projectsGrid.appendChild(card);
             });
-            
+
             return filteredRepos;
         } catch (error) {
             console.error('Error fetching GitHub projects:', error);
-            const projectsGrid = document.querySelector('.projects-grid');
-            if (projectsGrid) {
-                projectsGrid.innerHTML = `
-                    <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ff4444; margin-bottom: 1rem; display: block;"></i>
-                        <p style="color: var(--text-secondary);">加载项目时出现错误</p>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">请稍后重试</p>
-                    </div>
-                `;
-            }
+            projectsGrid.innerHTML = `
+                <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ff4444; margin-bottom: 1rem; display: block;"></i>
+                    <p style="color: var(--text-secondary);">加载项目时出现错误</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">请稍后重试</p>
+                    <button onclick="GitHubModule.fetchGitHubProjects()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">重试</button>
+                </div>
+            `;
             throw error;
         }
     },
@@ -151,26 +194,62 @@ const GitHubModule = {
         if (!dropdownContent) return;
 
         try {
-            dropdownContent.innerHTML = '<div class="dropdown-loading"><div class="loading-spinner"></div><span>加载热门项目中...</span></div>';
-            
-            const topRepos = await this.fetchTopRepositories();
-            
+            // Show skeleton loaders for dropdown
+            dropdownContent.innerHTML = Array(5).fill().map((_, i) => `
+                <div class="skeleton-dropdown-item" style="animation-delay: ${i * 0.05}s">
+                    <div class="skeleton-dropdown-title"></div>
+                    <div class="skeleton-dropdown-stat"></div>
+                </div>
+            `).join('');
+
+            const [topRepos] = await Promise.all([
+                this.fetchTopRepositories(),
+                new Promise(resolve => setTimeout(resolve, 400))
+            ]);
+
             if (topRepos.length === 0) {
                 dropdownContent.innerHTML = '<a href="https://github.com/B143KC47">访问我的 GitHub</a>';
                 return;
             }
 
-            dropdownContent.innerHTML = topRepos.map(repo => `
-                <a href="${repo.html_url}" target="_blank">
-                    ${repo.name}
-                    <span class="repo-stars">
-                        <i class="fas fa-star"></i> ${repo.stargazers_count}
-                    </span>
-                </a>
-            `).join('') + '<a href="https://github.com/B143KC47" class="view-more">查看更多 <i class="fas fa-external-link-alt"></i></a>';
+            // Fade out skeletons and fade in content
+            dropdownContent.style.opacity = '0';
+            setTimeout(() => {
+                dropdownContent.innerHTML = topRepos.map(repo => `
+                    <a href="${repo.html_url}" target="_blank" class="fade-in">
+                        ${repo.name}
+                        <span class="repo-stars">
+                            <i class="fas fa-star"></i> ${repo.stargazers_count}
+                        </span>
+                    </a>
+                `).join('') + '<a href="https://github.com/B143KC47" class="view-more fade-in">查看更多 <i class="fas fa-external-link-alt"></i></a>';
+                dropdownContent.style.opacity = '1';
+            }, 150);
         } catch (error) {
             console.error('Error updating dropdown:', error);
             dropdownContent.innerHTML = '<a href="https://github.com/B143KC47">访问我的 GitHub</a>';
         }
+    },
+
+    showBentoSkeletons(container) {
+        container.innerHTML = '';
+
+        // Create bento grid layout matching actual project layout
+        const skeletonLayouts = [
+            { variant: '2x2', delay: 0 },    // First large card
+            { variant: '2x2', delay: 50 },   // Second large card
+            { variant: '1x1', delay: 100 },  // Regular cards
+            { variant: '1x1', delay: 150 },
+            { variant: '1x1', delay: 200 },
+            { variant: '1x1', delay: 250 },
+            { variant: '2x1', delay: 300 },  // Wide card
+            { variant: '1x1', delay: 350 }   // More regular cards
+        ];
+
+        skeletonLayouts.forEach(({ variant, delay }) => {
+            const skeleton = UIModule.createProjectCardSkeleton(variant);
+            skeleton.style.animationDelay = `${delay}ms`;
+            container.appendChild(skeleton);
+        });
     }
 };

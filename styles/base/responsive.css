@@ -73,39 +73,11 @@
     }
 }
 
-/* 针对手机屏幕的媒体查询 */
-@media (max-width: 100%) {
-    .navbar {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .navbar a, .dropdown a {
-        font-size: 120%;
-        padding: 8px;
-    }
-
-    main, footer {
-        width: 100%;
-        padding: 10px;
-    }
-
-    main section > * {
-        padding: 15px;
-    }
-
+/* Mobile screen optimization */
+@media (max-width: 767px) {
     img {
         max-width: 100%;
         height: auto;
-    }
-
-    h1, h2, p, li {
-        font-size: 100%;
-    }
-
-    .ieee_summer_school, .microsoft_ai {
-        width: 100%;
-        margin-bottom: 20px;
     }
 }
 
@@ -165,7 +137,7 @@
     }
     
     body {
-        color: black;
+        /* color: black; -- Commented out to prevent interference with text visibility */
         background: white;
     }
     

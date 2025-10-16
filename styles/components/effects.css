@@ -1,28 +1,56 @@
-.glass-effect {
-    background: var(--glass-gradient);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--card-shadow);
+/* =========================== */
+/* iOS-Style Glassmorphism */
+/* =========================== */
+
+.glass-effect,
+.glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+.glass-light {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* iOS-style hover effects */
 .hover-lift {
-    transition: var(--hover-transition);
+    transition: transform var(--duration-base) var(--easing-default),
+                box-shadow var(--duration-base) var(--easing-default);
 }
 
 .hover-lift:hover {
-    transform: var(--hover-transform);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .text-glow {
-    text-shadow: 0 0 10px var(--accent-color);
+    text-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.4);
 }
 
+/* Clean gradient borders - iOS style */
 .gradient-border {
     position: relative;
-    border: double 1px transparent;
-    background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
-                      var(--gradient-primary);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(var(--color-surface-elevated), var(--color-surface-elevated)) padding-box,
+        linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.4), rgba(var(--color-secondary-rgb), 0.2)) border-box;
+    border-radius: var(--radius-lg);
 }

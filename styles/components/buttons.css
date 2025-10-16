@@ -1,155 +1,138 @@
-/* 按钮样式 */
+/* ============================================= */
+/* Buttons - iOS 18 Style                      */
+/* ============================================= */
+
 .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.8rem 1.6rem;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    border-radius: var(--border-radius-md);
-    transition: var(--transition-bounce);
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: -0.01em;
+    border-radius: var(--radius-md);
+    transition: transform var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard),
+                background var(--duration-base) var(--easing-standard);
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
     border: none;
-    gap: var(--spacing-sm);
+    gap: var(--space-2);
+    text-decoration: none;
 }
 
-/* 主按钮样式 */
 .button.primary {
-    background: var(--gradient-primary);
-    color: var(--text-primary);
-    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
+    box-shadow: var(--shadow-sm);
 }
 
 .button.primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
-/* 次要按钮样式 */
 .button.secondary {
-    background: var(--glass-effect);
-    backdrop-filter: var(--blur-sm);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
 }
 
 .button.secondary:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent-color);
-    background: rgba(var(--accent-color-rgb), 0.1);
+    transform: translateY(-2px);
+    border-color: var(--color-border-hover);
+    background: var(--color-surface-elevated);
 }
 
-/* 轮廓按钮样式 */
 .button.outline {
     background: transparent;
-    border: 2px solid var(--accent-color);
-    color: var(--accent-color);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
 }
 
 .button.outline:hover {
-    background: var(--accent-color);
-    color: var(--text-primary);
-    transform: translateY(-3px);
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
 }
 
-/* 幽灵按钮样式 */
 .button.ghost {
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
 }
 
 .button.ghost:hover {
-    color: var(--text-primary);
-    background: var(--glass-effect);
-    transform: translateY(-3px);
+    color: var(--color-text-primary);
+    background: var(--color-surface-base);
+    transform: translateY(-2px);
 }
 
-/* 按钮大小变体 */
 .button.small {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
 }
 
 .button.large {
-    padding: 1rem 2rem;
-    font-size: 1.125rem;
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--font-size-lg);
 }
 
-/* 图标按钮 */
 .button-icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 44px;
+    height: 44px;
     padding: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 加载状态 */
 .button.loading {
     position: relative;
     cursor: wait;
+    opacity: 0.7;
 }
 
 .button.loading::after {
     content: '';
     position: absolute;
-    width: 1rem;
-    height: 1rem;
+    width: 16px;
+    height: 16px;
     border: 2px solid transparent;
     border-top-color: currentColor;
     border-radius: 50%;
-    animation: rotate 0.6s linear infinite;
+    animation: buttonSpin var(--duration-slow) linear infinite;
 }
 
-/* 禁用状态 */
+@keyframes buttonSpin {
+    to { transform: rotate(360deg); }
+}
+
 .button:disabled,
 .button.disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
 }
 
-/* 按钮组 */
+.button:active {
+    transform: translateY(0);
+}
+
 .button-group {
     display: inline-flex;
-    gap: var(--spacing-sm);
+    gap: var(--space-3);
 }
 
 .button-group.vertical {
     flex-direction: column;
 }
 
-/* 波纹效果 */
-.button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(255, 255, 255, 0.2),
-        transparent 80%
-    );
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.button:hover::before {
-    opacity: 1;
-}
-
-/* 响应式调整 */
 @media (max-width: 768px) {
     .button {
-        padding: 0.7rem 1.4rem;
-    }
-
-    .button.large {
-        padding: 0.9rem 1.8rem;
+        min-height: 44px;
+        min-width: 44px;
     }
 
     .button-group {

@@ -12,6 +12,32 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.glass-light {
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-medium {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-heavy {
+    background: var(--glass-bg-heavy);
+    backdrop-filter: var(--blur-xl);
+    -webkit-backdrop-filter: var(--blur-xl);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* 悬浮效果 */
@@ -59,37 +85,54 @@
 .gradient-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.3;
+    filter: blur(100px);
+    opacity: 0.4;
     mix-blend-mode: screen;
     animation: orbFloat 20s ease-in-out infinite;
     will-change: transform;
+    pointer-events: none;
 }
 
 .orb-1 {
-    top: -10%;
-    left: -10%;
-    width: 50%;
-    height: 50%;
-    background: radial-gradient(
-        circle at center,
-        rgba(var(--accent-color-rgb), 0.2),
-        transparent 70%
-    );
-    animation-delay: -5s;
-}
-
-.orb-2 {
-    bottom: -20%;
-    right: -10%;
+    top: -15%;
+    left: -15%;
     width: 60%;
     height: 60%;
     background: radial-gradient(
         circle at center,
-        rgba(var(--primary-color), 0.15),
+        rgba(var(--accent-color-rgb), 0.3),
+        rgba(16, 163, 127, 0.15) 40%,
         transparent 70%
     );
-    animation-delay: -2s;
+    animation: orbFloat1 25s ease-in-out infinite;
+}
+
+.orb-2 {
+    bottom: -20%;
+    right: -15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(
+        circle at center,
+        rgba(76, 175, 80, 0.25),
+        rgba(76, 175, 80, 0.1) 40%,
+        transparent 70%
+    );
+    animation: orbFloat2 30s ease-in-out infinite;
+}
+
+.orb-3 {
+    top: 30%;
+    left: 50%;
+    width: 55%;
+    height: 55%;
+    background: radial-gradient(
+        circle at center,
+        rgba(33, 150, 243, 0.2),
+        rgba(33, 150, 243, 0.08) 40%,
+        transparent 70%
+    );
+    animation: orbFloat3 28s ease-in-out infinite;
 }
 
 .ambient-light {
@@ -100,7 +143,8 @@
     left: -50%;
     background: radial-gradient(
         circle at center,
-        rgba(var(--accent-color-rgb), 0.03),
+        rgba(var(--accent-color-rgb), 0.05),
+        rgba(76, 175, 80, 0.03) 50%,
         transparent 70%
     );
     animation: rotate 60s linear infinite;
@@ -116,12 +160,36 @@
     pointer-events: none;
 }
 
-@keyframes orbFloat {
+@keyframes orbFloat1 {
     0%, 100% {
-        transform: translate(0, 0);
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(40px, -30px) scale(1.05);
+    }
+    66% {
+        transform: translate(-20px, 40px) scale(0.95);
+    }
+}
+
+@keyframes orbFloat2 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(-50px, 30px) rotate(120deg);
+    }
+    66% {
+        transform: translate(30px, -40px) rotate(240deg);
+    }
+}
+
+@keyframes orbFloat3 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
     }
     50% {
-        transform: translate(30px, 20px);
+        transform: translate(-40px, -50px) scale(1.1);
     }
 }
 
@@ -131,6 +199,68 @@
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+/* 浮动粒子效果 */
+.floating-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(var(--accent-color-rgb), 0.08);
+    border-radius: 50%;
+    animation: floatShape 20s ease-in-out infinite;
+    will-change: transform;
+}
+
+.shape-1 {
+    width: 100px;
+    height: 100px;
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 25s;
+}
+
+.shape-2 {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 15%;
+    animation-delay: -5s;
+    animation-duration: 30s;
+}
+
+.shape-3 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 70%;
+    animation-delay: -10s;
+    animation-duration: 22s;
+}
+
+@keyframes floatShape {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translate(50px, -80px) rotate(90deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-30px, -120px) rotate(180deg);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translate(-80px, -60px) rotate(270deg);
+        opacity: 0.5;
     }
 }
 
@@ -149,6 +279,27 @@
 
 .section:hover .interactive-bg {
     opacity: 1;
+}
+
+/* 磁性光标效果 */
+.cursor-glow {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(var(--accent-color-rgb), 0.15),
+        rgba(var(--accent-color-rgb), 0.05) 40%,
+        transparent 70%
+    );
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 9999;
+    will-change: transform;
+    mix-blend-mode: screen;
 }
 
 /* 发光边框效果 */

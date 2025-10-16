@@ -1,248 +1,185 @@
 :root {
-    /* 颜色变量 */
-    --background-rgb: 10, 10, 10;
-    --background-color: rgb(var(--background-rgb));
-    --text-primary: rgba(255, 255, 255, 0.95);
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --accent-color: #10a37f;
-    --accent-color-rgb: 16, 163, 127;
-    --accent-color-dark: #0a8c6c;
-    --error-color: #ff4444;
+    /* ================================== */
+    /* iOS 18 Design System - 2025       */
+    /* ================================== */
 
-    /* 布局变量 */
-    --navbar-height: 60px;
-    --container-width: 1200px;
+    /* ============ Colors ============ */
+
+    /* Primary Brand Color */
+    --color-primary: #10a37f;
+    --color-primary-rgb: 16, 163, 127;
+    --color-primary-light: #15c896;
+    --color-primary-dark: #0a8c6c;
+
+    /* Accent Color (minimal use) */
+    --color-accent: #2196F3;
+    --color-accent-rgb: 33, 150, 243;
+
+    /* Secondary Color (for gradients) */
+    --color-secondary: #4CAF50;
+
+    /* Background Layers (iOS glassmorphism hierarchy) */
+    --color-background: rgb(10, 10, 10);
+    --color-surface-base: rgba(255, 255, 255, 0.05);      /* Subtle surface */
+    --color-surface-elevated: rgba(255, 255, 255, 0.1);   /* Medium surface */
+    --color-surface-overlay: rgba(255, 255, 255, 0.15);   /* Strong surface */
+
+    /* Text Hierarchy */
+    --color-text-primary: rgba(255, 255, 255, 0.95);
+    --color-text-secondary: rgba(255, 255, 255, 0.7);
+    --color-text-tertiary: rgba(255, 255, 255, 0.5);
+
+    /* Borders (iOS style - very subtle) */
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-hover: rgba(255, 255, 255, 0.15);
+
+    /* Status Colors */
+    --color-error: #ff4444;
+    --color-success: #4CAF50;
+
+    /* ============ Spacing (8pt Grid System) ============ */
+
+    --space-1: 4px;     /* Tiny */
+    --space-2: 8px;     /* Extra Small */
+    --space-3: 12px;    /* Small */
+    --space-4: 16px;    /* Base */
+    --space-5: 24px;    /* Medium */
+    --space-6: 32px;    /* Large */
+    --space-7: 48px;    /* Extra Large */
+    --space-8: 64px;    /* XXL */
+    --space-9: 96px;    /* XXXL */
+
+    /* ============ Typography (iOS Dynamic Type Scale) ============ */
+
+    /* Based on SF Pro Text/Display scale */
+    --font-size-caption: 12px;      /* Caption */
+    --font-size-footnote: 13px;     /* Footnote */
+    --font-size-subheadline: 15px;  /* Subheadline */
+    --font-size-callout: 16px;      /* Callout */
+    --font-size-base: 17px;         /* Body (iOS base) */
+    --font-size-headline: 20px;     /* Title 3 */
+    --font-size-title2: 22px;       /* Title 2 */
+    --font-size-title1: 28px;       /* Title 1 */
+    --font-size-large-title: 34px;  /* Large Title */
+
+    /* Fluid scaling for responsive (maintains iOS ratios) */
+    --font-size-xs: clamp(12px, 0.75rem, 13px);
+    --font-size-sm: clamp(13px, 0.8125rem, 15px);
+    --font-size-md: clamp(15px, 0.9375rem, 16px);
+    --font-size-lg: clamp(16px, 1rem, 17px);
+    --font-size-xl: clamp(20px, 1.25rem, 22px);
+    --font-size-2xl: clamp(22px, 1.375rem, 28px);
+    --font-size-3xl: clamp(28px, 1.75rem, 34px);
+    --font-size-4xl: clamp(34px, 2.125rem, 48px);
+
+    /* Line Heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.4;
+    --line-height-relaxed: 1.6;
+
+    /* Font Weights (iOS style) */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* ============ Layout System ============ */
+
     --container-max-width: 1200px;
-    --section-max-width: 1200px;
-    --content-max-width: 1200px;
-    --container-padding: 2rem;
-    --container-padding-x: 2rem;
-    --container-padding-mobile: 1rem;
-    --section-spacing: 5rem;
-    --section-spacing-y: 5rem;
-    --card-padding: 1.5rem;
-    --mobile-nav-height: 50px;
-    --mobile-touch-target: 44px;
-    --mobile-padding: 1rem;
-    --mobile-nav-padding: 1rem;
-    
-    /* 间距变量 */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 3rem;
-    
-    /* 圆角变量 */
-    --border-radius: 12px;
-    --border-radius-sm: 8px;
-    --border-radius-md: 12px;
-    --border-radius-lg: 16px;
-    
-    /* 阴影变量 */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    
-    /* 过渡效果 */
-    --transition-normal: 0.3s ease;
-    --transition-slow: 0.6s ease;
-    --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    
-    /* Z-index层级 */
-    --z-index-dropdown: 100;
-    --z-index-modal: 1000;
-    --z-index-navbar: 50;
-    --z-index-overlay: 25;
-    
-    /* 响应式断点 */
-    --breakpoint-sm: 576px;
+    --content-max-width: 1000px;
+
+    --navbar-height: 56px;              /* iOS standard nav height */
+    --section-spacing: var(--space-7);  /* 48px between sections (iOS 18 optimized) */
+    --container-padding: var(--space-6); /* 32px container padding */
+
+    /* Grid System */
+    --grid-gap: var(--space-5);         /* 24px */
+    --grid-col-min: 280px;
+
+    /* ============ Border Radius (iOS style) ============ */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    /* ============ Shadows (iOS elevation system) ============ */
+
+    /* iOS uses subtle shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+    /* Glow effects (minimal use) */
+    --shadow-glow: 0 0 20px rgba(var(--color-primary-rgb), 0.25);
+
+    /* ============ Animation System (iOS timings) ============ */
+
+    /* iOS standard durations */
+    --duration-instant: 0.1s;
+    --duration-fast: 0.15s;
+    --duration-base: 0.2s;
+    --duration-slow: 0.35s;
+
+    /* iOS spring curves */
+    --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);      /* Standard ease */
+    --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* Bouncy spring */
+    --easing-smooth: cubic-bezier(0.4, 0, 0.6, 1);        /* Smooth in-out */
+
+    /* ============ Z-index Layers ============ */
+
+    --z-base: 0;
+    --z-raised: 10;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-popover: 500;
+    --z-tooltip: 600;
+
+    /* ============ Breakpoints ============ */
+
+    --breakpoint-sm: 640px;
     --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px;
-    
-    /* 卡片和内容块样式 */
-    --card-bg: rgba(255, 255, 255, 0.02);
-    --card-border: 1px solid rgba(255, 255, 255, 0.05);
-    --card-radius: var(--border-radius);
-    --card-padding: 1.5rem;
-    --card-shadow: var(--shadow-lg);
-    
-    /* 毛玻璃效果 */
-    --glass-effect: rgba(255, 255, 255, 0.03);
-    --blur-sm: blur(5px);
-    --blur-md: blur(10px);
-    --blur-lg: blur(20px);
-    
-    /* 移动端特定变量 */
-    --mobile-menu-bg: rgba(10, 10, 10, 0.95);
-    --mobile-menu-blur: var(--blur-md);
-    --mobile-menu-transition: 0.3s ease;
-    --mobile-touch-feedback: rgba(255, 255, 255, 0.05);
-    --mobile-card-padding: 1rem;
-    --mobile-space-sm: 0.75rem;
-    --mobile-space-md: 1.5rem;
-    --mobile-font-base: 0.9rem;
-    --mobile-font-h3: 1.1rem;
-    
-    /* 渐变 */
-    --gradient-primary: linear-gradient(135deg, var(--accent-color), #4CAF50);
-    --gradient-overlay: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.1));
-    
-    /* 字体大小 */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    
-    /* 行高 */
-    --line-height-tight: 1.25;
-    --line-height-normal: 1.5;
-    --line-height-loose: 1.75;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+
+    /* ============ iOS 18 Glassmorphism ============ */
+
+    /* Subtle iOS glass effect */
+    --glass-background: rgba(10, 10, 10, 0.85);
+    --glass-background-light: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(15px) saturate(180%);
+
+    /* Blur levels */
+    --blur-sm: blur(10px);
+    --blur-md: blur(15px) saturate(180%);
+    --blur-lg: blur(20px) saturate(180%);
 }
 
-/* 深色模式变量 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --mobile-menu-bg: rgba(20, 20, 20, 0.98);
-        --glass-effect: rgba(0, 0, 0, 0.2);
-        --shadow-color: rgba(0, 0, 0, 0.3);
-    }
-}
-
-/* 响应式字体大小调整 */
-@media (max-width: 768px) {
-    :root {
-        --spacing-xs: var(--mobile-space-xs);
-        --spacing-sm: var(--mobile-space-sm);
-        --spacing-md: var(--mobile-space-md);
-        --spacing-lg: var(--mobile-space-lg);
-        --spacing-xl: var(--mobile-space-xl);
-        --container-padding: var(--mobile-container-padding);
-        --header-height: var(--mobile-header-height);
-        --section-spacing: var(--mobile-section-padding);
-    }
-}
-
-/* 触摸设备优化 */
-@media (hover: none) and (pointer: coarse) {
-    :root {
-        --hover-opacity: 1;
-        --hover-scale: 1;
-        --transition-bounce: none;
-        --touch-feedback-color: rgba(var(--accent-color-rgb), 0.15);
-        --button-min-height: var(--touch-target-size);
-        --input-min-height: var(--touch-target-size);
-    }
-    
-    /* 增强触摸反馈 */
-    .button:active,
-    .card:active,
-    .nav-link:active {
-        background: var(--touch-feedback-color);
-        transform: scale(0.98);
-    }
-}
-
-/* 移动优先的响应式媒体查询 */
-@media (max-width: 576px) {
-    :root {
-        --container-width: 100%;
-        --spacing-xs: var(--mobile-spacing-xs);
-        --spacing-sm: var(--mobile-spacing-sm);
-        --spacing-md: var(--mobile-spacing-md);
-        --spacing-lg: var(--mobile-spacing-lg);
-        --spacing-xl: var(--mobile-spacing-xl);
-        --header-height: var(--mobile-header-height);
-    }
-}
-
-/* 移动端媒体查询变量 */
-@media (max-width: 768px) {
-    :root {
-        --header-height: var(--mobile-header-height);
-        --section-spacing: var(--mobile-section-spacing);
-        --container-padding: var(--mobile-container-padding);
-        --button-height: var(--mobile-button-height);
-        
-        /* 字体大小调整 */
-        --font-size-base: var(--mobile-font-base);
-        --transition-normal: var(--mobile-transition-normal);
-    }
-}
+/* ============ Responsive Overrides ============ */
 
 @media (max-width: 768px) {
     :root {
-        --header-height: var(--mobile-header-height);
-        --nav-height: var(--mobile-nav-height);
-        --container-padding: var(--mobile-padding);
-        --section-spacing: var(--mobile-space-xl);
-        --spacing-xs: var(--mobile-space-xs);
-        --spacing-sm: var(--mobile-space-sm);
-        --spacing-md: var(--mobile-space-md);
-        --spacing-lg: var(--mobile-space-lg);
-        --spacing-xl: var(--mobile-space-xl);
+        /* Mobile spacing adjustments (maintain 8pt grid) */
+        --section-spacing: var(--space-6);    /* 32px on mobile (optimal) */
+        --container-padding: var(--space-4);  /* 16px on mobile */
+        --grid-gap: var(--space-4);           /* 16px on mobile */
+        --navbar-height: 52px;                /* Slightly smaller on mobile */
     }
 }
 
-/* 移动端媒体查询适配 */
-@media (max-width: 768px) {
-    :root {
-        --container-padding: var(--mobile-padding);
-        --header-height: var(--mobile-header-height);
-        --section-spacing: var(--mobile-section-margin);
-        
-        /* 移动端下调整间距 */
-        --spacing-xs: 0.5rem;
-        --spacing-sm: 0.75rem;
-        --spacing-md: 1rem;
-        --spacing-lg: 1.5rem;
-        --spacing-xl: 2rem;
-    }
-}
+/* ============ Accessibility: Reduced Motion ============ */
 
-/* 移动端媒体查询适配 */
-@media (max-width: 768px) {
+@media (prefers-reduced-motion: reduce) {
     :root {
-        --container-padding: var(--mobile-padding);
-        --section-spacing: var(--mobile-section-padding);
-        
-        /* 移动端下调整字体大小和间距 */
-        --font-size-base: var(--mobile-font-base);
-        --line-height-base: var(--mobile-line-height);
-        --spacing-unit: 0.75rem;
-    }
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-    :root {
-        --header-height: var(--mobile-header-height);
-        --nav-height: var(--mobile-nav-height);
-        --container-padding: var(--mobile-container-padding);
-        --section-spacing: var(--mobile-space-xl);
-        
-        /* 间距调整 */
-        --spacing-xs: var(--mobile-space-xs);
-        --spacing-sm: var(--mobile-space-sm);
-        --spacing-md: var(--mobile-space-md);
-        --spacing-lg: var(--mobile-space-lg);
-        --spacing-xl: var(--mobile-space-xl);
-        
-        /* 字体大小调整 */
-        --font-size-base: var(--mobile-font-size-base);
-    }
-}
-
-/* 触摸设备优化 */
-@media (hover: none) and (pointer: coarse) {
-    :root {
-        --hover-scale: 1;
-        --hover-opacity: 1;
-        --transition-bounce: none;
-        --button-min-height: var(--touch-target-size);
-        --input-min-height: var(--touch-target-size);
+        /* Disable all animations for accessibility */
+        --duration-instant: 0s;
+        --duration-fast: 0s;
+        --duration-base: 0s;
+        --duration-slow: 0s;
     }
 }

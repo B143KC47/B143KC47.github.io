@@ -1,94 +1,68 @@
-/* 3. 统一卡片样式 */
+/* ============================================= */
+/* iOS 18-Style Cards - Clean Minimal          */
+/* ============================================= */
+
 .card {
-    background: var(--card-bg);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    transition: transform var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard);
     position: relative;
-    z-index: 1;
-    overflow: hidden;
-    height: 100%; /* 确保卡片高度一致 */
+    height: 100%;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
 }
 
-/* 卡片悬浮效果 */
+/* Card Hover Effect (Minimal) */
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-hover);
 }
 
-.card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(var(--accent-color-rgb), 0.1),
-        transparent 70%
-    );
-    opacity: 0;
-    transition: var(--transition-normal);
-    pointer-events: none;
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-
-.card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: var(--transition-normal);
-    pointer-events: none;
-}
-
-.card:hover::after {
-    opacity: 0.05;
-}
-
+/* Card Header */
 .card-header {
-    margin-bottom: 1rem;
-    position: relative;
+    margin-bottom: var(--space-4);
 }
 
 .card-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-tight);
 }
 
 .card-subtitle {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
 }
 
+/* Card Content */
 .card-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    position: relative;
-    z-index: 1;
+    gap: var(--space-4);
 }
 
+/* Card Footer */
 .card-footer {
     margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
 }
 
-/* 卡片变体 */
+/* Card Variants */
 .card-hover-glow:hover {
-    box-shadow: 
-        var(--shadow-lg),
-        0 0 30px rgba(var(--accent-color-rgb), 0.3);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .card-interactive {
@@ -96,150 +70,80 @@
 }
 
 .card-interactive:active {
-    transform: scale(0.98);
+    transform: translateY(-2px);
 }
 
-/* 卡片组样式 */
+/* Card Grid Layout */
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    width: 100%;
-    padding: 1rem;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .card-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .card {
-        margin-bottom: 1rem;
-    }
-}
-
-/* 移动端卡片样式优化 */
-@media (max-width: var(--breakpoint-md)) {
-    .card {
-        padding: var(--mobile-card-padding);
-        margin: var(--mobile-space-sm) 0;
-        width: 100%;
-    }
-
-    .card-content {
-        gap: var(--mobile-space-sm);
-    }
-
-    .card-title {
-        font-size: var(--mobile-font-h3);
-    }
-
-    .card-body {
-        font-size: var(--mobile-font-base);
-    }
-
-    /* 触摸反馈优化 */
-    .card:active {
-        transform: scale(0.98);
-        background: var(--mobile-touch-feedback);
-    }
-
-    /* 改进卡片阴影效果 */
-    .card {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card:active {
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    }
-}
-
-/* 确保卡片图片响应式 */
-.card-image {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: var(--border-radius-sm);
-}
-
-/* 优化卡片布局容器 */
-.cards-grid {
-    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min), 1fr));
     gap: var(--grid-gap);
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     width: 100%;
-    padding: var(--container-padding);
 }
 
-@media (max-width: var(--breakpoint-sm)) {
-    .cards-grid {
-        grid-template-columns: 1fr;
-        gap: var(--mobile-gap);
-        padding: var(--mobile-padding);
-    }
-}
-
-/* 卡片内容布局 */
+/* Card Media */
 .card-media {
-    margin: calc(var(--spacing-lg) * -1);
-    margin-bottom: var(--spacing-md);
-    position: relative;
+    margin: calc(var(--space-6) * -1);
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     overflow: hidden;
 }
 
 .card-media img {
     width: 100%;
     height: auto;
-    transition: var(--transition-normal);
+    display: block;
+    transition: transform var(--duration-base) var(--easing-standard);
 }
 
 .card:hover .card-media img {
     transform: scale(1.05);
 }
 
-/* 卡片标签 */
+/* Card Tags */
 .card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-xs);
-    margin-top: var(--spacing-sm);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
 }
 
 .card-tag {
-    padding: 0.4rem 0.8rem;
-    background: rgba(var(--accent-color-rgb), 0.1);
-    border: 1px solid rgba(var(--accent-color-rgb), 0.2);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.8rem;
-    color: var(--text-primary);
-    transition: var(--transition-bounce);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--duration-fast) var(--easing-standard);
 }
 
 .card-tag:hover {
-    background: rgba(var(--accent-color-rgb), 0.2);
+    background: var(--color-surface-overlay);
     transform: translateY(-2px);
 }
 
-/* 卡片动画 */
-@keyframes cardFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+/* Responsive Cards */
+@media (max-width: 768px) {
+    .card {
+        padding: var(--space-5);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+
+    .card-title {
+        font-size: var(--font-size-lg);
     }
 }
 
-.card-animate {
-    animation: cardFadeIn 0.6s ease backwards;
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .card:active {
+        transform: scale(0.98);
+        background: var(--color-surface-elevated);
+    }
 }
-
-.card-animate-delay-1 { animation-delay: 0.2s; }
-.card-animate-delay-2 { animation-delay: 0.4s; }
-.card-animate-delay-3 { animation-delay: 0.6s; }

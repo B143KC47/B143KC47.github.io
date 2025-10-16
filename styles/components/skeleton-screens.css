@@ -1,0 +1,395 @@
+/* Skeleton Screen Styles - 2025 Low-Light Design */
+
+/* Base skeleton card styles with low-light aesthetic */
+.skeleton-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: var(--card-radius);
+    transform: scale(0.98);
+    opacity: 0;
+    animation: skeleton-breathe 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.skeleton-content {
+    padding: var(--card-padding);
+}
+
+/* Modern wave animation with multiple gradients */
+.skeleton-card::before,
+.skeleton-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Primary wave effect */
+.skeleton-card::before {
+    background: radial-gradient(
+        circle at var(--wave-x, 20%) var(--wave-y, 50%),
+        rgba(var(--accent-color-rgb), 0.05) 0%,
+        transparent 40%
+    );
+    animation: skeleton-wave-primary 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Secondary wave effect */
+.skeleton-card::after {
+    background: radial-gradient(
+        circle at var(--wave-x2, 80%) var(--wave-y2, 50%),
+        rgba(var(--accent-color-rgb), 0.03) 0%,
+        transparent 50%
+    );
+    animation: skeleton-wave-secondary 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation-delay: 1.5s;
+}
+
+/* Wave animations with organic movement */
+@keyframes skeleton-wave-primary {
+    0% {
+        --wave-x: -20%;
+        --wave-y: 50%;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        --wave-x: 120%;
+        --wave-y: 50%;
+        opacity: 0;
+    }
+}
+
+@keyframes skeleton-wave-secondary {
+    0% {
+        --wave-x2: 120%;
+        --wave-y2: 30%;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        --wave-x2: -20%;
+        --wave-y2: 70%;
+        opacity: 0;
+    }
+}
+
+/* Breathing animation for organic feel */
+@keyframes skeleton-breathe {
+    0% {
+        transform: scale(0.98);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Minimal skeleton elements - 2025 design */
+.skeleton-block {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Project card skeleton variants for bento grid */
+.skeleton-card.skeleton-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.skeleton-card.skeleton-2x1 {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.skeleton-card.skeleton-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+/* Minimal project skeleton - only primary structure */
+.skeleton-project-minimal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.skeleton-project-header {
+    height: 24px;
+    width: 70%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: 6px;
+}
+
+.skeleton-project-body {
+    flex: 1;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.01) 100%
+    );
+    border-radius: 8px;
+}
+
+/* Minimal certificate skeleton with proper height matching */
+.skeleton-certificate-minimal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: inherit;
+}
+
+.skeleton-certificate-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.025) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Soft pulsing effect for certificates */
+.skeleton-certificate-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--accent-color-rgb), 0.03) 0%,
+        transparent 70%
+    );
+    animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hero section skeleton loader */
+.skeleton-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--accent-color-rgb), 0.02) 0%,
+        transparent 50%
+    );
+}
+
+.skeleton-hero-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.skeleton-hero-title {
+    height: 60px;
+    width: 80%;
+    margin: 0 auto 2rem;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: 12px;
+}
+
+.skeleton-hero-subtitle {
+    height: 30px;
+    width: 60%;
+    margin: 0 auto 3rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+}
+
+.skeleton-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.skeleton-hero-button {
+    width: 150px;
+    height: 50px;
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: 25px;
+}
+
+/* Dropdown skeleton with minimal design */
+.skeleton-dropdown-item {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: skeleton-fade-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.skeleton-dropdown-title {
+    width: 60%;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+}
+
+.skeleton-dropdown-stat {
+    width: 40px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+}
+
+/* Fade up animation for dropdown items */
+@keyframes skeleton-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .skeleton-content {
+        padding: var(--mobile-card-padding);
+    }
+
+    /* Bento grid collapses on mobile */
+    .skeleton-card.skeleton-2x2,
+    .skeleton-card.skeleton-2x1,
+    .skeleton-card.skeleton-1x1 {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+    }
+
+    /* Faster wave animations on mobile */
+    .skeleton-card::before,
+    .skeleton-card::after {
+        animation-duration: 2s;
+    }
+
+    .skeleton-hero-title {
+        height: 40px;
+        width: 90%;
+    }
+
+    .skeleton-hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-card::before,
+    .skeleton-card::after,
+    .skeleton-certificate-image::after {
+        animation: none;
+        opacity: 0.5;
+    }
+
+    .skeleton-card {
+        animation: none;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Adaptive brightness for system dark mode */
+@media (prefers-color-scheme: dark) {
+    .skeleton-block,
+    .skeleton-project-header,
+    .skeleton-project-body,
+    .skeleton-certificate-image,
+    .skeleton-dropdown-title,
+    .skeleton-dropdown-stat {
+        background-opacity: 0.01;
+    }
+}
+
+/* Loading state for entire page */
+.page-skeleton-container {
+    position: fixed;
+    inset: 0;
+    background: var(--background-color);
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Smooth exit transition for skeletons */
+.skeleton-exit {
+    animation: skeleton-exit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes skeleton-exit {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* Progressive content reveal */
+.content-reveal {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    animation: content-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes content-reveal {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
