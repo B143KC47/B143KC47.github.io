@@ -1,362 +1,144 @@
+/* ============================================= */
+/* Certificates Section - iOS 18 Style         */
+/* ============================================= */
+
 .certificates-section {
-    background: transparent; /* 修改：移除背景 */
-    border-radius: 0; /* 修改：移除边框圆角 */
-    backdrop-filter: none; /* 修改：移除模糊效果 */
-    border: none; /* 修改：移除边框 */
-    box-shadow: none; /* 修改：移除阴影 */
-    position: relative;
-    overflow: visible; /* 修改：确保内容可见 */
     width: 100%;
-    margin: 4rem 0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: width 0.3s ease-in-out;
-}
-
-.certificates-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at 50% 0%,
-        rgba(var(--accent-color-rgb), 0.1),
-        transparent 70%
-    );
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.certificates-section:hover::before {
-    opacity: 1;
 }
 
 .certificates-section .section-container {
     width: 100%;
-    max-width: var(--container-max-width, 1200px);
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 var(--container-padding-x, 2rem);
-    transition: width 0.3s ease;
+    padding: 0 var(--container-padding);
 }
 
+/* Certificate Grid */
 .certificate-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 0;
-    position: relative;
-    z-index: 1;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min), 1fr));
+    gap: var(--grid-gap);
     width: 100%;
-    justify-content: center;
-    align-items: start;
-    grid-auto-rows: 1fr; /* 确保每行的卡片高度一致 */
-    margin-top: 2rem;
-    box-sizing: border-box;
 }
 
-/* 当只有一行且未填满时的对齐方式 */
-@supports (grid-template-columns: subgrid) {
-    .certificate-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        justify-items: center;
-    }
-}
-
+/* Certificate Item */
 .certificate-item {
-    height: 100%;
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: transform var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard);
     display: flex;
     flex-direction: column;
-    position: relative;
-    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    transition: var(--transition-bounce);
-    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框亮度 */
-    backdrop-filter: var(--blur-sm);
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    animation: fadeInUp 0.6s ease backwards;
+    box-shadow: var(--shadow-sm);
 }
 
 .certificate-item:hover {
-    transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    border-color: rgba(var(--accent-color-rgb), 0.3);
-    background: rgba(255, 255, 255, 0.1); /* 修改：hover状态背景更亮 */
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-hover);
 }
 
-.certificate-item:nth-child(2) { animation-delay: 0.2s; }
-.certificate-item:nth-child(3) { animation-delay: 0.3s; }
-.certificate-item:nth-child(4) { animation-delay: 0.4s; }
-.certificate-item:nth-child(5) { animation-delay: 0.5s; }
-.certificate-item:nth-child(6) { animation-delay: 0.6s; }
-
+/* Certificate Header */
 .certificate-header {
-    padding: 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.08), /* 修改：增强背景渐变可见度 */
-        transparent
-    );
+    padding: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(to bottom, var(--color-surface-elevated), transparent);
 }
 
 .certificate-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
     margin: 0;
 }
 
+/* Certificate Image */
 .certificate-image-wrapper {
     aspect-ratio: 16/9;
     width: 100%;
-    position: relative;
     overflow: hidden;
-}
-
-.certificate-image-wrapper::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        45deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 100%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.certificate-item:hover .certificate-image-wrapper::after {
-    opacity: 1;
 }
 
 .certificate-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-normal);
-    transform: translateZ(0);
-    aspect-ratio: 16/9;
-    display: block; /* 确保图片正确显示 */
-    opacity: 1; /* 确保图片可见 */
+    display: block;
+    transition: transform var(--duration-base) var(--easing-standard);
 }
 
 .certificate-item:hover .certificate-image {
-    transform: scale(1.1) translateZ(20px);
+    transform: scale(1.05);
 }
 
+/* Certificate Details */
 .certificate-details {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.25rem;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 0, 0, 0.2)
-    );
+    padding: var(--space-5);
+    gap: var(--space-3);
 }
 
 .certificate-details p {
-    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
 }
 
+/* Certificate Tags */
 .certificate-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1rem 0;
+    gap: var(--space-2);
 }
 
 .certificate-tag {
-    padding: 0.4rem 0.8rem;
-    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：增强标签背景 */
-    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 修改：增强标签边框 */
-    border-radius: var(--border-radius-sm);
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9); /* 修改：增强标签文字 */
-    transition: var(--transition-bounce);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--duration-fast) var(--easing-standard);
 }
 
 .certificate-tag:hover {
-    background: rgba(var(--accent-color-rgb), 0.25);
+    background: var(--color-surface-overlay);
     transform: translateY(-2px);
 }
 
+/* Certificate Date */
 .certificate-date {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.65); /* 修改：增强日期文字可见度 */
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    margin-top: auto;
 }
 
-.certificate-date i {
-    font-size: 0.75rem;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-    .certificates-section {
-        padding: var(--spacing-md);
-        width: 100%;
-        transition: width 0.3s ease-in-out;
-    }
-
-    .certificates-section .section-container {
-        width: 100%;
-        padding: 0 var(--container-padding-mobile, 1rem);
-    }
-
     .certificate-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-        padding: var(--spacing-md);
+        gap: var(--space-5);
     }
 
-    .certificate-item {
-        transform: none !important;
-    }
-
-    .certificate-image {
-        height: 180px;
-        aspect-ratio: 16/9;
-    }
-}
-
-@media (max-width: 480px) {
     .certificate-header,
     .certificate-details {
-        padding: 1rem;
-    }
-    
-    .certificate-tags {
-        gap: 0.4rem;
-    }
-    
-    .certificate-tag {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
+        padding: var(--space-4);
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .certificates-section::before {
-        animation: none;
-    }
-    
-    .certificate-item,
-    .certificate-image,
-    .certificate-tag {
-        transition: none;
-    }
-}
-
-/* 添加加载动画 */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-@media (hover: hover) {
-    .certificate-item:hover {
-        transform: 
-            translateY(-12px) 
-            rotateX(2deg) 
-            rotateY(2deg) 
-            scale(1.02);
-        box-shadow: 
-            0 30px 60px -12px rgba(0, 0, 0, 0.3),
-            0 0 40px rgba(var(--accent-color-rgb), 0.2);
-    }
-}
-
-.section-title {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    position: relative;
-    text-shadow: 0 2px 10px rgba(var(--accent-color-rgb), 0.2);
-}
-
-.section-title::before {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(
-        circle,
-        rgba(var(--accent-color-rgb), 0.1),
-        transparent 70%
-    );
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-@media (max-width: 768px) {
-    .certificates-section {
-        padding: 1rem;
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        margin-bottom: 3rem;
-    }
-
-    .certificate-grid {
-        gap: 1.5rem;
-    }
-}
-
-/* 证书详情模态框样式 */
-.modal {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: var(--blur-lg);
-}
-
-.modal-content {
-    background: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-lg);
-}
-
-.modal.show .modal-content {
-    animation: modalSlideIn 0.4s ease;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+/* Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .certificate-item:active {
+        transform: scale(0.98);
     }
 }

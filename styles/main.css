@@ -1,93 +1,87 @@
-/* 导入基础样式 */
+/* ============================================= */
+/* iOS 18 Portfolio - Main Styles              */
+/* ============================================= */
+
+/* Base System */
 @import 'base/reset.css';
 @import 'base/variables.css';
 @import 'base/typography.css';
-@import 'base/resoibsuce.css';
-@import 'components/effects.css';  /* 添加新的效果样式 */
+@import 'base/responsive.css';
+@import 'base/layout.css';
+@import 'base/compatibility.css';
 
-/* 导入布局样式 */
-@import 'layout/new-grid.css';
-@import 'layout/new-section.css';
-@import 'layout/new-container.css';
+/* Layout System */
 @import 'layout/page-layout.css';
-@import 'layout/global-centering.css';
+@import 'layout/grid-system.css';
 
-@import 'utils/helpers.css';
-@import 'utils/layout-utilities.css';
-
-/* 导入组件样式 */
+/* Core Components */
 @import 'components/navbar.css';
-@import 'components/dropdown.css';
-@import 'components/buttons.css';
-@import 'components/image-container.css';
-@import 'components/gradient-text.css';
-@import 'components/card.css';
 @import 'components/hero.css';
-@import 'components/content-block.css';
-@import 'components/responsive-video.css';
-@import 'components/profile-photo.css';
+@import 'components/card.css';
+@import 'components/buttons.css';
 @import 'components/footer.css';
-@import 'components/skill-tags.css';
-@import 'components/honor-certificate.css';
-@import 'components/layout.css';
-@import 'components/typography.css';
-@import 'components/about.css';  /* 添加新的About样式 */
-@import 'components/contact.css';  /* 添加新的Contact样式 */
+
+/* Section Components */
+@import 'components/about.css';
+@import 'components/tech-stack.css';
+@import 'components/research.css';
+@import 'components/publications.css';
+@import 'components/github-projects.css';
 @import 'components/certificates.css';
-@import 'components/github-projects.css';  /* 添加GitHub项目样式 */
-
-/* 导入页面特定样式 */
-@import 'pages/certificates.css';
-@import 'pages/profile.css';
-@import 'pages/contact.css';
-
-/* 导入动画样式 */
-@import 'animations/transitions.css';
-
-/* 导入组件样式 */
-@import 'components/profile.css';
 @import 'components/contact.css';
 
+/* Utilities */
+@import 'utils/helpers.css';
+@import 'animations/transitions.css';
+
 body {
-    background: var(--primary-bg);
-    color: var(--text-primary);
+    background-image:
+        linear-gradient(
+            rgba(10, 10, 10, 0.92),
+            rgba(10, 10, 10, 0.95)
+        ),
+        url('../assets/screen.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--color-text-primary);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
-.container {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    padding: 0 var(--container-padding-x);
-}
-
-/* 关键修复：确保所有section元素始终可见 */
+/* Sections are visible by default - Progressive enhancement for animations */
 section {
-    margin: var(--section-spacing-y) 0;
-    opacity: 1 !important; /* 强制可见 */
-    transform: translateY(0) !important; /* 强制无位移 */
-    visibility: visible !important; /* 确保可见性 */
-    display: block !important; /* 确保显示 */
+    display: block;
+    visibility: visible;
 }
 
-/* 如果需要动画效果，可以添加特定的类 */
-section.animate-when-visible {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease forwards;
-}
-
-/* 优化后的动画效果 */
-.fade-up-animation {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.8s ease, opacity 0.8s ease;
-    will-change: transform, opacity; /* 提前告知浏览器 */
-}
-
-.fade-up-animation.in-view {
+.reveal-up {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Optional animation enhancement - only if JS adds animation class */
+@media (prefers-reduced-motion: no-preference) {
+    .reveal-up.animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal-up.animate-on-scroll.in-view {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .fade-in {
+        opacity: 0;
+        transition: opacity 0.6s ease;
+    }
+
+    .fade-in.in-view {
+        opacity: 1;
+    }
 }
 
 /* 保留关键动画 */
@@ -128,292 +122,65 @@ section.animate-when-visible {
     animation: slideIn 0.8s ease forwards;
 }
 
-social-links {
+.social-links {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
 }
 
 .social-icon {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: 1.5rem;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .social-icon:hover {
     transform: translateY(-3px);
-    color: var(--accent-color);
+    color: var(--color-accent);
 }
 
 .footer-nav a {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .footer-nav a:hover {
-    color: var(--accent-color);
+    color: var(--color-accent);
 }
 
 .footer-section i {
     margin-right: 0.5rem;
 }
 
-/* 优化证书展示区域 */
+/* Modal styles moved to components/certificates.css */
+
+/* Certificate container styles */
 .certificates-container {
     width: 100%;
-    max-width: var(--container-max-width); /* 已定义的最大宽度 */
-    margin: 0 auto; /* 确保容器居中显示 */
-    padding: 2rem var(--container-padding-x); /* 内边距调整为左右均有 */
-    box-sizing: border-box; /* 确保内边距包含在宽度内 */
-    height: auto; /* 移除固定的最小高度 */
-    padding-bottom: 3rem; /* 增加 padding-bottom，确保能包住内容 */
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
-}
-
-.certificate-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 调整最小宽度 */
-    gap: 1.2rem; /* 减小间距 */
-    margin-top: 2rem;
-    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 2rem var(--container-padding-x);
+    box-sizing: border-box;
     height: auto;
     padding-bottom: 3rem;
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
-}
-
-.certificate-item {
-    width: 100%;
-    max-width: 320px; /* 进一步减小最大宽度 */
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.07); /* 修改：增强卡片背景亮度 */
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer; /* 添加点击效果 */
-    will-change: transform; /* 提前告知浏览器，transform 属性将会发生变化 */
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
-}
-
-.certificate-item:hover {
-    transform: translateY(-3px); /* 减小 transform 效果 */
-    background: rgba(255, 255, 255, 0.1); /* 修改：hover状态背景更亮 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-}
-
-.certificate-header {
-    padding: 0.75rem; /* 减小 padding */
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.08), /* 修改：增强背景可见度 */
-        transparent
-    );
-}
-
-.certificate-title {
-    font-size: 1.1rem; /* 减小字体大小 */
-    color: rgba(255, 255, 255, 0.95); /* 修改：确保标题颜色明亮 */
-    margin: 0;
-}
-
-/* 修复图片加载问题 */
-.certificate-image {
-    width: 100%;
-    height: auto;
-    display: block !important; /* 强制显示 */
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    transition: opacity 0.5s ease, transform 0.3s ease;
-    opacity: 1 !important; /* 强制可见 */
-    transform: scale(1); /* 初始缩放比例为1 */
-}
-
-.certificate-item:hover .certificate-image {
-    transform: scale(1.05); /* hover 时放大图片 */
-}
-
-.certificate-details {
-    padding: 0.75rem; /* 减小 padding */
-}
-
-.certificate-details p {
-    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
-    font-size: 0.85rem; /* 减小字体大小 */
-    margin-bottom: 0.4rem; /* 减小 margin-bottom */
-    line-height: 1.4; /* 增加行高 */
-}
-
-.certificate-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem; /* 减小间距 */
-    margin-bottom: 0.5rem;
-}
-
-.certificate-tag {
-    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：使用RGB变量，增强背景 */
-    color: rgba(255, 255, 255, 0.9); /* 修改：增强标签文字 */
-    padding: 0.2rem 0.4rem; /* 减小 padding */
-    border-radius: 5px;
-    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
-    font-size: 0.7rem; /* 减小字体大小 */
-}
-
-.certificate-date {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.65); /* 修改：增强日期文字可见度 */
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .certificate-grid {
-        grid-template-columns: 1fr; /* 小屏幕上每行显示一个证书 */
-    }
-
-    .certificates-container {
-        padding: 1rem; /* 小屏幕上减少内边距 */
-    }
-}
-
-/* 优化 "About Me" 部分的标签样式 */
-.skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem; /* 调整标签间距 */
-    margin-top: 1rem;
-}
-
-.skill-tag {
-    background: rgba(var(--accent-color-rgb), 0.15); /* 修改：增强背景 */
-    color: rgba(255, 255, 255, 0.9); /* 修改：增强文字可见度 */
-    padding: 0.5rem 0.75rem;
-    border-radius: 5px;
-    border: 1px solid rgba(var(--accent-color-rgb), 0.3); /* 添加：边框增强可见性 */
-    font-size: 0.85rem; /* 调整字体大小 */
-    transition: all 0.3s ease; /* 添加动画效果 */
-}
-
-.skill-tag:hover {
-    background: rgba(var(--accent-color-rgb), 0.25); /* 修改：hover状态背景更亮 */
-    transform: translateY(-2px); /* 添加：微小的上升效果 */
-}
-
-/* 模态框样式 */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.modal.show {
+    /* 默认可见，无需强制 */
     opacity: 1;
+    visibility: visible;
 }
 
-.modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 800px;
-    margin: 50px auto;
-    background: rgba(255, 255, 255, 0.07); /* 修改：增强背景亮度 */
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.15); /* 修改：增强边框可见度 */
-    overflow: hidden;
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
-}
-
-.modal.show .modal-content {
-    transform: translateY(0);
-}
-
-.close-modal {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 28px;
-    color: var(--text-primary);
-    cursor: pointer;
-    z-index: 1;
-}
-
-.modal-body {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.modal-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-info {
-    padding: 20px;
-    color: rgba(255, 255, 255, 0.85); /* 修改：增强文字可见度 */
-}
-
-@media (max-width: 768px) {
-    .modal-body {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* 优化证书卡片样式 */
-.certificate-item {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.certificate-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), 
-                               rgba(255,255,255,0.1) 0%,
-                               transparent 80%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.certificate-item:hover::after {
-    opacity: 1;
-}
-
-/* 修复项目区域 */
-.github-projects-section {
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
-}
-
-.projects-grid {
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
-}
-
+/* 项目区域样式优化 */
+.github-projects-section,
+.projects-grid,
 .project-card {
-    opacity: 1 !important; /* 强制可见 */
-    visibility: visible !important; /* 确保可见性 */
+    /* 默认可见状态 */
+    opacity: 1;
+    visibility: visible;
+    /* 添加微妙的过渡效果 */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 

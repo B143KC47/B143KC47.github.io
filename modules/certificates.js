@@ -53,8 +53,95 @@ const CertificatesModule = {
     },
 
     init() {
+        this.showCertificateSkeletons();
         this.setupCertificateCards();
         this.setupModalEvents();
+    },
+
+    showCertificateSkeletons() {
+        const certificateGrid = document.querySelector('.certificate-grid');
+        if (!certificateGrid) return;
+
+        const existingCertificates = certificateGrid.querySelectorAll('.certificate-item');
+        if (existingCertificates.length === 0) return;
+
+        console.log('🎨 Certificate skeleton system initializing...', existingCertificates.length, 'certificates');
+
+        try {
+            const skeletons = [];
+            let successfulSkeletons = 0;
+
+            existingCertificates.forEach((cert, index) => {
+                try {
+                    if (typeof UIModule === 'undefined' || !UIModule.createCertificateSkeleton) {
+                        throw new Error('UIModule.createCertificateSkeleton not available');
+                    }
+
+                    const skeleton = UIModule.createCertificateSkeleton();
+                    if (skeleton) {
+                        skeleton.style.animationDelay = `${index * 60}ms`;
+
+                        const certHeight = window.getComputedStyle(cert).height;
+                        skeleton.style.minHeight = certHeight;
+                        skeleton.style.height = '100%';
+
+                        cert.style.opacity = '0';
+                        cert.style.visibility = 'hidden';
+                        cert.parentNode.insertBefore(skeleton, cert);
+                        skeletons.push({ skeleton, original: cert });
+                        successfulSkeletons++;
+                    }
+                } catch (e) {
+                    console.warn('⚠️ Skeleton creation failed for certificate', index, ':', e.message);
+                }
+            });
+
+            console.log(`📊 Created ${successfulSkeletons} skeletons out of ${existingCertificates.length} certificates`);
+
+            const ensureVisibility = () => {
+                existingCertificates.forEach((cert, index) => {
+                    cert.style.opacity = '1';
+                    cert.style.visibility = 'visible';
+                    cert.style.display = 'flex';
+                });
+                console.log('✅ Certificates fail-safe visibility activated - all certificates now visible');
+            };
+
+            const failSafeTimeout = setTimeout(ensureVisibility, 2000);
+
+            if (successfulSkeletons > 0) {
+                setTimeout(() => {
+                    skeletons.forEach(({ skeleton, original }, index) => {
+                        setTimeout(() => {
+                            skeleton.classList.add('skeleton-exit');
+                            setTimeout(() => {
+                                skeleton.remove();
+                                original.style.opacity = '1';
+                                original.style.visibility = 'visible';
+                                original.style.display = 'flex';
+                                original.classList.add('content-reveal');
+                                original.style.animationDelay = `${index * 60}ms`;
+                            }, 300);
+                        }, index * 100);
+                    });
+
+                    clearTimeout(failSafeTimeout);
+                    console.log('✅ Certificate skeleton animation completed successfully');
+                }, 800);
+            } else {
+                console.warn('⚠️ No skeletons created - forcing immediate visibility');
+                clearTimeout(failSafeTimeout);
+                ensureVisibility();
+            }
+        } catch (error) {
+            console.error('❌ Certificate skeleton system failed critically:', error);
+            existingCertificates.forEach((cert, index) => {
+                cert.style.opacity = '1';
+                cert.style.visibility = 'visible';
+                cert.style.display = 'flex';
+            });
+            console.log('✅ Emergency visibility fallback activated');
+        }
     },
 
     setupCertificateCards() {

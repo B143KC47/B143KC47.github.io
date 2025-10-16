@@ -1,14 +1,4 @@
-/* 全局布局容器 */
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+/* 全局布局容器 - definition moved to styles/base/layout.css to avoid duplication */
 
 /* 统一section样式 */
 section {

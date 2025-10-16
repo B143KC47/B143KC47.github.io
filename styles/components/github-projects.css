@@ -1,119 +1,98 @@
+/* ============================================= */
+/* GitHub Projects Section - iOS 18 Style      */
+/* ============================================= */
+
 .github-projects-section {
     width: 100%;
-    margin: 4rem 0;
-    padding: 2rem 0;
-    box-sizing: border-box;
-    background: transparent;
-    backdrop-filter: none;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
 }
 
 .github-projects-section .section-container {
     width: 100%;
-    max-width: var(--container-max-width, 1200px);
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 var(--container-padding-x, 2rem);
-    transition: width 0.3s ease;
+    padding: 0 var(--container-padding);
 }
 
-/* 改进项目网格布局 - 使用auto-fit而不是auto-fill可以更好地填充空间 */
+/* Projects Grid */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min), 1fr));
+    gap: var(--grid-gap);
     width: 100%;
-    padding: 0;
-    margin: 0;
-    align-items: stretch; /* 确保所有卡片拉伸到相同高度 */
-    box-sizing: border-box;
 }
 
-/* 确保最后一行对齐 */
-.projects-grid::after {
-    content: '';
-    grid-column: 1 / -1;
-    height: 0;
-}
-
-/* 项目卡片基础样式 */
+/* Project Card */
 .project-card {
-    background: var(--card-bg, rgba(255, 255, 255, 0.05));
-    border-radius: var(--card-border-radius, 12px);
-    padding: var(--card-padding, 1.5rem);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    min-height: 220px; /* 设置最小高度确保卡片不会太矮 */
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    transition: transform var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    animation: fadeInUp 0.6s ease-out backwards;
-    /* 添加弹性盒子布局以处理不同内容长度 */
-    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 200px;
+    box-shadow: var(--shadow-sm);
 }
 
-/* 项目卡片悬浮效果 */
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
 }
 
-/* 项目卡片头部 */
+/* Project Header */
 .project-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    gap: var(--space-3);
 }
 
 .project-icon {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    flex-shrink: 0; /* 防止图标被压缩 */
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    flex-shrink: 0;
 }
 
 .project-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) var(--easing-standard);
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap; /* 防止标题过长换行 */
+    white-space: nowrap;
 }
 
 .project-title:hover {
-    color: var(--accent-color);
+    color: var(--color-primary);
 }
 
-/* 项目描述 - 控制描述的高度一致性 */
+/* Project Description */
 .project-description {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* 限制最多显示3行 */
-    line-clamp: 3; /* 标准属性，增强兼容性 */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: 4.5em; /* 约3行文字的高度 */
-    max-height: 4.5em; /* 限制最大高度 */
+    flex: 1;
 }
 
-/* 项目语言指示器 */
+/* Project Language */
 .project-language {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     margin-top: auto;
-    padding-top: 0.5rem;
-    flex-shrink: 0; /* 防止被压缩 */
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
 }
 
 .language-dot {
@@ -123,45 +102,46 @@
     flex-shrink: 0;
 }
 
-/* 项目统计信息 */
+/* Project Stats */
 .project-stats {
     display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    flex-shrink: 0; /* 确保统计区域不被压缩 */
+    gap: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    gap: var(--space-2);
+    color: var(--color-text-tertiary);
 }
 
-.stat-item i {
-    font-size: 1rem;
+/* Footer */
+.project-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: auto;
 }
 
-/* 加载状态 */
+/* Loading State */
 .loading-spinner {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
-    gap: 1rem;
+    padding: var(--space-8);
+    gap: var(--space-4);
     grid-column: 1 / -1;
-    min-height: 200px;
 }
 
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--accent-color);
+    border: 3px solid var(--color-surface-elevated);
+    border-top-color: var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -170,102 +150,31 @@
     to { transform: rotate(360deg); }
 }
 
-/* 错误状态 */
+/* Error State */
 .error-message {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    padding: 3rem 2rem;
+    gap: var(--space-4);
+    padding: var(--space-8);
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     grid-column: 1 / -1;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: var(--border-radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.error-message i {
-    font-size: 3rem;
-    color: var(--error-color);
-    opacity: 0.8;
-}
-
-.error-message p {
-    margin: 0;
-    line-height: 1.5;
-}
-
-/* 项目页脚样式 - 包装语言标签和统计信息 */
-.project-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: auto; /* 推到卡片底部 */
-    padding-top: 0.5rem;
-    flex-shrink: 0; /* 防止被压缩 */
-}
-
-/* 改进项目卡片响应式布局 */
-/* 添加section标题样式确保可见性 */
-.github-projects-section .section-title {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 3rem;
-    position: relative;
-    z-index: 2;
-    color: var(--text-primary);
-}
-
+/* Responsive */
 @media (max-width: 768px) {
     .projects-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        padding: 1rem;
-    }
-    
-    .project-card {
-        padding: 1.25rem;
-    }
-    
-    .github-projects-section .section-container {
-        width: 100%;
-        padding: 0 var(--container-padding-mobile, 1rem);
-    }
-    
-    .github-projects-section .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-    }
-}
-
-/* 特小屏幕优化 */
-@media (max-width: 480px) {
-    .projects-grid {
         grid-template-columns: 1fr;
-        padding: 0.5rem;
+        gap: var(--space-5);
     }
-    
-    .project-card {
-        padding: 1rem;
-    }
-    
-    .project-header {
-        margin-bottom: 0.75rem;
-    }
-    
-    .project-description {
-        min-height: auto; /* 在特小屏幕上不强制最小高度 */
-    }
-}
 
-/* 动画效果 */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+    .project-card {
+        padding: var(--space-5);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .section-title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--space-6);
     }
 }

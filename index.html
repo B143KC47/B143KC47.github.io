@@ -25,7 +25,6 @@
 
     <!-- 预加载主要样式和脚本 -->
     <link rel="preload" href="styles/main.css" as="style">
-    <link rel="preload" href="styles/animations/animations.css" as="style">
     <link rel="preload" href="script.js" as="script">
 
     <!-- 预加载关键字体 -->
@@ -34,12 +33,13 @@
 
     <!-- 预加载关键图片 -->
     <link rel="preload" href="assets/screen.jpeg" as="image" type="image/jpeg">
-    <link rel="preload" href="assets/avatar.jpg" as="image" type="image/jpeg">
+    <link rel="preload" href="assets/avatar.png" as="image" type="image/png">
 
     <!-- DNS 预解析 -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://api.github.com">
+    <link rel="dns-prefetch" href="https://openreview.net">
 
     <!-- 预连接 -->
     <link rel="preconnect" href="https://api.github.com">
@@ -54,7 +54,7 @@
     <!-- Open Graph 标签 -->
     <meta property="og:title" content="KO Ho Tin - Portfolio">
     <meta property="og:description" content="Engineering and Design Portfolio">
-    <meta property="og:image" content="assets/avatar.jpg">
+    <meta property="og:image" content="assets/avatar.png">
     <meta property="og:type" content="website">
 
     <!-- 性能优化 -->
@@ -71,16 +71,9 @@
     </script>
 </head>
 <body>
-    <!-- 背景动画效果 -->
-    <div class="background-animation">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="ambient-light"></div>
-        <div class="grain-overlay"></div>
-    </div>    <!-- 主要内容 -->
     <div class="page-container">
         <div class="navbar">
-            <a href="index.html" class="nav-logo active gradient-text">Home</a>
+            <a href="index.html" class="nav-logo active">Home</a>
             <div class="hamburger-menu" aria-label="切换菜单" aria-expanded="false" aria-controls="navbarLinks">
                 <span></span>
                 <span></span>
@@ -88,12 +81,14 @@
             </div>
             <div class="navbar-links" id="navbarLinks">
                 <a href="#about-me">About Me</a>
+                <a href="#tech-stack">Tech Stack</a>
+                <a href="#research">Research</a>
                 <div class="dropdown">
-                    <a href="#">Project</a>
+                    <a href="#">Projects</a>
                     <div class="dropdown-content">
                         <div class="dropdown-loading">
                             <div class="loading-spinner"></div>
-                            <span>Loading Popular project...</span>
+                            <span>Loading Popular projects...</span>
                         </div>
                     </div>
                 </div>
@@ -107,23 +102,27 @@
         <!-- 优化 Hero 区域 -->
         <div class="hero" style="position: relative;">
             <div class="hero-content centered">
-                <h1 class="gradient-text animate-title">AI Researcher</h1>
+                <h1 class="gradient-text animate-title text-reveal">AI Researcher</h1>
                 <p class="hero-subtitle animate-subtitle">Exploring the intersection of technology and creativity</p>
                 <div class="hero-buttons animate-buttons">
-                    <a href="#about-me" class="button primary">View Portfolio</a>
-                    <a href="#contact" class="button secondary">Contact Me</a>
+                    <a href="#about-me" class="button primary magnetic">View Portfolio</a>
+                    <a href="#contact" class="button secondary magnetic">Contact Me</a>
                 </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll</span>
             </div>
             <div class="hero-background"></div>
         </div>
 
     <main>
-        <section id="about-me" class="about-section">
-            <div class="about-container">
+        <section id="about-me" class="section about-section">
+            <div class="section-container">
+                <div class="about-container">
                 <div class="profile-container">
                     <div class="profile-container-glass">
                         <div class="profile-image-wrapper">
-                            <img src="assets/avatar.jpg" alt="Profile Photo" class="profile-image">
+                            <img src="assets/avatar.png" alt="Profile Photo" class="profile-image">
                         </div>
                     </div>
                 </div>
@@ -135,24 +134,274 @@
                     </div>
                     <div class="profile-info">
                         <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
+
+                        <div class="expertise-section">
+                            <h4 class="expertise-title">Core Expertise</h4>
+                            <ul class="expertise-list">
+                                <li>Natural Language Processing & Text Analytics</li>
+                                <li>Generative AI Development & Implementation</li>
+                                <li>Large Language Models Fine-tuning & Optimization</li>
+                                <li>AI API Development & Integration</li>
+                                <li>Prompt Engineering & AI Model Deployment</li>
+                                <li>Computer Vision & Deep Learning Research</li>
+                            </ul>
+                        </div>
+
+                        <div class="current-focus">
+                            <h4 class="focus-title">Current Focus</h4>
+                            <p>Learning Machine Learning fundamentals and Deep Learning concepts, studying Neural Networks and AI Architectures, and practicing with AI/ML frameworks and tools. Recently completed research internship at City University of Hong Kong with published papers in top-tier conferences.</p>
+                        </div>
                     </div>
                     <div class="skills-grid">
                         <span class="skill-tag">Machine Learning</span>
                         <span class="skill-tag">Deep Learning</span>
                         <span class="skill-tag">Computer Vision</span>
+                        <span class="skill-tag">Natural Language Processing</span>
+                        <span class="skill-tag">Generative AI</span>
+                        <span class="skill-tag">Large Language Models</span>
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">TensorFlow</span>
                         <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                        <span class="skill-tag">AI API Development</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech-stack" class="section tech-stack-section reveal-up">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Tech Stack & Tools</h2>
+                <div class="tech-categories stagger">
+                    <div class="tech-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-code"></i>
+                            Programming Languages
+                        </h3>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fab fa-python"></i>
+                                <span>Python</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-js-square"></i>
+                                <span>JavaScript</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-java"></i>
+                                <span>Java</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-html5"></i>
+                                <span>HTML5</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-css3-alt"></i>
+                                <span>CSS3</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-database"></i>
+                                <span>SQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-brain"></i>
+                            AI/ML Frameworks
+                        </h3>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fas fa-fire"></i>
+                                <span>PyTorch</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-cube"></i>
+                                <span>TensorFlow</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Scikit-learn</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-eye"></i>
+                                <span>OpenCV</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-language"></i>
+                                <span>Hugging Face</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-robot"></i>
+                                <span>LangChain</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-tools"></i>
+                            Development Tools
+                        </h3>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fab fa-git-alt"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-code-branch"></i>
+                                <span>VS Code</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-docker"></i>
+                                <span>Docker</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-terminal"></i>
+                                <span>Terminal</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-book"></i>
+                                <span>Jupyter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-cloud"></i>
+                            Cloud & DevOps
+                        </h3>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fab fa-aws"></i>
+                                <span>AWS</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-google"></i>
+                                <span>Google Cloud</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-microsoft"></i>
+                                <span>Azure</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-server"></i>
+                                <span>Linux</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-infinity"></i>
+                                <span>CI/CD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research & Achievements Section -->
+        <section id="research" class="section research-section reveal-up">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Research & Achievements</h2>
+                <div class="research-grid stagger">
+                    <div class="research-card highlight-card">
+                        <div class="card-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3 class="card-title">City University of Hong Kong</h3>
+                        <p class="card-subtitle">Research Internship</p>
+                        <p class="card-description">Completed a prestigious research internship at City University of Hong Kong, contributing to cutting-edge AI research projects and collaborating with leading researchers in the field of artificial intelligence and machine learning.</p>
+                        <div class="card-tags">
+                            <span class="tag">Research</span>
+                            <span class="tag">AI Development</span>
+                            <span class="tag">Academic Collaboration</span>
+                        </div>
+                        <p class="card-date">2024</p>
+                    </div>
+
+                    <div class="research-card">
+                        <div class="card-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="card-title">Current Research Focus</h3>
+                        <p class="card-subtitle">AI & Machine Learning</p>
+                        <div class="focus-areas">
+                            <div class="focus-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Machine Learning Fundamentals</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-network-wired"></i>
+                                <span>Neural Networks & Deep Learning</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-eye"></i>
+                                <span>Computer Vision Applications</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-language"></i>
+                                <span>Natural Language Processing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="research-card">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="card-title">Learning Journey</h3>
+                        <p class="card-subtitle">Continuous Development</p>
+                        <p class="card-description">Actively studying AI/ML frameworks and tools, with hands-on experience in PyTorch, TensorFlow, and various machine learning libraries. Focused on practical applications and real-world problem solving.</p>
+                        <div class="progress-indicators">
+                            <div class="progress-item">
+                                <span class="progress-label">Deep Learning</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Computer Vision</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">NLP</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publication" class="section publications-section reveal-up">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Publications & Research</h2>
+                <div class="publications-grid stagger">
+                    <div class="loading-spinner" style="grid-column: 1 / -1;">
+                        <div class="spinner"></div>
+                        <p>加载发表论文中...</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- GitHub 项目展示区域 -->
-        <section class="section github-projects-section">
+        <section class="section github-projects-section reveal-up">
             <div class="section-container">
                 <h2 class="section-title gradient-text">Popular Project</h2>
-                <div class="projects-grid">
+                <div class="projects-grid stagger">
                     <!-- 项目卡片将由 JavaScript 动态加载 -->
                     <div class="loading-spinner">
                         <div class="spinner"></div>
@@ -163,11 +412,11 @@
         </section>
 
         <!-- 证书展示区域 -->
-        <section class="section certificates-section">
+        <section class="section certificates-section reveal-up">
             <div class="section-container">
                 <h2 class="section-title gradient-text">Certificates & Achievements</h2>
-                <div class="certificate-grid">
-                    <div class="certificate-item" onclick="showCertificateDetails('ja')">
+                <div class="certificate-grid stagger">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">JA Student Company Program</h3>
                         </div>
@@ -187,7 +436,7 @@
                     </div>
 
                     <!-- MIT证书 -->
-                    <div class="certificate-item" onclick="showCertificateDetails('mit')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">MIT Innovation Academy</h3>
                         </div>
@@ -207,7 +456,7 @@
                     </div>
 
                     <!-- IEEE证书 -->
-                    <div class="certificate-item" onclick="showCertificateDetails('ieee')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">IEEE CIS Summer School</h3>
                         </div>
@@ -227,7 +476,7 @@
                     </div>
 
 
-                    <div class="certificate-item" onclick="showCertificateDetails('hkujsi')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">HKU JSI</h3>
                         </div>
@@ -246,7 +495,7 @@
                         </div>
                     </div>
 
-                    <div class="certificate-item" onclick="showCertificateDetails('econ_workshop')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">Econ Workshop</h3>
                         </div>
@@ -264,7 +513,7 @@
                         </div>
                     </div>
 
-                    <div class="certificate-item" onclick="showCertificateDetails('cityu_ai')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">CityU Gifted Program for AI and Hardware</h3>
                         </div>
@@ -283,7 +532,7 @@
                         </div>
                     </div>
 
-                    <div class="certificate-item" onclick="showCertificateDetails('space_tech')">
+                    <div class="certificate-item">
                         <div class="certificate-header">
                             <h3 class="certificate-title">Space Tech Competition</h3>
                         </div>
@@ -305,56 +554,57 @@
             </div>
         </section>
 
-        <!-- 优化联系方式区域 -->
-        <section id="contact" class="contact-section">
-            <h2 class="section-title gradient-text">Get in Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3 class="card-title">Contact Information</h3>
-                    <div class="contact-method">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>s20200057@ylmass.edu.hk</p>
+        <section id="contact" class="section contact-section reveal-up">
+            <div class="section-container">
+                <h2 class="section-title gradient-text">Get in Touch</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3 class="card-title">Contact Information</h3>
+                        <div class="contact-method">
+                            <i class="fas fa-envelope contact-icon"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>s20200057@ylmass.edu.hk</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-github contact-icon"></i>
+                            <div>
+                                <h4>GitHub</h4>
+                                <p><a href="https://github.com/B143KC47">B143KC47</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-linkedin contact-icon"></i>
+                            <div>
+                                <h4>LinkedIn</h4>
+                                <p><a href="https://www.linkedin.com/in/blackcat/">BlackCat</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-instagram contact-icon"></i>
+                            <div>
+                                <h4>Instagram</h4>
+                                <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-method">
-                        <i class="fab fa-github contact-icon"></i>
-                        <div>
-                            <h4>GitHub</h4>
-                            <p><a href="https://github.com/B143KC47">B143KC47</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fab fa-linkedin contact-icon"></i>
-                        <div>
-                            <h4>LinkedIn</h4>
-                            <p><a href="https://www.linkedin.com/in/blackcat/">BlackCat</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fab fa-instagram contact-icon"></i>
-                        <div>
-                            <h4>Instagram</h4>
-                            <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
-                        </div>
-                    </div>
+
+                    <a href="https://b143kc47.github.io/blog/" class="blog-card">
+                        <h3 class="blog-title">Visit My Blog</h3>
+                        <p class="blog-description">Explore my thoughts on technology, engineering, and creative design. Regular updates on my latest projects and research.</p>
+                        <span class="blog-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
                 </div>
-                
-                <a href="https://b143kc47.github.io/blog/" class="blog-card">
-                    <h3 class="blog-title">Visit My Blog</h3>
-                    <p class="blog-description">Explore my thoughts on technology, engineering, and creative design. Regular updates on my latest projects and research.</p>
-                    <span class="blog-link">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </span>
-                </a>
             </div>
         </section>
     </main>
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3 class="gradient-text">KO Ho Tin</h3>
+                <h3>KO Ho Tin</h3>
                 <p>Engineering & Design Innovation</p>
                 <div class="social-links">
                     <a href="https://github.com/B143KC47" class="social-icon">
@@ -372,7 +622,9 @@
                 <h3>Quick Links</h3>
                 <nav class="footer-nav">
                     <a href="#about-me"><i class="fas fa-user"></i> About Me</a>
-                    <a href="#portfolio"><i class="fas fa-briefcase"></i> Portfolio</a>
+                    <a href="#tech-stack"><i class="fas fa-code"></i> Tech Stack</a>
+                    <a href="#research"><i class="fas fa-flask"></i> Research</a>
+                    <a href="#publication"><i class="fas fa-file-alt"></i> Publications</a>
                     <a href="#certificates"><i class="fas fa-certificate"></i> Certificates</a>
                     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
                 </nav>
@@ -386,32 +638,27 @@
             <p id="year"><i class="far fa-copyright"></i> 2023-2024 Powered by KO Ho Tin</p>
         </div>
     </footer>
+    </div>
 
-    <!-- 添加证书详情模态框 -->
-    <div id="certificateModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body">
-                <img id="modalImage" src="" alt="Certificate Detail" class="modal-image">
-                <div class="modal-info">
-                    <h3 id="modalTitle"></h3>
-                    <p id="modalDescription"></p>
-                    <div id="modalTags" class="certificate-tags"></div>
-                    <p id="modalDate" class="certificate-date"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+    <!-- Publications Data - Auto-updated by GitHub Actions -->
+    <script id="publications-data" type="application/json">
+{
+  "publications": [],
+  "lastUpdated": "2025-01-15T00:00:00.000Z",
+  "totalCount": 0,
+  "source": "Will be auto-updated by GitHub Actions"
+}
+    </script>
 
     <!-- 按正确顺序加载所有JS模块 -->
-    <script src="modules/ui.js"></script>
-    <script src="modules/navigation.js"></script>
-    <script src="modules/certificates.js"></script>
-    <script src="modules/github.js"></script>
-    <script src="modules/touch.js"></script>
-    <script src="modules/performance.js"></script>
-    <script src="script.js"></script>
+    <script src="modules/ui.js?v=1"></script>
+    <script src="modules/navigation.js?v=1"></script>
+    <script src="modules/certificates.js?v=1"></script>
+    <script src="modules/github.js?v=1"></script>
+    <script src="modules/openreview.js?v=3"></script>
+    <script src="modules/touch.js?v=1"></script>
+    <script src="modules/performance.js?v=1"></script>
+    <script src="script.js?v=1"></script>
 
     <!-- 移除重复的脚本引用 -->
 </body>

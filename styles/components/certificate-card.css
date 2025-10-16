@@ -44,13 +44,13 @@
 .certificate-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     margin-bottom: 0.25rem;
 }
 
 .certificate-date {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     margin-top: auto;
 }
 
@@ -71,7 +71,7 @@
 .certificate-description {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
 }
 
 .certificate-links {
@@ -224,7 +224,7 @@
     background: rgba(var(--accent-color-rgb), 0.1);
     border-radius: var(--border-radius-sm);
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
 }
 
 /* 证书卡片交互效果 */

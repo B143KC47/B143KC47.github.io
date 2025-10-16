@@ -3,16 +3,72 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: rgba(var(--accent-color-rgb), 0.2);
+    height: 5px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(var(--accent-color-rgb), 0.05) 25%,
+        rgba(var(--accent-color-rgb), 0.08) 50%,
+        rgba(var(--accent-color-rgb), 0.05) 75%,
+        transparent 100%
+    );
     z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(2px);
+}
+
+.loading-indicator.fade-out {
+    opacity: 0;
+    transform: translateY(-5px);
 }
 
 .loading-progress {
     height: 100%;
-    background: var(--gradient-primary);
+    background: linear-gradient(
+        90deg,
+        var(--accent-color) 0%,
+        #4CAF50 50%,
+        var(--accent-color) 100%
+    );
+    background-size: 200% 100%;
     width: 0;
-    transition: width 0.3s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 0 20px rgba(var(--accent-color-rgb), 0.4),
+        0 0 40px rgba(var(--accent-color-rgb), 0.2),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
+    position: relative;
+    border-radius: 0 3px 3px 0;
+}
+
+/* Enhanced glow pulse effect */
+.loading-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 50px;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.2) 40%,
+        transparent 70%
+    );
+    filter: blur(5px);
+    animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 /* 脉冲动画效果 */
@@ -55,7 +111,7 @@
 .loading-text {
     position: absolute;
     bottom: -30px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
     animation: fadeInOut 2s ease-in-out infinite;
 }
@@ -89,7 +145,7 @@
     justify-content: center;
     padding: 1rem;
     gap: 0.5rem;
-    color: var(--text-color-light);
+    color: var(--color-text-tertiary);
 }
 
 .loading-spinner {
@@ -107,6 +163,15 @@
     }
     100% {
         transform: translateX(200%);
+    }
+}
+
+@keyframes shine-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
     }
 }
 
@@ -136,15 +201,81 @@
     }
 }
 
+/* Fade in animation for content */
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page loaded state */
+body.page-loaded {
+    animation: pageReveal 0.5s ease-out forwards;
+}
+
+@keyframes pageReveal {
+    from {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 /* 响应式调整 */
 @media (max-width: 768px) {
     .loading-indicator {
-        height: 3px;
+        height: 5px; /* Keep consistent height on mobile */
     }
-    
+
+    .loading-progress::after {
+        width: 30px; /* Smaller glow on mobile */
+        filter: blur(3px);
+    }
+
     .loading-spinner-circle {
         width: 40px;
         height: 40px;
+    }
+
+    /* Faster animations on mobile */
+    .fade-in-up {
+        animation-duration: 0.4s;
+    }
+
+    @keyframes glow-pulse {
+        0%, 100% {
+            opacity: 0.5;
+            transform: scale(0.9);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
     }
 }
 

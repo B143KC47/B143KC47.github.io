@@ -1,9 +1,25 @@
 // 性能优化模块实现 - 使用全局对象而非ES模块
 const PerformanceModule = {
     init() {
+        this.checkBrowserSupport();
+        this.checkReducedMotion();
         this.setupScrollOptimization();
         this.setupImageOptimization();
-        this.checkBrowserSupport();
+    },
+
+    checkReducedMotion() {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            document.documentElement.classList.add('reduced-motion');
+        }
+
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+            if (e.matches) {
+                document.documentElement.classList.add('reduced-motion');
+            } else {
+                document.documentElement.classList.remove('reduced-motion');
+            }
+        });
     },
 
     // 检查浏览器对现代特性的支持情况
@@ -16,7 +32,8 @@ const PerformanceModule = {
         
         // 检测Intersection Observer API支持
         this.supportsIntersectionObserver = 'IntersectionObserver' in window;
-        
+        this.supportsBackdropFilter = CSS.supports('backdrop-filter', 'blur(10px)') || CSS.supports('-webkit-backdrop-filter', 'blur(10px)');
+
         // 检测被动事件监听器支持
         let supportsPassive = false;
         try {
@@ -27,6 +44,10 @@ const PerformanceModule = {
             window.removeEventListener('testPassive', null, opts);
         } catch (e) {}
         this.supportsPassive = supportsPassive;
+
+        if (!this.supportsBackdropFilter) {
+            document.documentElement.classList.add('no-backdrop-filter');
+        }
     },
 
     setupScrollOptimization() {

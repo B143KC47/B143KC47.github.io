@@ -1,14 +1,13 @@
 :root {
-    /* 布局常量 */
+    /* 布局常量 - Use variables from variables.css for iOS 18 compliance */
     --site-max-width: 1440px;
     --content-max-width: 1200px;
-    --navbar-height: 80px;
-    --section-spacing: 6rem;
-    --container-padding: 2rem;
-    
+    /* Don't override --section-spacing, use value from variables.css (64px iOS 18) */
+    /* Don't override --container-padding, use value from variables.css */
+
     /* 网格系统 */
     --grid-columns: 12;
-    --grid-gap: 2rem;
+    /* Don't override --grid-gap, use value from variables.css */
     --grid-container: min(var(--content-max-width), 100% - var(--container-padding) * 2);
 }
 
@@ -31,23 +30,132 @@
 
 /* 内容容器 */
 .container {
+    container-type: inline-size;
     width: 100%;
     max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--container-padding);
-}
-
-.container-fluid {
-    width: 100%;
+    margin-inline: auto;
     padding-inline: var(--container-padding);
+    box-sizing: border-box;
 }
 
-/* 部分布局 */
+/* 部分布局 - iOS 18 Grid Layout */
 .section {
     position: relative;
     padding: var(--section-spacing) 0;
     margin: 0 auto;
     width: 100%;
+    display: grid;
+    grid-template-columns:
+        [full-start] minmax(var(--container-padding), 1fr)
+        [content-start] min(var(--content-max-width), calc(100% - var(--container-padding) * 2)) [content-end]
+        minmax(var(--container-padding), 1fr) [full-end];
+}
+
+.section > * {
+    grid-column: content;
+}
+
+.section:first-of-type {
+    padding-top: var(--section-spacing);
+}
+
+.section:last-of-type {
+    padding-bottom: var(--section-spacing);
+}
+
+.section-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    grid-column: content;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.full-bleed {
+    width: 100%;
+    grid-column: full;
+    max-width: none;
+}
+
+.section-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    text-align: center;
+    background: var(--gradient-text);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 8s ease infinite;
+}
+
+.section-divider {
+    position: relative;
+    width: 100%;
+    height: 1px;
+    margin: var(--space-8) auto;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(var(--accent-color-rgb), 0.3) 20%,
+        rgba(var(--accent-color-rgb), 0.6) 50%,
+        rgba(var(--accent-color-rgb), 0.3) 80%,
+        transparent 100%
+    );
+    overflow: hidden;
+}
+
+.section-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    animation: shimmerDivider 3s ease-in-out infinite;
+}
+
+@keyframes shimmerDivider {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 200%;
+    }
+}
+
+.section-divider-gradient {
+    position: relative;
+    width: 60%;
+    height: 2px;
+    margin: var(--space-9) auto;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent-color),
+        #4CAF50,
+        #2196F3,
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: gradientFlow 4s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
 }
 
 /* 定位工具类 */
@@ -89,10 +197,12 @@
 
 /* 响应式处理 */
 @media (max-width: 768px) {
-    :root {
-        --container-padding: 1rem;
-        --section-spacing: 4rem;
-        --grid-gap: 1rem;
+    /* Mobile overrides handled by variables.css */
+    .section {
+        grid-template-columns:
+            [full-start] minmax(var(--container-padding), 1fr)
+            [content-start] min(calc(100% - var(--container-padding) * 2), 100%) [content-end]
+            minmax(var(--container-padding), 1fr) [full-end];
     }
 }
 
@@ -163,13 +273,7 @@
     contain-intrinsic-size: 0;
 }
 
-/* 响应式布局基础 */
-.container {
-    width: 100%;
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--container-padding);
-}
+/* 响应式布局基础 - container definition moved to lines 33-39 */
 
 /* 响应式栅格系统 */
 .grid {
@@ -177,39 +281,8 @@
     gap: var(--grid-gap);
 }
 
-/* 移动优先的响应式布局 */
-@media (max-width: var(--breakpoint-md)) {
-    .container {
-        padding: var(--mobile-padding);
-    }
-
-    .grid {
-        gap: var(--mobile-gap);
-    }
-
-    /* 移动端布局优化 */
-    .stack > * + * {
-        margin-top: var(--mobile-space-md);
-    }
-
-    /* 调整节距 */
-    section {
-        padding: var(--mobile-section-padding) 0;
-    }
-
-    /* 改进容器内边距 */
-    .content-wrapper {
-        padding: var(--mobile-padding);
-    }
-}
-
 /* 响应式间距系统 */
 @media (max-width: var(--breakpoint-sm)) {
-    .spacing-responsive {
-        padding: var(--mobile-space-sm);
-        margin: var(--mobile-space-sm);
-    }
-
     /* 优化图片布局 */
     .image-container img {
         width: 100%;
@@ -219,13 +292,13 @@
     /* 调整flex布局 */
     .flex-responsive {
         flex-direction: column;
-        gap: var(--mobile-space-md);
+        gap: var(--space-5);
     }
 }
 
 /* 安全区域适配 */
 @supports (padding: env(safe-area-inset-bottom)) {
     .safe-area-bottom {
-        padding-bottom: calc(var(--mobile-padding) + env(safe-area-inset-bottom));
+        padding-bottom: calc(var(--container-padding) + env(safe-area-inset-bottom));
     }
 }

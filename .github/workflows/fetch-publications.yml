@@ -1,0 +1,151 @@
+name: Fetch OpenReview Publications
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  fetch-publications:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch publications from OpenReview API
+        run: |
+          PROFILE_ID="~Ho_Tin_Ko2"
+
+          echo "Fetching publications for ${PROFILE_ID}..."
+
+          RESPONSE=$(curl -s "https://api2.openreview.net/notes?content.authorids=${PROFILE_ID}&limit=50" \
+            -H "Content-Type: application/json" || echo '{"notes":[]}')
+
+          echo "$RESPONSE" | node -e '
+            const fs = require("fs");
+            const input = fs.readFileSync(0, "utf-8");
+
+            try {
+              const data = JSON.parse(input);
+              const publications = [];
+
+              if (data.notes && data.notes.length > 0) {
+                data.notes.forEach(note => {
+                  const pub = {
+                    id: note.id,
+                    title: note.content?.title?.value || note.content?.title || "Untitled",
+                    authors: extractAuthors(note),
+                    venue: note.content?.venue?.value || note.content?.venue || "OpenReview",
+                    year: extractYear(note),
+                    status: determineStatus(note),
+                    abstract: note.content?.abstract?.value || note.content?.abstract || "No abstract available.",
+                    openreviewUrl: `https://openreview.net/forum?id=${note.id}`,
+                    tags: extractKeywords(note),
+                    type: "Publication",
+                    fetchedAt: new Date().toISOString()
+                  };
+                  publications.push(pub);
+                });
+              }
+
+              function extractAuthors(note) {
+                if (note.content?.authors?.value) {
+                  return note.content.authors.value;
+                }
+                if (note.content?.authors) {
+                  return Array.isArray(note.content.authors) ? note.content.authors : [note.content.authors];
+                }
+                if (note.signatures) {
+                  return note.signatures.slice(0, 5);
+                }
+                return ["Ko Ho Tin"];
+              }
+
+              function extractYear(note) {
+                if (note.content?.year?.value) return note.content.year.value;
+                if (note.content?.year) return note.content.year;
+                if (note.cdate) {
+                  return new Date(note.cdate).getFullYear();
+                }
+                return new Date().getFullYear();
+              }
+
+              function extractKeywords(note) {
+                if (note.content?.keywords?.value) {
+                  return Array.isArray(note.content.keywords.value) ? note.content.keywords.value : [note.content.keywords.value];
+                }
+                if (note.content?.keywords) {
+                  return Array.isArray(note.content.keywords) ? note.content.keywords : [note.content.keywords];
+                }
+                return ["Research", "AI"];
+              }
+
+              function determineStatus(note) {
+                if (note.content?.decision?.value) {
+                  const decision = note.content.decision.value.toLowerCase();
+                  if (decision.includes("accept")) return "Accepted";
+                  if (decision.includes("reject")) return "Under Review";
+                }
+                if (note.content?.venue?.value) return "Published";
+                return "Research";
+              }
+
+              const result = {
+                publications: publications,
+                lastUpdated: new Date().toISOString(),
+                totalCount: publications.length,
+                source: "OpenReview API v2 (GitHub Actions)"
+              };
+
+              updateHTMLWithPublications(result);
+              console.log(`✅ Fetched ${publications.length} publications and updated HTML`);
+
+            } catch (error) {
+              console.error("Error processing publications:", error);
+              const fallback = {
+                publications: [],
+                lastUpdated: new Date().toISOString(),
+                totalCount: 0,
+                source: "Fallback (API error)",
+                error: error.message
+              };
+              updateHTMLWithPublications(fallback);
+            }
+
+            function updateHTMLWithPublications(data) {
+              let html = fs.readFileSync("index.html", "utf-8");
+              const jsonContent = JSON.stringify(data, null, 2);
+              const pattern = /(<script id="publications-data" type="application\/json">)([\s\S]*?)(<\/script>)/;
+              html = html.replace(pattern, `$1\n${jsonContent}\n$3`);
+              fs.writeFileSync("index.html", html, "utf-8");
+
+              fs.writeFileSync("data/publications.json", JSON.stringify(data, null, 2), "utf-8");
+              console.log(`✅ Also updated data/publications.json`);
+            }
+          '
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add index.html data/publications.json
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔄 Auto-update publications data [skip ci]"
+            git push
+            echo "✅ Publications data updated in index.html and data/publications.json"
+          fi

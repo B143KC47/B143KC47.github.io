@@ -1,0 +1,170 @@
+/* ============================================= */
+/* Publications Section - iOS 18 Style         */
+/* ============================================= */
+
+.publications-section {
+    padding: var(--section-spacing) 0;
+    position: relative;
+}
+
+.publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--grid-gap);
+    margin-top: var(--space-8);
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.publication-item {
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: transform var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.publication-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.publication-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+    gap: var(--space-4);
+}
+
+.publication-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: var(--line-height-tight);
+    flex: 1;
+}
+
+.publication-status {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+}
+
+.publication-status.status-published {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+}
+
+.publication-status.status-review {
+    background: linear-gradient(135deg, #1a73e8, #1557b0);
+}
+
+.publication-status.status-accepted {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+}
+
+.publication-status.status-research {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.publication-details {
+    margin-top: var(--space-4);
+}
+
+.publication-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.publication-description {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-5);
+    font-size: var(--font-size-md);
+}
+
+.publication-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.publication-tag {
+    background: var(--color-surface-elevated);
+    color: var(--color-primary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    border: 1px solid var(--color-border);
+    transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.publication-tag:hover {
+    background: var(--color-surface-overlay);
+    border-color: var(--color-border-hover);
+    transform: translateY(-1px);
+}
+
+.publication-date {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    margin: 0;
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .publications-section {
+        padding: var(--section-spacing) 0;
+    }
+
+    .publications-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+    }
+
+    .publication-item {
+        padding: var(--space-5);
+    }
+
+    .publication-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+
+    .publication-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .publication-status {
+        align-self: flex-start;
+    }
+
+    .publication-date {
+        text-align: left;
+    }
+}

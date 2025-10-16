@@ -1,276 +1,184 @@
+/* ============================================= */
+/* Contact Section - iOS 18 Style              */
+/* ============================================= */
+
 .contact-section {
-    width: 100%;
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: var(--spacing-xl);
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
+    padding: var(--section-spacing) 0;
+    text-align: center;
 }
 
-.contact-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(var(--accent-color-rgb), 0.05) 0%,
-        transparent 70%
-    );
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.contact-section:hover::before {
-    opacity: 1;
+.contact-section .section-title {
+    margin-bottom: var(--space-7);
 }
 
 .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-xl);
-    padding: var(--spacing-lg);
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: var(--space-7);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-6);
 }
 
-.contact-card {
-    background: var(--glass-effect);
-    backdrop-filter: var(--blur-sm);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    transition: var(--transition-bounce);
-    transform-style: preserve-3d;
-    perspective: 1000px;
+.contact-card,
+.blog-card {
+    background: var(--color-surface-base);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-7);
+    transition: transform var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard);
+    box-shadow: var(--shadow-sm);
+    flex: 0 1 480px;
+    min-width: 320px;
+    text-align: left;
 }
 
-.contact-card:hover {
-    transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    border-color: rgba(var(--accent-color-rgb), 0.3);
+.contact-card:hover,
+.blog-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-card .card-title {
+    margin-bottom: var(--space-6);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
 }
 
 .contact-method {
     display: flex;
     align-items: center;
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--border-radius-md);
-    transition: var(--transition-bounce);
-    position: relative;
-    overflow: hidden;
+    margin: var(--space-3) 0;
+    padding: var(--space-4);
+    background: var(--color-surface-base);
+    border-radius: var(--radius-md);
+    transition: transform var(--duration-base) var(--easing-standard),
+                background var(--duration-base) var(--easing-standard);
+    min-height: 44px;
 }
 
-.contact-method::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: var(--transition-normal);
+.contact-method:first-of-type {
+    margin-top: 0;
+}
+
+.contact-method:last-of-type {
+    margin-bottom: 0;
 }
 
 .contact-method:hover {
-    transform: translateX(10px);
-}
-
-.contact-method:hover::before {
-    opacity: 0.1;
+    transform: translateX(4px);
+    background: var(--color-surface-elevated);
 }
 
 .contact-icon {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-right: var(--spacing-md);
-    position: relative;
-    z-index: 1;
-}
-
-.contact-method div {
-    position: relative;
-    z-index: 1;
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    margin-right: var(--space-4);
+    min-width: 24px;
 }
 
 .contact-method h4 {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
 }
 
-.contact-method p, .contact-method a {
-    color: var(--text-secondary);
-    margin: var(--spacing-xs) 0 0;
-    font-size: 0.95rem;
+.contact-method p,
+.contact-method a {
+    color: var(--color-text-secondary);
+    margin: var(--space-1) 0 0;
+    font-size: var(--font-size-md);
     text-decoration: none;
-    transition: var(--transition-normal);
+    transition: color var(--duration-base) var(--easing-standard);
 }
 
 .contact-method:hover p,
 .contact-method:hover a {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
 }
 
 .blog-card {
-    background: var(--glass-effect);
-    backdrop-filter: var(--blur-sm);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
     text-decoration: none;
-    transition: var(--transition-bounce);
-    position: relative;
-    overflow: hidden;
-}
-
-.blog-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.blog-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    border-color: rgba(var(--accent-color-rgb), 0.3);
-}
-
-.blog-card:hover::before {
-    opacity: 0.1;
+    display: block;
 }
 
 .blog-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
-    position: relative;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-3);
 }
 
 .blog-description {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: var(--spacing-lg);
-    position: relative;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-5);
 }
 
 .blog-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    color: var(--accent-color);
-    font-weight: 600;
-    position: relative;
+    gap: var(--space-2);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
 }
 
 .blog-link i {
-    transition: var(--transition-normal);
+    transition: transform var(--duration-base) var(--easing-standard);
 }
 
 .blog-card:hover .blog-link i {
-    transform: translateX(5px);
-}
-
-@media (max-width: 768px) {
-    .contact-section {
-        padding: var(--spacing-lg);
-    }
-
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-        padding: var(--spacing-md);
-    }
-
-    .contact-card,
-    .blog-card {
-        padding: var(--spacing-lg);
-    }
-
-    .contact-method {
-        padding: var(--spacing-sm);
-    }
+    transform: translateX(4px);
 }
 
 .social-links-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
 }
 
 .social-link-card {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: var(--space-4);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: transform var(--duration-base) var(--easing-standard);
+    min-height: 44px;
 }
 
 .social-link-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* 移动端表单优化 */
-@media (max-width: var(--breakpoint-md)) {
-    .contact-form {
-        padding: var(--mobile-padding);
-        gap: var(--mobile-space-md);
+@media (max-width: 768px) {
+    .contact-section {
+        padding: var(--section-spacing) 0;
     }
 
-    .form-group {
-        margin-bottom: var(--mobile-space-sm);
+    .contact-grid {
+        gap: var(--space-5);
+        padding: var(--space-4);
     }
 
-    .form-control {
-        min-height: var(--mobile-touch-target);
-        padding: calc(var(--mobile-space-sm) + 2px);
-        font-size: var(--mobile-font-base);
+    .contact-card,
+    .blog-card {
+        flex: 1 1 100%;
+        padding: var(--space-5);
+        min-width: 280px;
     }
 
-    textarea.form-control {
-        min-height: 120px;
-    }
-
-    .submit-button {
-        width: 100%;
-        min-height: var(--mobile-touch-target);
-        padding: var(--mobile-space-sm) var(--mobile-space-lg);
-        font-size: var(--mobile-font-base);
-    }
-
-    /* 触摸反馈优化 */
-    .submit-button:active {
-        transform: scale(0.98);
-        background: var(--primary-color-dark);
-    }
-
-    /* 表单验证提示优化 */
-    .form-control:invalid {
-        border-color: rgba(255, 0, 0, 0.3);
-    }
-
-    .error-message {
-        font-size: calc(var(--mobile-font-base) * 0.9);
-        padding: var(--mobile-space-xs);
-    }
-}
-
-/* 表单字段动画 */
-.form-control:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
-}
-
-/* 移动端触摸反馈 */
-@media (hover: none) and (pointer: coarse) {
-    .form-control:active,
-    .submit-button:active {
-        background: var(--mobile-touch-feedback);
+    .contact-method {
+        padding: var(--space-3);
     }
 }

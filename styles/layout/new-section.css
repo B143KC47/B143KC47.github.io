@@ -13,13 +13,14 @@ section, .section {
     overflow: hidden;
 }
 
-/* 区块内容容器 */
+/* 区块内容容器 - padding removed, handled by CSS Grid in layout.css */
 .section-container {
-    max-width: var(--container-width, var(--content-max-width, 1200px));
-    margin: 0 auto;
-    padding: 0 var(--container-padding, 2rem);
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
     position: relative;
     z-index: 2;
+    grid-column: content;
 }
 
 /* 全高section */

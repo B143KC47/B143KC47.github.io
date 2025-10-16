@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/ko202/Desktop/**)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebSearch",
+      "WebFetch(domain:openreview.net)",
+      "WebFetch(domain:api2.openreview.net)",
+      "WebFetch(domain:designcode.io)",
+      "WebFetch(domain:docs.openreview.net)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

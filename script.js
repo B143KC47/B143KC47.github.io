@@ -1,5 +1,22 @@
 // 采用全局对象模式，避免模块导入导致的CORS问题
 
+// Development mode detection
+(function() {
+    'use strict';
+
+    const isDevelopment = window.location.protocol === 'file:' ||
+                          window.location.hostname === 'localhost' ||
+                          window.location.hostname === '127.0.0.1';
+
+    if (isDevelopment && !sessionStorage.getItem('welcomeShown')) {
+        console.log('%c🎨 Portfolio Website', 'color: #10a37f; font-size: 20px; font-weight: bold');
+        console.log('%cDeveloper Mode Active', 'color: #888; font-size: 12px');
+        console.log('%cAPI calls use fallback strategies - this is normal!', 'color: #888; font-size: 11px');
+        console.log(' ');
+        sessionStorage.setItem('welcomeShown', 'true');
+    }
+})();
+
 // DOM加载完成后初始化所有功能模块
 document.addEventListener('DOMContentLoaded', () => {
     // 检查所有模块是否已加载
@@ -7,20 +24,22 @@ document.addEventListener('DOMContentLoaded', () => {
         typeof NavigationModule !== 'undefined' &&
         typeof CertificatesModule !== 'undefined' &&
         typeof GitHubModule !== 'undefined' &&
+        typeof OpenReviewModule !== 'undefined' &&
         typeof TouchModule !== 'undefined' &&
         typeof PerformanceModule !== 'undefined') {
-        
+
         // 初始化所有模块
         UIModule.init();
         NavigationModule.init();
         CertificatesModule.init();
         GitHubModule.init().catch(console.error);
+        OpenReviewModule.init().catch(console.error);
         TouchModule.init();
         PerformanceModule.init();
     } else {
         console.error('某些模块未正确加载');
     }
-    
+
     // 初始化模态窗口功能
     initModal();
 });

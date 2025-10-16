@@ -10,36 +10,38 @@ html{
     background-color: #000000;
 }
 
-/* 主标题样式 */
+/* 主标题样式 - 使用响应式字体 */
 h1, .h1-style {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 800;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #10a37f 0%, #4CAF50 35%, #2196F3 70%, #9C27B0 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    background-size: 200% auto;
 }
 
-/* 二级标题样式 */
+/* 二级标题样式 - 使用响应式字体 */
 h2, .h2-style {
-    font-size: 2.8rem;
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+    background: linear-gradient(135deg, #10a37f 0%, #4CAF50 50%, #2196F3 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
 }
 
-/* 三级标题样式 */
+/* 三级标题样式 - 使用响应式字体 */
 h3, .h3-style {
-    font-size: 2.2rem;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
     font-weight: 600;
-    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    background: linear-gradient(135deg, #10a37f 0%, #4CAF50 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
 }
 
 /* 悬停效果 */
@@ -63,9 +65,27 @@ h1:hover, h2:hover, h3:hover {
     animation: titleFadeIn 0.8s ease-out forwards;
 }
 
-/* 响应式适配 */
+/* 段落和文本样式 */
+p {
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1rem;
+}
+
+/* 响应式适配 - clamp已处理，无需额外媒体查询 */
 @media (max-width: 768px) {
-    h1, .h1-style { font-size: 2.5rem; }
-    h2, .h2-style { font-size: 2rem; }
-    h3, .h3-style { font-size: 1.8rem; }
+    h1, .h1-style {
+        font-size: clamp(2rem, 8vw, 2.5rem);
+    }
+    h2, .h2-style {
+        font-size: clamp(1.75rem, 6vw, 2rem);
+    }
+    h3, .h3-style {
+        font-size: clamp(1.5rem, 5vw, 1.75rem);
+    }
+    p {
+        font-size: clamp(0.9375rem, 3vw, 1rem);
+        line-height: 1.6;
+    }
 }
