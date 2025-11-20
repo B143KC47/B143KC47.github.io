@@ -1,9 +1,25 @@
 /* ============================================= */
-/* GitHub Projects Section - iOS 18 Style      */
+/* GitHub Projects Section - Avant-Garde Style */
 /* ============================================= */
 
 .github-projects-section {
     width: 100%;
+    padding: var(--space-8) 0;
+    position: relative;
+}
+
+/* Background Ambient Glow */
+.github-projects-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(88, 166, 255, 0.03) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .github-projects-section .section-container {
@@ -11,170 +27,298 @@
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 var(--container-padding);
+    position: relative;
+    z-index: 1;
 }
 
-/* Projects Grid */
+/* Bento Grid Layout */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min), 1fr));
-    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-5);
     width: 100%;
 }
 
-/* Project Card */
+/* Desktop Grid Adjustments for Bento Layout */
+@media (min-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 240px;
+    }
+
+    /* Hero Card (Top 1) - 2x2 */
+    .project-card.card-hero {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    /* Featured Cards (Top 2-3) - 2x1 */
+    .project-card.card-featured {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    /* Standard Cards - 1x1 */
+    .project-card.card-standard {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+}
+
+/* Project Card - Modern Dark Theme */
 .project-card {
-    background: var(--color-surface-base);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    border: 1px solid var(--color-border);
-    transition: transform var(--duration-base) var(--easing-standard),
-                border-color var(--duration-base) var(--easing-standard),
-                box-shadow var(--duration-base) var(--easing-standard);
+    position: relative;
+    background: #161b22; /* GitHub Dark Dimmed Card */
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    min-height: 200px;
-    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Spotlight Effect */
+.project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.15),
+        transparent 40%
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+.card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        600px circle at var(--mouse-x) var(--mouse-y),
+        rgba(56, 139, 253, 0.05),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.project-card:hover .card-glow {
+    opacity: 1;
 }
 
 .project-card:hover {
     transform: translateY(-4px);
-    border-color: var(--color-border-hover);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    border-color: #8b949e;
 }
 
-/* Project Header */
+/* Card Content */
+.card-content {
+    position: relative;
+    z-index: 3;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 16px;
+}
+
+/* Header */
 .project-header {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: var(--space-3);
 }
 
 .project-icon {
-    font-size: var(--font-size-xl);
-    color: var(--color-primary);
-    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: #238636; /* GitHub Green */
+}
+
+.project-links {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-link {
+    color: #8b949e;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+
+.icon-link:hover {
+    color: #58a6ff; /* GitHub Blue */
 }
 
 .project-title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #c9d1d9;
     text-decoration: none;
-    transition: color var(--duration-fast) var(--easing-standard);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s ease;
 }
 
-.project-title:hover {
-    color: var(--color-primary);
+.project-card:hover .project-title {
+    color: #58a6ff;
 }
 
-/* Project Description */
+/* Description */
 .project-description {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-relaxed);
+    color: #8b949e;
+    font-size: 0.9rem;
+    line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    flex: 1;
+    flex-grow: 1;
 }
 
-/* Project Language */
-.project-language {
+/* Hero Card Specifics */
+.card-hero .project-title {
+    font-size: 1.5rem;
+    color: #58a6ff;
+}
+
+.card-hero .project-description {
+    font-size: 1rem;
+    -webkit-line-clamp: 4;
+}
+
+/* Tech Tags */
+.project-topics {
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
+    flex-wrap: wrap;
+    gap: 8px;
     margin-top: auto;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
 }
 
-.language-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
+.tech-tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #21262d;
+    color: #8b949e;
+    border: 1px solid #30363d;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s ease;
 }
 
-/* Project Stats */
-.project-stats {
-    display: flex;
-    gap: var(--space-4);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-border);
-    font-size: var(--font-size-sm);
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--color-text-tertiary);
+.project-card:hover .tech-tag {
+    background: #30363d;
+    color: #c9d1d9;
+    border-color: #8b949e;
 }
 
 /* Footer */
 .project-footer {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    margin-top: auto;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    margin-top: 8px;
 }
 
-/* Loading State */
-.loading-spinner {
+.project-language {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.language-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.project-stats {
+    display: flex;
+    gap: 16px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.stat-item i {
+    font-size: 0.9rem;
+}
+
+/* Loading & Error States */
+.loading-spinner, .error-message {
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: var(--space-8);
-    gap: var(--space-4);
-    grid-column: 1 / -1;
+    padding: 4rem;
+    color: #8b949e;
 }
 
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid var(--color-surface-elevated);
-    border-top-color: var(--color-primary);
+    border: 3px solid #30363d;
+    border-top-color: #58a6ff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Error State */
-.error-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-8);
-    text-align: center;
-    color: var(--color-text-secondary);
-    grid-column: 1 / -1;
-}
-
-/* Responsive */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-5);
+        gap: var(--space-4);
     }
-
+    
     .project-card {
-        padding: var(--space-5);
+        min-height: 220px;
     }
-
-    .section-title {
-        font-size: var(--font-size-2xl);
-        margin-bottom: var(--space-6);
+    
+    .card-hero .project-title {
+        font-size: 1.25rem;
     }
 }

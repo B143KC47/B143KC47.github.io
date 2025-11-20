@@ -20,6 +20,7 @@ const GitHubModule = {
 
             const userData = await response.json();
 
+            /* Disable automatic avatar replacement to use local high-quality asset
             if (userData.avatar_url) {
                 const profileImg = document.querySelector('.profile-image');
                 if (profileImg) {
@@ -34,6 +35,7 @@ const GitHubModule = {
                     img.src = userData.avatar_url;
                 }
             }
+            */
 
             console.log('✅ GitHub profile loaded');
             return userData;
@@ -52,8 +54,9 @@ const GitHubModule = {
 
         try {
             // Add a minimum delay to show skeletons for better UX
+            // Changed sort to 'stars' to prioritize popular projects
             const [response] = await Promise.all([
-                fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=16`),
+                fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=20`),
                 new Promise(resolve => setTimeout(resolve, 600))
             ]);
 
@@ -63,7 +66,14 @@ const GitHubModule = {
             }
             const repos = await response.json();
 
-            const filteredRepos = repos.filter(repo => !repo.fork);
+            // Filter out forks and the special profile repo
+            let filteredRepos = repos.filter(repo => !repo.fork && repo.name !== 'B143KC47');
+
+            // Smart Curation: Prioritize 'AdsBlock' or other significant projects if they exist
+            const pinnedProjects = ['AdsBlock', 'Ultratranslate', 'claudeCO-webui'];
+            
+            // Sort strictly by stars (descending)
+            filteredRepos.sort((a, b) => b.stargazers_count - a.stargazers_count);
 
             // Clear skeletons
             projectsGrid.innerHTML = '';
@@ -83,14 +93,25 @@ const GitHubModule = {
             filteredRepos.forEach((repo, index) => {
                 const card = this.createProjectCard(repo);
 
+                // Bento Grid Layout Logic
+                if (index === 0) {
+                    card.classList.add('card-hero');
+                } else if (index < 3) {
+                    card.classList.add('card-featured');
+                } else {
+                    card.classList.add('card-standard');
+                }
+
                 // 添加延迟动画效果，创建瀑布流显示效果
-                const row = Math.floor(index / 2); // 假设每行大约2个卡片
-                const col = index % 2;
-                card.style.animationDelay = `${row * 0.1 + col * 0.05}s`;
+                const delay = index * 0.1;
+                card.style.animationDelay = `${delay}s`;
                 card.classList.add('content-reveal');
 
                 projectsGrid.appendChild(card);
             });
+
+            // Initialize Spotlight Effect
+            this.setupSpotlightEffect();
 
             return filteredRepos;
         } catch (error) {
@@ -110,52 +131,88 @@ const GitHubModule = {
     createProjectCard(repo) {
         const card = document.createElement('div');
         card.className = 'project-card';
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
+        // Initialize CSS variables for spotlight to center to avoid jump on first hover
+        card.style.setProperty('--mouse-x', '50%');
+        card.style.setProperty('--mouse-y', '50%');
         
         // 处理过长的项目名称
         const displayName = repo.name.length > 25 ? repo.name.substring(0, 22) + '...' : repo.name;
         
         // 确保项目描述不为空，并处理过长的描述
         let description = repo.description || '暂无项目描述';
-        if (description.length > 100) {
-            description = description.substring(0, 97) + '...';
+        if (description.length > 120) {
+            description = description.substring(0, 117) + '...';
         }
         
         const languageColor = this.getLanguageColor(repo.language);
         
-        // 优化HTML结构
+        // Generate topics tags (limit to 3)
+        const topicsHtml = repo.topics && repo.topics.length > 0 
+            ? `<div class="project-topics">
+                ${repo.topics.slice(0, 3).map(topic => `<span class="tech-tag">${topic}</span>`).join('')}
+               </div>` 
+            : '';
+
+        // 优化HTML结构 - Avant-Garde Style
         card.innerHTML = `
-            <div class="project-header">
-                <i class="far fa-folder-open project-icon"></i>
-                <a href="${repo.html_url}" target="_blank" class="project-title" title="${repo.name}">${displayName}</a>
-            </div>
-            <p class="project-description">${description}</p>
-            <div class="project-footer">
-                ${repo.language ? `
-                    <div class="project-language">
-                        <span class="language-dot" style="background-color: ${languageColor}"></span>
-                        ${repo.language}
+            <div class="card-glow"></div>
+            <div class="card-content">
+                <div class="project-header">
+                    <div class="header-top">
+                        <i class="far fa-folder-open project-icon"></i>
+                        <div class="project-links">
+                            <a href="${repo.html_url}" target="_blank" class="icon-link" title="View Code">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="icon-link" title="View Demo"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                        </div>
                     </div>
-                ` : '<div class="project-language"><span class="language-dot" style="background-color: #8b8b8b"></span>未指定</div>'}
-                <div class="project-stats">
-                    <div class="stat-item" title="Stars">
-                        <i class="far fa-star"></i>
-                        ${repo.stargazers_count}
-                    </div>
-                    <div class="stat-item" title="Forks">
-                        <i class="fas fa-code-branch"></i>
-                        ${repo.forks_count}
-                    </div>
-                    <div class="stat-item" title="Watchers">
-                        <i class="far fa-eye"></i>
-                        ${repo.watchers_count}
+                    <a href="${repo.html_url}" target="_blank" class="project-title" title="${repo.name}">${displayName}</a>
+                </div>
+                
+                <p class="project-description">${description}</p>
+                
+                ${topicsHtml}
+
+                <div class="project-footer">
+                    ${repo.language ? `
+                        <div class="project-language">
+                            <span class="language-dot" style="background-color: ${languageColor}; box-shadow: 0 0 8px ${languageColor}66;"></span>
+                            ${repo.language}
+                        </div>
+                    ` : '<div class="project-language"><span class="language-dot" style="background-color: #8b8b8b"></span>N/A</div>'}
+                    
+                    <div class="project-stats">
+                        <div class="stat-item" title="Stars">
+                            <i class="far fa-star"></i>
+                            <span>${repo.stargazers_count}</span>
+                        </div>
+                        <div class="stat-item" title="Forks">
+                            <i class="fas fa-code-branch"></i>
+                            <span>${repo.forks_count}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
         
         return card;
+    },
+
+    setupSpotlightEffect() {
+        const grid = document.querySelector('.projects-grid');
+        if (!grid) return;
+
+        grid.addEventListener('mousemove', (e) => {
+            const cards = grid.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
     },
 
     getLanguageColor(language) {
@@ -236,14 +293,14 @@ const GitHubModule = {
 
         // Create bento grid layout matching actual project layout
         const skeletonLayouts = [
-            { variant: '2x2', delay: 0 },    // First large card
-            { variant: '2x2', delay: 50 },   // Second large card
-            { variant: '1x1', delay: 100 },  // Regular cards
-            { variant: '1x1', delay: 150 },
+            { variant: '2x2', delay: 0 },    // Hero (Top 1)
+            { variant: '2x1', delay: 50 },   // Featured (Top 2)
+            { variant: '2x1', delay: 100 },  // Featured (Top 3)
+            { variant: '1x1', delay: 150 },  // Standard
             { variant: '1x1', delay: 200 },
             { variant: '1x1', delay: 250 },
-            { variant: '2x1', delay: 300 },  // Wide card
-            { variant: '1x1', delay: 350 }   // More regular cards
+            { variant: '1x1', delay: 300 },
+            { variant: '1x1', delay: 350 }
         ];
 
         skeletonLayouts.forEach(({ variant, delay }) => {

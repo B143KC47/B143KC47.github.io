@@ -6,7 +6,7 @@
     <!-- CSS 引用 -->
     <link rel="stylesheet" href="styles/main.css?v=3">
     <link rel="stylesheet" href="styles/mobile.css?v=3">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <meta name="description" content="KO Ho Tin's personal profile showcasing education, experience, and achievements in engineering and design.">
@@ -27,7 +27,7 @@
 
     <!-- 预加载关键图片 -->
     <link rel="preload" href="assets/screen.jpeg" as="image" type="image/jpeg">
-    <link rel="preload" href="assets/avatar.png" as="image" type="image/png">
+    <link rel="preload" href="assets/avatar.png?v=4" as="image" type="image/png">
 
     <!-- DNS 预解析 -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -65,6 +65,7 @@
     </script>
 </head>
 <body>
+    <div class="custom-cursor"></div>
     <div class="page-container">
         <div class="navbar">
             <a href="index.html" class="nav-logo active">Home</a>
@@ -94,72 +95,78 @@
         <div class="blur-overlay"></div>
 
         <!-- 优化 Hero 区域 -->
-        <div class="hero" style="position: relative;">
+        <div class="hero">
+            <canvas id="hero-canvas"></canvas>
             <div class="hero-content centered">
-                <h1 class="gradient-text animate-title text-reveal">AI Researcher</h1>
-                <p class="hero-subtitle animate-subtitle">Exploring the intersection of technology and creativity</p>
+                <h1 class="decoding-text glitch" data-value="AI RESEARCHER">AI RESEARCHER</h1>
+                <p class="hero-subtitle">Exploring the intersection of technology and creativity</p>
+                
+                <!-- Terminal Command Links -->
+                <div class="terminal-links">
+                    <span class="prompt">&gt; connect --target</span>
+                    <a href="https://blog.csdn.net/B143KC47?spm=1000.2115.3001.5343" class="cmd-link" data-text="CSDN">CSDN</a>
+                    <a href="https://www.zhihu.com/people/B143KC47" class="cmd-link" data-text="Zhihu">Zhihu</a>
+                    <a href="https://www.linkedin.com/in/blackcat/" class="cmd-link" data-text="LinkedIn">LinkedIn</a>
+                </div>
+
                 <div class="hero-buttons animate-buttons">
                     <a href="#about-me" class="button primary magnetic">View Portfolio</a>
                     <a href="#contact" class="button secondary magnetic">Contact Me</a>
                 </div>
             </div>
             <div class="scroll-indicator">
-                <span>Scroll</span>
+                <span>SCROLL_DOWN</span>
             </div>
-            <div class="hero-background"></div>
         </div>
 
     <main>
         <section id="about-me" class="section about-section">
             <div class="section-container">
-                <div class="about-container">
-                <div class="profile-container">
-                    <div class="profile-container-glass">
-                        <div class="profile-image-wrapper">
-                            <img src="assets/avatar.png" alt="Profile Photo" class="profile-image">
+                <h2 class="section-title gradient-text">About Me</h2>
+                <div class="bento-grid">
+                    <!-- Avatar Card -->
+                    <div class="bento-item avatar-card">
+                        <div class="glitch-image-wrapper">
+                            <img src="assets/avatar.png?v=4" alt="Profile Photo" class="profile-image">
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Online</span>
                         </div>
                     </div>
-                </div>
-                <div class="about-content">
-                    <div class="about-header">
-                        <h2 class="about-title">About Me</h2>
-                        <h3 class="profile-name">KO Ho Tin (BlackCat)</h3>
+
+                    <!-- Bio Card -->
+                    <div class="bento-item bio-card">
+                        <h3 class="profile-name">KO Ho Tin <span class="handle">(BlackCat)</span></h3>
                         <p class="profile-role">Engineering Student & Design Enthusiast</p>
+                        <p class="bio-text">A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
                     </div>
-                    <div class="profile-info">
-                        <p>A student with a passion for engineering and design (science and creativity), who enjoys learning new things, and who likes to challenge herself to make a difference in the future. Currently focused on exploring AI technology and machine learning, particularly in computer vision and deep learning research.</p>
 
-                        <div class="expertise-section">
-                            <h4 class="expertise-title">Core Expertise</h4>
-                            <ul class="expertise-list">
-                                <li>Natural Language Processing & Text Analytics</li>
-                                <li>Generative AI Development & Implementation</li>
-                                <li>Large Language Models Fine-tuning & Optimization</li>
-                                <li>AI API Development & Integration</li>
-                                <li>Prompt Engineering & AI Model Deployment</li>
-                                <li>Computer Vision & Deep Learning Research</li>
-                            </ul>
-                        </div>
-
-                        <div class="current-focus">
-                            <h4 class="focus-title">Current Focus</h4>
-                            <p>Learning Machine Learning fundamentals and Deep Learning concepts, studying Neural Networks and AI Architectures, and practicing with AI/ML frameworks and tools. Recently completed research internship at City University of Hong Kong with published papers in top-tier conferences.</p>
+                    <!-- Stats/Focus Card -->
+                    <div class="bento-item focus-card">
+                        <h4 class="card-label">Current Focus</h4>
+                        <div class="focus-list">
+                            <div class="focus-item"><i class="fas fa-brain"></i> Deep Learning</div>
+                            <div class="focus-item"><i class="fas fa-eye"></i> Computer Vision</div>
+                            <div class="focus-item"><i class="fas fa-language"></i> NLP</div>
                         </div>
                     </div>
-                    <div class="skills-grid">
-                        <span class="skill-tag">Machine Learning</span>
-                        <span class="skill-tag">Deep Learning</span>
-                        <span class="skill-tag">Computer Vision</span>
-                        <span class="skill-tag">Natural Language Processing</span>
-                        <span class="skill-tag">Generative AI</span>
-                        <span class="skill-tag">Large Language Models</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">PyTorch</span>
-                        <span class="skill-tag">Prompt Engineering</span>
-                        <span class="skill-tag">AI API Development</span>
+
+                    <!-- Expertise Card (Wide) -->
+                    <div class="bento-item expertise-card">
+                        <h4 class="card-label">Core Expertise</h4>
+                        <div class="scrolling-expertise">
+                            <div class="marquee-content">
+                                <span>Natural Language Processing</span> • 
+                                <span>Generative AI</span> • 
+                                <span>Large Language Models</span> • 
+                                <span>AI API Development</span> • 
+                                <span>Prompt Engineering</span> • 
+                                <span>Computer Vision</span> • 
+                                <span>Deep Learning Research</span> • 
+                            </div>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </section>
@@ -168,132 +175,58 @@
         <section id="tech-stack" class="section tech-stack-section reveal-up">
             <div class="section-container">
                 <h2 class="section-title gradient-text">Tech Stack & Tools</h2>
-                <div class="tech-categories stagger">
-                    <div class="tech-category">
-                        <h3 class="category-title">
-                            <i class="fas fa-code"></i>
-                            Programming Languages
-                        </h3>
-                        <div class="tech-grid">
-                            <div class="tech-item">
-                                <i class="fab fa-python"></i>
-                                <span>Python</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-js-square"></i>
-                                <span>JavaScript</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-java"></i>
-                                <span>Java</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-html5"></i>
-                                <span>HTML5</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-css3-alt"></i>
-                                <span>CSS3</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-database"></i>
-                                <span>SQL</span>
-                            </div>
+                <div class="marquee-container">
+                    <!-- Row 1: Languages & Frameworks -->
+                    <div class="marquee-row">
+                        <div class="marquee-content">
+                            <div class="tech-tag"><i class="fab fa-python"></i> Python</div>
+                            <div class="tech-tag"><i class="fab fa-js-square"></i> JavaScript</div>
+                            <div class="tech-tag"><i class="fab fa-java"></i> Java</div>
+                            <div class="tech-tag"><i class="fab fa-html5"></i> HTML5</div>
+                            <div class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
+                            <div class="tech-tag"><i class="fas fa-database"></i> SQL</div>
+                            <div class="tech-tag"><i class="fas fa-fire"></i> PyTorch</div>
+                            <div class="tech-tag"><i class="fas fa-cube"></i> TensorFlow</div>
+                            <div class="tech-tag"><i class="fas fa-chart-line"></i> Scikit-learn</div>
+                            <div class="tech-tag"><i class="fas fa-eye"></i> OpenCV</div>
+                            <!-- Duplicate for seamless loop -->
+                            <div class="tech-tag"><i class="fab fa-python"></i> Python</div>
+                            <div class="tech-tag"><i class="fab fa-js-square"></i> JavaScript</div>
+                            <div class="tech-tag"><i class="fab fa-java"></i> Java</div>
+                            <div class="tech-tag"><i class="fab fa-html5"></i> HTML5</div>
+                            <div class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
+                            <div class="tech-tag"><i class="fas fa-database"></i> SQL</div>
+                            <div class="tech-tag"><i class="fas fa-fire"></i> PyTorch</div>
+                            <div class="tech-tag"><i class="fas fa-cube"></i> TensorFlow</div>
+                            <div class="tech-tag"><i class="fas fa-chart-line"></i> Scikit-learn</div>
+                            <div class="tech-tag"><i class="fas fa-eye"></i> OpenCV</div>
                         </div>
                     </div>
 
-                    <div class="tech-category">
-                        <h3 class="category-title">
-                            <i class="fas fa-brain"></i>
-                            AI/ML Frameworks
-                        </h3>
-                        <div class="tech-grid">
-                            <div class="tech-item">
-                                <i class="fas fa-fire"></i>
-                                <span>PyTorch</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-cube"></i>
-                                <span>TensorFlow</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Scikit-learn</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-eye"></i>
-                                <span>OpenCV</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-language"></i>
-                                <span>Hugging Face</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-robot"></i>
-                                <span>LangChain</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tech-category">
-                        <h3 class="category-title">
-                            <i class="fas fa-tools"></i>
-                            Development Tools
-                        </h3>
-                        <div class="tech-grid">
-                            <div class="tech-item">
-                                <i class="fab fa-git-alt"></i>
-                                <span>Git</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-github"></i>
-                                <span>GitHub</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-code-branch"></i>
-                                <span>VS Code</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-docker"></i>
-                                <span>Docker</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-terminal"></i>
-                                <span>Terminal</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-book"></i>
-                                <span>Jupyter</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tech-category">
-                        <h3 class="category-title">
-                            <i class="fas fa-cloud"></i>
-                            Cloud & DevOps
-                        </h3>
-                        <div class="tech-grid">
-                            <div class="tech-item">
-                                <i class="fab fa-aws"></i>
-                                <span>AWS</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-google"></i>
-                                <span>Google Cloud</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fab fa-microsoft"></i>
-                                <span>Azure</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-server"></i>
-                                <span>Linux</span>
-                            </div>
-                            <div class="tech-item">
-                                <i class="fas fa-infinity"></i>
-                                <span>CI/CD</span>
-                            </div>
+                    <!-- Row 2: Tools & Cloud -->
+                    <div class="marquee-row">
+                        <div class="marquee-content">
+                            <div class="tech-tag"><i class="fab fa-git-alt"></i> Git</div>
+                            <div class="tech-tag"><i class="fab fa-github"></i> GitHub</div>
+                            <div class="tech-tag"><i class="fas fa-code-branch"></i> VS Code</div>
+                            <div class="tech-tag"><i class="fab fa-docker"></i> Docker</div>
+                            <div class="tech-tag"><i class="fas fa-terminal"></i> Terminal</div>
+                            <div class="tech-tag"><i class="fas fa-book"></i> Jupyter</div>
+                            <div class="tech-tag"><i class="fab fa-aws"></i> AWS</div>
+                            <div class="tech-tag"><i class="fab fa-google"></i> Google Cloud</div>
+                            <div class="tech-tag"><i class="fab fa-microsoft"></i> Azure</div>
+                            <div class="tech-tag"><i class="fas fa-server"></i> Linux</div>
+                            <!-- Duplicate for seamless loop -->
+                            <div class="tech-tag"><i class="fab fa-git-alt"></i> Git</div>
+                            <div class="tech-tag"><i class="fab fa-github"></i> GitHub</div>
+                            <div class="tech-tag"><i class="fas fa-code-branch"></i> VS Code</div>
+                            <div class="tech-tag"><i class="fab fa-docker"></i> Docker</div>
+                            <div class="tech-tag"><i class="fas fa-terminal"></i> Terminal</div>
+                            <div class="tech-tag"><i class="fas fa-book"></i> Jupyter</div>
+                            <div class="tech-tag"><i class="fab fa-aws"></i> AWS</div>
+                            <div class="tech-tag"><i class="fab fa-google"></i> Google Cloud</div>
+                            <div class="tech-tag"><i class="fab fa-microsoft"></i> Azure</div>
+                            <div class="tech-tag"><i class="fas fa-server"></i> Linux</div>
                         </div>
                     </div>
                 </div>
@@ -582,6 +515,20 @@
                                 <p><a href="https://www.instagram.com/b14ckc4t1337/">b14ckc4t1337</a></p>
                             </div>
                         </div>
+                        <div class="contact-method">
+                            <i class="fas fa-code contact-icon"></i>
+                            <div>
+                                <h4>CSDN</h4>
+                                <p><a href="https://blog.csdn.net/B143KC47?spm=1000.2115.3001.5343">Visit Profile</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-book-reader contact-icon"></i>
+                            <div>
+                                <h4>Zhihu</h4>
+                                <p><a href="https://www.zhihu.com/people/B143KC47">Visit Profile</a></p>
+                            </div>
+                        </div>
                     </div>
 
                     <a href="https://b143kc47.github.io/blog/" class="blog-card">
@@ -609,6 +556,12 @@
                     </a>
                     <a href="https://www.instagram.com/b14ckc4t1337/" class="social-icon">
                         <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://blog.csdn.net/B143KC47?spm=1000.2115.3001.5343" class="social-icon" title="CSDN">
+                        <i class="fas fa-code"></i>
+                    </a>
+                    <a href="https://www.zhihu.com/people/B143KC47" class="social-icon" title="Zhihu">
+                        <i class="fas fa-book-reader"></i>
                     </a>
                 </div>
             </div>
@@ -652,6 +605,7 @@
     <script src="modules/openreview.js?v=3"></script>
     <script src="modules/touch.js?v=3"></script>
     <script src="modules/performance.js?v=3"></script>
+    <script src="modules/particles.js?v=3"></script>
     <script src="script.js?v=3"></script>
 
     <!-- 移除重复的脚本引用 -->

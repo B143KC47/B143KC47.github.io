@@ -7,6 +7,9 @@ const UIModule = {
         this.initializeAnimations();
         this.setupScrollTriggers();
         this.setupTextReveals();
+        this.setupDecodingText(); // New
+        this.setupCustomCursor(); // New
+        this.setupSpotlightEffect(); // New
         this.setup3DTilt();
         this.setupMagneticElements();
         this.setupCursorGlow();
@@ -335,5 +338,72 @@ const UIModule = {
             content.style.transition = 'opacity 0.3s ease-in-out';
             content.style.opacity = '1';
         });
-    }
+    },
+
+    setupDecodingText() {
+        const elements = document.querySelectorAll('.decoding-text');
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+        
+        elements.forEach(element => {
+            const originalText = element.getAttribute('data-value');
+            let iterations = 0;
+            
+            const interval = setInterval(() => {
+                element.innerText = originalText
+                    .split("")
+                    .map((letter, index) => {
+                        if(index < iterations) {
+                            return originalText[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join("");
+                
+                if(iterations >= originalText.length){ 
+                    clearInterval(interval);
+                }
+                
+                iterations += 1/3;
+            }, 30);
+        });
+    },
+
+    setupCustomCursor() {
+        const cursor = document.querySelector('.custom-cursor');
+        if (!cursor) return;
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+
+        const hoverElements = document.querySelectorAll('a, button, .card, .project-card');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+    },
+
+    setupSpotlightEffect() {
+        const cards = document.querySelectorAll('.bento-item, .card, .research-card, .project-card, .certificate-item, .about-section, .contact-card, .blog-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    },
 };

@@ -83,6 +83,8 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
     /* ============ Layout System ============ */
 
     --container-max-width: 1200px;

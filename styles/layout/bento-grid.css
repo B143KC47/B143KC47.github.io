@@ -36,6 +36,84 @@
     flex-direction: column;
 }
 
+/* Spotlight Effect */
+.bento-item, .card {
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-item::before, .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.06),
+        transparent 40%
+    );
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.bento-item:hover::before, .card:hover::before {
+    opacity: 1;
+}
+
+.bento-item::after, .card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(16, 163, 127, 0.1),
+        transparent 40%
+    );
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.bento-item:hover::after, .card:hover::after {
+    opacity: 1;
+}
+
+/* Spotlight Effect for other cards */
+.research-card, .project-card, .certificate-item, .about-section, .contact-card, .blog-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.research-card::before, .project-card::before, .certificate-item::before, .about-section::before, .contact-card::before, .blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.06),
+        transparent 40%
+    );
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.research-card:hover::before, .project-card:hover::before, .certificate-item:hover::before, .about-section:hover::before, .contact-card:hover::before, .blog-card:hover::before {
+    opacity: 1;
+}
+
 /* Hover Effects */
 .bento-item:hover {
     transform: translateY(-2px);

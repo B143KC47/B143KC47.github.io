@@ -107,20 +107,6 @@ const NavigationModule = {
     },
 
     setupNavbarScroll() {
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > lastScrollTop) {
-                navbar.classList.add('scroll-down');
-                navbar.classList.remove('scroll-up');
-            } else {
-                navbar.classList.add('scroll-up');
-                navbar.classList.remove('scroll-down');
-            }
-            
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-        }, { passive: true });
+        // Disabled for floating HUD
     }
 };
