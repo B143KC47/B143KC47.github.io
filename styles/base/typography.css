@@ -10,22 +10,23 @@ body {
 
 /* 统一标题样式 - 优化视觉层次 */
 h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(4rem, 10vw, 8rem); /* Massive Avant-Garde Size */
     color: #ffffff;
     font-weight: 800;
     text-decoration: none;
     margin: 2rem 0 1.5rem;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
 }
 
 h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     color: #ffffff;
     font-weight: 700;
     margin: 3rem 0 1.5rem;
-    line-height: 1.2;
-    letter-spacing: -0.015em;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
 h3 {
@@ -86,7 +87,7 @@ strong, b {
 
 /* 代码文本 */
 code {
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+    font-family: var(--font-mono);
     font-size: 0.9em;
     padding: 0.2em 0.4em;
     background: rgba(255, 255, 255, 0.05);
@@ -104,5 +105,19 @@ a {
 a:hover {
     color: #ffffff;
     text-decoration: none;
+}
+
+/* Monospace Elements */
+.tag, 
+.card-date, 
+.hero-subtitle, 
+.nav-link,
+.certificate-date,
+.certificate-tag,
+.tech-tag,
+.prompt,
+.cmd-link,
+.scroll-indicator span {
+    font-family: var(--font-mono) !important;
 }
 

@@ -1,9 +1,11 @@
 /* ============================================= */
-/* Certificates Section - iOS 18 Style         */
+/* Certificates Section - Avant-Garde Style    */
 /* ============================================= */
 
 .certificates-section {
     width: 100%;
+    padding: var(--space-8) 0;
+    position: relative;
 }
 
 .certificates-section .section-container {
@@ -13,132 +15,99 @@
     padding: 0 var(--container-padding);
 }
 
-/* Certificate Grid */
+/* Certificate Grid - Asymmetric Bento Style */
 .certificate-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min), 1fr));
-    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
     width: 100%;
+    padding: 20px;
 }
 
-/* Certificate Item */
-.certificate-item {
-    background: var(--color-surface-base);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    transition: transform var(--duration-base) var(--easing-standard),
-                box-shadow var(--duration-base) var(--easing-standard),
-                border-color var(--duration-base) var(--easing-standard);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-sm);
-}
+@media (min-width: 1024px) {
+    .certificate-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 280px; /* Fixed height for uniformity in grid */
+    }
 
-.certificate-item:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-border-hover);
-}
+    /* Hero Certificate (First one) - Big Square */
+    .certificate-item:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* Push content to bottom */
+    }
 
-/* Certificate Header */
-.certificate-header {
-    padding: var(--space-5);
-    border-bottom: 1px solid var(--color-border);
-    background: linear-gradient(to bottom, var(--color-surface-elevated), transparent);
-}
+    /* Fourth item - Wide Banner to break rhythm */
+    .certificate-item:nth-child(4) {
+        grid-column: span 2;
+    }
+    
+    /* Hero Image - Full Cover */
+    .certificate-item:nth-child(1) .certificate-image {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        object-fit: cover;
+        mask-image: linear-gradient(to bottom, black 60%, transparent 100%); /* Fade out at bottom slightly? No, we want full cover */
+        mask-image: none;
+    }
+    
+    /* Hero Header - Positioned Top or Hidden if we want title at bottom */
+    /* Let's keep it at top but transparent */
+    .certificate-item:nth-child(1) .certificate-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        border-bottom: none;
+    }
 
-.certificate-title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    margin: 0;
-}
-
-/* Certificate Image */
-.certificate-image-wrapper {
-    aspect-ratio: 16/9;
-    width: 100%;
-    overflow: hidden;
-}
-
-.certificate-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform var(--duration-base) var(--easing-standard);
-}
-
-.certificate-item:hover .certificate-image {
-    transform: scale(1.05);
-}
-
-/* Certificate Details */
-.certificate-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: var(--space-5);
-    gap: var(--space-3);
-}
-
-.certificate-details p {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-relaxed);
-    margin: 0;
-}
-
-/* Certificate Tags */
-.certificate-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-}
-
-.certificate-tag {
-    padding: var(--space-2) var(--space-3);
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
-    transition: all var(--duration-fast) var(--easing-standard);
-}
-
-.certificate-tag:hover {
-    background: var(--color-surface-overlay);
-    transform: translateY(-2px);
-}
-
-/* Certificate Date */
-.certificate-date {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-tertiary);
-    margin-top: auto;
+    .certificate-item:nth-child(1) .certificate-title {
+        font-size: 1.5rem;
+        color: #fff;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* Hero Details - Overlay at bottom */
+    .certificate-item:nth-child(1) .certificate-details {
+        position: relative; /* Change to relative so it stacks properly if we use flex-end on container */
+        z-index: 2;
+        background: linear-gradient(to top, rgba(22, 27, 34, 1) 0%, rgba(22, 27, 34, 0.8) 60%, transparent 100%);
+        padding-top: 40px;
+        border-top: none;
+    }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .certificate-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-5);
+        gap: 20px;
     }
-
-    .certificate-header,
-    .certificate-details {
-        padding: var(--space-4);
+    
+    .certificate-item {
+        min-height: 300px;
+    }
+    
+    /* Reset Hero styles for mobile */
+    .certificate-item:nth-child(1) .certificate-image {
+        position: relative;
+        height: 200px;
+    }
+    
+    .certificate-item:nth-child(1) .certificate-header {
+        position: relative;
+        background: transparent;
+    }
+    
+    .certificate-item:nth-child(1) .certificate-details {
+        background: linear-gradient(to bottom, rgba(22, 27, 34, 0.4), rgba(22, 27, 34, 0.9));
     }
 }
 
-/* Touch Optimization */
-@media (hover: none) and (pointer: coarse) {
-    .certificate-item:active {
-        transform: scale(0.98);
-    }
-}
