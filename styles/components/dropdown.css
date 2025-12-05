@@ -198,7 +198,7 @@
 }
 
 /* 移动端适配 */
-@media (max-width: var(--breakpoint-md)) {
+@media (max-width: 768px) {
     .dropdown-content a {
         padding: var(--mobile-nav-padding);
         font-size: var(--mobile-font-base);
