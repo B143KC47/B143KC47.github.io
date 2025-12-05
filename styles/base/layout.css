@@ -283,7 +283,7 @@
 }
 
 /* 响应式间距系统 */
-@media (max-width: var(--breakpoint-sm)) {
+@media (max-width: 640px) {
     /* 优化图片布局 */
     .image-container img {
         width: 100%;

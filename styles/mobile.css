@@ -6,10 +6,20 @@
     /* Base Layout */
     body {
         font-size: var(--font-size-base);
+        /* 防止浮动导航栏遮挡底部内容 */
+        padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
     }
 
     main {
         padding: var(--space-4);
+    }
+
+    /* Marquee动画性能优化 */
+    .marquee-content,
+    .tech-scroll-track {
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
     }
 
     section {
