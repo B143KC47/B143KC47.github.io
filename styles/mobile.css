@@ -6,12 +6,14 @@
     /* Base Layout */
     body {
         font-size: var(--font-size-base);
-        /* 防止浮动导航栏遮挡底部内容 */
-        padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+        /* 防止浮动导航栏遮挡底部内容 - 增加安全边距 */
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
     }
 
     main {
         padding: var(--space-4);
+        /* 确保主内容区域不会被导航栏遮挡 */
+        margin-bottom: var(--space-5);
     }
 
     /* Marquee动画性能优化 */
@@ -155,34 +157,57 @@
 @media (max-width: 480px) {
     main {
         padding: var(--space-3);
+        margin-bottom: var(--space-4);
     }
 
     .hero {
         height: 55vh;
+        min-height: 400px;
         padding: var(--space-5) var(--space-3);
     }
 
     .hero-title {
         font-size: var(--font-size-2xl);
     }
+    
+    .hero-subtitle {
+        font-size: var(--font-size-sm);
+        padding: 0 var(--space-2);
+    }
 
     .hero-buttons {
         max-width: 280px;
     }
+    
+    /* 终端链接优化 */
+    .terminal-links {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .terminal-links .cmd-link {
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--font-size-sm);
+    }
 
     section {
-        margin: var(--space-6) 0;
+        margin: var(--space-5) 0;
     }
 
     .section-title {
         font-size: var(--font-size-xl);
-        margin-bottom: var(--space-5);
+        margin-bottom: var(--space-4);
     }
 
     .card,
     .project-card,
     .certificate-item {
         padding: var(--space-4);
+    }
+    
+    /* 确保底部有足够空间给导航栏 */
+    body {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom, 20px));
     }
 }
 
