@@ -82,25 +82,10 @@
 }
 
 @media (max-width: 600px) {
-    .navbar {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0 10px;
-    }
-    .navbar a, .dropdown a {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px 0;
-        border-bottom: 1px solid #333;
-    }
-    .dropdown-content {
-        position: static;
-        width: 100%;
-        box-shadow: none;
-        border-top: 1px solid #333;
-    }
-    /* 去除主内容区域的过大边距，适应小屏 */
+    /* 使用navbar.css中的浮动HUD导航栏样式 */
+    /* 移除与HUD导航栏冲突的旧样式 */
+    
+    /* 适应小屏的主内容区域边距 */
     main, footer {
         width: 100%;
         padding: 10px;
@@ -112,13 +97,7 @@
         font-size: 2.5rem;
     }
     
-    .navbar {
-        padding: 0.5rem;
-    }
-    
-    .navbar a {
-        padding: 0.5rem 1rem;
-    }
+    /* navbar样式由navbar.css处理 */
     
     .profile-section {
         grid-template-columns: 1fr;

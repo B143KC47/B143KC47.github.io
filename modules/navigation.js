@@ -3,13 +3,51 @@ const NavigationModule = {
     init() {
         this.setupSmoothScroll();
         this.setupNavbarScroll();
-        this.setupMobileMenu(); // 添加移动端菜单设置
+        this.setupMobileMenu();
+        this.setupMobileDropdown();
+    },
+    
+    setupMobileDropdown() {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        if (window.innerWidth <= 768) {
+            dropdowns.forEach(dropdown => {
+                const dropdownLink = dropdown.querySelector(':scope > a');
+                const dropdownContent = dropdown.querySelector('.dropdown-content');
+                
+                if (dropdownLink && dropdownContent) {
+                    dropdownLink.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // 关闭其他 dropdown
+                            dropdowns.forEach(other => {
+                                if (other !== dropdown) {
+                                    other.classList.remove('active');
+                                }
+                            });
+                            
+                            // 切换当前 dropdown
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        // 监听窗口大小变化
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+            }
+        });
     },
     
     setupMobileMenu() {
         const hamburger = document.querySelector('.hamburger-menu');
         const navLinks = document.querySelector('.navbar-links');
-        const navLinkItems = document.querySelectorAll('.navbar-links a'); // 获取所有导航链接
+        const navLinkItems = document.querySelectorAll('.navbar-links > a, .navbar-links > .dropdown > a');
         
         if (!hamburger || !navLinks) {
             console.warn('未找到汉堡菜单或导航链接元素');
@@ -25,16 +63,30 @@ const NavigationModule = {
             
             // 防止菜单打开时页面滚动
             document.body.style.overflow = isActive ? '' : 'hidden';
+            
+            // 关闭所有 dropdown
+            if (isActive) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            }
         };
         
         // 汉堡菜单点击事件
         hamburger.addEventListener('click', toggleMenu);
         
-        // 点击导航链接后关闭菜单
+        // 点击非 dropdown 的导航链接后关闭菜单
         navLinkItems.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const isDropdownToggle = link.parentElement.classList.contains('dropdown');
+                if (navLinks.classList.contains('active') && window.innerWidth <= 768 && !isDropdownToggle) {
+                    toggleMenu();
+                }
+            });
+        });
+        
+        // 点击 dropdown 内的链接后关闭菜单
+        document.querySelectorAll('.dropdown-content a').forEach(link => {
             link.addEventListener('click', () => {
                 if (navLinks.classList.contains('active') && window.innerWidth <= 768) {
-                    // 只在移动端且菜单打开时执行
                     toggleMenu();
                 }
             });

@@ -167,26 +167,52 @@
         position: static;
         width: 100%;
         transform: none;
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 0;
-        margin-top: 0;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        margin-top: var(--space-2);
         box-shadow: none;
-        border: none;
-        border-top: 1px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        display: block;
+    }
+
+    .dropdown-content::before {
+        display: none;
+    }
+
+    .dropdown.active .dropdown-content {
+        max-height: 300px;
+        opacity: 1;
+        padding: var(--space-2);
     }
 
     .dropdown:hover .dropdown-content {
         transform: none;
+        animation: none;
     }
 
     .dropdown-content a {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--font-size-sm);
+        border-radius: 6px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: none;
     }
 
     .dropdown-content a:hover {
         transform: none;
         background: rgba(255, 255, 255, 0.1);
+        padding-left: var(--space-4);
+    }
+
+    .dropdown-content a:hover::before {
+        display: none;
     }
 
     /* 优化模糊效果在移动端的性能 */
@@ -197,13 +223,8 @@
     }
 }
 
-/* 移动端适配 */
+/* 移动端适配 - 合并 */
 @media (max-width: 768px) {
-    .dropdown-content a {
-        padding: var(--mobile-nav-padding);
-        font-size: var(--mobile-font-base);
-    }
-    
     .dropdown-content .repo-stars {
         font-size: 0.85em;
     }

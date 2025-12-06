@@ -234,8 +234,40 @@
 }
 
 @media (max-width: 600px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
     .avatar-card {
         flex-direction: column;
+        grid-column: span 1;
+        padding: var(--space-4);
+    }
+    
+    .bio-card,
+    .focus-card,
+    .expertise-card {
+        grid-column: span 1;
+        padding: var(--space-4);
+    }
+    
+    .glitch-image-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-name {
+        font-size: var(--font-size-lg);
+    }
+    
+    .bio-text {
+        font-size: var(--font-size-sm);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--space-4);
     }
 }
 
