@@ -1,23 +1,34 @@
-// UI模块实现 - 使用全局对象而非ES模块
 const UIModule = {
+    isMobile: false,
+    prefersReducedMotion: false,
+
     init() {
+        this.isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
+        this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         this.showInitialSkeleton();
         this.initializeSections();
         this.updateCopyrightYear();
         this.initializeAnimations();
         this.setupScrollTriggers();
-        this.setupTextReveals();
-        this.setupDecodingText(); // New
-        this.setupCustomCursor(); // New
-        this.setupSpotlightEffect(); // New
-        this.setup3DTilt();
-        this.setupMagneticElements();
-        this.setupCursorGlow();
+
+        if (!this.prefersReducedMotion) {
+            this.setupTextReveals();
+            this.setupDecodingText();
+        }
+
+        if (!this.isMobile) {
+            this.setupCustomCursor();
+            this.setupSpotlightEffect();
+            this.setup3DTilt();
+            this.setupMagneticElements();
+            this.setupCursorGlow();
+        }
+
         this.hideInitialSkeleton();
     },
 
     showInitialSkeleton() {
-        // Create page skeleton container if it doesn't exist
         if (!document.querySelector('.page-skeleton-container')) {
             const skeletonContainer = document.createElement('div');
             skeletonContainer.className = 'page-skeleton-container';
@@ -38,14 +49,12 @@ const UIModule = {
     },
 
     hideInitialSkeleton() {
-        // Smoothly remove skeleton after content loads
         setTimeout(() => {
             const skeleton = document.querySelector('.page-skeleton-container');
             if (skeleton) {
                 skeleton.classList.add('skeleton-exit');
                 setTimeout(() => skeleton.remove(), 300);
 
-                // Add reveal animation to hero content
                 const heroSection = document.querySelector('.hero-section');
                 if (heroSection) {
                     heroSection.classList.add('content-reveal');
@@ -77,7 +86,8 @@ const UIModule = {
 
     updateCopyrightYear() {
         const currentYear = new Date().getFullYear();
-        document.getElementById('year').textContent = `© ${currentYear} Powered by KO Ho Tin`;
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = `\u00A9 ${currentYear} Powered by KO Ho Tin`;
     },
 
     initializeAnimations() {
@@ -96,28 +106,24 @@ const UIModule = {
         loadingIndicator.appendChild(loadingProgress);
         document.body.appendChild(loadingIndicator);
 
-        // Realistic loading stages
         const loadingStages = [
-            { progress: 20, duration: 100 },  // Initial DOM parsing
-            { progress: 40, duration: 200 },  // CSS loading
-            { progress: 60, duration: 300 },  // Font loading
-            { progress: 80, duration: 200 },  // JavaScript initialization
-            { progress: 90, duration: 150 },  // Image preloading
-            { progress: 100, duration: 100 }  // Final rendering
+            { progress: 20, duration: 100 },
+            { progress: 40, duration: 200 },
+            { progress: 60, duration: 300 },
+            { progress: 80, duration: 200 },
+            { progress: 90, duration: 150 },
+            { progress: 100, duration: 100 }
         ];
 
-        let currentProgress = 0;
         let stageIndex = 0;
 
         const updateProgress = () => {
             if (stageIndex < loadingStages.length) {
                 const stage = loadingStages[stageIndex];
-                currentProgress = stage.progress;
-                loadingProgress.style.width = `${currentProgress}%`;
+                loadingProgress.style.width = `${stage.progress}%`;
                 stageIndex++;
                 setTimeout(updateProgress, stage.duration);
             } else {
-                // Smooth fade out
                 setTimeout(() => {
                     loadingIndicator.classList.add('fade-out');
                     document.body.classList.add('page-loaded');
@@ -126,7 +132,6 @@ const UIModule = {
             }
         };
 
-        // Start the loading sequence
         setTimeout(updateProgress, 50);
     },
 
@@ -182,12 +187,12 @@ const UIModule = {
 
                 element.style.setProperty('--tilt-x', `${rotateX}deg`);
                 element.style.setProperty('--tilt-y', `${rotateY}deg`);
-            });
+            }, { passive: true });
 
             element.addEventListener('mouseleave', () => {
                 element.style.setProperty('--tilt-x', '0deg');
                 element.style.setProperty('--tilt-y', '0deg');
-            });
+            }, { passive: true });
         });
     },
 
@@ -201,17 +206,14 @@ const UIModule = {
                 const y = e.clientY - rect.top - rect.height / 2;
 
                 const strength = 0.3;
-                const moveX = x * strength;
-                const moveY = y * strength;
-
-                element.style.setProperty('--magnetic-x', `${moveX}px`);
-                element.style.setProperty('--magnetic-y', `${moveY}px`);
-            });
+                element.style.setProperty('--magnetic-x', `${x * strength}px`);
+                element.style.setProperty('--magnetic-y', `${y * strength}px`);
+            }, { passive: true });
 
             element.addEventListener('mouseleave', () => {
                 element.style.setProperty('--magnetic-x', '0px');
                 element.style.setProperty('--magnetic-y', '0px');
-            });
+            }, { passive: true });
         });
     },
 
@@ -225,23 +227,33 @@ const UIModule = {
 
         let mouseX = 0, mouseY = 0;
         let glowX = 0, glowY = 0;
+        let rafId = null;
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-        });
+        }, { passive: true });
 
-        function animateCursor() {
+        const animateCursor = () => {
             glowX += (mouseX - glowX) * 0.1;
             glowY += (mouseY - glowY) * 0.1;
 
             cursorGlow.style.left = `${glowX}px`;
             cursorGlow.style.top = `${glowY}px`;
 
-            requestAnimationFrame(animateCursor);
-        }
+            rafId = requestAnimationFrame(animateCursor);
+        };
 
         animateCursor();
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            } else if (!document.hidden && !rafId) {
+                animateCursor();
+            }
+        });
 
         document.addEventListener('mouseenter', () => {
             cursorGlow.style.opacity = '1';
@@ -290,7 +302,6 @@ const UIModule = {
         });
     },
 
-    // Skeleton loader utilities with minimal design
     createProjectCardSkeleton(variant = '1x1') {
         const skeleton = document.createElement('div');
         skeleton.className = `project-card skeleton-card skeleton-${variant}`;
@@ -331,7 +342,6 @@ const UIModule = {
         content.style.opacity = '0';
         skeleton.parentNode.replaceChild(content, skeleton);
 
-        // Trigger reflow
         content.offsetHeight;
 
         requestAnimationFrame(() => {
@@ -343,27 +353,28 @@ const UIModule = {
     setupDecodingText() {
         const elements = document.querySelectorAll('.decoding-text');
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
-        
+
         elements.forEach(element => {
             const originalText = element.getAttribute('data-value');
+            if (!originalText) return;
             let iterations = 0;
-            
+
             const interval = setInterval(() => {
                 element.innerText = originalText
                     .split("")
                     .map((letter, index) => {
-                        if(index < iterations) {
+                        if (index < iterations) {
                             return originalText[index];
                         }
                         return chars[Math.floor(Math.random() * chars.length)];
                     })
                     .join("");
-                
-                if(iterations >= originalText.length){ 
+
+                if (iterations >= originalText.length) {
                     clearInterval(interval);
                 }
-                
-                iterations += 1/3;
+
+                iterations += 1 / 3;
             }, 30);
         });
     },
@@ -375,7 +386,7 @@ const UIModule = {
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
-        });
+        }, { passive: true });
 
         document.addEventListener('mousedown', () => {
             cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
@@ -394,16 +405,16 @@ const UIModule = {
 
     setupSpotlightEffect() {
         const cards = document.querySelectorAll('.bento-item, .card, .research-card, .project-card, .certificate-item, .about-section, .contact-card, .blog-card');
-        
+
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
-            });
+            }, { passive: true });
         });
     },
 };

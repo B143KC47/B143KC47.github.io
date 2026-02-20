@@ -8,6 +8,15 @@
         font-size: var(--font-size-base);
         /* 防止浮动导航栏遮挡底部内容 - 增加安全边距 */
         padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+        /* Fix iOS Safari background-attachment: fixed bug */
+        background-attachment: scroll;
+        /* Restore default cursor on touch devices */
+        cursor: auto;
+    }
+
+    /* Hide custom cursor on mobile/touch devices */
+    .custom-cursor {
+        display: none;
     }
 
     main {
@@ -29,13 +38,22 @@
     }
 
     /* Touch Targets - iOS Standard 44x44pt */
-    a,
+    /* Only apply to interactive button/link elements, not all anchors */
     button,
     .button,
     .hamburger-menu,
-    .navbar-links a {
+    .navbar-links a,
+    .cmd-link,
+    .social-icon,
+    .icon-link,
+    .contact-method {
         min-height: 44px;
         min-width: 44px;
+    }
+
+    button,
+    .button,
+    .hamburger-menu {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -43,8 +61,13 @@
 
     /* Hero Section */
     .hero {
-        height: 60vh;
+        height: auto;
+        min-height: 100svh;
         padding: var(--space-6) var(--space-4);
+        /* Reserve space above the floating bottom navbar */
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+        /* Allow content to be fully visible */
+        overflow: visible;
     }
 
     .hero-content {
@@ -161,9 +184,11 @@
     }
 
     .hero {
-        height: 55vh;
-        min-height: 400px;
+        height: auto;
+        min-height: 100svh;
         padding: var(--space-5) var(--space-3);
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+        overflow: visible;
     }
 
     .hero-title {
@@ -215,7 +240,9 @@
 @media (max-width: 896px) and (orientation: landscape) {
     .hero {
         height: auto;
-        min-height: 60vh;
+        min-height: 100svh;
         padding: var(--space-6) var(--space-5);
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+        overflow: visible;
     }
 }

@@ -189,14 +189,42 @@
 
     .research-card {
         padding: var(--space-5);
+        /* Center card content on full-width mobile layout */
+        text-align: center;
     }
 
     .card-icon {
         width: 50px;
         height: 50px;
+        /* Center the icon */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .card-icon i {
         font-size: var(--font-size-xl);
+    }
+
+    /* Keep inline text elements left-aligned for readability */
+    .focus-areas,
+    .progress-indicators,
+    .focus-item,
+    .progress-item {
+        text-align: left;
+    }
+
+    /* Center tags row */
+    .card-tags {
+        justify-content: center;
+    }
+
+    /* Override right-align date for mobile */
+    .card-date {
+        text-align: center;
+    }
+
+    /* Disable horizontal translate on touch */
+    .focus-item:hover {
+        transform: none;
     }
 }

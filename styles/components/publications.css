@@ -167,4 +167,13 @@
     .publication-date {
         text-align: left;
     }
+
+    /* Center tags on full-width mobile cards */
+    .publication-tags {
+        justify-content: flex-start;
+    }
+
+    .publication-description {
+        text-align: left;
+    }
 }

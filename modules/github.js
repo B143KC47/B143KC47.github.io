@@ -1,48 +1,38 @@
 // GitHub项目模块实现 - 使用全局对象而非ES模块
 const GitHubModule = {
     username: 'B143KC47',
+    CACHE_KEY: 'github_repos_cache',
+    CACHE_DURATION: 10 * 60 * 1000,
 
     async init() {
         await Promise.all([
-            this.fetchUserProfile(),
             this.fetchGitHubProjects(),
             this.updateNavDropdown()
         ]);
     },
 
-    async fetchUserProfile() {
+    getCachedData() {
         try {
-            const response = await fetch(`https://api.github.com/users/${this.username}`);
-
-            if (!response.ok) {
-                throw new Error(`GitHub API returned ${response.status}`);
+            const cached = localStorage.getItem(this.CACHE_KEY);
+            if (!cached) return null;
+            const { data, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp > this.CACHE_DURATION) {
+                localStorage.removeItem(this.CACHE_KEY);
+                return null;
             }
-
-            const userData = await response.json();
-
-            /* Disable automatic avatar replacement to use local high-quality asset
-            if (userData.avatar_url) {
-                const profileImg = document.querySelector('.profile-image');
-                if (profileImg) {
-                    const img = new Image();
-                    img.onload = () => {
-                        profileImg.src = userData.avatar_url;
-                        profileImg.style.transition = 'opacity 0.3s ease';
-                    };
-                    img.onerror = () => {
-                        // Silent fallback to avatar.png
-                    };
-                    img.src = userData.avatar_url;
-                }
-            }
-            */
-
-            console.log('✅ GitHub profile loaded');
-            return userData;
-        } catch (error) {
-            // Silent - fallback to static avatar
+            return data;
+        } catch (e) {
             return null;
         }
+    },
+
+    setCachedData(data) {
+        try {
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify({
+                data,
+                timestamp: Date.now()
+            }));
+        } catch (e) {}
     },
 
     async fetchGitHubProjects() {
@@ -53,18 +43,19 @@ const GitHubModule = {
         this.showBentoSkeletons(projectsGrid);
 
         try {
-            // Add a minimum delay to show skeletons for better UX
-            // Changed sort to 'stars' to prioritize popular projects
-            const [response] = await Promise.all([
-                fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=20`),
-                new Promise(resolve => setTimeout(resolve, 600))
-            ]);
+            const cachedRepos = this.getCachedData();
+            let repos;
 
-            // Check if response is ok
-            if (!response.ok) {
-                throw new Error(`GitHub API returned ${response.status}`);
+            if (cachedRepos) {
+                repos = cachedRepos;
+            } else {
+                const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=20`);
+                if (!response.ok) {
+                    throw new Error(`GitHub API returned ${response.status}`);
+                }
+                repos = await response.json();
+                this.setCachedData(repos);
             }
-            const repos = await response.json();
 
             // Filter out forks and the special profile repo
             let filteredRepos = repos.filter(repo => !repo.fork && repo.name !== 'B143KC47');
@@ -230,8 +221,15 @@ const GitHubModule = {
 
     async fetchTopRepositories() {
         try {
-            const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=15`);
-            const repos = await response.json();
+            const cachedRepos = this.getCachedData();
+            let repos;
+
+            if (cachedRepos) {
+                repos = cachedRepos;
+            } else {
+                const response = await fetch(`https://api.github.com/users/${this.username}/repos?sort=stars&per_page=15`);
+                repos = await response.json();
+            }
             
             // 获取5个最热门的项目
             const topRepos = repos
@@ -259,10 +257,7 @@ const GitHubModule = {
                 </div>
             `).join('');
 
-            const [topRepos] = await Promise.all([
-                this.fetchTopRepositories(),
-                new Promise(resolve => setTimeout(resolve, 400))
-            ]);
+            const topRepos = await this.fetchTopRepositories();
 
             if (topRepos.length === 0) {
                 dropdownContent.innerHTML = '<a href="https://github.com/B143KC47">访问我的 GitHub</a>';

@@ -150,15 +150,6 @@
     animation: gradientFlow 4s linear infinite;
 }
 
-@keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 200% 50%;
-    }
-}
-
 /* 定位工具类 */
 .position-relative { position: relative; }
 .position-absolute { position: absolute; }
