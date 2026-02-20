@@ -37,6 +37,7 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-5);
     width: 100%;
+    contain: layout style;
 }
 
 /* Desktop Grid Adjustments for Bento Layout */
@@ -313,12 +314,48 @@
         grid-template-columns: 1fr;
         gap: var(--space-4);
     }
-    
+
     .project-card {
         min-height: 220px;
     }
-    
+
     .card-hero .project-title {
         font-size: 1.25rem;
+    }
+
+    /* Center card content on full-width mobile layout */
+    .card-content {
+        align-items: center;
+        text-align: center;
+    }
+
+    .project-header {
+        align-items: center;
+    }
+
+    .header-top {
+        justify-content: center;
+        gap: var(--space-4);
+    }
+
+    .project-title {
+        text-align: center;
+    }
+
+    /* Keep description left-aligned for readability */
+    .project-description {
+        text-align: left;
+    }
+
+    /* Center tags */
+    .project-topics {
+        justify-content: center;
+    }
+
+    /* Center footer stats */
+    .project-footer {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--space-4);
     }
 }

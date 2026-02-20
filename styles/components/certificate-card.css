@@ -179,9 +179,34 @@
     .certificate-image-container {
         height: 160px;
     }
-    
+
+    .certificate-header {
+        text-align: center;
+        padding: 16px 16px 0;
+    }
+
+    .certificate-title {
+        text-align: center;
+    }
+
     .certificate-details {
-        padding: 16px;
+        padding: 12px 16px 16px;
+        text-align: center;
+    }
+
+    /* Description stays left for readability */
+    .certificate-description {
+        text-align: left;
+    }
+
+    /* Center tags row */
+    .certificate-tags {
+        justify-content: center;
+    }
+
+    /* Center date row */
+    .certificate-date {
+        justify-content: center;
     }
 }
 

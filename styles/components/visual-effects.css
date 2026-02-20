@@ -57,13 +57,6 @@
     animation: fadeInUp 0.6s ease forwards;
 }
 
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* 装饰性背景元素 */
 .bg-dots {
     background-image: radial-gradient(

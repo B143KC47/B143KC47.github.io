@@ -113,10 +113,6 @@ body {
     animation: spin var(--duration-slow) linear infinite;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
 @media (max-width: 768px) {
     .section {
         padding: var(--space-6) 0;

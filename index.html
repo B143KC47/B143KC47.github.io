@@ -1,49 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>BlackCat Personal Profile</title>
-    
-    <!-- CSS 引用 -->
-    <link rel="stylesheet" href="styles/main.css?v=3">
-    <link rel="stylesheet" href="styles/mobile.css?v=3">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <meta name="description" content="KO Ho Tin's personal profile showcasing education, experience, and achievements in engineering and design.">
-    <meta name="keywords" content="KO Ho Tin, engineering, design, student, portfolio, awards, certificates">
-    <meta name="author" content="KO Ho Tin"> 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs" />
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BlackCat Personal Profile</title>
 
-    <!-- 预加载资源 -->
-    <link rel="preload" href="styles/main.css?v=3" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <meta name="description" content="KO Ho Tin's personal portfolio - Showcasing engineering and design projects, certifications, and achievements in AI research">
+    <meta name="keywords" content="KO Ho Tin, engineering, design, portfolio, AI researcher, machine learning, deep learning">
+    <meta name="author" content="KO Ho Tin">
+    <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs" />
+
+    <!-- 预连接 (must come before font loads) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.github.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <!-- DNS 预解析 -->
+    <link rel="dns-prefetch" href="https://api2.openreview.net">
+
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="styles/main.css?v=4">
+    <link rel="stylesheet" href="styles/mobile.css?v=4" media="(max-width: 768px)">
+
+    <!-- Fonts - optimized for faster load -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+
+    <!-- Font Awesome deferred - not render critical -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 
     <!-- 预加载关键图片 -->
     <link rel="preload" href="assets/screen.jpeg" as="image" type="image/jpeg">
     <link rel="preload" href="assets/avatar.png?v=4" as="image" type="image/png">
 
-    <!-- DNS 预解析 -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://api.github.com">
-    <link rel="dns-prefetch" href="https://openreview.net">
-
-    <!-- 预连接 -->
-    <link rel="preconnect" href="https://api.github.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-
     <!-- Meta 标签优化 -->
-    <meta name="description" content="KO Ho Tin's personal portfolio - Showcasing engineering and design projects, certifications, and achievements">
-    <meta name="keywords" content="KO Ho Tin, engineering, design, portfolio, AI researcher">
     <meta name="theme-color" content="#10a37f">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <!-- Open Graph 标签 -->
     <meta property="og:title" content="KO Ho Tin - Portfolio">
@@ -588,15 +580,6 @@
     </div>
 
     <!-- Publications Data - Auto-updated by GitHub Actions -->
-<<<<<<< HEAD
-    <script id="publications-data" type="application/json">
-{
-  "publications": [],
-  "lastUpdated": "2025-12-05T00:55:33.151Z",
-  "totalCount": 0,
-  "source": "OpenReview API v2 (GitHub Actions)"
-}
-=======
     <script id="publications-data" type="application/json">
 {
   "publications": [],
@@ -604,19 +587,18 @@
   "totalCount": 0,
   "source": "OpenReview API v2 (GitHub Actions)"
 }
->>>>>>> 0cdd96bae0a61918cc154b378b4363ba89828399
 </script>
 
     <!-- 按正确顺序加载所有JS模块 -->
-    <script src="modules/ui.js?v=3"></script>
-    <script src="modules/navigation.js?v=3"></script>
-    <script src="modules/certificates.js?v=3"></script>
-    <script src="modules/github.js?v=3"></script>
-    <script src="modules/openreview.js?v=3"></script>
-    <script src="modules/touch.js?v=3"></script>
-    <script src="modules/performance.js?v=3"></script>
-    <script src="modules/particles.js?v=3"></script>
-    <script src="script.js?v=3"></script>
+    <script src="modules/ui.js?v=4"></script>
+    <script src="modules/navigation.js?v=4"></script>
+    <script src="modules/certificates.js?v=4"></script>
+    <script src="modules/github.js?v=4"></script>
+    <script src="modules/openreview.js?v=4"></script>
+    <script src="modules/touch.js?v=4"></script>
+    <script src="modules/performance.js?v=4"></script>
+    <script src="modules/particles.js?v=4"></script>
+    <script src="script.js?v=4"></script>
 
     <!-- 移除重复的脚本引用 -->
 </body>

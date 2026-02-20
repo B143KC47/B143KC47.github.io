@@ -203,11 +203,6 @@
     margin: 0 var(--space-4);
 }
 
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
 /* Responsive */
 @media (max-width: 900px) {
     .bento-grid {
@@ -250,6 +245,25 @@
     .expertise-card {
         grid-column: span 1;
         padding: var(--space-4);
+        /* Center card content on single-column mobile */
+        text-align: center;
+        align-items: center;
+    }
+
+    /* Keep bio text left-aligned for readability */
+    .bio-text {
+        text-align: left;
+    }
+
+    /* Center focus list items while keeping icon+text inline */
+    .focus-list {
+        align-items: center;
+        width: 100%;
+    }
+
+    .focus-item {
+        width: 100%;
+        justify-content: center;
     }
     
     .glitch-image-wrapper {

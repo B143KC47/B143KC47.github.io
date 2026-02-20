@@ -185,6 +185,7 @@
 @media (max-width: 768px) {
     .card {
         padding: var(--space-5);
+        text-align: center;
     }
 
     .card-grid {
@@ -194,6 +195,16 @@
 
     .card-title {
         font-size: var(--font-size-lg);
+    }
+
+    /* Keep descriptive content left-aligned for readability */
+    .card-content {
+        text-align: left;
+    }
+
+    /* Center tag rows */
+    .card-tags {
+        justify-content: center;
     }
 }
 

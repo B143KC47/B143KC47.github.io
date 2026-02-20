@@ -4,6 +4,8 @@ const OpenReviewModule = {
     publications: [],
     isLoading: false,
     hasError: false,
+    CACHE_KEY: 'openreview_pubs_cache',
+    CACHE_DURATION: 30 * 60 * 1000,
 
     profileInfo: {
         name: 'KO Ho Tin (BlackCat)',
@@ -30,16 +32,11 @@ const OpenReviewModule = {
         this.showSkeletonLoaders();
         this.addProfileLink();
 
-        const minLoadTime = new Promise(resolve => setTimeout(resolve, 600));
-
         const success = await this.fetchPublications();
-
-        await minLoadTime;
 
         if (success) {
             this.renderPublications();
         } else {
-            console.log('🔴 Fetch failed, calling showErrorState()');
             this.showErrorState();
         }
     },
@@ -162,20 +159,31 @@ const OpenReviewModule = {
     async fetchPublications() {
         const isFileProtocol = window.location.protocol === 'file:';
 
-        if (isFileProtocol) {
-            console.log('📁 File protocol detected - trying local strategies first');
-        }
-
         this.isLoading = true;
         this.hasError = false;
 
+        try {
+            const cached = localStorage.getItem(this.CACHE_KEY);
+            if (cached) {
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp < this.CACHE_DURATION && data.length > 0) {
+                    this.publications = data;
+                    this.isLoading = false;
+                    return true;
+                }
+            }
+        } catch (e) {}
+
+        // On file:// protocol, skip strategies that use fetch (CORS blocked)
         const strategies = [
             () => this.loadFromInlineJSON(),
-            () => this.loadFromDataFile(),
-            () => this.fetchViaCORSProxyAllOrigins(),
-            () => this.fetchViaCORSProxyCorsAnywhere(),
-            () => this.fetchViaNotesAPI(),
-            () => this.fetchViaProfilesAPI()
+            ...(!isFileProtocol ? [
+                () => this.loadFromDataFile(),
+                () => this.fetchViaCORSProxyAllOrigins(),
+                () => this.fetchViaCORSProxyCorsAnywhere(),
+                () => this.fetchViaNotesAPI(),
+                () => this.fetchViaProfilesAPI()
+            ] : [])
         ];
 
         for (const strategy of strategies) {
@@ -184,17 +192,26 @@ const OpenReviewModule = {
                 if (publications && publications.length > 0) {
                     this.publications = publications;
                     this.isLoading = false;
-                    console.log(`✅ Fetched ${publications.length} publications`);
+                    try {
+                        localStorage.setItem(this.CACHE_KEY, JSON.stringify({
+                            data: publications,
+                            timestamp: Date.now()
+                        }));
+                    } catch (e) {}
                     return true;
                 }
             } catch (error) {
-                console.warn('Strategy failed, trying next...', error.message);
+                // Only log unexpected errors, not empty-result cases
+                if (!error.message.includes('No publications') && !error.message.includes('No notes')) {
+                    console.warn('Strategy failed, trying next...', error.message);
+                }
             }
         }
 
         this.isLoading = false;
-        this.hasError = true;
-        console.log('📚 Could not fetch publications - showing error state');
+        // Not an error — profile simply has no publications yet
+        this.hasError = false;
+        console.log('📚 No publications found — showing profile card');
         return false;
     },
 
@@ -214,7 +231,8 @@ const OpenReviewModule = {
                 return data.publications;
             }
 
-            throw new Error('No publications in inline JSON');
+            // Empty publications array is valid — no publications yet
+            return [];
         } catch (error) {
             throw new Error(`Inline JSON load failed: ${error.message}`);
         }
@@ -237,7 +255,8 @@ const OpenReviewModule = {
                 return data.publications;
             }
 
-            throw new Error('No publications in data file');
+            // Empty publications array is valid — no publications yet
+            return [];
         } catch (error) {
             throw new Error(`Data file load failed: ${error.message}`);
         }
@@ -722,10 +741,7 @@ const OpenReviewModule = {
 
         setTimeout(async () => {
             this.showSkeletonLoaders();
-
-            const minLoadTime = new Promise(resolve => setTimeout(resolve, 600));
             const success = await this.fetchPublications();
-            await minLoadTime;
 
             if (success) {
                 this.renderPublications();
