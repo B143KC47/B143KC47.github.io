@@ -23,7 +23,7 @@
         "Data Science and Engineering"
       ],
       "type": "Publication",
-      "fetchedAt": "2026-05-05T00:21:49.035Z"
+      "fetchedAt": "2026-05-06T00:20:56.084Z"
     },
     {
       "id": "ALpLmURYWy",
@@ -44,10 +44,10 @@
         "Alpha factor discovery; Evolutionary search; Large language models; Quantitative finance"
       ],
       "type": "Publication",
-      "fetchedAt": "2026-05-05T00:21:49.035Z"
+      "fetchedAt": "2026-05-06T00:20:56.084Z"
     }
   ],
-  "lastUpdated": "2026-05-05T00:21:49.035Z",
+  "lastUpdated": "2026-05-06T00:20:56.084Z",
   "totalCount": 2,
   "source": "OpenReview API v2 (GitHub Actions)"
 }
