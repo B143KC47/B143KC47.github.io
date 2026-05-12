@@ -20,6 +20,8 @@
 @import 'components/card.css';
 @import 'components/buttons.css';
 @import 'components/footer.css';
+@import 'components/ai-showcase.css';
+@import 'components/portfolio-theater.css';
 
 /* Section Components */
 @import 'components/about-me.css';

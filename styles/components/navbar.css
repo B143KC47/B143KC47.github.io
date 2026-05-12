@@ -111,6 +111,7 @@
         padding: var(--space-3) var(--space-5);
         width: calc(100% - 40px);
         max-width: 340px;
+        box-sizing: border-box;
         justify-content: space-between;
         border-radius: 50px;
         /* 确保导航栏始终在最上层 */
@@ -242,6 +243,7 @@
     .navbar {
         width: calc(100% - 24px);
         padding: var(--space-2) var(--space-3);
+        box-sizing: border-box;
     }
     
     .nav-logo {

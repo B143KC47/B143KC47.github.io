@@ -1,0 +1,162 @@
+/* ============================================= */
+/* AI Showcase Section                           */
+/* ============================================= */
+
+.ai-showcase-section {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-9) 0 var(--space-8);
+    background:
+        linear-gradient(180deg, rgba(3, 8, 12, 0.72), rgba(7, 10, 14, 0.9)),
+        radial-gradient(circle at 75% 30%, rgba(33, 150, 243, 0.12), transparent 30%);
+}
+
+.ai-showcase-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.34;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent);
+}
+
+.ai-showcase-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+}
+
+.section-kicker {
+    margin: 0 0 var(--space-3);
+    color: rgba(204, 255, 239, 0.75);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.ai-showcase-copy .section-title {
+    margin-bottom: var(--space-4);
+    text-align: left;
+    font-size: 4rem;
+    line-height: 1.03;
+}
+
+.showcase-lede {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+}
+
+.ai-showcase-grid {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.ai-focus-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2) var(--space-5);
+    align-items: start;
+    min-height: 156px;
+    padding: var(--space-5);
+    color: var(--color-text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.03));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: transform var(--duration-slow) var(--easing-standard), border-color var(--duration-base) ease, background var(--duration-base) ease;
+}
+
+.ai-focus-item::after {
+    content: "";
+    position: absolute;
+    inset: auto var(--space-5) 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--color-primary-rgb), 0.58), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-slow) var(--easing-standard);
+}
+
+.ai-focus-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(var(--color-primary-rgb), 0.32);
+    background: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(33, 150, 243, 0.055));
+}
+
+.ai-focus-item:hover::after {
+    transform: scaleX(1);
+}
+
+.focus-index {
+    grid-row: span 2;
+    color: rgba(204, 255, 239, 0.64);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+}
+
+.ai-focus-item h3 {
+    margin: 0;
+    font-size: var(--font-size-title2);
+    line-height: var(--line-height-tight);
+}
+
+.ai-focus-item p {
+    grid-column: 2;
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+@media (max-width: 900px) {
+    .ai-showcase-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-showcase-copy .section-title {
+        max-width: 13ch;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ai-showcase-section {
+        padding: var(--space-7) 0 var(--space-6);
+    }
+
+    .ai-focus-item {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: var(--space-4);
+    }
+
+    .ai-showcase-copy .section-title {
+        font-size: 2.25rem;
+    }
+
+    .focus-index,
+    .ai-focus-item p {
+        grid-column: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ai-focus-item,
+    .ai-focus-item::after {
+        transition: none;
+    }
+
+    .ai-focus-item:hover {
+        transform: none;
+    }
+}

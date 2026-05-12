@@ -66,24 +66,28 @@
         padding: var(--space-6) var(--space-4);
         /* Reserve space above the floating bottom navbar */
         padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
-        /* Allow content to be fully visible */
-        overflow: visible;
+        overflow: hidden;
     }
 
     .hero-content {
-        padding: var(--space-5);
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-        max-width: 320px;
+        padding: var(--space-4);
         gap: var(--space-3);
     }
 
-    .hero-buttons .button {
+    .hero-buttons {
+        flex-direction: row;
         width: 100%;
+        max-width: 320px;
+        gap: var(--space-2);
+        margin-top: var(--space-2);
+    }
+
+    .hero-buttons .button {
+        width: auto;
+        flex: 1 1 0;
         min-height: 48px;
+        padding: var(--space-3);
+        font-size: var(--font-size-xs);
     }
 
     /* About Section */
@@ -188,7 +192,7 @@
         min-height: 100svh;
         padding: var(--space-5) var(--space-3);
         padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
-        overflow: visible;
+        overflow: hidden;
     }
 
     .hero-title {
@@ -207,16 +211,32 @@
     /* 终端链接优化 */
     .terminal-links {
         width: 100%;
-        max-width: 280px;
+        max-width: 320px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        margin: var(--space-2) auto;
+    }
+
+    .terminal-links .prompt {
+        flex: 1 0 100%;
+        margin: 0;
     }
     
     .terminal-links .cmd-link {
-        padding: var(--space-2) var(--space-3);
-        font-size: var(--font-size-sm);
+        flex: 1 1 0;
+        min-width: 0;
+        padding: var(--space-2);
+        font-size: var(--font-size-xs);
     }
 
     section {
         margin: var(--space-5) 0;
+    }
+
+    .navbar {
+        box-sizing: border-box;
     }
 
     .section-title {
@@ -241,8 +261,8 @@
     .hero {
         height: auto;
         min-height: 100svh;
-        padding: var(--space-6) var(--space-5);
-        padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
-        overflow: visible;
+        padding: var(--space-4) var(--space-5);
+        padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+        overflow: hidden;
     }
 }
