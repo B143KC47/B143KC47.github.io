@@ -396,6 +396,7 @@
         }
 
         list.innerHTML = publications.map(renderPublication).join('');
+        list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
     }
 
     function readInlinePublications() {
@@ -418,19 +419,19 @@
         const abstractPreview = isLongAbstract ? abstract.slice(0, 217) : abstract;
 
         return `
-            <a class="publication-row" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">
-                <div>
-                    <h3>${escapeHtml(title)}</h3>
-                    <p>${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
-                    <div class="publication-meta">
-                        ${meta.map(item => `<span>${escapeHtml(String(item))}</span>`).join('')}
-                        <span>${escapeHtml(authors)}</span>
-                        ${tags.map(tag => `<span class="topic-pill">${escapeHtml(tag)}</span>`).join('')}
-                    </div>
+        <article class="publication-row reveal" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
+            <div>
+                <h3>${escapeHtml(title)}</h3>
+                <p>${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
+                <div class="publication-meta">
+                    ${meta.map(item => `<span>${escapeHtml(String(item))}</span>`).join('')}
+                    <span>${escapeHtml(authors)}</span>
+                    ${tags.map(tag => `<span class="topic-pill">${escapeHtml(tag)}</span>`).join('')}
                 </div>
-                <span class="publication-arrow" aria-hidden="true">-></span>
-            </a>
-        `;
+                <a class="meta-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Open on OpenReview</a>
+            </div>
+            <span class="publication-arrow" aria-hidden="true">+</span>
+        </article>`;
     }
 
     function normalizeTags(tags) {
@@ -457,6 +458,18 @@
 
     function escapeAttr(value) {
         return escapeHtml(value);
+    }
+
+    function initPublicationExpand() {
+        document.addEventListener('click', e => {
+            const row = e.target.closest('.publication-row');
+            if (!row || e.target.closest('a')) return;   // let the OpenReview link work normally
+            const p = row.querySelector('p');
+            const open = row.classList.toggle('is-open');
+            p.textContent = open ? row.dataset.full : row.dataset.preview;
+            const arrow = row.querySelector('.publication-arrow');
+            if (arrow) arrow.textContent = open ? '–' : '+';
+        });
     }
 
     function initFooterYear() {
@@ -500,6 +513,7 @@
         initActiveNav();
         loadGitHubProjects();
         loadPublications();
+        initPublicationExpand();
         initCursor();
         initTilt();
         initParallax();
