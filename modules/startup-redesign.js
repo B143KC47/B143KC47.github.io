@@ -464,10 +464,40 @@
         if (year) year.textContent = String(new Date().getFullYear());
     }
 
+    function initScrollProgress() {
+        const bar = document.querySelector('.scroll-progress');
+        if (!bar) return;
+        let ticking = false;
+        const update = () => {
+            const h = document.documentElement;
+            const max = h.scrollHeight - h.clientHeight;
+            bar.style.width = `${max > 0 ? (h.scrollTop / max) * 100 : 0}%`;
+            ticking = false;
+        };
+        update();
+        window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    }
+
+    function initActiveNav() {
+        const links = [...document.querySelectorAll('[data-nav] a[href^="#"]')];
+        const map = new Map();
+        links.forEach(a => { const el = document.querySelector(a.getAttribute('href')); if (el) map.set(el, a); });
+        if (!map.size || !('IntersectionObserver' in window)) return;
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) {
+                links.forEach(l => l.classList.remove('is-active'));
+                map.get(e.target)?.classList.add('is-active');
+            }});
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        map.forEach((_, el) => obs.observe(el));
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initHeader();
         initReveal();
         initFooterYear();
+        initScrollProgress();
+        initActiveNav();
         loadGitHubProjects();
         loadPublications();
         initCursor();
