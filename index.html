@@ -7,7 +7,7 @@
     <meta name="description" content="KO Ho Tin's personal research profile, live GitHub projects, OpenReview publications, ORCID iD, Google Scholar link, and AI systems work.">
     <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, AI researcher, LLM agents, quant AI, computer vision, OpenReview, ORCID, Google Scholar, GitHub projects">
     <meta name="author" content="KO Ho Tin">
-    <meta name="theme-color" content="#05060a">
+    <meta name="theme-color" content="#060606">
     <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs">
     <meta property="og:title" content="KO Ho Tin - AI Researcher & Builder">
     <meta property="og:description" content="A focused personal profile with live GitHub projects, research publications, and academic profile links.">
@@ -21,8 +21,8 @@
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
     <link rel="icon" href="assets/avatar.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=6">
-    <link rel="stylesheet" href="styles/cosmic.css?v=3">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=7">
+    <link rel="stylesheet" href="styles/cosmic.css?v=4">
     <script type="importmap">
     {
         "imports": {
@@ -51,220 +51,129 @@
             <span></span>
         </button>
         <nav class="site-nav" aria-label="Primary navigation" data-nav>
-            <a href="#profile">Profile</a>
-            <a href="#projects">GitHub</a>
             <a href="#research">Research</a>
-            <a href="#timeline">Timeline</a>
+            <a href="#build">GitHub</a>
+            <a href="#profile">Profile</a>
+            <a href="#trajectory">Timeline</a>
             <a class="nav-cta" href="#contact">Contact</a>
         </nav>
     </header>
 
     <main id="top">
-        <section class="hero-section" aria-labelledby="hero-title">
-            <div id="transformer-stage" class="transformer-stage" aria-hidden="true"></div>
-            <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
-            <div class="hero-grid" aria-hidden="true"></div>
-            <div class="hero-shell">
-                <div class="hero-copy reveal">
-                    <p class="eyebrow">AI researcher / engineering student / builder</p>
-                    <h1 id="hero-title">KO Ho Tin builds AI systems with visible evidence.</h1>
-                    <p class="hero-lede">I work across LLM agents, formulaic alpha factor mining, computer vision, and research tooling. This site keeps the important signals in one place: live code, papers, profiles, and contact routes.</p>
-                    <div class="hero-actions" aria-label="Primary actions">
-                        <a class="button primary" href="#projects">View live GitHub projects</a>
-                        <a class="button secondary" href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">OpenReview profile</a>
-                    </div>
-                </div>
+  <!-- 1. HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div id="transformer-stage" class="hero-stage" aria-hidden="true"></div>
+    <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner section-inner">
+      <p class="eyebrow reveal">AI researcher / engineering student / builder</p>
+      <h1 id="hero-title" class="hero-title reveal">Building AI systems with visible evidence.</h1>
+      <p class="hero-lede reveal">LLM agents, formulaic alpha-factor mining, computer vision, and research tooling — kept in one place: live code, papers, and contact routes.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn--solid" href="#research">View research</a>
+        <a class="btn btn--ghost" href="#build">Live GitHub</a>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#manifesto" aria-label="Scroll to content"><span></span></a>
+  </section>
 
-                <figure class="portrait-stage reveal">
-                    <img src="assets/avatar.png" alt="Avatar for KO Ho Tin" width="800" height="800">
-                    <figcaption>
-                        <span>Current signal</span>
-                        <strong>Research + shipped systems</strong>
-                    </figcaption>
-                </figure>
-            </div>
+  <!-- 2. MANIFESTO -->
+  <section id="manifesto" class="manifesto" aria-label="Statement">
+    <p class="manifesto-line section-inner reveal">
+      I turn unclear technical ideas into <em>inspectable</em> AI systems.
+    </p>
+  </section>
 
-            <div class="signal-strip reveal" aria-label="Profile highlights">
-                <div>
-                    <span>Focus</span>
-                    <strong>LLM agents</strong>
-                </div>
-                <div>
-                    <span>Research</span>
-                    <strong>Quant AI</strong>
-                </div>
-                <div>
-                    <span>Evidence</span>
-                    <strong>OpenReview</strong>
-                </div>
-                <div>
-                    <span>Build trail</span>
-                    <strong>GitHub</strong>
-                </div>
-            </div>
-        </section>
+  <!-- 3. RESEARCH (lead with impact) -->
+  <section id="research" class="section research" aria-labelledby="research-title">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Selected research</p>
+        <h2 id="research-title">Papers, published beside the code.</h2>
+      </div>
+      <div id="publication-list" class="publication-list" aria-live="polite">
+        <div class="skeleton-line"></div><div class="skeleton-line"></div>
+      </div>
+      <div class="research-links reveal">
+        <a class="meta-link" href="https://scholar.google.com/scholar?q=%22Ho+Tin+Ko%22" target="_blank" rel="noopener noreferrer"><span>Google Scholar</span></a>
+        <a class="meta-link" href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer"><span>OpenReview ~Ho_Tin_Ko2</span></a>
+        <a class="meta-link" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer"><span>ORCID 0009-0002-7298-8196</span></a>
+        <span class="meta-link meta-link--status" id="publication-sync">Loading…</span>
+      </div>
+    </div>
+  </section>
 
-        <section id="profile" class="section profile-section" aria-labelledby="profile-title">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Personal information</p>
-                <h2 id="profile-title">A compact profile for research, engineering, and collaboration.</h2>
-            </div>
-            <div class="profile-layout">
-                <article class="profile-note reveal">
-                    <p>I am KO Ho Tin, also known as BlackCat online. My work is centered on turning unclear technical ideas into inspectable AI systems, with a recent emphasis on LLM benchmarks, alpha factor discovery, and practical automation workflows.</p>
-                    <p>The priority of this site is not decoration. It is a clean evidence layer: who I am, what I build, where the work is published, and how to reach me.</p>
-                </article>
-                <dl class="profile-facts reveal">
-                    <div>
-                        <dt>Name</dt>
-                        <dd>KO Ho Tin</dd>
-                    </div>
-                    <div>
-                        <dt>Alias</dt>
-                        <dd>BlackCat / B143KC47</dd>
-                    </div>
-                    <div>
-                        <dt>Email</dt>
-                        <dd><a href="mailto:s20200057@ylmass.edu.hk">s20200057@ylmass.edu.hk</a></dd>
-                    </div>
-                    <div>
-                        <dt>ORCID iD</dt>
-                        <dd><a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">0009-0002-7298-8196</a></dd>
-                    </div>
-                    <div>
-                        <dt>Core topics</dt>
-                        <dd>LLM agents, quantitative AI, computer vision, evaluation</dd>
-                    </div>
-                </dl>
-            </div>
-        </section>
+  <!-- 4. BUILD TRAIL -->
+  <section id="build" class="section section--paper build" aria-labelledby="build-title">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Build trail</p>
+        <h2 id="build-title">Live projects, pulled from GitHub on load.</h2>
+      </div>
+      <div class="github-status reveal">
+        <div><span class="status-label">Source</span><strong id="github-source">GitHub API</strong></div>
+        <div><span class="status-label">Last sync</span><strong id="github-sync">Fetching…</strong></div>
+        <div><span class="status-label">Public signal</span><strong id="github-count">--</strong></div>
+      </div>
+      <div id="project-list" class="project-list" aria-live="polite">
+        <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
+      </div>
+    </div>
+  </section>
 
-        <section id="projects" class="section projects-section" aria-labelledby="projects-title">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Auto GitHub fetch</p>
-                <h2 id="projects-title">Projects are pulled from GitHub when the page loads.</h2>
-                <p>The site fetches public repositories for <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">@B143KC47</a>, caches them briefly in the browser, and falls back to a profile link if the API is unavailable.</p>
-            </div>
+  <!-- 5. PROFILE -->
+  <section id="profile" class="section profile" aria-labelledby="profile-title">
+    <div class="section-inner profile-grid">
+      <div class="reveal">
+        <p class="eyebrow">Profile</p>
+        <h2 id="profile-title">A compact evidence layer.</h2>
+        <p>I am KO Ho Tin, also known as BlackCat online — focused on LLM benchmarks, alpha-factor discovery, and practical automation. This site is who I am, what I build, where it is published, and how to reach me.</p>
+      </div>
+      <dl class="facts reveal">
+        <div><dt>Name</dt><dd>KO Ho Tin</dd></div>
+        <div><dt>Alias</dt><dd>BlackCat / B143KC47</dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:s20200057@ylmass.edu.hk">s20200057@ylmass.edu.hk</a></dd></div>
+        <div><dt>ORCID iD</dt><dd><a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">0009-0002-7298-8196</a></dd></div>
+        <div><dt>Core topics</dt><dd>LLM agents, quantitative AI, computer vision, evaluation</dd></div>
+      </dl>
+    </div>
+  </section>
 
-            <div class="github-dashboard reveal" aria-live="polite">
-                <div class="github-status">
-                    <div>
-                        <span class="status-label">Repository source</span>
-                        <strong id="github-source">GitHub API</strong>
-                    </div>
-                    <div>
-                        <span class="status-label">Last sync</span>
-                        <strong id="github-sync">Fetching&hellip;</strong>
-                    </div>
-                    <div>
-                        <span class="status-label">Public signal</span>
-                        <strong id="github-count">--</strong>
-                    </div>
-                </div>
-                <div id="project-list" class="project-list">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line"></div>
-                </div>
-            </div>
-        </section>
+  <!-- 6. TRAJECTORY -->
+  <section id="trajectory" class="section section--paper trajectory" aria-labelledby="trajectory-title">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Trajectory</p>
+        <h2 id="trajectory-title">Recent signals from research and building.</h2>
+      </div>
+      <ol class="timeline">
+        <li class="timeline-item reveal"><span class="timeline-year">2026</span><div><h3>ICLR 2026 Poster</h3><p>AlphaBench: benchmarking LLMs in formulaic alpha-factor mining.</p></div></li>
+        <li class="timeline-item reveal"><span class="timeline-year">2025</span><div><h3>GenAI in Finance Poster</h3><p>EvoAlpha: evolutionary alpha-factor discovery with LLMs.</p></div></li>
+        <li class="timeline-item reveal"><span class="timeline-year">2024</span><div><h3>City University of Hong Kong</h3><p>Research internship and AI / ML research exposure.</p></div></li>
+        <li class="timeline-item reveal"><span class="timeline-year">2024</span><div><h3>IEEE CIS Summer School</h3><p>Quantum computational intelligence program, Yokohama.</p></div></li>
+      </ol>
+    </div>
+  </section>
 
-        <section id="research" class="section research-section" aria-labelledby="research-title">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Scholar + OpenReview</p>
-                <h2 id="research-title">Academic profiles and publications stay visible beside the code.</h2>
-            </div>
+  <!-- 7. CONTACT -->
+  <section id="contact" class="section contact" aria-labelledby="contact-title">
+    <div class="section-inner reveal">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title">For research, AI systems, or collaboration — reach out.</h2>
+      <div class="contact-actions">
+        <a class="btn btn--solid" href="mailto:s20200057@ylmass.edu.hk">Email me</a>
+        <a class="btn btn--ghost" href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/blackcat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="btn btn--ghost" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
+        <a class="btn btn--ghost" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-            <div class="research-grid">
-                <a class="profile-link reveal" href="https://scholar.google.com/scholar?q=%22Ho+Tin+Ko%22" target="_blank" rel="noopener noreferrer">
-                    <span>Google Scholar</span>
-                    <strong>Search research record</strong>
-                    <p>Direct Scholar entry point for papers, citations, and related works connected to Ho Tin Ko.</p>
-                </a>
-                <a class="profile-link reveal" href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">
-                    <span>OpenReview</span>
-                    <strong>~Ho_Tin_Ko2</strong>
-                    <p>Research profile connected to OpenReview papers and author metadata.</p>
-                </a>
-                <a class="profile-link identifier-link reveal" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">
-                    <span>ORCID iD</span>
-                    <strong>0009-0002-7298-8196</strong>
-                    <p>Persistent researcher identifier for disambiguating papers, profiles, and academic activity.</p>
-                </a>
-            </div>
-
-            <div class="publication-panel reveal">
-                <div class="panel-heading">
-                    <div>
-                        <span class="status-label">Publication feed</span>
-                        <h3>OpenReview papers</h3>
-                    </div>
-                    <span id="publication-sync">Loading local data&hellip;</span>
-                </div>
-                <div id="publication-list" class="publication-list" aria-live="polite">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="timeline" class="section timeline-section" aria-labelledby="timeline-title">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Timeline</p>
-                <h2 id="timeline-title">Recent signals from research, training, and building.</h2>
-            </div>
-            <div class="timeline">
-                <article class="timeline-item reveal">
-                    <span>2026</span>
-                    <div>
-                        <h3>ICLR 2026 Poster</h3>
-                        <p>AlphaBench: benchmarking large language models in formulaic alpha factor mining.</p>
-                    </div>
-                </article>
-                <article class="timeline-item reveal">
-                    <span>2025</span>
-                    <div>
-                        <h3>GenAI in Finance Poster</h3>
-                        <p>EvoAlpha: evolutionary alpha factor discovery with large language models.</p>
-                    </div>
-                </article>
-                <article class="timeline-item reveal">
-                    <span>2024</span>
-                    <div>
-                        <h3>City University of Hong Kong</h3>
-                        <p>Research internship and AI / machine learning research exposure.</p>
-                    </div>
-                </article>
-                <article class="timeline-item reveal">
-                    <span>2024</span>
-                    <div>
-                        <h3>IEEE CIS Summer School</h3>
-                        <p>Quantum computational intelligence program in Yokohama.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section id="contact" class="section contact-section" aria-labelledby="contact-title">
-            <div class="contact-panel reveal">
-                <p class="eyebrow">Contact</p>
-                <h2 id="contact-title">For research, AI systems, or collaboration, reach out directly.</h2>
-                <div class="contact-actions" aria-label="Contact links">
-                    <a class="button primary" href="mailto:s20200057@ylmass.edu.hk">Email me</a>
-                    <a class="button secondary" href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a class="button secondary" href="https://www.linkedin.com/in/blackcat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    <a class="button secondary" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
-                    <a class="button secondary" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <span>KO Ho Tin</span>
-        <span>AI Researcher & Builder</span>
-        <span id="footer-year">2026</span>
-    </footer>
+<footer class="site-footer">
+  <span>KO Ho Tin</span><span>AI Researcher &amp; Builder</span><span id="footer-year">2026</span>
+</footer>
 
     <script id="publications-data" type="application/json">
 {
@@ -321,7 +230,7 @@
   "source": "OpenReview API v2 (GitHub Actions)"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=5"></script>
-    <script type="module" src="modules/transformer-scene.js?v=1"></script>
+    <script src="modules/startup-redesign.js?v=6"></script>
+    <script type="module" src="modules/transformer-scene.js?v=2"></script>
 </body>
 </html>
