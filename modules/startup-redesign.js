@@ -39,6 +39,13 @@
             nav.classList.remove('is-open');
             toggle.setAttribute('aria-expanded', 'false');
         });
+
+        document.addEventListener('click', event => {
+            if (!nav.classList.contains('is-open')) return;
+            if (event.target.closest('[data-nav]') || event.target.closest('[data-nav-toggle]')) return;
+            nav.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+        });
     }
 
     function initReveal() {
@@ -59,8 +66,8 @@
         elements.forEach(element => observer.observe(element));
     }
 
-    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .profile-link, .timeline-item, .nav-toggle';
-    const TILT_TARGETS = '.project-row, .publication-row, .profile-link, .timeline-item';
+    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .timeline-item, .nav-toggle';
+    const TILT_TARGETS = '.project-row, .publication-row, .timeline-item';
 
     // Custom cursor: an instant dot + a trailing ring that swells over interactive
     // elements. Native cursor is hidden only while this is active.
@@ -419,7 +426,7 @@
         const abstractPreview = isLongAbstract ? abstract.slice(0, 217) : abstract;
 
         return `
-        <article class="publication-row reveal" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
+        <article class="publication-row reveal" tabindex="0" aria-expanded="false" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
             <div>
                 <h3>${escapeHtml(title)}</h3>
                 <p>${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
@@ -461,14 +468,25 @@
     }
 
     function initPublicationExpand() {
-        document.addEventListener('click', e => {
-            const row = e.target.closest('.publication-row');
-            if (!row || e.target.closest('a')) return;   // let the OpenReview link work normally
+        const toggleRow = row => {
             const p = row.querySelector('p');
             const open = row.classList.toggle('is-open');
             p.textContent = open ? row.dataset.full : row.dataset.preview;
+            row.setAttribute('aria-expanded', String(open));
             const arrow = row.querySelector('.publication-arrow');
             if (arrow) arrow.textContent = open ? '–' : '+';
+        };
+        document.addEventListener('click', event => {
+            const row = event.target.closest('.publication-row');
+            if (!row || event.target.closest('a')) return;
+            toggleRow(row);
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const row = event.target.closest('.publication-row');
+            if (!row || row !== event.target || event.target.closest('a')) return;
+            event.preventDefault();
+            toggleRow(row);
         });
     }
 
@@ -501,7 +519,7 @@
                 links.forEach(l => l.classList.remove('is-active'));
                 map.get(e.target)?.classList.add('is-active');
             }});
-        }, { rootMargin: '-45% 0px -50% 0px' });
+        }, { rootMargin: '-50% 0px -50% 0px' });
         map.forEach((_, el) => obs.observe(el));
     }
 
