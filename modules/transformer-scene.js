@@ -47,7 +47,7 @@ async function start(THREE) {
     stage.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, stage.clientWidth / stage.clientHeight, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(55, stage.clientWidth / (stage.clientHeight || 1), 0.1, 100);
     camera.position.set(0, 0, 13);
 
     // --- nodes (instanced) ---
@@ -113,6 +113,13 @@ async function start(THREE) {
     };
     window.addEventListener('resize', onResize, { passive: true });
 
+    window.addEventListener('pagehide', () => {
+        renderer.dispose();
+        dot.dispose(); dotMat.dispose();
+        lineGeo.dispose(); lineMat.dispose();
+        sigGeo.dispose(); sigMat.dispose();
+    }, { once: true });
+
     let t = 0;
     const loop = () => {
         requestAnimationFrame(loop);
@@ -135,5 +142,6 @@ async function start(THREE) {
         sigGeo.attributes.position.needsUpdate = true;
         renderer.render(scene, camera);
     };
+    onResize();
     loop();
 }
