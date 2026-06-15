@@ -46,6 +46,13 @@
             nav.classList.remove('is-open');
             toggle.setAttribute('aria-expanded', 'false');
         });
+
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape' || !nav.classList.contains('is-open')) return;
+            nav.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.focus();
+        });
     }
 
     function initReveal() {
@@ -265,7 +272,7 @@
             this.time += 16;
             // Skip the (O(n^2)) draw while the fallback canvas is hidden — e.g.
             // once the 3D transformer takes over and sets display:none on it.
-            if (this.canvas.offsetParent !== null) this.draw();
+            if (!document.hidden && this.canvas.offsetParent !== null) this.draw();
             requestAnimationFrame(this.animate);
         }
     }
