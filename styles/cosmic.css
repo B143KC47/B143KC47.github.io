@@ -1,226 +1,40 @@
 /* ============================================================================
-   cosmic.css — Moonshot.ai style layer
-   Loaded after startup-redesign.css. Handles the 3D transformer stage,
-   custom cursor, card tilt, and scroll polish.
-   ============================================================================ */
+   cosmic.css — interaction + atmosphere layer (monochrome "Signal")
+   Custom cursor + subtle card tilt. No starfield, no color — strictly grayscale.
+   Loaded after startup-redesign.css, so its :root tokens are available here.
+   ========================================================================== */
 
-/* ---- 3D transformer stage ------------------------------------------------ */
-
-.transformer-stage {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1);
+.cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 300;
+    border-radius: 50%; transform: translate3d(-100px,-100px,0);
 }
-
-.transformer-stage.is-ready {
-    opacity: 1;
-}
-
-.transformer-stage canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* Readability scrim: keeps text legible over the 3D scene */
-.hero-section::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background:
-        radial-gradient(120% 90% at 14% 48%, rgba(9,12,34,0.92), rgba(9,12,34,0.45) 30%, transparent 60%),
-        linear-gradient(180deg, rgba(9,12,34,0.60), transparent 30%, transparent 65%, rgba(9,12,34,0.80));
-}
-
-/* Hero text/portrait above the 3D canvas and scrim */
-.hero-shell,
-.signal-strip {
-    position: relative;
-    z-index: 2;
-}
-
-/* Retire 2D fallback when WebGL is active */
-.tf-active .hero-field {
-    display: none;
-}
-
-/* ---- DOM token labels ---------------------------------------------------- */
-
-.transformer-labels {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    font-family: var(--font-mono);
-}
-
-.tf-label {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    padding: 3px 10px;
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    color: var(--ink);
-    background: rgba(9, 12, 34, 0.62);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    white-space: nowrap;
-    backdrop-filter: blur(8px);
-    opacity: 0;
-    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
-}
-
-.tf-label.is-visible {
-    opacity: 0.90;
-}
-
-.tf-label.is-theme {
-    color: #090c22;
-    background: #ffffff;
-    border-color: transparent;
-    font-weight: 700;
-}
-
-.tf-label.is-input {
-    color: var(--accent-2);
-}
-
-/* ---- Custom cursor ------------------------------------------------------- */
-
-.cursor-dot,
-.cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    pointer-events: none;
-    border-radius: 50%;
-    display: none;
-    will-change: transform;
-}
-
 .cursor-dot {
-    width: 6px;
-    height: 6px;
-    margin: -3px 0 0 -3px;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(200, 213, 255, 0.60);
+    width: 6px; height: 6px; margin: -3px 0 0 -3px;
+    background: var(--paper); mix-blend-mode: difference;
 }
-
 .cursor-ring {
-    width: 32px;
-    height: 32px;
-    margin: -16px 0 0 -16px;
-    border: 1px solid rgba(255, 255, 255, 0.50);
-    box-shadow: 0 0 12px rgba(200, 213, 255, 0.20);
-    transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                height 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                margin 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                background 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    width: 34px; height: 34px; margin: -17px 0 0 -17px;
+    border: 1px solid var(--line-dark);
+    transition: width .25s var(--ease), height .25s var(--ease), border-color .25s var(--ease);
 }
-
 .cursor-ring.cursor-hover {
-    width: 52px;
-    height: 52px;
-    margin: -26px 0 0 -26px;
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.70);
+    width: 54px; height: 54px; margin: -27px 0 0 -27px;
+    border-color: var(--paper);
+}
+body.has-custom-cursor { cursor: none; }
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+    body.has-custom-cursor { cursor: auto; }
 }
 
-.has-custom-cursor .cursor-dot,
-.has-custom-cursor .cursor-ring {
-    display: block;
-}
-
-.has-custom-cursor,
-.has-custom-cursor a,
-.has-custom-cursor button,
-.has-custom-cursor .project-row,
-.has-custom-cursor .publication-row,
-.has-custom-cursor .profile-link,
-.has-custom-cursor .timeline-item {
-    cursor: none;
-}
-
-/* ---- 3D tilt on cards ---------------------------------------------------- */
-
-.allow-tilt .project-row,
-.allow-tilt .publication-row,
-.allow-tilt .profile-link,
-.allow-tilt .timeline-item {
-    transform: perspective(840px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+/* Card tilt — JS writes --rx/--ry on hover; only active under body.allow-tilt */
+body.allow-tilt .project-row,
+body.allow-tilt .publication-row,
+body.allow-tilt .timeline-item {
+    transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition: transform .2s var(--ease);
     transform-style: preserve-3d;
-    will-change: transform;
 }
-
-/* Hover glow for cards */
-.project-row:hover,
-.publication-row:hover,
-.profile-link:hover,
-.profile-link:focus-visible,
-.timeline-item:hover {
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.55), 0 0 36px rgba(200, 213, 255, 0.10);
-}
-
-/* ---- Scroll reveal ------------------------------------------------------- */
-
-.reveal {
-    filter: blur(5px);
-    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-                transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-                filter 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal.in-view {
-    filter: blur(0);
-}
-
-.research-grid .reveal:nth-child(2),
-.profile-facts.reveal,
-.signal-strip.reveal {
-    transition-delay: 80ms;
-}
-
-.research-grid .reveal:nth-child(3) {
-    transition-delay: 160ms;
-}
-
-/* ---- Ambient hero depth -------------------------------------------------- */
-
-.hero-section::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -3;
-    pointer-events: none;
-    background:
-        radial-gradient(1px 1px at 18% 28%, rgba(255,255,255,0.45), transparent 50%),
-        radial-gradient(1px 1px at 72% 20%, rgba(255,255,255,0.35), transparent 50%),
-        radial-gradient(1.5px 1.5px at 58% 65%, rgba(200,213,255,0.50), transparent 50%),
-        radial-gradient(1px 1px at 36% 78%, rgba(255,255,255,0.30), transparent 50%),
-        radial-gradient(1px 1px at 84% 54%, rgba(200,213,255,0.35), transparent 50%);
-}
-
-.hero-grid {
-    will-change: transform;
-}
-
-/* ---- Reduced motion ----------------------------------------------------- */
-
 @media (prefers-reduced-motion: reduce) {
-    .reveal {
-        filter: none;
-    }
-
-    .transformer-stage {
-        transition: none;
-    }
+    body.allow-tilt * { transform: none !important; }
 }
