@@ -9,6 +9,11 @@
     };
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    // Fancy pointer-driven effects (custom cursor, card tilt, parallax) only run
+    // with a fine pointer and motion allowed. Touch + reduced-motion get the
+    // native cursor and a calm page.
+    const allowFancy = !prefersReducedMotion && !isTouch;
     const repoCacheKey = 'ko_profile_github_repos_v3';
     const repoCacheDuration = 10 * 60 * 1000;
 
@@ -52,6 +57,107 @@
         }, { threshold: 0.12, rootMargin: '0px 0px -42px' });
 
         elements.forEach(element => observer.observe(element));
+    }
+
+    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .profile-link, .timeline-item, .nav-toggle';
+    const TILT_TARGETS = '.project-row, .publication-row, .profile-link, .timeline-item';
+
+    // Custom cursor: an instant dot + a trailing ring that swells over interactive
+    // elements. Native cursor is hidden only while this is active.
+    function initCursor() {
+        if (!allowFancy) return;
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        if (!dot || !ring) return;
+
+        document.body.classList.add('has-custom-cursor');
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let ringX = mouseX;
+        let ringY = mouseY;
+        let raf = 0;
+
+        const loop = () => {
+            ringX += (mouseX - ringX) * 0.18;
+            ringY += (mouseY - ringY) * 0.18;
+            ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+            if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+                raf = requestAnimationFrame(loop);
+            } else {
+                raf = 0;
+            }
+        };
+
+        window.addEventListener('pointermove', event => {
+            if (event.pointerType === 'touch') return;
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+            if (!raf) raf = requestAnimationFrame(loop);
+        }, { passive: true });
+
+        document.addEventListener('pointerover', event => {
+            if (event.target.closest(FANCY_TARGETS)) ring.classList.add('cursor-hover');
+        }, { passive: true });
+        document.addEventListener('pointerout', event => {
+            if (event.target.closest(FANCY_TARGETS)) ring.classList.remove('cursor-hover');
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+            dot.style.opacity = '0';
+            ring.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            dot.style.opacity = '';
+            ring.style.opacity = '';
+        });
+    }
+
+    // Subtle 3D tilt on cards. Uses event delegation so rows injected after the
+    // GitHub/OpenReview fetch are covered without re-binding. JS writes --rx/--ry;
+    // cosmic.css applies the perspective transform when <body> has .allow-tilt.
+    function initTilt() {
+        if (!allowFancy) return;
+        document.body.classList.add('allow-tilt');
+        const MAX = 6;
+
+        document.addEventListener('pointermove', event => {
+            const card = event.target.closest(TILT_TARGETS);
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width - 0.5;
+            const py = (event.clientY - rect.top) / rect.height - 0.5;
+            card.style.setProperty('--ry', `${(px * MAX).toFixed(2)}deg`);
+            card.style.setProperty('--rx', `${(-py * MAX).toFixed(2)}deg`);
+        }, { passive: true });
+
+        document.addEventListener('pointerout', event => {
+            const card = event.target.closest(TILT_TARGETS);
+            if (!card || card.contains(event.relatedTarget)) return;
+            card.style.setProperty('--rx', '0deg');
+            card.style.setProperty('--ry', '0deg');
+        }, { passive: true });
+    }
+
+    // Light scroll parallax on the hero glow for depth (rAF-throttled).
+    function initParallax() {
+        if (!allowFancy) return;
+        const grid = document.querySelector('.hero-grid');
+        if (!grid) return;
+        let ticking = false;
+
+        const update = () => {
+            grid.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        }, { passive: true });
     }
 
     class HeroField {
@@ -133,7 +239,7 @@
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);
                         ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(18, 116, 86, ${(1 - dist / max) * 0.14})`;
+                        ctx.strokeStyle = `rgba(124, 156, 255, ${(1 - dist / max) * 0.22})`;
                         ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
@@ -143,14 +249,16 @@
             this.points.forEach(point => {
                 ctx.beginPath();
                 ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-                ctx.fillStyle = point.accent ? 'rgba(221, 245, 101, 0.72)' : 'rgba(18, 116, 86, 0.32)';
+                ctx.fillStyle = point.accent ? 'rgba(240, 201, 135, 0.85)' : 'rgba(124, 156, 255, 0.5)';
                 ctx.fill();
             });
         }
 
         animate() {
             this.time += 16;
-            this.draw();
+            // Skip the (O(n^2)) draw while the fallback canvas is hidden — e.g.
+            // once the 3D transformer takes over and sets display:none on it.
+            if (this.canvas.offsetParent !== null) this.draw();
             requestAnimationFrame(this.animate);
         }
     }
@@ -362,6 +470,9 @@
         initFooterYear();
         loadGitHubProjects();
         loadPublications();
+        initCursor();
+        initTilt();
+        initParallax();
 
         const heroCanvas = document.getElementById('hero-field');
         if (heroCanvas) new HeroField(heroCanvas);

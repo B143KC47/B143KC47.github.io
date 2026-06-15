@@ -7,7 +7,7 @@
     <meta name="description" content="KO Ho Tin's personal research profile, live GitHub projects, OpenReview publications, ORCID iD, Google Scholar link, and AI systems work.">
     <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, AI researcher, LLM agents, quant AI, computer vision, OpenReview, ORCID, Google Scholar, GitHub projects">
     <meta name="author" content="KO Ho Tin">
-    <meta name="theme-color" content="#f4efe6">
+    <meta name="theme-color" content="#05060a">
     <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs">
     <meta property="og:title" content="KO Ho Tin - AI Researcher & Builder">
     <meta property="og:description" content="A focused personal profile with live GitHub projects, research publications, and academic profile links.">
@@ -17,13 +17,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.github.com">
     <link rel="preconnect" href="https://api2.openreview.net">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
     <link rel="icon" href="assets/avatar.png" type="image/png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=3">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=6">
+    <link rel="stylesheet" href="styles/cosmic.css?v=3">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
 <body>
     <a class="skip-link" href="#projects">Skip to projects</a>
+
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
 
     <header class="site-header" data-header>
         <a class="brand" href="#top" aria-label="KO Ho Tin home">
@@ -48,6 +61,7 @@
 
     <main id="top">
         <section class="hero-section" aria-labelledby="hero-title">
+            <div id="transformer-stage" class="transformer-stage" aria-hidden="true"></div>
             <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
             <div class="hero-grid" aria-hidden="true"></div>
             <div class="hero-shell">
@@ -307,6 +321,7 @@
   "source": "OpenReview API v2 (GitHub Actions)"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=4"></script>
+    <script src="modules/startup-redesign.js?v=5"></script>
+    <script type="module" src="modules/transformer-scene.js?v=1"></script>
 </body>
 </html>
