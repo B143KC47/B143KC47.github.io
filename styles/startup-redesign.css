@@ -1,105 +1,71 @@
 :root {
-    /* ── Moonshot.ai Palette ──────────────────────────────────────── */
-    --paper:        #090c22;
-    --paper-2:      #0d1130;
-    --ink:          #ffffff;
-    --muted:        rgba(255, 255, 255, 0.60);
-    --faint:        rgba(255, 255, 255, 0.32);
-    --line:         rgba(255, 255, 255, 0.10);
-    --line-strong:  rgba(255, 255, 255, 0.28);
-    --accent:       #ffffff;
-    --accent-2:     #c8d5ff;
-    --accent-soft:  rgba(255, 255, 255, 0.08);
-    --white:        rgba(255, 255, 255, 0.72);
-    --shadow:       0 24px 80px rgba(0, 0, 0, 0.70);
-    /* Surfaces */
-    --surface:      rgba(255, 255, 255, 0.035);
-    --surface-2:    rgba(255, 255, 255, 0.060);
-    --surface-3:    rgba(255, 255, 255, 0.100);
-    --glow-cool:    rgba(200, 213, 255, 0.40);
-    --glow-warm:    rgba(200, 213, 255, 0.20);
-    /* Typography */
-    --font-display: "Syne", "Segoe UI", sans-serif;
-    --font-sans:    "Manrope", "Segoe UI", sans-serif;
-    --font-mono:    "IBM Plex Mono", monospace;
-    /* Spatial */
-    --max:    1180px;
-    --pad:    clamp(20px, 5vw, 72px);
-    --radius: 16px;
-    --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+  /* The only colors in the site: black, white, gray. */
+  --ink: #05060a;          /* base black */
+  --ink-2: #0b0d14;        /* raised black (cards on dark) */
+  --paper: #f4f6fb;        /* white */
+  --paper-2: #e9ecf3;      /* dimmed white */
+  --gray-70: #9aa0ad;      /* secondary text on dark */
+  --gray-50: #6b7280;      /* muted / meta */
+  --gray-30: #3a3f4b;      /* borders on dark */
+  --gray-15: #1b1e26;      /* hairlines on dark */
+  --line-dark: rgba(244,246,251,.12);
+  --line-light: rgba(5,6,10,.12);
+
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Fluid type scale */
+  --fs-eyebrow: .78rem;
+  --fs-body: clamp(1rem, .96rem + .3vw, 1.15rem);
+  --fs-h3: clamp(1.25rem, 1.1rem + .8vw, 1.6rem);
+  --fs-h2: clamp(2rem, 1.4rem + 3vw, 3.6rem);
+  --fs-display: clamp(2.6rem, 1.4rem + 6vw, 6.4rem);
+
+  --maxw: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --ease: cubic-bezier(.22,.61,.36,1);
 }
 
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
-    margin: 0;
-    min-width: 320px;
-    color: var(--ink);
-    background:
-        radial-gradient(ellipse 80% 40% at 50% -10%, rgba(100, 120, 255, 0.18) 0%, transparent 60%),
-        #090c22;
-    background-attachment: fixed;
-    font-family: var(--font-sans);
-    line-height: 1.6;
-    overflow-x: hidden;
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.030) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.030) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 60%);
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.04; letter-spacing: -.02em; margin: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  text-transform: uppercase; letter-spacing: .28em; color: var(--gray-50); margin: 0 0 1rem;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
+.skip-link { position: absolute; left: -999px; top: 0; background: var(--paper); color: var(--ink); padding: .6rem 1rem; z-index: 200; }
+.skip-link:focus { left: .5rem; top: .5rem; }
 
-button:focus-visible,
-a:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.60);
-    outline-offset: 4px;
-}
+:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
 
-img,
-canvas {
-    max-width: 100%;
-}
+/* Section rhythm + ink<->paper alternation (the monochrome "drama") */
+.section { padding: clamp(4.5rem, 10vw, 9rem) var(--gutter); }
+.section-inner { max-width: var(--maxw); margin: 0 auto; }
+.section--paper { background: var(--paper); color: var(--ink); }
+.section--paper .eyebrow { color: #5a6170; }
 
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-.skip-link {
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 100;
-    padding: 12px 16px;
-    color: var(--paper);
-    background: var(--ink);
-    border-radius: 999px;
-    transform: translateY(-180%);
-    transition: transform 180ms ease;
-}
-
-.skip-link:focus {
-    transform: translateY(0);
-}
+/* Reveal animation (driven by existing IntersectionObserver -> .in-view) */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in-view { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
 /* ── Navigation ─────────────────────────────────────────────────── */
 
