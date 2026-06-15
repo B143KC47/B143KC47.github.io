@@ -172,372 +172,6 @@ h3 {
     letter-spacing: -0.04em;
 }
 
-.section-heading p,
-.profile-note p,
-.contact-panel p {
-    max-width: 680px;
-    color: var(--muted);
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 1.45vw, 1.16rem);
-    line-height: 1.72;
-}
-
-.contact-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
-}
-
-/* ── Buttons ────────────────────────────────────────────────────── */
-
-.button {
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 0 22px;
-    border-radius: 999px;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 15px;
-    border: 1px solid transparent;
-    transition: transform 220ms var(--ease), background 160ms ease,
-                border-color 160ms ease, box-shadow 220ms ease;
-}
-
-.button:hover,
-.button:focus-visible {
-    transform: translateY(-2px);
-}
-
-/* Primary = white on navy (the Moonshot.ai CTA style) */
-.button.primary {
-    color: var(--paper);
-    background: var(--ink);
-    border-color: var(--ink);
-}
-
-.button.primary:hover,
-.button.primary:focus-visible {
-    background: rgba(255, 255, 255, 0.90);
-    box-shadow: 0 0 40px rgba(200, 213, 255, 0.30), 0 8px 28px rgba(0,0,0,0.30);
-}
-
-/* Secondary = ghost / white border */
-.button.secondary {
-    color: var(--ink);
-    background: transparent;
-    border-color: var(--line-strong);
-}
-
-.button.secondary:hover,
-.button.secondary:focus-visible {
-    background: var(--surface-2);
-    border-color: rgba(255, 255, 255, 0.45);
-}
-
-/* ── Sections ───────────────────────────────────────────────────── */
-
-.section {
-    padding: clamp(80px, 10vw, 148px) var(--pad);
-    scroll-margin-top: 100px;
-}
-
-.section > * {
-    width: min(100%, var(--max));
-    margin-inline: auto;
-}
-
-/* .section-heading margin removed — .section-head handles new research area */
-
-/* ── Panels / Cards ─────────────────────────────────────────────── */
-
-.profile-layout,
-.github-dashboard,
-.contact-panel {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--surface);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(12px);
-}
-
-/* ── Profile ────────────────────────────────────────────────────── */
-
-.profile-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
-    gap: 0;
-    overflow: hidden;
-    background: var(--line);
-}
-
-.profile-note,
-.profile-facts {
-    margin: 0;
-    padding: clamp(24px, 4vw, 44px);
-    background: var(--surface);
-}
-
-.profile-note p:last-child {
-    margin-bottom: 0;
-}
-
-.profile-facts {
-    display: grid;
-    gap: 0;
-    background: var(--line);
-}
-
-.profile-facts div {
-    padding: 18px 22px;
-    background: var(--surface);
-}
-
-.profile-facts dt {
-    color: var(--faint);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.profile-facts dd {
-    margin: 6px 0 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 15px;
-}
-
-.profile-facts a,
-.section-heading a,
-.panel-heading a {
-    color: var(--accent-2);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-}
-
-/* ── GitHub Dashboard ───────────────────────────────────────────── */
-
-.github-dashboard {
-    overflow: hidden;
-}
-
-.github-status {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    background: var(--line);
-}
-
-.github-status div {
-    padding: 20px 24px;
-    background: var(--surface);
-}
-
-.status-label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--faint);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.github-status strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(1.05rem, 1.7vw, 1.4rem);
-    letter-spacing: -0.04em;
-}
-
-/* ── Project Rows ───────────────────────────────────────────────── */
-
-.project-list {
-    display: grid;
-    gap: 0;
-    background: var(--line);
-}
-
-.project-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 24px;
-    padding: clamp(20px, 3vw, 30px) clamp(20px, 3vw, 28px);
-    background: var(--surface);
-    transition: background 160ms ease;
-}
-
-.project-row:hover {
-    background: var(--surface-2);
-}
-
-.project-row h3 {
-    max-width: 760px;
-    margin: 0 0 10px;
-}
-
-.project-row p {
-    max-width: 840px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-.project-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-    color: var(--faint);
-    font-size: 12px;
-}
-
-.project-meta span {
-    min-height: 28px;
-    display: inline-flex;
-    align-items: center;
-    padding: 0 10px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface-2);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-}
-
-.project-arrow {
-    align-self: start;
-    min-width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    color: var(--paper);
-    background: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 15px;
-    transition: transform 200ms var(--ease), background 160ms ease, box-shadow 200ms ease;
-}
-
-.project-row:hover .project-arrow {
-    transform: translate(2px, -2px);
-    background: var(--ink);
-    box-shadow: 0 0 20px rgba(200, 213, 255, 0.25);
-}
-
-/* ── Research Grid (Profile Links) — removed; new markup uses .meta-link ── */
-
-.identifier-link strong {
-    font-family: var(--font-mono);
-    font-size: clamp(1.1rem, 2vw, 1.9rem);
-    letter-spacing: -0.04em;
-    overflow-wrap: anywhere;
-}
-
-/* ── Timeline ───────────────────────────────────────────────────── */
-
-.timeline {
-    position: relative;
-    display: grid;
-    gap: 10px;
-}
-
-.timeline::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 88px;
-    width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.35) 20%, rgba(255,255,255,0.15) 80%, transparent);
-}
-
-.timeline-item {
-    display: grid;
-    grid-template-columns: 118px minmax(0, 1fr);
-    gap: 24px;
-    padding: 22px 24px;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: var(--surface);
-    backdrop-filter: blur(10px);
-    transition: background 160ms ease, border-color 160ms ease;
-}
-
-.timeline-item:hover {
-    border-color: var(--line-strong);
-    background: var(--surface-2);
-}
-
-.timeline-item > span {
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-}
-
-.timeline-item p {
-    margin-bottom: 0;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.65;
-}
-
-/* ── Contact ────────────────────────────────────────────────────── */
-
-.contact-panel {
-    padding: clamp(36px, 6vw, 80px);
-    background:
-        radial-gradient(ellipse 70% 60% at 90% 10%, rgba(100, 120, 255, 0.16) 0%, transparent 50%),
-        radial-gradient(ellipse 50% 40% at 10% 90%, rgba(200, 213, 255, 0.08) 0%, transparent 50%),
-        var(--surface);
-}
-
-/* ── Footer ─────────────────────────────────────────────────────── */
-
-.site-footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 28px var(--pad) 56px;
-    color: var(--faint);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-}
-
-/* ── Skeleton ───────────────────────────────────────────────────── */
-
-.skeleton-line { height: 1rem; margin: .6rem 0; background: linear-gradient(90deg, var(--gray-15), var(--gray-30), var(--gray-15)); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
-@keyframes shimmer { to { background-position: -200% 0; } }
-@media (prefers-reduced-motion: reduce) { .skeleton-line { animation: none; } }
-
-.empty-state,
-.error-state {
-    padding: 24px;
-    background: var(--surface);
-    color: var(--muted);
-    font-size: 14px;
-}
-
-/* ── Reveal Animation ───────────────────────────────────────────── */
-
-.reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
-}
-
-.reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* ── Manifesto ──────────────────────────────────────────────────── */
 
 .manifesto { padding: clamp(5rem,12vw,10rem) var(--gutter); border-top: 1px solid var(--line-dark); border-bottom: 1px solid var(--line-dark); }
@@ -570,17 +204,66 @@ h3 {
 .meta-link:hover { color: var(--paper); border-bottom-color: var(--paper); }
 .meta-link--status { color: var(--gray-50); margin-left: auto; }
 
-/* ── Responsive: 1040px ─────────────────────────────────────────── */
+/* ── Identifier Link ─────────────────────────────────────────────── */
 
-@media (max-width: 1040px) {
-    .profile-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .github-status {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.identifier-link strong {
+    font-family: var(--font-mono);
+    font-size: clamp(1.1rem, 2vw, 1.9rem);
+    letter-spacing: -0.04em;
+    overflow-wrap: anywhere;
 }
+
+/* ── Skeleton ───────────────────────────────────────────────────── */
+
+.skeleton-line { height: 1rem; margin: .6rem 0; background: linear-gradient(90deg, var(--gray-15), var(--gray-30), var(--gray-15)); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton-line { animation: none; } }
+
+/* ── Build trail (GitHub) — on --paper section ──────────────────── */
+
+.github-status { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line-light); border: 1px solid var(--line-light); margin-bottom: 2rem; }
+.github-status > div { background: var(--paper); padding: 1.2rem; }
+.status-label { display: block; font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: #5d5d5d; margin-bottom: .3rem; }
+.github-status strong { font-size: 1.1rem; }
+.project-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1px; background: var(--line-light); border: 1px solid var(--line-light); }
+.project-row { display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; padding: 1.6rem; background: var(--paper); color: var(--ink); transition: background .25s var(--ease); }
+.project-row:hover { background: var(--paper-2); }
+.project-row h3 { font-size: var(--fs-h3); }
+.project-row p { color: #4a4a4a; font-size: .95rem; margin: .5rem 0 0; }
+.project-meta { display: flex; flex-wrap: wrap; gap: .5rem .9rem; font-family: var(--font-mono); font-size: .72rem; color: #5d5d5d; margin-top: .5rem; }
+.section--paper .topic-pill { border-color: var(--line-light); color: #4a4a4a; }
+.project-arrow { font-family: var(--font-mono); align-self: flex-end; }
+.empty-state, .error-state { padding: 2rem; font-family: var(--font-mono); font-size: .85rem; color: var(--gray-50); grid-column: 1 / -1; }
+.section--paper .empty-state, .section--paper .error-state { color: #5d5d5d; }
+
+/* ── Profile (on --ink) ─────────────────────────────────────────── */
+
+.profile-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(2rem,6vw,5rem); align-items: start; }
+.profile p { color: var(--gray-70); }
+.facts { margin: 0; display: grid; gap: 0; }
+.facts > div { display: grid; grid-template-columns: 10rem 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line-dark); }
+.facts dt { font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gray-50); }
+.facts dd { margin: 0; }
+.facts a { border-bottom: 1px solid var(--line-dark); }
+.facts a:hover { border-bottom-color: var(--paper); }
+
+/* ── Trajectory (timeline) on --paper ───────────────────────────── */
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline-item { display: grid; grid-template-columns: 6rem 1fr; gap: 1.5rem; padding: 1.8rem 0; border-top: 1px solid var(--line-light); }
+.timeline-year { font-family: var(--font-mono); font-size: 1.1rem; color: #5d5d5d; }
+.timeline-item h3 { font-size: var(--fs-h3); }
+.timeline-item p { margin: .4rem 0 0; color: #4a4a4a; }
+
+/* ── Contact ────────────────────────────────────────────────────── */
+
+.contact { text-align: center; }
+.contact h2 { font-size: var(--fs-h2); max-width: 22ch; margin: 0 auto 2rem; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+
+.site-footer { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; padding: 2rem var(--gutter); border-top: 1px solid var(--line-dark); font-family: var(--font-mono); font-size: .78rem; color: var(--gray-50); }
 
 /* ── Responsive: 760px ──────────────────────────────────────────── */
 
@@ -601,26 +284,8 @@ h3 {
         grid-template-columns: 1fr;
     }
 
-    .project-row {
-        grid-template-columns: 1fr;
-    }
-
-    .project-arrow {
-        justify-self: start;
-    }
-
-    .timeline::before {
-        left: 22px;
-    }
-
-    .timeline-item {
-        grid-template-columns: 1fr;
-        padding-left: 36px;
-    }
-
-    .timeline-item:hover {
-        transform: none;
-    }
+    .profile-grid { grid-template-columns: 1fr; }
+    .facts > div { grid-template-columns: 7rem 1fr; }
 
     .site-footer {
         display: grid;
@@ -632,7 +297,7 @@ h3 {
 
 @media (max-width: 430px) {
     :root {
-        --pad: 16px;
+        --gutter: 1rem;
     }
 }
 
