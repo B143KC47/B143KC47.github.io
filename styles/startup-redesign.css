@@ -103,71 +103,36 @@ img { max-width: 100%; display: block; }
 
 /* ── Hero ───────────────────────────────────────────────────────── */
 
-.hero-section {
-    position: relative;
-    min-height: 100svh;
-    display: grid;
-    align-items: center;
-    padding: 140px var(--pad) 52px;
-    overflow: hidden;
-    isolation: isolate;
-}
+.hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; padding: 0 var(--gutter); }
+.hero-stage, .hero-field, .hero-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-stage { z-index: 0; }
+.hero-field { z-index: 0; }
+.hero-grid { z-index: 0;
+  background:
+    linear-gradient(transparent 95%, var(--line-dark) 95%) 0 0 / 100% 64px,
+    linear-gradient(90deg, transparent 95%, var(--line-dark) 95%) 0 0 / 64px 100%;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 30%, #000 35%, transparent 75%);
+  mask-image: radial-gradient(120% 90% at 50% 30%, #000 35%, transparent 75%);
+  opacity: .5; }
+.hero-inner { position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; width: 100%; }
+.hero-title { font-size: var(--fs-display); max-width: 14ch; margin: 0 0 1.4rem; }
+.hero-lede { max-width: 46ch; color: var(--gray-70); font-size: 1.15rem; margin: 0 0 2.2rem; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-scroll { position: absolute; left: 50%; bottom: 2rem; transform: translateX(-50%); z-index: 2; }
+.hero-scroll span { display: block; width: 1px; height: 46px; background: linear-gradient(var(--paper), transparent); animation: scrollcue 1.8s var(--ease) infinite; }
+@keyframes scrollcue { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 100%{transform:scaleY(1);transform-origin:bottom;opacity:0} }
 
-/* Perspective grid floor — the signature Moonshot.ai wireframe element */
-.hero-field,
-.hero-grid {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-}
-
-.hero-field {
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-}
-
-.hero-grid {
-    z-index: -1;
-    /* Perspective wire grid at the bottom of the hero */
-    overflow: hidden;
-}
-
-.hero-grid::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: -20%;
-    right: -20%;
-    height: 55%;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 80px 80px;
-    transform: perspective(600px) rotateX(72deg);
-    transform-origin: bottom center;
-    mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
-}
-
-.hero-grid::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 60% 50% at 72% 44%, rgba(100, 120, 255, 0.14) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 24% 70%, rgba(200, 213, 255, 0.06) 0%, transparent 50%);
-}
-
-.hero-shell {
-    position: relative;
-    z-index: 2;
-    width: min(100%, var(--max));
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-    gap: clamp(40px, 7vw, 96px);
-    align-items: center;
-    margin: 0 auto;
-}
+.btn { display: inline-block; font-family: var(--font-mono); font-size: .85rem; letter-spacing: .04em; padding: .85rem 1.5rem; border: 1px solid var(--paper); transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease); }
+.btn--solid { background: var(--paper); color: var(--ink); }
+.btn--solid:hover { background: transparent; color: var(--paper); }
+.btn--ghost { background: transparent; color: var(--paper); border-color: var(--line-dark); }
+.btn--ghost:hover { border-color: var(--paper); }
+.section--paper .btn { border-color: var(--ink); }
+.section--paper .btn--solid { background: var(--ink); color: var(--paper); }
+.section--paper .btn--solid:hover { background: transparent; color: var(--ink); }
+.section--paper .btn--ghost { color: var(--ink); border-color: var(--line-light); }
+.section--paper .btn--ghost:hover { border-color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .hero-scroll span { animation: none; } }
 
 /* ── Typography ─────────────────────────────────────────────────── */
 
@@ -216,7 +181,6 @@ h3 {
     letter-spacing: -0.04em;
 }
 
-.hero-lede,
 .section-heading p,
 .profile-note p,
 .profile-link p,
@@ -228,7 +192,6 @@ h3 {
     line-height: 1.72;
 }
 
-.hero-actions,
 .contact-actions {
     display: flex;
     flex-wrap: wrap;
@@ -283,118 +246,6 @@ h3 {
 .button.secondary:focus-visible {
     background: var(--surface-2);
     border-color: rgba(255, 255, 255, 0.45);
-}
-
-/* ── Portrait Stage ─────────────────────────────────────────────── */
-
-.portrait-stage {
-    position: relative;
-    margin: 0;
-    min-height: min(72vw, 640px);
-    display: grid;
-    place-items: center;
-}
-
-.portrait-stage::before,
-.portrait-stage::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-}
-
-.portrait-stage::before {
-    width: min(92%, 540px);
-    aspect-ratio: 1;
-    border: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.025);
-    box-shadow: var(--shadow);
-}
-
-.portrait-stage::after {
-    width: min(70%, 420px);
-    aspect-ratio: 1;
-    border: 1px dashed rgba(255, 255, 255, 0.14);
-    animation: orbitSpin 28s linear infinite;
-}
-
-.portrait-stage img {
-    position: relative;
-    z-index: 1;
-    width: min(72%, 420px);
-    height: auto;
-    object-fit: contain;
-    border-radius: 28px;
-    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.65), 0 0 60px rgba(200, 213, 255, 0.10);
-}
-
-.portrait-stage figcaption {
-    position: absolute;
-    right: 4%;
-    bottom: 9%;
-    z-index: 2;
-    max-width: 240px;
-    padding: 14px 18px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: rgba(9, 12, 34, 0.80);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(20px);
-}
-
-.portrait-stage figcaption span,
-.portrait-stage figcaption strong {
-    display: block;
-}
-
-.portrait-stage figcaption span {
-    margin-bottom: 6px;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-/* ── Signal Strip ───────────────────────────────────────────────── */
-
-.signal-strip {
-    position: relative;
-    z-index: 2;
-    width: min(100%, var(--max));
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin: 48px auto 0;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--line);
-}
-
-.signal-strip div {
-    padding: 20px 22px;
-    background: var(--surface);
-}
-
-.signal-strip span,
-.signal-strip strong {
-    display: block;
-}
-
-.signal-strip span {
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-.signal-strip strong {
-    margin-top: 8px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(1rem, 1.7vw, 1.35rem);
-    letter-spacing: -0.04em;
 }
 
 /* ── Sections ───────────────────────────────────────────────────── */
@@ -802,17 +653,11 @@ h3 {
 /* ── Responsive: 1040px ─────────────────────────────────────────── */
 
 @media (max-width: 1040px) {
-    .hero-shell,
     .profile-layout {
         grid-template-columns: 1fr;
     }
 
-    .portrait-stage {
-        min-height: 520px;
-    }
-
-    .github-status,
-    .signal-strip {
+    .github-status {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -824,11 +669,6 @@ h3 {
 /* ── Responsive: 760px ──────────────────────────────────────────── */
 
 @media (max-width: 760px) {
-    .hero-section {
-        min-height: auto;
-        padding-top: 110px;
-    }
-
     h1 {
         font-size: clamp(3.4rem, 16vw, 5.2rem);
     }
@@ -837,21 +677,10 @@ h3 {
         font-size: clamp(2.2rem, 11vw, 3.5rem);
     }
 
-    .hero-actions,
     .contact-actions {
         display: grid;
     }
 
-    .portrait-stage {
-        min-height: 420px;
-    }
-
-    .portrait-stage figcaption {
-        right: 0;
-        bottom: 2%;
-    }
-
-    .signal-strip,
     .github-status {
         grid-template-columns: 1fr;
     }
@@ -894,29 +723,6 @@ h3 {
 @media (max-width: 430px) {
     :root {
         --pad: 16px;
-    }
-
-    .portrait-stage {
-        min-height: 350px;
-    }
-
-    .portrait-stage figcaption {
-        max-width: 210px;
-    }
-}
-
-/* ── Responsive: landscape ──────────────────────────────────────── */
-
-@media (max-width: 900px) and (orientation: landscape) {
-    .hero-section {
-        min-height: auto;
-        padding-top: 92px;
-        padding-bottom: 30px;
-    }
-
-    .portrait-stage,
-    .signal-strip {
-        display: none;
     }
 }
 

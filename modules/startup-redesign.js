@@ -239,7 +239,7 @@
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);
                         ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(124, 156, 255, ${(1 - dist / max) * 0.22})`;
+                        ctx.strokeStyle = `rgba(245,245,245,${(1 - dist / max) * 0.18})`;
                         ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
@@ -249,7 +249,7 @@
             this.points.forEach(point => {
                 ctx.beginPath();
                 ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-                ctx.fillStyle = point.accent ? 'rgba(240, 201, 135, 0.85)' : 'rgba(124, 156, 255, 0.5)';
+                ctx.fillStyle = point.accent ? 'rgba(245,245,245,0.9)' : 'rgba(245,245,245,0.45)';
                 ctx.fill();
             });
         }
