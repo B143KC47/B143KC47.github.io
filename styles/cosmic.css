@@ -1,0 +1,40 @@
+/* ============================================================================
+   cosmic.css — interaction + atmosphere layer (monochrome "Signal")
+   Custom cursor + subtle card tilt. No starfield, no color — strictly grayscale.
+   Loaded after startup-redesign.css, so its :root tokens are available here.
+   ========================================================================== */
+
+.cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 300;
+    border-radius: 50%; transform: translate3d(-100px,-100px,0);
+}
+.cursor-dot {
+    width: 6px; height: 6px; margin: -3px 0 0 -3px;
+    background: var(--paper); mix-blend-mode: difference;
+}
+.cursor-ring {
+    width: 34px; height: 34px; margin: -17px 0 0 -17px;
+    border: 1px solid var(--line-dark);
+    transition: width .25s var(--ease), height .25s var(--ease), border-color .25s var(--ease);
+}
+.cursor-ring.cursor-hover {
+    width: 54px; height: 54px; margin: -27px 0 0 -27px;
+    border-color: var(--paper);
+}
+body.has-custom-cursor { cursor: none; }
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+    body.has-custom-cursor { cursor: auto; }
+}
+
+/* Card tilt — JS writes --rx/--ry on hover; only active under body.allow-tilt */
+body.allow-tilt .project-row,
+body.allow-tilt .publication-row,
+body.allow-tilt .timeline-item {
+    transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition: transform .2s var(--ease);
+    transform-style: preserve-3d;
+}
+@media (prefers-reduced-motion: reduce) {
+    body.allow-tilt * { transform: none !important; }
+}
