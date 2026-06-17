@@ -7,7 +7,7 @@
     <meta name="description" content="KO Ho Tin's personal research profile, live GitHub projects, OpenReview publications, ORCID iD, Google Scholar link, and AI systems work.">
     <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, AI researcher, LLM agents, quant AI, computer vision, OpenReview, ORCID, Google Scholar, GitHub projects">
     <meta name="author" content="KO Ho Tin">
-    <meta name="theme-color" content="#060606">
+    <meta name="theme-color" content="#000000">
     <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs">
     <meta property="og:title" content="KO Ho Tin - AI Researcher & Builder">
     <meta property="og:description" content="A focused personal profile with live GitHub projects, research publications, and academic profile links.">
@@ -21,16 +21,8 @@
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
     <link rel="icon" href="assets/avatar.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=7">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=15">
     <link rel="stylesheet" href="styles/cosmic.css?v=4">
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
-        }
-    }
-    </script>
 </head>
 <body>
     <a class="skip-link" href="#research">Skip to research</a>
@@ -125,18 +117,22 @@
   <!-- 5. PROFILE -->
   <section id="profile" class="section profile" aria-labelledby="profile-title">
     <div class="section-inner profile-grid">
-      <div class="reveal">
+      <figure class="profile-figure reveal">
+        <img src="assets/avatar.png" alt="Portrait of KO Ho Tin (BlackCat), AI researcher" loading="lazy" decoding="async">
+        <figcaption>KO Ho Tin · BlackCat</figcaption>
+      </figure>
+      <div class="profile-body reveal">
         <p class="eyebrow">Profile</p>
         <h2 id="profile-title">A compact evidence layer.</h2>
         <p>I am KO Ho Tin, also known as BlackCat online — focused on LLM benchmarks, alpha-factor discovery, and practical automation. This site is who I am, what I build, where it is published, and how to reach me.</p>
+        <dl class="facts">
+          <div><dt>Name</dt><dd>KO Ho Tin</dd></div>
+          <div><dt>Alias</dt><dd>BlackCat / B143KC47</dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:s20200057@ylmass.edu.hk">s20200057@ylmass.edu.hk</a></dd></div>
+          <div><dt>ORCID iD</dt><dd><a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">0009-0002-7298-8196</a></dd></div>
+          <div><dt>Core topics</dt><dd>LLM agents, quantitative AI, computer vision, evaluation</dd></div>
+        </dl>
       </div>
-      <dl class="facts reveal">
-        <div><dt>Name</dt><dd>KO Ho Tin</dd></div>
-        <div><dt>Alias</dt><dd>BlackCat / B143KC47</dd></div>
-        <div><dt>Email</dt><dd><a href="mailto:s20200057@ylmass.edu.hk">s20200057@ylmass.edu.hk</a></dd></div>
-        <div><dt>ORCID iD</dt><dd><a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">0009-0002-7298-8196</a></dd></div>
-        <div><dt>Core topics</dt><dd>LLM agents, quantitative AI, computer vision, evaluation</dd></div>
-      </dl>
     </div>
   </section>
 
@@ -232,6 +228,6 @@
 }
 </script>
     <script src="modules/startup-redesign.js?v=6"></script>
-    <script type="module" src="modules/transformer-scene.js?v=2"></script>
+    <script src="modules/transformer-arch.js?v=2" defer></script>
 </body>
 </html>
