@@ -21,6 +21,7 @@
         const header = document.querySelector('[data-header]');
         const toggle = document.querySelector('[data-nav-toggle]');
         const nav = document.querySelector('[data-nav]');
+        const backdrop = document.querySelector('[data-nav-backdrop]');
         if (!header || !toggle || !nav) return;
 
         const setScrolled = () => {
@@ -29,30 +30,32 @@
         setScrolled();
         window.addEventListener('scroll', setScrolled, { passive: true });
 
-        toggle.addEventListener('click', () => {
-            const isOpen = nav.classList.toggle('is-open');
-            toggle.setAttribute('aria-expanded', String(isOpen));
-        });
+        // Single source of truth for the mobile drawer: toggles the panel, the
+        // backdrop scrim, the hamburger->X (via aria-expanded), and a scroll lock
+        // on <html> so the page can't scroll behind the open menu.
+        const setNav = open => {
+            nav.classList.toggle('is-open', open);
+            document.documentElement.classList.toggle('nav-open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+        };
 
-        nav.addEventListener('click', event => {
-            if (!event.target.closest('a')) return;
-            nav.classList.remove('is-open');
-            toggle.setAttribute('aria-expanded', 'false');
-        });
-
-        document.addEventListener('click', event => {
-            if (!nav.classList.contains('is-open')) return;
-            if (event.target.closest('[data-nav]') || event.target.closest('[data-nav-toggle]')) return;
-            nav.classList.remove('is-open');
-            toggle.setAttribute('aria-expanded', 'false');
-        });
+        toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')));
+        nav.addEventListener('click', event => { if (event.target.closest('a')) setNav(false); });
+        if (backdrop) backdrop.addEventListener('click', () => setNav(false));
 
         document.addEventListener('keydown', event => {
-            if (event.key !== 'Escape' || !nav.classList.contains('is-open')) return;
-            nav.classList.remove('is-open');
-            toggle.setAttribute('aria-expanded', 'false');
-            toggle.focus();
+            if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+                setNav(false);
+                toggle.focus();
+            }
         });
+
+        // Close the drawer (clearing the scroll lock + backdrop) if the viewport
+        // grows to desktop while it's open, so neither lingers on the inline nav.
+        const desktop = window.matchMedia('(min-width: 761px)');
+        const onDesktop = event => { if (event.matches) setNav(false); };
+        if (desktop.addEventListener) desktop.addEventListener('change', onDesktop);
+        else if (desktop.addListener) desktop.addListener(onDesktop);
     }
 
     function initReveal() {
