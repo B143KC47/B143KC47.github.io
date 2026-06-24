@@ -1,2 +1,5 @@
 # Playwright MCP verification screenshots (local-only tooling artifacts)
 .playwright-mcp/
+
+# Local Claude Code settings (machine-specific, not for publishing)
+.claude/settings.local.json
