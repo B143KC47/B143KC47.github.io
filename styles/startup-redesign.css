@@ -231,6 +231,52 @@ h3 {
 .empty-state, .error-state { padding: 2rem; font-family: var(--font-mono); font-size: .85rem; color: var(--gray-50); grid-column: 1 / -1; }
 .section--paper .empty-state, .section--paper .error-state { color: var(--gray-50); }
 
+/* ── Practice trail (LeetCode + Kaggle) on --ink ────────────────── */
+
+.practice-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
+.practice-card { display: flex; flex-direction: column; gap: 1.15rem; padding: clamp(1.6rem, 3vw, 2.4rem); background: var(--ink-2); color: var(--paper); transition: background .25s var(--ease); }
+.practice-card:hover { background: var(--ink-3); }
+
+.practice-card__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; font-family: var(--font-mono); }
+.practice-card__brand { font-size: .82rem; text-transform: uppercase; letter-spacing: .22em; color: var(--paper); }
+.practice-card__handle { font-size: .74rem; letter-spacing: .04em; color: var(--gray-50); transition: color .25s var(--ease); white-space: nowrap; }
+.practice-card:hover .practice-card__handle { color: var(--gray-70); }
+.practice-card__go { display: inline-block; transition: transform .25s var(--ease); }
+.practice-card:hover .practice-card__go { transform: translateX(4px); }
+
+.practice-stat { display: flex; flex-direction: column; gap: .2rem; }
+.practice-stat__num { font-family: var(--font-mono); font-weight: 600; font-size: clamp(2.6rem, 1.6rem + 3.5vw, 4rem); line-height: .95; letter-spacing: -.02em; color: var(--paper); }
+.practice-stat__num--tier { font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.3rem); letter-spacing: -.01em; }
+.practice-stat__label { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gray-50); }
+
+/* difficulty bar — grayscale VALUE encodes difficulty (brighter = harder), no color */
+.diffbar { display: flex; height: 8px; width: 100%; background: var(--gray-15); border: 1px solid var(--line-dark); overflow: hidden; }
+.diffbar__seg { height: 100%; }
+.diffbar__seg--easy { background: var(--gray-50); }
+.diffbar__seg--med  { background: var(--gray-70); }
+.diffbar__seg--hard { background: var(--paper); }
+
+.practice-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: -.4rem 0 0; padding: 0; list-style: none; font-family: var(--font-mono); font-size: .72rem; color: var(--gray-70); }
+.practice-legend li { display: flex; align-items: center; gap: .4rem; }
+.legend-dot { width: 8px; height: 8px; display: inline-block; }
+.legend-dot--easy { background: var(--gray-50); }
+.legend-dot--med  { background: var(--gray-70); }
+.legend-dot--hard { background: var(--paper); }
+
+/* tier ladder — 5 connected nodes, current filled (honest "where I am") */
+.tierladder { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; padding: 0; list-style: none; }
+.tierladder__node { position: relative; display: flex; flex-direction: column; align-items: center; gap: .5rem; font-family: var(--font-mono); }
+.tierladder__node::before { content: ""; position: absolute; top: 5px; left: -50%; width: 100%; height: 1px; background: var(--line-dark); }
+.tierladder__node:first-child::before { display: none; }
+.tierladder__node.is-passed::before, .tierladder__node.is-current::before { background: var(--gray-50); }
+.tierladder__dot { position: relative; z-index: 1; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--gray-30); background: var(--ink-2); }
+.tierladder__node.is-passed .tierladder__dot { background: var(--gray-50); border-color: var(--gray-50); }
+.tierladder__node.is-current .tierladder__dot { background: var(--paper); border-color: var(--paper); box-shadow: 0 0 0 4px rgba(245,245,245,.12); }
+.tierladder__abbr { font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-50); }
+.tierladder__node.is-current .tierladder__abbr { color: var(--paper); }
+
+.practice-foot { margin: auto 0 0; font-family: var(--font-mono); font-size: .72rem; color: var(--gray-50); letter-spacing: .04em; }
+
 /* ── Profile (on --ink) ─────────────────────────────────────────── */
 
 .profile-grid { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: clamp(2rem,6vw,5rem); align-items: start; }
@@ -285,6 +331,10 @@ h3 {
     }
 
     .github-status {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-list {
         grid-template-columns: 1fr;
     }
 

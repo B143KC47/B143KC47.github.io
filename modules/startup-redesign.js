@@ -73,8 +73,8 @@
         elements.forEach(element => observer.observe(element));
     }
 
-    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .timeline-item, .nav-toggle';
-    const TILT_TARGETS = '.project-row, .publication-row, .timeline-item';
+    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .practice-card, .timeline-item, .nav-toggle';
+    const TILT_TARGETS = '.project-row, .publication-row, .practice-card, .timeline-item';
 
     // Custom cursor: an instant dot + a trailing ring that swells over interactive
     // elements. Native cursor is hidden only while this is active.
@@ -497,6 +497,113 @@
         });
     }
 
+    // ── Practice trail (LeetCode + Kaggle) ──────────────────────────
+    // Static, honest "where I practice" cards rendered from the inline
+    // #profiles-data block (same idiom as #publications-data). We show counts
+    // of things done and omit floor-level ranks/reputation by design.
+    const TIER_LADDER = ['Novice', 'Contributor', 'Expert', 'Master', 'Grandmaster'];
+    const TIER_ABBR = { Novice: 'Nov', Contributor: 'Con', Expert: 'Exp', Master: 'Mas', Grandmaster: 'GM' };
+
+    function readInlineProfiles() {
+        try {
+            const script = document.getElementById('profiles-data');
+            return script ? JSON.parse(script.textContent) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function loadProfiles() {
+        const list = document.getElementById('practice-list');
+        if (!list) return;
+
+        const data = readInlineProfiles();
+        if (!data || (!data.leetcode && !data.kaggle)) {
+            list.innerHTML = '<div class="empty-state">Practice profile data is unavailable.</div>';
+            return;
+        }
+
+        const cards = [];
+        if (data.leetcode) cards.push(renderLeetCard(data.leetcode));
+        if (data.kaggle) cards.push(renderKaggleCard(data.kaggle));
+        list.innerHTML = cards.join('');
+        // Cards are injected after the IntersectionObserver was wired, so reveal them now.
+        list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+    }
+
+    function renderLeetCard(lc) {
+        const d = lc.byDifficulty || {};
+        const easy = d.easy || 0;
+        const medium = d.medium || 0;
+        const hard = d.hard || 0;
+        const total = easy + medium + hard;
+        const pct = value => (total > 0 ? (value / total) * 100 : 0).toFixed(1);
+        const solved = String(lc.solved != null ? lc.solved : total).padStart(2, '0');
+        const foot = [
+            lc.submissions != null ? `${lc.submissions} submissions` : null,
+            lc.activePeriod ? `active ${lc.activePeriod}` : null
+        ].filter(Boolean).join(' · ');
+
+        return `
+        <a class="practice-card reveal" href="${escapeAttr(lc.url)}" target="_blank" rel="noopener noreferrer">
+            <header class="practice-card__head">
+                <span class="practice-card__brand">LeetCode</span>
+                <span class="practice-card__handle">@${escapeHtml(lc.handle)} <span class="practice-card__go" aria-hidden="true">-&gt;</span></span>
+            </header>
+            <div class="practice-stat">
+                <span class="practice-stat__num">${escapeHtml(solved)}</span>
+                <span class="practice-stat__label">problems solved</span>
+            </div>
+            <div class="diffbar" role="img" aria-label="${easy} Easy, ${medium} Medium, ${hard} Hard solved">
+                <span class="diffbar__seg diffbar__seg--easy" style="width:${pct(easy)}%"></span>
+                <span class="diffbar__seg diffbar__seg--med" style="width:${pct(medium)}%"></span>
+                <span class="diffbar__seg diffbar__seg--hard" style="width:${pct(hard)}%"></span>
+            </div>
+            <ul class="practice-legend" aria-hidden="true">
+                <li><i class="legend-dot legend-dot--easy"></i>${easy} Easy</li>
+                <li><i class="legend-dot legend-dot--med"></i>${medium} Medium</li>
+                <li><i class="legend-dot legend-dot--hard"></i>${hard} Hard</li>
+            </ul>
+            ${foot ? `<p class="practice-foot">${escapeHtml(foot)}</p>` : ''}
+        </a>`;
+    }
+
+    function renderKaggleCard(kg) {
+        const tier = kg.tier || 'Novice';
+        const idx = Math.max(0, TIER_LADDER.indexOf(tier));
+        const cats = Array.isArray(kg.categories) ? kg.categories.map(c => String(c).toLowerCase()).join(' · ') : '';
+        const nodes = TIER_LADDER.map((name, i) => {
+            const state = i === idx ? ' is-current' : (i < idx ? ' is-passed' : '');
+            const current = i === idx ? ' aria-current="true"' : '';
+            return `
+                <li class="tierladder__node${state}"${current}>
+                    <i class="tierladder__dot" aria-hidden="true"></i>
+                    <span class="tierladder__abbr">${escapeHtml(TIER_ABBR[name] || name)}</span>
+                </li>`;
+        }).join('');
+        const foot = [
+            kg.badges != null ? `${kg.badges} badges` : null,
+            kg.competitions != null ? `${kg.competitions} competition${kg.competitions === 1 ? '' : 's'}` : null,
+            kg.memberSince != null ? `member since ${kg.memberSince}` : null
+        ].filter(Boolean).join(' · ');
+
+        return `
+        <a class="practice-card reveal" href="${escapeAttr(kg.url)}" target="_blank" rel="noopener noreferrer">
+            <header class="practice-card__head">
+                <span class="practice-card__brand">Kaggle</span>
+                <span class="practice-card__handle">@${escapeHtml(kg.handle)} <span class="practice-card__go" aria-hidden="true">-&gt;</span></span>
+            </header>
+            <div class="practice-stat">
+                <span class="practice-stat__num practice-stat__num--tier">${escapeHtml(tier)}</span>
+                <span class="practice-stat__label">${escapeHtml(cats)}</span>
+            </div>
+            <ol class="tierladder" role="img" aria-label="Kaggle tier: ${escapeAttr(tier)} (${idx + 1} of ${TIER_LADDER.length})">
+                ${nodes}
+            </ol>
+            ${foot ? `<p class="practice-foot">${escapeHtml(foot)}</p>` : ''}
+        </a>`;
+    }
+
     function initFooterYear() {
         const year = document.getElementById('footer-year');
         if (year) year.textContent = String(new Date().getFullYear());
@@ -538,6 +645,7 @@
         initActiveNav();
         loadGitHubProjects();
         loadPublications();
+        loadProfiles();
         initPublicationExpand();
         initCursor();
         initTilt();

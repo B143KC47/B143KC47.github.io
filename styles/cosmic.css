@@ -30,6 +30,7 @@ body.has-custom-cursor { cursor: none; }
 /* Card tilt — JS writes --rx/--ry on hover; only active under body.allow-tilt */
 body.allow-tilt .project-row,
 body.allow-tilt .publication-row,
+body.allow-tilt .practice-card,
 body.allow-tilt .timeline-item {
     transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
     transition: transform .2s var(--ease);

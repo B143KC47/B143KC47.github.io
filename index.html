@@ -21,8 +21,8 @@
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
     <link rel="icon" href="assets/avatar.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=15">
-    <link rel="stylesheet" href="styles/cosmic.css?v=4">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=16">
+    <link rel="stylesheet" href="styles/cosmic.css?v=5">
 </head>
 <body>
     <a class="skip-link" href="#research">Skip to research</a>
@@ -46,6 +46,7 @@
         <nav class="site-nav" aria-label="Primary navigation" data-nav>
             <a href="#research">Research</a>
             <a href="#build">GitHub</a>
+            <a href="#practice">Practice</a>
             <a href="#profile">Profile</a>
             <a href="#trajectory">Timeline</a>
             <a class="nav-cta" href="#contact">Contact</a>
@@ -110,6 +111,19 @@
       </div>
       <div id="project-list" class="project-list" aria-live="polite">
         <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b. PRACTICE TRAIL -->
+  <section id="practice" class="section practice" aria-labelledby="practice-title">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Practice trail</p>
+        <h2 id="practice-title">Where I practice and compete, in the open.</h2>
+      </div>
+      <div id="practice-list" class="practice-list" aria-live="polite">
+        <div class="skeleton-line"></div><div class="skeleton-line"></div>
       </div>
     </div>
   </section>
@@ -227,7 +241,29 @@
   "source": "OpenReview API v2 (GitHub Actions)"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=6"></script>
+    <script id="profiles-data" type="application/json">
+{
+  "leetcode": {
+    "handle": "B143KC47",
+    "url": "https://leetcode.com/u/B143KC47/",
+    "solved": 9,
+    "byDifficulty": { "easy": 7, "medium": 2, "hard": 0 },
+    "submissions": 23,
+    "activePeriod": "Nov 2025"
+  },
+  "kaggle": {
+    "handle": "b14ckc4tmr",
+    "url": "https://www.kaggle.com/b14ckc4tmr",
+    "tier": "Contributor",
+    "categories": ["Competitions", "Datasets", "Notebooks"],
+    "badges": 13,
+    "competitions": 1,
+    "memberSince": 2024
+  },
+  "lastUpdated": "2026-06-25"
+}
+</script>
+    <script src="modules/startup-redesign.js?v=7"></script>
     <script src="modules/transformer-arch.js?v=2" defer></script>
 </body>
 </html>
