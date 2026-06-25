@@ -180,7 +180,10 @@
 #transformer-stage{position:relative}
 .tf-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1450px}
 .tf-deck{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(9deg) rotateY(-23deg);will-change:transform}
-.tf-svg{position:absolute;inset:0;overflow:visible;transform:translateZ(1px)}
+/* Supersample: lay the SVG out at 2x and scale it back to 1x so the GPU texture
+   has 2x the resolution before the 3D perspective magnifies it (kills the
+   pixelated/blurry text that 1x rasterization of a preserve-3d layer causes). */
+.tf-svg{position:absolute;top:0;left:0;width:200%;height:200%;transform-origin:0 0;overflow:visible;transform:scale(.5) translateZ(2px)}
 .tf-depth{position:absolute;transform-style:preserve-3d;pointer-events:none}
 .tf-depthcard{position:absolute;inset:0;border:1px solid rgba(245,245,245,.18);border-radius:14px;background:rgba(245,245,245,.012)}
 .tf-rect{fill:rgba(245,245,245,.03);stroke:rgba(245,245,245,.32);stroke-width:1.3}
