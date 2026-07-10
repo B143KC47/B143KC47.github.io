@@ -1,0 +1,47 @@
+name: Fetch Kaggle Profile
+
+on:
+  schedule:
+    # Daily at 01:30 UTC — offset from the publications job (00:00) so the two
+    # auto-commits never race on the same push.
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-kaggle:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Refreshes the #profiles-data Kaggle card in index.html + data/profiles.json.
+      # No secrets: the script bootstraps the anonymous XSRF cookie from the public
+      # profile page, then calls the same GetPageDataByUrl RPC the site uses.
+      # Non-destructive: only writes when a valid tier is returned; on any error,
+      # challenge, or empty response it keeps the existing curated card (and the
+      # hand-maintained LeetCode card is never touched).
+      - name: Fetch Kaggle profile (non-destructive)
+        run: node scripts/fetch-kaggle.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "tiangong1337@outlook.com"
+          git config --local user.name "KO Ho Tin"
+          git add index.html data/profiles.json
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔄 Auto-update Kaggle profile data [skip ci]"
+            git push
+            echo "✅ Kaggle profile data updated in index.html and data/profiles.json"
+          fi
