@@ -1,0 +1,46 @@
+name: Fetch LeetCode Profile
+
+on:
+  schedule:
+    # Daily at 03:00 UTC — offset from the publications job (00:00) and the Kaggle
+    # job (01:30) so the three auto-commits never race on the same push.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-leetcode:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Refreshes the #profiles-data LeetCode card in index.html + data/profiles.json.
+      # No secrets: LeetCode's public GraphQL endpoint answers matchedUser queries
+      # anonymously. Non-destructive: only writes when a valid solved count is returned;
+      # on any error or empty response it keeps the existing curated card (and the
+      # Kaggle card maintained by its own workflow is never touched).
+      - name: Fetch LeetCode profile (non-destructive)
+        run: node scripts/fetch-leetcode.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "tiangong1337@outlook.com"
+          git config --local user.name "KO Ho Tin"
+          git add index.html data/profiles.json
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔄 Auto-update LeetCode profile data [skip ci]"
+            git push
+            echo "✅ LeetCode profile data updated in index.html and data/profiles.json"
+          fi
