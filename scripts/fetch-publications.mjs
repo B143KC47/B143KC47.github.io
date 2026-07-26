@@ -94,8 +94,10 @@ function writeData(result) {
 }
 
 async function main() {
-  const user = process.env.OPENREVIEW_USERNAME;
-  const pass = process.env.OPENREVIEW_PASSWORD;
+  // Trim: secrets piped in via Windows PowerShell can carry a trailing \r\n,
+  // which OpenReview rejects as an invalid password.
+  const user = (process.env.OPENREVIEW_USERNAME || '').trim();
+  const pass = (process.env.OPENREVIEW_PASSWORD || '').trim();
   let token = null;
 
   if (user && pass) {
