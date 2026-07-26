@@ -121,7 +121,9 @@ async function main() {
     const venue = String(val((note.content || {}).venue) || '');
     const underReview = /\bsubmission\b/i.test(venue);
     if (!isPublic || underReview) {
-      console.log(`⏭️  Skipping "${String(val((note.content || {}).title) || note.id).slice(0, 60)}" (${!isPublic ? 'not public' : 'under review'}).`);
+      // Log only the note id: workflow logs are public, and printing the title of a
+      // non-public note would leak exactly what this filter exists to protect.
+      console.log(`⏭️  Skipping note ${note.id} (${!isPublic ? 'not public' : 'under review'}).`);
       return false;
     }
     return true;
