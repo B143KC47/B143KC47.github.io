@@ -107,8 +107,25 @@ async function main() {
     console.log('ℹ️  No OpenReview credentials set; attempting anonymous fetch.');
   }
 
-  const notes = await fetchNotes(token);
-  console.log(`Fetched ${notes.length} note(s) from OpenReview.`);
+  const all = await fetchNotes(token);
+  console.log(`Fetched ${all.length} note(s) from OpenReview.`);
+
+  // An authenticated query also returns the author's own under-review notes.
+  // Publishing those would (a) mislabel unaccepted work and (b) break double-blind
+  // anonymity by naming the authors on a public site. Keep only notes that are
+  // publicly readable AND past the "…Submission" stage — on acceptance OpenReview
+  // rewrites the venue (e.g. "ICLR 2026 Poster") and the paper appears here
+  // automatically on the next daily run.
+  const notes = all.filter((note) => {
+    const isPublic = Array.isArray(note.readers) && note.readers.includes('everyone');
+    const venue = String(val((note.content || {}).venue) || '');
+    const underReview = /\bsubmission\b/i.test(venue);
+    if (!isPublic || underReview) {
+      console.log(`⏭️  Skipping "${String(val((note.content || {}).title) || note.id).slice(0, 60)}" (${!isPublic ? 'not public' : 'under review'}).`);
+      return false;
+    }
+    return true;
+  });
 
   if (notes.length === 0) {
     console.log('⚠️  0 publications returned — preserving existing curated data (no write).');
