@@ -305,10 +305,10 @@ h3 {
 
 .profile-grid { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: clamp(2rem,6vw,5rem); align-items: start; }
 .profile p { color: var(--gray-70); }
-/* portrait — real photo in full natural color (per user request) */
+/* portrait — upright square crop in full natural color */
 .profile-figure { margin: 0; }
-.profile-figure img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center top;
-  border: 1px solid var(--line-dark); border-radius: 16px; background: var(--ink-2);
+.profile-figure img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: center;
+  border: 1px solid var(--line-dark); border-radius: 50%; background: var(--ink-2);
   transition: filter .45s var(--ease), border-color .45s var(--ease); }
 .profile-figure:hover img { filter: brightness(1.04); border-color: var(--gray-40); }
 .profile-figure figcaption { margin-top: .8rem; font-family: var(--font-mono); font-size: .76rem;
