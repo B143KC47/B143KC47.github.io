@@ -191,13 +191,19 @@ async function main() {
   // An authenticated query also returns the author's own under-review notes.
   // Publishing those would (a) mislabel unaccepted work and (b) break double-blind
   // anonymity by naming the authors on a public site. Keep only notes that are
-  // publicly readable AND past the "…Submission" stage — on acceptance OpenReview
+  // publicly readable AND past the submission stage — on acceptance OpenReview
   // rewrites the venue (e.g. "ICLR 2026 Poster") and the paper appears here
-  // automatically on the next daily run.
+  // automatically on the next daily run. The pre-acceptance patterns below cover
+  // the venue strings OpenReview actually emits ("…Submission", "Submitted to …",
+  // "Under Review", "Withdrawn", "Rejected") plus the machine venueid, so a note
+  // with a custom venue string still cannot slip through while under review.
+  const PRE_ACCEPTANCE = /submi(?:ssion|tted)|under[\s_]*review|in[\s_]*review|withdrawn|desk[\s_]*reject|rejected/i;
   const notes = all.filter((note) => {
     const isPublic = Array.isArray(note.readers) && note.readers.includes('everyone');
-    const venue = String(val((note.content || {}).venue) || '');
-    const underReview = /\bsubmission\b/i.test(venue);
+    const c = note.content || {};
+    const venue = String(val(c.venue) || '');
+    const venueid = String(val(c.venueid) || '');
+    const underReview = PRE_ACCEPTANCE.test(venue) || PRE_ACCEPTANCE.test(venueid);
     if (!isPublic || underReview) {
       // Log only the note id: workflow logs are public, and printing the title of a
       // non-public note would leak exactly what this filter exists to protect.
