@@ -1,0 +1,43 @@
+name: Fetch Writings
+
+on:
+  schedule:
+    - cron: '45 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-writings:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Aggregates articles from the Hexo blog (GitHub Pages), CSDN (public JSON API)
+      # and Zhihu (best effort) into data/writings.json + the inline block in
+      # index.html. Non-destructive: a source that fails keeps its existing entries,
+      # and "source": "manual" entries are always preserved.
+      - name: Fetch writings (non-destructive)
+        run: node scripts/fetch-writings.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "tiangong1337@outlook.com"
+          git config --local user.name "KO Ho Tin"
+          git add index.html data/writings.json
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "✍️ Auto-update writings [skip ci]"
+            git push
+            echo "✅ Writings updated"
+          fi

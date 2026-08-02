@@ -17,6 +17,28 @@
     const repoCacheKey = 'ko_profile_github_repos_v3';
     const repoCacheDuration = 10 * 60 * 1000;
 
+    // Theme: the <html data-theme> attribute is set pre-paint by an inline <head>
+    // script (localStorage > prefers-color-scheme > dark). This wires the header
+    // toggle and keeps its label in sync.
+    function initTheme() {
+        const btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        const current = () => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+        const sync = () => {
+            const t = current();
+            btn.textContent = t === 'light' ? 'Dark' : 'Light';
+            btn.setAttribute('aria-pressed', String(t === 'light'));
+            btn.setAttribute('aria-label', `Switch to ${t === 'light' ? 'dark' : 'light'} mode`);
+        };
+        btn.addEventListener('click', () => {
+            const next = current() === 'light' ? 'dark' : 'light';
+            document.documentElement.dataset.theme = next;
+            try { localStorage.setItem('theme', next); } catch (error) { /* private mode */ }
+            sync();
+        });
+        sync();
+    }
+
     function initHeader() {
         const header = document.querySelector('[data-header]');
         const toggle = document.querySelector('[data-nav-toggle]');
@@ -76,8 +98,8 @@
         elements.forEach(element => observer.observe(element));
     }
 
-    const FANCY_TARGETS = 'a, button, .project-row, .publication-row, .practice-card, .timeline-item, .nav-toggle';
-    const TILT_TARGETS = '.project-row, .publication-row, .practice-card, .timeline-item';
+    const FANCY_TARGETS = 'a, button, .project-row, .paper-card, .practice-card, .timeline-item, .writing-row, .competition-row, .nav-toggle';
+    const TILT_TARGETS = '.project-row, .paper-card, .practice-card, .timeline-item';
 
     // Custom cursor: an instant dot + a trailing ring that swells over interactive
     // elements. Native cursor is hidden only while this is active.
@@ -387,7 +409,7 @@
         const sync = document.getElementById('publication-sync');
         if (!list) return;
 
-        let data = readInlinePublications();
+        let data = readInlineJson('publications-data', { publications: [] });
         try {
             if (window.location.protocol !== 'file:') {
                 data = await fetchJson('data/publications.json');
@@ -396,6 +418,7 @@
             // Inline JSON is kept as a static fallback and is updated by the workflow.
         }
 
+        const figures = await loadPaperFigures();
         const publications = Array.isArray(data.publications) ? data.publications : [];
         if (sync) {
             const label = data.lastUpdated ? `Updated ${formatDate(data.lastUpdated)}` : 'Static profile data';
@@ -412,40 +435,140 @@
             return;
         }
 
-        list.innerHTML = publications.map(renderPublication).join('');
-        list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+        let page = 0;
+        const renderPage = () => {
+            const slice = publications.slice(page * PAGE_SIZES.publications, (page + 1) * PAGE_SIZES.publications);
+            list.innerHTML = slice.map(pub => renderPublication(pub, figures[pub.id] || {})).join('');
+            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+            mountPager(list, publications.length, PAGE_SIZES.publications, page, (p) => { page = p; renderPage(); });
+        };
+        renderPage();
     }
 
-    function readInlinePublications() {
+    // Figure/link extras per paper, keyed by OpenReview id. Auto-extracted from the
+    // paper PDFs by scripts/fetch-paper-figures.mjs; manual entries win.
+    async function loadPaperFigures() {
+        let data = readInlineJson('paper-figures-data', { figures: {} });
         try {
-            const script = document.getElementById('publications-data');
-            return script ? JSON.parse(script.textContent) : { publications: [] };
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/paper-figures.json');
+            }
         } catch (error) {
-            return { publications: [] };
+            // Inline fallback already covers it.
+        }
+        return data && data.figures ? data.figures : {};
+    }
+
+    function readInlineJson(id, fallback) {
+        try {
+            const script = document.getElementById(id);
+            return script ? JSON.parse(script.textContent) : fallback;
+        } catch (error) {
+            return fallback;
         }
     }
 
-    function renderPublication(publication) {
+    // Hero quick-stats cell: counts read from the same inline JSON blocks the sections
+    // render from, so the numbers track the daily syncs. Keeps the static fallback text
+    // if anything is missing.
+    function renderHeroStats() {
+        const el = document.getElementById('hero-stats');
+        if (!el) return;
+        const pubs = readInlineJson('publications-data', { publications: [] });
+        const profs = readInlineJson('profiles-data', {});
+        const writes = readInlineJson('writings-data', { writings: [] });
+        const kg = profs.kaggle || {};
+        const lc = profs.leetcode || {};
+        const bits = [
+            pubs.publications.length ? `${pubs.publications.length} papers` : null,
+            kg.tier ? `Kaggle ${kg.tier}` : null,
+            Array.isArray(kg.competitionList) && kg.competitionList.length ? `${kg.competitionList.length} comps` : null,
+            lc.solved != null ? `LeetCode ${lc.solved}` : null,
+            writes.writings.length ? `${writes.writings.length} articles` : null,
+        ].filter(Boolean);
+        if (bits.length) el.textContent = bits.join(' · ');
+    }
+
+    const SELF_NAMES = ['Ho Tin Ko', 'KO Ho Tin'];
+
+    // ── List pagination ─────────────────────────────────────
+    // Shared mini-pager for the lists that grow over time (papers, articles,
+    // competitions): each renders at most one page of rows and the control only
+    // appears when the data outgrows a page, so sections stay bounded as the daily
+    // syncs append new items. GitHub projects are already capped at a fixed top-6.
+    const PAGE_SIZES = { publications: 5, writings: 6, competitions: 6 };
+
+    function mountPager(list, total, perPage, page, onPage) {
+        let pager = list.nextElementSibling;
+        if (!pager || !pager.classList.contains('list-pager')) {
+            pager = document.createElement('div');
+            pager.className = 'list-pager';
+            list.insertAdjacentElement('afterend', pager);
+        }
+        const pages = Math.ceil(total / perPage);
+        if (pages <= 1) {
+            pager.remove();
+            return;
+        }
+        pager.innerHTML = `
+            <button type="button" class="list-pager__btn" data-dir="-1" ${page <= 0 ? 'disabled' : ''} aria-label="Previous page">&larr; Prev</button>
+            <span class="list-pager__info">${page + 1} / ${pages} &middot; ${total} items</span>
+            <button type="button" class="list-pager__btn" data-dir="1" ${page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">Next &rarr;</button>`;
+        pager.querySelectorAll('.list-pager__btn').forEach(btn => {
+            btn.addEventListener('click', () => onPage(page + Number(btn.dataset.dir)));
+        });
+    }
+
+    function renderAuthors(publication) {
+        const list = Array.isArray(publication.authors) && publication.authors.length ? publication.authors : ['Ho Tin Ko'];
+        const equal = new Set(Array.isArray(publication.equalContribution) ? publication.equalContribution : []);
+        return list
+            .map(name => {
+                const star = equal.has(name) ? '<sup>*</sup>' : '';
+                return SELF_NAMES.includes(name) ? `<strong>${escapeHtml(name)}${star}</strong>` : `${escapeHtml(name)}${star}`;
+            })
+            .join(', ');
+    }
+
+    function renderPublication(publication, figure) {
         const title = publication.title || 'Untitled publication';
-        const url = publication.openreviewUrl || PROFILE.openReviewUrl;
-        const authors = Array.isArray(publication.authors) ? publication.authors.join(', ') : 'Ho Tin Ko';
         const tags = normalizeTags(publication.tags).slice(0, 4);
         const meta = [publication.venue || 'OpenReview', publication.year || null, publication.status || null].filter(Boolean);
         const abstract = publication.abstract || 'Research publication available on OpenReview.';
-        const isLongAbstract = abstract.length > 220;
-        const abstractPreview = isLongAbstract ? abstract.slice(0, 217) : abstract;
+        const isLongAbstract = abstract.length > 260;
+        const abstractPreview = isLongAbstract ? abstract.slice(0, 257) : abstract;
+
+        // Venue page label follows the actual host (OpenReview vs ACL Anthology).
+        const pubUrl = publication.openreviewUrl || PROFILE.openReviewUrl;
+        const pubLabel = pubUrl.includes('openreview.net') ? 'OpenReview'
+            : pubUrl.includes('aclanthology.org') ? 'Anthology' : 'Link';
+        const links = [
+            figure.pdfUrl ? ['PDF', figure.pdfUrl] : null,
+            [pubLabel, pubUrl],
+            figure.projectUrl ? ['Project', figure.projectUrl] : null,
+            figure.codeUrl ? ['Code', figure.codeUrl] : null,
+        ].filter(item => item && item[0]);
 
         return `
-        <article class="publication-row reveal" tabindex="0" aria-expanded="false" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
-            <div>
+        <article class="paper-card reveal" tabindex="0" aria-expanded="false" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
+            ${figure.src ? `
+            <figure class="paper-card__media">
+                <img src="${escapeAttr(figure.src)}" alt="${escapeAttr(figure.caption || `Figure from ${title}`)}" loading="lazy" decoding="async">
+                <figcaption>${escapeHtml(figure.caption || '')}</figcaption>
+            </figure>` : ''}
+            <div class="paper-card__body">
                 <h3>${escapeHtml(title)}</h3>
-                <p>${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
+                <p class="paper-card__authors">${renderAuthors(publication)}</p>
+                ${(Array.isArray(publication.equalContribution) && publication.equalContribution.length)
+                    ? '<p class="paper-card__equal">* Equal contribution (co-first author)</p>' : ''}
                 <div class="publication-meta">
                     ${meta.map(item => `<span>${escapeHtml(String(item))}</span>`).join('')}
-                    <span>${escapeHtml(authors)}</span>
                     ${tags.map(tag => `<span class="topic-pill">${escapeHtml(tag)}</span>`).join('')}
                 </div>
-                <a class="meta-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Open on OpenReview</a>
+                <p class="paper-card__abstract">${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
+                <div class="paper-card__links">
+                    ${links.map(([label, url]) => `<a class="paper-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`).join('')}
+                </div>
             </div>
             <span class="publication-arrow" aria-hidden="true">+</span>
         </article>`;
@@ -479,7 +602,8 @@
 
     function initPublicationExpand() {
         const toggleRow = row => {
-            const p = row.querySelector('p');
+            const p = row.querySelector('.paper-card__abstract');
+            if (!p) return;
             const open = row.classList.toggle('is-open');
             p.textContent = open ? row.dataset.full : row.dataset.preview;
             row.setAttribute('aria-expanded', String(open));
@@ -487,13 +611,13 @@
             if (arrow) arrow.textContent = open ? '–' : '+';
         };
         document.addEventListener('click', event => {
-            const row = event.target.closest('.publication-row');
+            const row = event.target.closest('.paper-card');
             if (!row || event.target.closest('a')) return;
             toggleRow(row);
         });
         document.addEventListener('keydown', event => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
-            const row = event.target.closest('.publication-row');
+            const row = event.target.closest('.paper-card');
             if (!row || row !== event.target || event.target.closest('a')) return;
             event.preventDefault();
             toggleRow(row);
@@ -516,11 +640,19 @@
         }
     }
 
-    function loadProfiles() {
+    async function loadProfiles() {
         const list = document.getElementById('practice-list');
         if (!list) return;
 
-        const data = readInlineProfiles();
+        let data = readInlineProfiles();
+        try {
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/profiles.json');
+            }
+        } catch (error) {
+            // Inline JSON is kept as a static fallback and is updated by the workflow.
+        }
+
         if (!data || (!data.leetcode && !data.kaggle)) {
             list.innerHTML = '<div class="empty-state">Practice profile data is unavailable.</div>';
             return;
@@ -532,6 +664,179 @@
         list.innerHTML = cards.join('');
         // Cards are injected after the IntersectionObserver was wired, so reveal them now.
         list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+
+        if (data.kaggle) renderCompetitions(data.kaggle);
+    }
+
+    // ── Kaggle competition record ───────────────────────────────────
+    // competitionList (profiles.json -> kaggle) is synced daily by scripts/fetch-kaggle.mjs
+    // via the official API: only competitions with >= 1 submission are kept (mirrors the
+    // Kaggle profile tab). Covers/organizer logos are local assets; write-ups are curated
+    // per-slug and survive refreshes.
+    function renderCompetitions(kg) {
+        const block = document.getElementById('competition-block');
+        const list = document.getElementById('competition-list');
+        if (!block || !list) return;
+        const comps = Array.isArray(kg.competitionList) ? kg.competitionList : [];
+        if (!comps.length) return;
+
+        let page = 0;
+        const renderPage = () => {
+            const slice = comps.slice(page * PAGE_SIZES.competitions, (page + 1) * PAGE_SIZES.competitions);
+            list.innerHTML = slice.map(renderCompetition).join('');
+            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+            mountPager(list, comps.length, PAGE_SIZES.competitions, page, (p) => { page = p; renderPage(); });
+        };
+        renderPage();
+        block.hidden = false;
+    }
+
+    function renderCompetition(c) {
+        const writeups = Array.isArray(c.writeups) ? c.writeups : [];
+        const url = c.url || 'https://www.kaggle.com/b14ckc4tmr/competitions';
+        const initials = String(c.name || 'K').split(/[\s\-–—]+/).filter(Boolean)
+            .slice(0, 2).map(s => s.charAt(0)).join('').toUpperCase();
+        const rankOf = (r) => `${r} / ${Number(c.teamCount).toLocaleString()} (top ${(Math.max(r / c.teamCount, 0.0001) * 100).toFixed(1)}%)`;
+        // Ended comps carry the final private-leaderboard rank — that's the result that
+        // counts; the public rank stays as a secondary reference when it differs.
+        const hasPrivate = c.privateRank != null && c.teamCount;
+        const rankPart = hasPrivate
+            ? `Private rank ${rankOf(c.privateRank)}`
+            : c.rank != null && c.teamCount ? `Rank ${rankOf(c.rank)}` : null;
+        const stats = [
+            rankPart,
+            hasPrivate && c.rank != null && c.rank !== c.privateRank ? `public rank ${c.rank}` : null,
+            hasPrivate && c.privateScore ? `score ${c.privateScore}` : (c.score ? `score ${c.score}` : null),
+            c.submissions ? `${c.submissions} submission${c.submissions === 1 ? '' : 's'}` : null,
+        ].filter(Boolean);
+        const orgLine = [c.organization || null, c.category || null].filter(Boolean).join(' · ');
+        const reward = c.reward ? (/\d/.test(c.reward) ? `$${String(c.reward).replace(/\s*usd/i, '')} prize` : c.reward) : null;
+        const details = [
+            reward,
+            c.teamCount ? `${Number(c.teamCount).toLocaleString()} teams` : null,
+            c.deadline ? `${c.status === 'Ongoing' ? 'ends' : 'ended'} ${c.deadline}` : null,
+        ].filter(Boolean);
+        return `
+        <article class="comp-card reveal">
+            <a class="comp-card__media" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(c.name || 'Kaggle competition')}">
+                ${c.image
+                    ? `<img src="${escapeAttr(c.image)}" alt="" loading="lazy" decoding="async">`
+                    : `<span class="comp-card__placeholder" aria-hidden="true">${escapeHtml(initials)}</span>`}
+                ${c.status ? `<span class="comp-card__status${c.status === 'Ongoing' ? ' comp-card__status--live' : ''}">${escapeHtml(c.status)}</span>` : ''}
+            </a>
+            <div class="comp-card__body">
+                <h4 class="comp-card__name"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h4>
+                ${orgLine ? `
+                <p class="comp-card__org">
+                    ${c.orgLogo ? `<img class="comp-card__logo" src="${escapeAttr(c.orgLogo)}" alt="" loading="lazy" decoding="async">` : ''}
+                    <span>${escapeHtml(orgLine)}</span>
+                </p>` : ''}
+                ${stats.length ? `<p class="comp-card__stats">${escapeHtml(stats.join(' · '))}</p>` : ''}
+                ${details.length ? `<p class="comp-card__meta">${escapeHtml(details.join(' · '))}</p>` : ''}
+                ${writeups.length ? `
+                <p class="comp-card__writeups">
+                    ${writeups.map(wu => `<a class="paper-link" href="${escapeAttr(wu.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(wu.title || 'Write-up')}</a>`).join('')}
+                </p>` : ''}
+            </div>
+        </article>`;
+    }
+
+    // ── Writing (Zhihu / CSDN / blog articles) ──────────────────────
+    async function loadWritings() {
+        const list = document.getElementById('writing-list');
+        const filters = document.getElementById('writing-filters');
+        const sync = document.getElementById('writing-sync');
+        if (!list) return;
+
+        let data = readInlineJson('writings-data', { writings: [] });
+        try {
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/writings.json');
+            }
+        } catch (error) {
+            // Inline JSON is the static fallback.
+        }
+
+        const writings = Array.isArray(data.writings) ? data.writings : [];
+        if (sync) {
+            const label = data.lastUpdated ? `Updated ${formatDate(data.lastUpdated)}` : 'Static data';
+            sync.textContent = `${label} - ${writings.length} articles`;
+        }
+
+        if (!writings.length) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    Articles live on <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>,
+                    <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN</a> and the
+                    <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">BlackCat blog</a>.
+                </div>
+            `;
+            return;
+        }
+
+        const platforms = [...new Set(writings.map(w => w.platform || 'Other'))];
+        let activePlatform = 'All';
+        let page = 0;
+
+        const renderPage = () => {
+            const visible = activePlatform === 'All'
+                ? writings
+                : writings.filter(w => (w.platform || 'Other') === activePlatform);
+            if (!visible.length) {
+                list.innerHTML = '<div class="empty-state">No articles on this platform yet.</div>';
+                mountPager(list, 0, PAGE_SIZES.writings, 0, () => {});
+                return;
+            }
+            const slice = visible.slice(page * PAGE_SIZES.writings, (page + 1) * PAGE_SIZES.writings);
+            list.innerHTML = slice.map(renderWriting).join('');
+            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+            mountPager(list, visible.length, PAGE_SIZES.writings, page, (p) => { page = p; renderPage(); });
+        };
+
+        if (filters) {
+            filters.innerHTML = ['All', ...platforms]
+                .map((p, i) => `<button type="button" class="writing-filter${i === 0 ? ' is-active' : ''}" data-platform="${escapeAttr(p)}">${escapeHtml(p)}</button>`)
+                .join('');
+            filters.addEventListener('click', event => {
+                const btn = event.target.closest('.writing-filter');
+                if (!btn) return;
+                filters.querySelectorAll('.writing-filter').forEach(b => b.classList.toggle('is-active', b === btn));
+                activePlatform = btn.dataset.platform;
+                page = 0; // a new filter always restarts from the first page
+                renderPage();
+            });
+        }
+
+        renderPage();
+
+        // Mirror badges ("Zhihu" chip on a CSDN row) are spans, not nested anchors —
+        // open them via delegation so the row's primary link stays intact.
+        list.addEventListener('click', event => {
+            const mirror = event.target.closest('.writing-row__mirror');
+            if (!mirror) return;
+            event.preventDefault();
+            event.stopPropagation();
+            window.open(mirror.dataset.href, '_blank', 'noopener');
+        });
+    }
+
+    function renderWriting(w) {
+        const date = w.date ? formatDate(w.date) : '';
+        return `
+        <a class="writing-row reveal" href="${escapeAttr(w.url)}" target="_blank" rel="noopener noreferrer" data-platform="${escapeAttr(w.platform || 'Other')}">
+            ${w.image ? `
+            <span class="writing-row__thumb"><img src="${escapeAttr(w.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>` : ''}
+            <span class="writing-row__main">
+                <span class="writing-row__title">${escapeHtml(w.title)}</span>
+                ${w.desc ? `<span class="writing-row__desc">${escapeHtml(w.desc)}</span>` : ''}
+            </span>
+            <span class="writing-row__meta">
+                <span class="writing-row__platform">${escapeHtml(w.platform || 'Other')}</span>
+                ${w.zhihuUrl ? `<span class="writing-row__mirror" role="link" tabindex="0" data-href="${escapeAttr(w.zhihuUrl)}" title="Also on Zhihu">Zhihu ↗</span>` : ''}
+                ${date ? `<span class="writing-row__date">${escapeHtml(date)}</span>` : ''}
+            </span>
+            <span class="writing-row__go" aria-hidden="true">-&gt;</span>
+        </a>`;
     }
 
     function renderLeetCard(lc) {
@@ -584,9 +889,12 @@
                     <span class="tierladder__abbr">${escapeHtml(TIER_ABBR[name] || name)}</span>
                 </li>`;
         }).join('');
+        const entered = Array.isArray(kg.competitionList) && kg.competitionList.length
+            ? `${kg.competitionList.length} entered`
+            : (kg.competitions != null ? `${kg.competitions} competition${kg.competitions === 1 ? '' : 's'}` : null);
         const foot = [
             kg.badges != null ? `${kg.badges} badges` : null,
-            kg.competitions != null ? `${kg.competitions} competition${kg.competitions === 1 ? '' : 's'}` : null,
+            entered,
             kg.memberSince != null ? `member since ${kg.memberSince}` : null
         ].filter(Boolean).join(' · ');
 
@@ -641,14 +949,17 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        initTheme();
         initHeader();
         initReveal();
         initFooterYear();
         initScrollProgress();
         initActiveNav();
+        renderHeroStats();
         loadGitHubProjects();
         loadPublications();
         loadProfiles();
+        loadWritings();
         initPublicationExpand();
         initCursor();
         initTilt();

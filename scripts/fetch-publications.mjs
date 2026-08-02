@@ -11,14 +11,81 @@
 // with a Bearer token, which the API trusts and does not challenge. Without credentials
 // the script attempts an anonymous fetch, safely no-ops on the 403, and preserves the
 // curated data already in the repo.
+//
+// MANUAL ENTRIES: publications OpenReview does not host (e.g. an ACL Anthology paper)
+// are pinned directly in data/publications.json with "source": "manual"; every sync
+// re-merges them ahead of the fetched list instead of dropping them.
 
 import fs from 'node:fs';
 
 const PROFILE_ID = '~Ho_Tin_Ko2';
 const API = 'https://api2.openreview.net';
+const ORCID_ID = '0009-0002-7298-8196';
+const ORCID_API = `https://pub.orcid.org/v3.0/${ORCID_ID}`;
 const INDEX_HTML = 'index.html';
 const DATA_JSON = 'data/publications.json';
 const PUB_PATTERN = /(<script id="publications-data" type="application\/json">)([\s\S]*?)(<\/script>)/;
+
+// Title fingerprint for cross-source dedupe (OpenReview vs ORCID vs manual pins).
+const normTitle = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+// ── ORCID public API (no auth) ────────────────────────────────────────
+// Google Scholar has no public API and captcha-walls bots, so ORCID is the
+// automated cross-check source: anything listed on the ORCID record that the
+// OpenReview fetch + manual pins don't cover is appended automatically.
+async function fetchOrcidWorks() {
+  const res = await fetch(`${ORCID_API}/works`, { headers: { Accept: 'application/json' } });
+  if (!res.ok) throw new Error(`ORCID works HTTP ${res.status}`);
+  const json = await res.json();
+  const out = [];
+  for (const g of json.group || []) {
+    const s = (g['work-summary'] || [])[0] || {};
+    const title = (((s.title || {}).title) || {}).value;
+    if (!title) continue;
+    const extUrl = ((s['external-ids'] || {})['external-id'] || [])
+      .map((e) => e['external-id-value'])
+      .find((v) => /^https?:/.test(String(v)));
+    out.push({
+      putCode: s['put-code'],
+      title,
+      venue: (s['journal-title'] || {}).value || '',
+      year: Number((((s['publication-date'] || {}).year) || {}).value) || null,
+      url: (s.url || {}).value || extUrl || '',
+    });
+  }
+  return out;
+}
+
+const orcidToPublication = (w) => ({
+  id: `orcid-${w.putCode}`,
+  title: w.title,
+  authors: [], // work summaries carry no contributor list; the renderer defaults to the owner
+  venue: w.venue || 'ORCID record',
+  year: w.year || new Date().getFullYear(),
+  status: 'Published',
+  abstract: '',
+  openreviewUrl: w.url || `https://orcid.org/${ORCID_ID}`,
+  tags: [],
+  type: 'Publication',
+  source: 'orcid',
+});
+
+// Append ORCID works not already covered (matched by normalized title). Returns count added.
+function mergeOrcid(merged, orcidWorks) {
+  const titles = new Set(merged.map((p) => normTitle(p.title)));
+  let added = 0;
+  for (const w of orcidWorks) {
+    if (titles.has(normTitle(w.title))) continue;
+    merged.push(orcidToPublication(w));
+    titles.add(normTitle(w.title));
+    added++;
+  }
+  return added;
+}
+
+function readExisting() {
+  try { return JSON.parse(fs.readFileSync(DATA_JSON, 'utf-8')).publications || []; } catch { return []; }
+}
 
 // OpenReview API v2 wraps content fields as { value: ... }; v1 stores them plainly.
 const val = (field) => (field && typeof field === 'object' && 'value' in field) ? field.value : field;
@@ -107,8 +174,19 @@ async function main() {
     console.log('ℹ️  No OpenReview credentials set; attempting anonymous fetch.');
   }
 
-  const all = await fetchNotes(token);
-  console.log(`Fetched ${all.length} note(s) from OpenReview.`);
+  const orcidWorks = await fetchOrcidWorks()
+    .catch((err) => { console.log(`⚠️  ORCID fetch failed (${err.message}) — skipped.`); return []; });
+  console.log(`ORCID record lists ${orcidWorks.length} work(s).`);
+
+  // A 403 challenge (or any OpenReview error) must not abort the run: fall back to
+  // merging ORCID works into the existing file, append-only.
+  let all = [];
+  try {
+    all = await fetchNotes(token);
+    console.log(`Fetched ${all.length} note(s) from OpenReview.`);
+  } catch (err) {
+    console.log(`⚠️  OpenReview fetch failed (${err.message}) — ORCID-only merge path.`);
+  }
 
   // An authenticated query also returns the author's own under-review notes.
   // Publishing those would (a) mislabel unaccepted work and (b) break double-blind
@@ -130,18 +208,48 @@ async function main() {
   });
 
   if (notes.length === 0) {
-    console.log('⚠️  0 publications returned — preserving existing curated data (no write).');
+    // Fallback path: keep every existing entry, add only ORCID works that are new.
+    const merged = readExisting();
+    const added = mergeOrcid(merged, orcidWorks);
+    if (!added) {
+      console.log('⚠️  0 publications from OpenReview and ORCID has nothing new — no write.');
+      return;
+    }
+    writeData({
+      publications: merged,
+      lastUpdated: new Date().toISOString(),
+      totalCount: merged.length,
+      source: 'ORCID public API (OpenReview unavailable)',
+    });
+    console.log(`✅ ORCID added ${added} publication(s); existing data preserved.`);
     return;
   }
 
   const publications = notes.map(buildPublication);
+
+  // Curated entries (e.g. the ACL demo paper, which OpenReview does not host) are
+  // pinned with "source": "manual" in data/publications.json and never dropped by a
+  // sync. They render first so hand-picked highlights stay on top. A fetched note whose
+  // title duplicates a manual pin (same paper on two platforms) is dropped for the pin.
+  const existing = readExisting();
+  const fetchedIds = new Set(publications.map((p) => p.id));
+  const manual = existing.filter((p) => p && p.source === 'manual' && !fetchedIds.has(p.id));
+  const manualTitles = new Set(manual.map((p) => normTitle(p.title)));
+  const fetched = publications.filter((p) => !manualTitles.has(normTitle(p.title)));
+  if (fetched.length !== publications.length) console.log('📌 A fetched note duplicates a manual pin — pin kept.');
+  const merged = [...manual, ...fetched];
+  if (manual.length) console.log(`📌 Preserved ${manual.length} manual publication(s).`);
+
+  const orcidAdded = mergeOrcid(merged, orcidWorks);
+  if (orcidAdded) console.log(`🔎 ORCID added ${orcidAdded} publication(s) not on OpenReview.`);
+
   writeData({
-    publications,
+    publications: merged,
     lastUpdated: new Date().toISOString(),
-    totalCount: publications.length,
-    source: token ? 'OpenReview API v2 (authenticated)' : 'OpenReview API v2 (anonymous)',
+    totalCount: merged.length,
+    source: token ? 'OpenReview API v2 (authenticated) + ORCID' : 'OpenReview API v2 (anonymous) + ORCID',
   });
-  console.log(`✅ Updated ${publications.length} publication(s) in index.html and data/publications.json.`);
+  console.log(`✅ Updated ${merged.length} publication(s) in index.html and data/publications.json.`);
 }
 
 // Never fail the job and never wipe data: any error keeps the existing curated data.

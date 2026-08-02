@@ -1,0 +1,52 @@
+name: Fetch Paper Figures
+
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-paper-figures:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install tooling deps (pdfjs-dist + pngjs)
+        run: npm ci
+
+      # Extracts the largest raster figure from each publication's OpenReview PDF into
+      # assets/papers/ and refreshes data/paper-figures.json + the inline block in
+      # index.html. Non-destructive: papers whose PDF/figure can't be fetched are
+      # skipped, and "source": "manual" entries are never overwritten.
+      # OpenReview blocks anonymous PDF downloads, so this uses the same secrets as
+      # fetch-publications.yml.
+      - name: Extract paper figures (non-destructive)
+        env:
+          OPENREVIEW_USERNAME: ${{ secrets.OPENREVIEW_USERNAME }}
+          OPENREVIEW_PASSWORD: ${{ secrets.OPENREVIEW_PASSWORD }}
+        run: node scripts/fetch-paper-figures.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "tiangong1337@outlook.com"
+          git config --local user.name "KO Ho Tin"
+          git add index.html data/paper-figures.json assets/papers/
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🖼️ Auto-update paper figures [skip ci]"
+            git push
+            echo "✅ Paper figures updated"
+          fi

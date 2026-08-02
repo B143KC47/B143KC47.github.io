@@ -20,9 +20,16 @@
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
     <link rel="icon" href="assets/avatar-profile.jpg" type="image/jpeg">
+    <script>
+        // Set the theme before first paint: saved choice > OS preference > dark.
+        try {
+            document.documentElement.dataset.theme = localStorage.getItem('theme')
+                || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        } catch (error) { document.documentElement.dataset.theme = 'dark'; }
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=18">
-    <link rel="stylesheet" href="styles/cosmic.css?v=5">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=24">
+    <link rel="stylesheet" href="styles/cosmic.css?v=6">
 </head>
 <body>
     <a class="skip-link" href="#research">Skip to research</a>
@@ -45,10 +52,11 @@
         </button>
         <nav class="site-nav" aria-label="Primary navigation" data-nav>
             <a href="#research">Research</a>
+            <a href="#writing">Writing</a>
             <a href="#build">GitHub</a>
             <a href="#practice">Practice</a>
             <a href="#profile">Profile</a>
-            <a href="#trajectory">Timeline</a>
+            <button type="button" id="theme-toggle" class="theme-toggle">Light</button>
             <a class="nav-cta" href="#contact">Contact</a>
         </nav>
     </header>
@@ -69,14 +77,18 @@
         <a class="btn btn--ghost" href="#build">Live GitHub</a>
       </div>
     </div>
-    <a class="hero-scroll" href="#manifesto" aria-label="Scroll to content"><span></span></a>
-  </section>
-
-  <!-- 2. MANIFESTO -->
-  <section id="manifesto" class="manifesto" aria-label="Statement">
-    <p class="manifesto-line section-inner reveal">
-      I turn unclear technical ideas into <em>inspectable</em> AI systems.
-    </p>
+    <div class="hero-foot" aria-label="Quick facts">
+      <p class="hero-foot__cell hero-foot__status"><span class="status-dot" aria-hidden="true"></span>Open to research collaboration</p>
+      <p class="hero-foot__cell hero-foot__stats" id="hero-stats">Research · Competitions · Writing</p>
+      <nav class="hero-foot__cell hero-foot__links" aria-label="Quick links">
+        <a href="https://scholar.google.com/scholar?q=%22Ho+Tin+Ko%22" target="_blank" rel="noopener noreferrer">Scholar</a>
+        <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">Kaggle</a>
+        <a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
+        <a href="mailto:s20200057@ylmass.edu.hk">Email</a>
+      </nav>
+      <a class="hero-foot__cell hero-foot__scroll" href="#research">Scroll<span aria-hidden="true">&nbsp;↓</span></a>
+    </div>
   </section>
 
   <!-- 3. RESEARCH (lead with impact) -->
@@ -94,6 +106,26 @@
         <a class="meta-link" href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer"><span>OpenReview ~Ho_Tin_Ko2</span></a>
         <a class="meta-link" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer"><span>ORCID 0009-0002-7298-8196</span></a>
         <span class="meta-link meta-link--status" id="publication-sync">Loading…</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3b. WRITING (Zhihu / CSDN / blog articles) -->
+  <section id="writing" class="section section--paper writing" aria-labelledby="writing-title">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Writing</p>
+        <h2 id="writing-title">Notes and articles, published across platforms.</h2>
+      </div>
+      <div class="writing-filters reveal" id="writing-filters" role="group" aria-label="Filter articles by platform"></div>
+      <div id="writing-list" class="writing-list" aria-live="polite">
+        <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
+      </div>
+      <div class="research-links reveal">
+        <a class="meta-link" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer"><span>Zhihu @B143KC47</span></a>
+        <a class="meta-link" href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer"><span>CSDN @B143KC47</span></a>
+        <a class="meta-link" href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer"><span>BlackCat blog</span></a>
+        <span class="meta-link meta-link--status" id="writing-sync">Loading…</span>
       </div>
     </div>
   </section>
@@ -126,6 +158,10 @@
       <div id="practice-list" class="practice-list" aria-live="polite">
         <div class="skeleton-line"></div><div class="skeleton-line"></div>
       </div>
+      <div id="competition-block" class="competition-block" hidden>
+        <h3 class="competition-block__title">Kaggle competition record</h3>
+        <div id="competition-list" class="competition-list" aria-live="polite"></div>
+      </div>
     </div>
   </section>
 
@@ -151,22 +187,6 @@
     </div>
   </section>
 
-  <!-- 6. TRAJECTORY -->
-  <section id="trajectory" class="section section--paper trajectory" aria-labelledby="trajectory-title">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Trajectory</p>
-        <h2 id="trajectory-title">Recent signals from research and building.</h2>
-      </div>
-      <ol class="timeline">
-        <li class="timeline-item reveal"><span class="timeline-year">2026</span><div><h3>ICLR 2026 Poster</h3><p>AlphaBench: benchmarking LLMs in formulaic alpha-factor mining.</p></div></li>
-        <li class="timeline-item reveal"><span class="timeline-year">2025</span><div><h3>GenAI in Finance Poster</h3><p>EvoAlpha: evolutionary alpha-factor discovery with LLMs.</p></div></li>
-        <li class="timeline-item reveal"><span class="timeline-year">2024</span><div><h3>City University of Hong Kong</h3><p>Research internship and AI / ML research exposure.</p></div></li>
-        <li class="timeline-item reveal"><span class="timeline-year">2024</span><div><h3>IEEE CIS Summer School</h3><p>Quantum computational intelligence program, Yokohama.</p></div></li>
-      </ol>
-    </div>
-  </section>
-
   <!-- 7. CONTACT -->
   <section id="contact" class="section contact" aria-labelledby="contact-title">
     <div class="section-inner reveal">
@@ -175,7 +195,7 @@
       <div class="contact-actions">
         <a class="btn btn--solid" href="mailto:s20200057@ylmass.edu.hk">Email me</a>
         <a class="btn btn--ghost" href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="btn btn--ghost" href="https://www.linkedin.com/in/blackcat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/kohotin/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a class="btn btn--ghost" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
         <a class="btn btn--ghost" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>
       </div>
@@ -190,6 +210,41 @@
     <script id="publications-data" type="application/json">
 {
   "publications": [
+    {
+      "id": "2026.acl-demo.7",
+      "title": "QFinZero: A Unified Financial Toolchain for LLM-Based Trading Agents",
+      "authors": [
+        "Haochen Luo",
+        "Yifan LI",
+        "Ho Tin Ko",
+        "An Binh Minh",
+        "Junjie Xu",
+        "Tang Pok Hin",
+        "Wang Chak Wong",
+        "Gao Yuan",
+        "Zhengzhao Lai",
+        "Yuan Zhang",
+        "Chen Liu"
+      ],
+      "equalContribution": [
+        "Haochen Luo",
+        "Yifan LI",
+        "Ho Tin Ko"
+      ],
+      "venue": "ACL 2026 System Demonstrations",
+      "year": 2026,
+      "status": "Published",
+      "abstract": "Large language model (LLM) agents are increasingly applied to financial decision-making tasks that require interaction with external tools, including market data retrieval, news analysis, and trade execution. However, existing trading systems rely on fragmented and task-specific APIs, resulting in inconsistent schemas, complex integration, and limited reproducibility. We present QFinZero, a unified trading environment for LLM-based financial agents. QFinZero standardizes three core capabilities: (i) multi-frequency market and derivatives data access, (ii) structured news and event retrieval, and (iii) stateful brokerage simulation with explicit order lifecycle management. All tools adopt consistent JSON schemas and time-aligned interfaces, enabling agents to acquire information and execute trades within a coherent framework. By abstracting financial interaction into composable, agent-invokable primitives, QFinZero reduces engineering overhead and supports reproducible evaluation through comprehensive logging and deterministic replay. We argue that such a standardized trading environment is essential for scalable research on LLM-based financial agents.",
+      "openreviewUrl": "https://aclanthology.org/2026.acl-demo.7/",
+      "tags": [
+        "LLM Agent",
+        "Trading Environment",
+        "Tool Use",
+        "System Demo"
+      ],
+      "type": "Publication",
+      "source": "manual"
+    },
     {
       "id": "d97Q8r7ZKZ",
       "title": "AlphaBench: Benchmarking Large Language Models in Formulaic Alpha Factor Mining",
@@ -213,7 +268,7 @@
         "Data Science and Engineering"
       ],
       "type": "Publication",
-      "fetchedAt": "2026-08-02T00:22:37.394Z"
+      "fetchedAt": "2026-08-02T09:02:24.032Z"
     },
     {
       "id": "ALpLmURYWy",
@@ -234,12 +289,12 @@
         "Alpha factor discovery; Evolutionary search; Large language models; Quantitative finance"
       ],
       "type": "Publication",
-      "fetchedAt": "2026-08-02T00:22:37.394Z"
+      "fetchedAt": "2026-08-02T09:02:24.032Z"
     }
   ],
-  "lastUpdated": "2026-08-02T00:22:37.394Z",
-  "totalCount": 2,
-  "source": "OpenReview API v2 (authenticated)"
+  "lastUpdated": "2026-08-02T09:02:24.032Z",
+  "totalCount": 3,
+  "source": "OpenReview API v2 (authenticated) + ORCID"
 }
 </script>
     <script id="profiles-data" type="application/json">
@@ -266,13 +321,300 @@
       "Notebooks"
     ],
     "badges": 25,
-    "competitions": 5,
-    "memberSince": 2024
+    "competitions": 1,
+    "memberSince": 2024,
+    "competitionList": [
+      {
+        "slug": "rogii-wellbore-geology-prediction",
+        "name": "ROGII - Wellbore Geology Prediction",
+        "url": "https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction",
+        "category": "Featured",
+        "organization": "ROGII",
+        "reward": "50,000 Usd",
+        "kaggleId": 132265,
+        "deadline": "2026-08-05",
+        "started": "2026-05-05",
+        "status": "Ongoing",
+        "rank": 710,
+        "teamCount": 6037,
+        "score": "6.434",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 68,
+        "image": "assets/competitions/gen-rogii-wellbore-geology-prediction.png",
+        "orgLogo": "assets/competitions/orgs/rogii.png",
+        "writeups": []
+      },
+      {
+        "slug": "autonomous-agent-prediction-beta",
+        "name": "Autonomous Agent Prediction (Beta)",
+        "url": "https://www.kaggle.com/competitions/autonomous-agent-prediction-beta",
+        "category": "Playground",
+        "organization": "Kaggle",
+        "reward": "Swag",
+        "kaggleId": 151211,
+        "deadline": "2026-08-06",
+        "started": "2026-07-07",
+        "status": "Ongoing",
+        "rank": 67,
+        "teamCount": 418,
+        "score": "0.822",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 2,
+        "image": "assets/competitions/autonomous-agent-prediction-beta.png",
+        "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      },
+      {
+        "slug": "ai-agent-security-multi-step-tool-attacks",
+        "name": "AI Agent Security - Multi-Step Tool Attacks",
+        "url": "https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks",
+        "category": "Featured",
+        "organization": "OpenAI",
+        "reward": "50,000 Usd",
+        "kaggleId": 134815,
+        "deadline": "2026-09-01",
+        "started": "2026-06-11",
+        "status": "Ongoing",
+        "rank": 980,
+        "teamCount": 2647,
+        "score": "71.640",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 45,
+        "image": "assets/competitions/gen-ai-agent-security-multi-step-tool-attacks.png",
+        "orgLogo": "assets/competitions/orgs/openai.png",
+        "writeups": []
+      },
+      {
+        "slug": "biohub-cell-tracking-during-development",
+        "name": "Biohub - Cell Tracking During Development",
+        "url": "https://www.kaggle.com/competitions/biohub-cell-tracking-during-development",
+        "category": "Research",
+        "organization": "Biohub",
+        "reward": "60,000 Usd",
+        "kaggleId": 136605,
+        "deadline": "2026-09-29",
+        "started": "2026-06-29",
+        "status": "Ongoing",
+        "rank": 472,
+        "teamCount": 1849,
+        "score": "0.907",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 46,
+        "image": "assets/competitions/biohub-cell-tracking-during-development.png",
+        "orgLogo": "assets/competitions/orgs/biohub.png",
+        "writeups": []
+      },
+      {
+        "slug": "kaggriculture",
+        "name": "Kaggriculture",
+        "url": "https://www.kaggle.com/competitions/kaggriculture",
+        "category": "Featured",
+        "organization": "Kaggle",
+        "reward": "50,000 Usd",
+        "kaggleId": 147734,
+        "deadline": "2026-09-30",
+        "started": "2026-07-30",
+        "status": "Ongoing",
+        "rank": 161,
+        "teamCount": 424,
+        "score": "928.3",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 2,
+        "image": "assets/competitions/kaggriculture.png",
+        "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      },
+      {
+        "slug": "titanic",
+        "name": "Titanic - Machine Learning from Disaster",
+        "url": "https://www.kaggle.com/competitions/titanic",
+        "category": "Getting Started",
+        "organization": "Kaggle",
+        "reward": "Knowledge",
+        "kaggleId": 3136,
+        "deadline": "2030-01-01",
+        "started": "2012-09-28",
+        "status": "Ongoing",
+        "rank": null,
+        "teamCount": 11293,
+        "score": null,
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 3,
+        "image": "assets/competitions/gen-titanic.png",
+        "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      },
+      {
+        "slug": "home-data-for-ml-course",
+        "name": "Housing Prices Competition for Kaggle Learn Users",
+        "url": "https://www.kaggle.com/competitions/home-data-for-ml-course",
+        "category": "Getting Started",
+        "organization": "Kaggle",
+        "reward": "Knowledge",
+        "kaggleId": 10211,
+        "deadline": "2030-01-01",
+        "started": "2018-07-18",
+        "status": "Ongoing",
+        "rank": null,
+        "teamCount": 4054,
+        "score": null,
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 4,
+        "image": "assets/competitions/gen-home-data-for-ml-course.png",
+        "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      },
+      {
+        "slug": "playground-series-s6e7",
+        "name": "Predicting Student Health Risk",
+        "url": "https://www.kaggle.com/competitions/playground-series-s6e7",
+        "category": "Playground",
+        "organization": "Kaggle",
+        "reward": "Swag",
+        "kaggleId": 125223,
+        "deadline": "2026-07-31",
+        "started": "2026-07-01",
+        "status": "Ended",
+        "rank": 119,
+        "teamCount": 3356,
+        "score": "0.95288",
+        "privateRank": 70,
+        "privateScore": "0.95061",
+        "submissions": 138,
+        "image": "assets/competitions/gen-playground-series-s6e7.png",
+        "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      }
+    ]
   },
-  "lastUpdated": "2026-08-02"
+  "lastUpdated": "2026-08-01"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=8"></script>
+    <script id="paper-figures-data" type="application/json">
+{
+  "figures": {
+    "d97Q8r7ZKZ": {
+      "src": "assets/papers/d97Q8r7ZKZ.png",
+      "caption": "AlphaBench — Figure 1: formulaic alpha factors distilled from real market series.",
+      "source": "auto",
+      "pdfUrl": "https://openreview.net/pdf?id=d97Q8r7ZKZ",
+      "projectUrl": "https://alphabench.cc/",
+      "codeUrl": "https://github.com/CityU-MLO/AlphaBench"
+    },
+    "ALpLmURYWy": {
+      "src": "assets/papers/ALpLmURYWy.png",
+      "caption": "EvoAlpha — Figure 1: LLM-guided evolutionary alpha-factor search with mutation and crossover operators.",
+      "source": "auto",
+      "pdfUrl": "assets/papers/ALpLmURYWy.pdf",
+      "projectUrl": "",
+      "codeUrl": ""
+    },
+    "2026.acl-demo.7": {
+      "src": "assets/papers/2026.acl-demo.7.png",
+      "caption": "QFinZero — Figure 3: unified data access (UPQ/ESP) and brokerage execution (PMB) toolchain.",
+      "source": "manual",
+      "pdfUrl": "https://aclanthology.org/2026.acl-demo.7.pdf",
+      "projectUrl": "",
+      "codeUrl": ""
+    }
+  },
+  "lastUpdated": "2026-08-02T09:16:57.101Z"
+}
+</script>
+    <script id="writings-data" type="application/json">
+{
+  "writings": [
+    {
+      "title": "Knowledge Distillation 知识蒸馏",
+      "url": "https://blog.csdn.net/B143KC47/article/details/150779592",
+      "platform": "CSDN",
+      "date": "2025-08-25",
+      "source": "manual",
+      "desc": "总结了 知识蒸馏的背景 技术等等",
+      "image": "https://i-blog.csdnimg.cn/direct/49114b074f7f4a3ba76468f327425b5e.png",
+      "zhihuUrl": "https://zhuanlan.zhihu.com/p/1943400130817549575"
+    },
+    {
+      "title": "MoE混合专家模型 简介",
+      "url": "https://blog.csdn.net/B143KC47/article/details/148438104",
+      "platform": "CSDN",
+      "date": "2025-06-05",
+      "desc": "混合专家模型（MoE）是一种通过稀疏计算提升模型效率的架构。它基于Transformer，用多个独立专家网络替代传统前馈层，配合门控网络动态选择专家。MoE能在减少计算量的情况下扩大模型规模，比如Switch Transformer仅激活部",
+      "image": "https://i-blog.csdnimg.cn/direct/5410e144ec9d4c88b638764995acd85b.png",
+      "source": "auto"
+    },
+    {
+      "title": "深度学习基础",
+      "url": "https://blog.csdn.net/B143KC47/article/details/148343902",
+      "platform": "CSDN",
+      "date": "2025-05-30",
+      "desc": "本文推荐了数学理论和AI的优质学习资源，包括3Blue1Brown的线性代数、微积分和深度学习系列视频，以及可汗学院的多变量微积分课程。同时介绍了神经网络的基本原理，包括神经元结构、激活函数和梯度下降算法。文中详细解释了反向传播的工作机制，",
+      "image": "https://i-blog.csdnimg.cn/direct/aa8c4344c7b94ce6a2af03e70f6e5931.png",
+      "source": "auto"
+    },
+    {
+      "title": "Transformer基础解释（非数学）",
+      "url": "https://blog.csdn.net/B143KC47/article/details/147262955",
+      "platform": "CSDN",
+      "date": "2025-04-16",
+      "desc": "Transformer 架构源自 Google 研究团队在 2017 年发表的里程碑式论文《该模型最初是为了改进机器翻译任务而设计的，它引入的自注意力（Self-Attention）机制彻底改变了序列处理的方式。: OpenAI 发布。这是",
+      "image": "https://i-blog.csdnimg.cn/direct/5665a3fe7fb14939ad4d6ad1e183498b.png",
+      "source": "auto"
+    },
+    {
+      "title": "Data Cleaning",
+      "url": "https://b143kc47.github.io/blog/2025/04/07/Kaggle/data%20cleaning/",
+      "platform": "Blog",
+      "date": "2025-04-07",
+      "source": "auto"
+    },
+    {
+      "title": "Intro to AI Ethics",
+      "url": "https://b143kc47.github.io/blog/2025/03/16/Kaggle/introduction%20to%20ai%20ethics/",
+      "platform": "Blog",
+      "date": "2025-03-16",
+      "source": "auto"
+    },
+    {
+      "title": "Panda basic",
+      "url": "https://b143kc47.github.io/blog/2025/03/16/Kaggle/panda/",
+      "platform": "Blog",
+      "date": "2025-03-16",
+      "source": "auto"
+    },
+    {
+      "title": "Scalable Diffusion Models with Transformers",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Image%20Generation/Scalable%20Diffusion%20Models%20with%20Transformers/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    },
+    {
+      "title": "machine learning basic",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Kaggle/Intermediate%20Machine%20Learning/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    },
+    {
+      "title": "machine learning basic",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Kaggle/machine%20learning%20basic/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    }
+  ],
+  "lastUpdated": "2026-08-01T07:24:06.983Z"
+}
+</script>
+    <script src="modules/startup-redesign.js?v=14"></script>
     <script src="modules/transformer-arch.js?v=3" defer></script>
 </body>
 </html>

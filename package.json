@@ -1,0 +1,15 @@
+{
+  "name": "b143kc47-site-tooling",
+  "private": true,
+  "description": "CI-only tooling for b143kc47.github.io (the site itself is zero-build vanilla HTML/CSS/JS).",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.100",
+    "fflate": "^0.8.3",
+    "pdfjs-dist": "^4.10.38",
+    "pngjs": "^7.0.0"
+  }
+}

@@ -23,13 +23,23 @@ jobs:
         with:
           node-version: '20'
 
-      # Refreshes the #profiles-data Kaggle card in index.html + data/profiles.json.
-      # No secrets: the script bootstraps the anonymous XSRF cookie from the public
-      # profile page, then calls the same GetPageDataByUrl RPC the site uses.
-      # Non-destructive: only writes when a valid tier is returned; on any error,
-      # challenge, or empty response it keeps the existing curated card (and the
-      # hand-maintained LeetCode card is never touched).
+      # fflate is needed to unzip leaderboard CSVs for the competition history.
+      - name: Install tooling dependencies
+        run: npm ci
+
+      # Refreshes the #profiles-data Kaggle card in index.html + data/profiles.json,
+      # including the competition history (competitionList) via the official API
+      # (api.kaggle.com, Bearer token). Only competitions with >= 1 submission are
+      # kept — matching what the Kaggle profile page actually shows. Per-slug curated
+      # fields (writeups, overrides) are preserved across refreshes.
+      # Non-destructive: on any error or empty response it keeps the existing curated
+      # data (and the hand-maintained LeetCode card is never touched).
       - name: Fetch Kaggle profile (non-destructive)
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          # Optional legacy fallback pair (kaggle.json) — used only if the token is unset.
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: node scripts/fetch-kaggle.mjs
 
       - name: Commit and push if changed

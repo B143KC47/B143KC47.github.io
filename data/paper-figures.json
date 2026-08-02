@@ -1,0 +1,29 @@
+{
+  "figures": {
+    "d97Q8r7ZKZ": {
+      "src": "assets/papers/d97Q8r7ZKZ.png",
+      "caption": "AlphaBench — Figure 1: formulaic alpha factors distilled from real market series.",
+      "source": "auto",
+      "pdfUrl": "https://openreview.net/pdf?id=d97Q8r7ZKZ",
+      "projectUrl": "https://alphabench.cc/",
+      "codeUrl": "https://github.com/CityU-MLO/AlphaBench"
+    },
+    "ALpLmURYWy": {
+      "src": "assets/papers/ALpLmURYWy.png",
+      "caption": "EvoAlpha — Figure 1: LLM-guided evolutionary alpha-factor search with mutation and crossover operators.",
+      "source": "auto",
+      "pdfUrl": "assets/papers/ALpLmURYWy.pdf",
+      "projectUrl": "",
+      "codeUrl": ""
+    },
+    "2026.acl-demo.7": {
+      "src": "assets/papers/2026.acl-demo.7.png",
+      "caption": "QFinZero — Figure 3: unified data access (UPQ/ESP) and brokerage execution (PMB) toolchain.",
+      "source": "manual",
+      "pdfUrl": "https://aclanthology.org/2026.acl-demo.7.pdf",
+      "projectUrl": "",
+      "codeUrl": ""
+    }
+  },
+  "lastUpdated": "2026-08-02T09:16:57.101Z"
+}

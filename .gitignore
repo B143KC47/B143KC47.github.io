@@ -3,3 +3,6 @@
 
 # Local Claude Code settings (machine-specific, not for publishing)
 .claude/settings.local.json
+
+# CI tooling dependencies (scripts/*.mjs) — installed by workflows via `npm ci`
+node_modules/

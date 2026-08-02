@@ -1,0 +1,84 @@
+{
+  "writings": [
+    {
+      "title": "Knowledge Distillation 知识蒸馏",
+      "url": "https://blog.csdn.net/B143KC47/article/details/150779592",
+      "platform": "CSDN",
+      "date": "2025-08-25",
+      "source": "manual",
+      "desc": "总结了 知识蒸馏的背景 技术等等",
+      "image": "https://i-blog.csdnimg.cn/direct/49114b074f7f4a3ba76468f327425b5e.png",
+      "zhihuUrl": "https://zhuanlan.zhihu.com/p/1943400130817549575"
+    },
+    {
+      "title": "MoE混合专家模型 简介",
+      "url": "https://blog.csdn.net/B143KC47/article/details/148438104",
+      "platform": "CSDN",
+      "date": "2025-06-05",
+      "desc": "混合专家模型（MoE）是一种通过稀疏计算提升模型效率的架构。它基于Transformer，用多个独立专家网络替代传统前馈层，配合门控网络动态选择专家。MoE能在减少计算量的情况下扩大模型规模，比如Switch Transformer仅激活部",
+      "image": "https://i-blog.csdnimg.cn/direct/5410e144ec9d4c88b638764995acd85b.png",
+      "source": "auto"
+    },
+    {
+      "title": "深度学习基础",
+      "url": "https://blog.csdn.net/B143KC47/article/details/148343902",
+      "platform": "CSDN",
+      "date": "2025-05-30",
+      "desc": "本文推荐了数学理论和AI的优质学习资源，包括3Blue1Brown的线性代数、微积分和深度学习系列视频，以及可汗学院的多变量微积分课程。同时介绍了神经网络的基本原理，包括神经元结构、激活函数和梯度下降算法。文中详细解释了反向传播的工作机制，",
+      "image": "https://i-blog.csdnimg.cn/direct/aa8c4344c7b94ce6a2af03e70f6e5931.png",
+      "source": "auto"
+    },
+    {
+      "title": "Transformer基础解释（非数学）",
+      "url": "https://blog.csdn.net/B143KC47/article/details/147262955",
+      "platform": "CSDN",
+      "date": "2025-04-16",
+      "desc": "Transformer 架构源自 Google 研究团队在 2017 年发表的里程碑式论文《该模型最初是为了改进机器翻译任务而设计的，它引入的自注意力（Self-Attention）机制彻底改变了序列处理的方式。: OpenAI 发布。这是",
+      "image": "https://i-blog.csdnimg.cn/direct/5665a3fe7fb14939ad4d6ad1e183498b.png",
+      "source": "auto"
+    },
+    {
+      "title": "Data Cleaning",
+      "url": "https://b143kc47.github.io/blog/2025/04/07/Kaggle/data%20cleaning/",
+      "platform": "Blog",
+      "date": "2025-04-07",
+      "source": "auto"
+    },
+    {
+      "title": "Intro to AI Ethics",
+      "url": "https://b143kc47.github.io/blog/2025/03/16/Kaggle/introduction%20to%20ai%20ethics/",
+      "platform": "Blog",
+      "date": "2025-03-16",
+      "source": "auto"
+    },
+    {
+      "title": "Panda basic",
+      "url": "https://b143kc47.github.io/blog/2025/03/16/Kaggle/panda/",
+      "platform": "Blog",
+      "date": "2025-03-16",
+      "source": "auto"
+    },
+    {
+      "title": "Scalable Diffusion Models with Transformers",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Image%20Generation/Scalable%20Diffusion%20Models%20with%20Transformers/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    },
+    {
+      "title": "machine learning basic",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Kaggle/Intermediate%20Machine%20Learning/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    },
+    {
+      "title": "machine learning basic",
+      "url": "https://b143kc47.github.io/blog/2025/02/23/Kaggle/machine%20learning%20basic/",
+      "platform": "Blog",
+      "date": "2025-02-23",
+      "source": "auto"
+    }
+  ],
+  "lastUpdated": "2026-08-01T07:24:06.983Z"
+}
