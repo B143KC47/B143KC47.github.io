@@ -29,6 +29,8 @@
             btn.textContent = t === 'light' ? 'Dark' : 'Light';
             btn.setAttribute('aria-pressed', String(t === 'light'));
             btn.setAttribute('aria-label', `Switch to ${t === 'light' ? 'dark' : 'light'} mode`);
+            const themeColor = document.querySelector('meta[name="theme-color"]');
+            if (themeColor) themeColor.setAttribute('content', t === 'light' ? '#f6f6f6' : '#000000');
         };
         btn.addEventListener('click', () => {
             const next = current() === 'light' ? 'dark' : 'light';
@@ -684,6 +686,7 @@
         const renderPage = () => {
             const slice = comps.slice(page * PAGE_SIZES.competitions, (page + 1) * PAGE_SIZES.competitions);
             list.innerHTML = slice.map(renderCompetition).join('');
+            initCompetitionImages(list);
             list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
             mountPager(list, comps.length, PAGE_SIZES.competitions, page, (p) => { page = p; renderPage(); });
         };
@@ -696,6 +699,12 @@
         const url = c.url || 'https://www.kaggle.com/b14ckc4tmr/competitions';
         const initials = String(c.name || 'K').split(/[\s\-–—]+/).filter(Boolean)
             .slice(0, 2).map(s => s.charAt(0)).join('').toUpperCase();
+        const generatedCover = c.slug ? `assets/competitions/gen-${c.slug}.png` : '';
+        const fallbackCover = c.image && c.image !== generatedCover ? generatedCover : '';
+        const medal = ['gold', 'silver', 'bronze'].includes(String(c.medal || '').toLowerCase())
+            ? String(c.medal).toLowerCase()
+            : '';
+        const medalLabel = medal ? `${medal.charAt(0).toUpperCase()}${medal.slice(1)} medal` : '';
         const rankOf = (r) => `${r} / ${Number(c.teamCount).toLocaleString()} (top ${(Math.max(r / c.teamCount, 0.0001) * 100).toFixed(1)}%)`;
         // Ended comps carry the final private-leaderboard rank — that's the result that
         // counts; the public rank stays as a secondary reference when it differs.
@@ -719,10 +728,10 @@
         return `
         <article class="comp-card reveal">
             <a class="comp-card__media" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(c.name || 'Kaggle competition')}">
-                ${c.image
-                    ? `<img src="${escapeAttr(c.image)}" alt="" loading="lazy" decoding="async">`
-                    : `<span class="comp-card__placeholder" aria-hidden="true">${escapeHtml(initials)}</span>`}
+                <span class="comp-card__placeholder" aria-hidden="true">${escapeHtml(initials)}</span>
+                ${c.image ? `<img src="${escapeAttr(c.image)}"${fallbackCover ? ` data-fallback-src="${escapeAttr(fallbackCover)}"` : ''} alt="" loading="eager" fetchpriority="low" decoding="async">` : ''}
                 ${c.status ? `<span class="comp-card__status${c.status === 'Ongoing' ? ' comp-card__status--live' : ''}">${escapeHtml(c.status)}</span>` : ''}
+                ${medal ? `<span class="comp-card__medal comp-card__medal--${medal}" aria-label="Official Kaggle ${medalLabel.toLowerCase()}"><span class="comp-card__medal-mark" aria-hidden="true">${medal.charAt(0).toUpperCase()}</span>${medalLabel}</span>` : ''}
             </a>
             <div class="comp-card__body">
                 <h4 class="comp-card__name"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h4>
@@ -739,6 +748,29 @@
                 </p>` : ''}
             </div>
         </article>`;
+    }
+
+    function initCompetitionImages(list) {
+        list.querySelectorAll('.comp-card__media img').forEach(img => {
+            const media = img.closest('.comp-card__media');
+            const showImage = () => media?.classList.add('is-loaded');
+            const handleError = () => {
+                const fallback = img.dataset.fallbackSrc;
+                if (fallback) {
+                    delete img.dataset.fallbackSrc;
+                    img.src = fallback;
+                    return;
+                }
+                media?.classList.add('is-missing');
+            };
+
+            img.addEventListener('load', showImage, { once: true });
+            img.addEventListener('error', handleError);
+            if (img.complete) {
+                if (img.naturalWidth > 0) showImage();
+                else handleError();
+            }
+        });
     }
 
     // ── Writing (Zhihu / CSDN / blog articles) ──────────────────────

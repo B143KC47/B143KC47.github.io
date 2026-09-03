@@ -41,6 +41,7 @@ import { unzipSync } from 'fflate';
 const HANDLE = 'b14ckc4tmr';
 const PROFILE_URL = `https://www.kaggle.com/${HANDLE}`;
 const RPC = 'https://www.kaggle.com/api/i/routing.RoutingService/GetPageDataByUrl';
+const SEARCH_RPC = 'https://www.kaggle.com/api/i/search.SearchContentService/ListSearchContent';
 const API_V1 = 'https://api.kaggle.com/v1/competitions.CompetitionApiService';
 const INDEX_HTML = 'index.html';
 const DATA_JSON = 'data/profiles.json';
@@ -68,6 +69,12 @@ const titleCase = (s) => String(s || '').charAt(0).toUpperCase() + String(s || '
 function mapTier(raw) {
   const wanted = String(raw || '').toLowerCase();
   return TIER_LADDER.find((t) => t.toLowerCase() === wanted) || null;
+}
+
+function normalizeMedal(raw) {
+  const match = String(raw || '').trim().toUpperCase()
+    .match(/^(?:MEDAL(?:_TYPE)?_)?(GOLD|SILVER|BRONZE)$/);
+  return match ? match[1].toLowerCase() : null;
 }
 
 // Build a { name: value } map from an array of Set-Cookie header strings.
@@ -107,7 +114,103 @@ async function fetchProfile() {
   if (!res.ok) throw new Error(`profile RPC HTTP ${res.status}`);
   const profile = json && json.userProfile;
   if (!profile) throw new Error('response had no userProfile');
-  return profile;
+  return {
+    profile,
+    siteSession: { cookieHeader, xsrfToken: decodeURIComponent(xsrf) },
+  };
+}
+
+function competitionMedalTotals(profile) {
+  const summary = (profile.achievementSummaries || []).find((item) =>
+    item.summaryType === 'USER_ACHIEVEMENT_TYPE_COMPETITIONS');
+  if (!summary) return null;
+  return {
+    gold: Number(summary.totalGoldMedals) || 0,
+    silver: Number(summary.totalSilverMedals) || 0,
+    bronze: Number(summary.totalBronzeMedals) || 0,
+  };
+}
+
+// Kaggle's public profile competition feed is the authoritative per-competition
+// medal source. The v1 competition API exposes ranks but not medals, and medal
+// thresholds vary by competition, so ranks must never be converted into medals.
+async function fetchCompetitionMedals(profile, siteSession) {
+  const userId = Number(profile.userId);
+  if (!Number.isFinite(userId)) throw new Error('profile had no numeric userId');
+
+  const res = await fetch(SEARCH_RPC, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': UA,
+      Cookie: siteSession.cookieHeader,
+      'x-xsrf-token': siteSession.xsrfToken,
+      'x-kaggle-build-version': '1',
+      Referer: `${PROFILE_URL}/competitions`,
+    },
+    body: JSON.stringify({
+      pageToken: '',
+      pageSize: 100,
+      skip: 0,
+      competitionsOrderBy: 'SEARCH_COMPETITIONS_ORDER_BY_TEAM_RANK',
+      filters: {
+        query: '',
+        documentTypes: ['COMPETITION'],
+        listType: 'LIST_TYPE_USER_PROFILE',
+        privacy: 'PUBLIC',
+        ownerType: 'OWNER_TYPE_OWNS',
+        tagIds: [],
+        competitionIds: [],
+        sharedViaGroups: [],
+        ownerUserId: userId,
+        competitionFilters: {
+          role: 'SEARCH_COMPETITIONS_ROLE_PARTICIPANT_ONLY',
+          status: 'SEARCH_COMPETITIONS_STATUS_COMPLETE',
+          profileVisibility: 'SEARCH_COMPETITIONS_PROFILE_VISIBILITY_VISIBLE',
+        },
+      },
+    }),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(`competition medal RPC HTTP ${res.status}`);
+  const documents = Array.isArray(json && json.documents) ? json.documents : [];
+  const total = Number(json && json.totalDocuments);
+  if (Number.isFinite(total) && documents.length < total) {
+    throw new Error(`competition medal RPC was truncated (${documents.length}/${total})`);
+  }
+
+  const medals = new Map();
+  for (const document of documents) {
+    const slug = String(document.slug || '').trim();
+    if (!slug) continue;
+    const medal = normalizeMedal(document.medal);
+    if (document.medal && !medal) throw new Error(`unknown medal value "${document.medal}"`);
+    medals.set(slug, medal); // null explicitly means Kaggle reports no medal
+  }
+
+  // Cross-check the per-competition feed against Kaggle's independent aggregate
+  // before applying it. A mismatch is treated as incomplete/stale data.
+  const expected = competitionMedalTotals(profile);
+  if (expected) {
+    const observed = { gold: 0, silver: 0, bronze: 0 };
+    for (const medal of medals.values()) if (medal) observed[medal]++;
+    if (Object.keys(observed).some((level) => observed[level] !== expected[level])) {
+      throw new Error(`medal totals disagree (profile ${JSON.stringify(expected)}, feed ${JSON.stringify(observed)})`);
+    }
+  }
+  return medals;
+}
+
+function mergeCompetitionMedals(list, officialMedals) {
+  if (!(officialMedals instanceof Map)) return list;
+  return list.map((entry) => {
+    if (!officialMedals.has(entry.slug)) return entry; // not present means unknown; preserve curated data
+    const next = { ...entry };
+    const medal = officialMedals.get(entry.slug);
+    if (medal) next.medal = medal;
+    else delete next.medal;
+    return next;
+  });
 }
 
 // Merge live stats onto the existing curated card, preserving handle/url and (if the API
@@ -271,6 +374,10 @@ async function downloadCover(entry, file) {
     });
     const loc = r1.headers.get('location');
     if (!loc) return false;
+    // Kaggle redirects competitions without dedicated artwork to its generic social
+    // logo. Treat that as "no cover" so the competition-specific generated tile is
+    // used instead of showing the same Kaggle logo on several unrelated cards.
+    if (/\/static\/images\/logos\/kaggle-logo-opengraph\.png(?:[?#]|$)/i.test(loc)) return false;
     const r2 = await fetch(loc, { headers: { 'User-Agent': UA } });
     if (!r2.ok) return false;
     const buf = Buffer.from(await r2.arrayBuffer());
@@ -523,6 +630,7 @@ async function buildCompetitionList(token, existingList) {
       privateRank: priv ? priv.rank : (prev.privateRank ?? null),
       privateScore: priv ? priv.score : (prev.privateScore ?? null),
       submissions,
+      ...(normalizeMedal(prev.medal) ? { medal: normalizeMedal(prev.medal) } : {}),
       image: prev.image || '',
       orgLogo: prev.orgLogo || '',
       writeups: Array.isArray(prev.writeups) ? prev.writeups : [],
@@ -550,14 +658,29 @@ async function main() {
   const data = JSON.parse(match[2]); // { leetcode, kaggle, lastUpdated }
   const existingKaggle = data.kaggle || {};
 
-  const profile = await fetchProfile();
+  const { profile, siteSession } = await fetchProfile();
   const kaggle = buildKaggleCard(profile, existingKaggle);
+
+  let officialMedals = null;
+  try {
+    officialMedals = await fetchCompetitionMedals(profile, siteSession);
+    const awarded = [...officialMedals.entries()].filter(([, medal]) => medal);
+    console.log(`🏅 Official competition medals refreshed: ${awarded.length}.`);
+  } catch (err) {
+    console.log(`⚠️  Competition medal fetch failed (${err.message}) — existing medal data preserved.`);
+  }
+  if (officialMedals && Array.isArray(existingKaggle.competitionList)) {
+    kaggle.competitionList = mergeCompetitionMedals(existingKaggle.competitionList, officialMedals);
+  }
 
   // Competition history: official API when credentials exist; otherwise keep curated.
   const token = readApiToken();
   if (token) {
     try {
-      const competitionList = await buildCompetitionList(token, existingKaggle.competitionList);
+      const competitionList = mergeCompetitionMedals(
+        await buildCompetitionList(token, existingKaggle.competitionList),
+        officialMedals,
+      );
       if (competitionList.length) {
         await syncOrgLogos(competitionList); // first — generated covers reuse the logo
         for (const entry of competitionList) await syncCover(entry);

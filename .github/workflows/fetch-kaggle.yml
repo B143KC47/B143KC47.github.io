@@ -46,12 +46,15 @@ jobs:
         run: |
           git config --local user.email "tiangong1337@outlook.com"
           git config --local user.name "KO Ho Tin"
-          git add index.html data/profiles.json
+          # The sync can download official covers or generate local fallbacks.
+          # Stage those assets with the JSON that references them so Pages never
+          # deploys a new image path without the corresponding file.
+          git add index.html data/profiles.json assets/competitions
 
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "🔄 Auto-update Kaggle profile data [skip ci]"
             git push
-            echo "✅ Kaggle profile data updated in index.html and data/profiles.json"
+            echo "✅ Kaggle profile data and competition assets updated"
           fi

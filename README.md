@@ -61,8 +61,11 @@ gray only; `Syne` for display, `Manrope` for body, `IBM Plex Mono` for labels an
   bar, Kaggle tier ladder), plus a **Kaggle competition record**: dense cards with competition
   cover art, organizer logo, rank/total (top %) — the final **private-leaderboard** rank for
   ended competitions, public otherwise — score, submission count, prize, team count and
-  deadline, plus optional write-up links. Synced daily by `scripts/fetch-kaggle.mjs` via the
-  official API (`KAGGLE_API_TOKEN` secret); only competitions with ≥ 1 submission are listed —
+  deadline, an official Kaggle medal label when awarded, plus optional write-up links. Medal
+  labels come directly from Kaggle's public profile competition feed and are cross-checked
+  against its aggregate medal totals; they are never inferred from rank. Synced daily by
+  `scripts/fetch-kaggle.mjs` via the official API (`KAGGLE_API_TOKEN` secret); only competitions
+  with ≥ 1 submission are listed —
   the same ones the Kaggle profile page shows. Covers/logos are downloaded to
   `assets/competitions/`; when Kaggle has no open-graph image for a competition, a branded
   fallback cover (hatch texture + organizer logo plate + competition name) is rendered
