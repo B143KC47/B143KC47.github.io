@@ -35,8 +35,8 @@
         "deadline": "2026-09-29",
         "started": "2026-06-29",
         "status": "Ongoing",
-        "rank": 1355,
-        "teamCount": 3068,
+        "rank": 1386,
+        "teamCount": 3112,
         "score": "0.907",
         "privateRank": null,
         "privateScore": null,
@@ -56,9 +56,9 @@
         "deadline": "2026-09-30",
         "started": "2026-07-30",
         "status": "Ongoing",
-        "rank": 4751,
-        "teamCount": 7561,
-        "score": "583.8",
+        "rank": 4821,
+        "teamCount": 7674,
+        "score": "588.7",
         "privateRank": null,
         "privateScore": null,
         "submissions": 2,
@@ -78,7 +78,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 9588,
+        "teamCount": 9571,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -99,7 +99,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3939,
+        "teamCount": 3913,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -195,5 +195,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-09-04"
+  "lastUpdated": "2026-09-05"
 }
