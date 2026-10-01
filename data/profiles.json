@@ -32,12 +32,12 @@
         "organization": "Kaggle",
         "reward": "50,000 Usd",
         "kaggleId": 147734,
-        "deadline": "2026-09-30",
+        "deadline": "2026-10-14",
         "started": "2026-07-30",
         "status": "Ongoing",
-        "rank": 2605,
-        "teamCount": 10192,
-        "score": "1425.6",
+        "rank": 2807,
+        "teamCount": 10246,
+        "score": "1351.1",
         "privateRank": null,
         "privateScore": null,
         "submissions": 2,
@@ -57,7 +57,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 10419,
+        "teamCount": 10585,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -78,7 +78,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3915,
+        "teamCount": 3925,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -195,5 +195,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-09-30"
+  "lastUpdated": "2026-10-01"
 }
