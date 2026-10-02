@@ -35,9 +35,9 @@
         "deadline": "2026-10-14",
         "started": "2026-07-30",
         "status": "Ongoing",
-        "rank": 2807,
+        "rank": 2767,
         "teamCount": 10246,
-        "score": "1351.1",
+        "score": "1361.0",
         "privateRank": null,
         "privateScore": null,
         "submissions": 2,
@@ -57,7 +57,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 10585,
+        "teamCount": 10621,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -78,7 +78,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3925,
+        "teamCount": 3937,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -98,11 +98,11 @@
         "deadline": "2026-09-29",
         "started": "2026-06-29",
         "status": "Ended",
-        "rank": 528,
-        "teamCount": 4020,
-        "score": "0.955",
-        "privateRank": 533,
-        "privateScore": "0.918",
+        "rank": 510,
+        "teamCount": 3950,
+        "score": "0.95508",
+        "privateRank": 511,
+        "privateScore": "0.91863",
         "submissions": 54,
         "image": "assets/competitions/biohub-cell-tracking-during-development.png",
         "orgLogo": "assets/competitions/orgs/biohub.png",
@@ -195,5 +195,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-01"
+  "lastUpdated": "2026-10-02"
 }
