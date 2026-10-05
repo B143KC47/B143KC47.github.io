@@ -76,7 +76,7 @@
 
         // Close the drawer (clearing the scroll lock + backdrop) if the viewport
         // grows to desktop while it's open, so neither lingers on the inline nav.
-        const desktop = window.matchMedia('(min-width: 761px)');
+        const desktop = window.matchMedia('(min-width: 961px)');
         const onDesktop = event => { if (event.matches) setNav(false); };
         if (desktop.addEventListener) desktop.addEventListener('change', onDesktop);
         else if (desktop.addListener) desktop.addListener(onDesktop);

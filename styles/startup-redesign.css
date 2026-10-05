@@ -148,11 +148,13 @@ img { max-width: 100%; display: block; }
 /* Lock the page scroll (class lives on <html>) while the drawer is open */
 .nav-open { overflow: hidden; }
 
-@media (max-width: 760px) {
-  .site-nav { position: fixed; inset: 0 0 0 auto; width: min(82vw,340px); flex-direction: column; justify-content: center; align-items: stretch; gap: 0;
+@media (max-width: 960px) {
+  .site-nav { position: fixed; inset: 0 0 0 auto; width: min(82vw,340px); flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 0;
     background: var(--ink-2); transform: translateX(100%); transition: transform .4s var(--ease);
     border-left: 1px solid var(--line-dark); box-shadow: -30px 0 80px var(--nav-shadow);
-    padding: clamp(4.5rem,16vw,6rem) clamp(1.5rem,6vw,2.5rem) 2rem; }
+    padding: clamp(4.5rem,16vw,6rem) clamp(1.5rem,6vw,2.5rem) 2rem; overflow-y: auto; }
+  .site-nav > :first-child { margin-top: auto; }
+  .site-nav > :last-child { margin-bottom: auto; }
   .site-nav.is-open { transform: none; }
   /* hairline-row links — match the site's .facts / .practice row language */
   .site-nav a { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
