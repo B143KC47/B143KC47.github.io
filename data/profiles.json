@@ -35,14 +35,35 @@
         "deadline": "2026-10-14",
         "started": "2026-07-30",
         "status": "Ongoing",
-        "rank": 2707,
-        "teamCount": 10246,
-        "score": "1383.1",
+        "rank": 2774,
+        "teamCount": 10148,
+        "score": "1355.4",
         "privateRank": null,
         "privateScore": null,
         "submissions": 2,
         "image": "assets/competitions/kaggriculture.png",
         "orgLogo": "assets/competitions/orgs/kaggle.png",
+        "writeups": []
+      },
+      {
+        "slug": "gemma-4-developer-agent",
+        "name": "Google - The Gemma 4 Developer Agent Competition",
+        "url": "https://www.kaggle.com/competitions/gemma-4-developer-agent",
+        "category": "Featured",
+        "organization": "Google DeepMind",
+        "reward": "65,000 Usd",
+        "kaggleId": 149921,
+        "deadline": "2026-12-02",
+        "started": "2026-09-23",
+        "status": "Ongoing",
+        "rank": 966,
+        "teamCount": 1893,
+        "score": "0.10",
+        "privateRank": null,
+        "privateScore": null,
+        "submissions": 1,
+        "image": "assets/competitions/gemma-4-developer-agent.png",
+        "orgLogo": "",
         "writeups": []
       },
       {
@@ -57,7 +78,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 10681,
+        "teamCount": 10667,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -78,7 +99,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3891,
+        "teamCount": 3881,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -195,5 +216,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-05"
+  "lastUpdated": "2026-10-06"
 }
