@@ -35,9 +35,9 @@
         "deadline": "2026-10-14",
         "started": "2026-07-30",
         "status": "Ongoing",
-        "rank": 2731,
+        "rank": 2743,
         "teamCount": 10148,
-        "score": "1380.0",
+        "score": "1377.8",
         "privateRank": null,
         "privateScore": null,
         "submissions": 2,
@@ -56,12 +56,12 @@
         "deadline": "2026-12-02",
         "started": "2026-09-23",
         "status": "Ongoing",
-        "rank": 1625,
-        "teamCount": 2612,
+        "rank": 1755,
+        "teamCount": 2725,
         "score": "0.10",
         "privateRank": null,
         "privateScore": null,
-        "submissions": 6,
+        "submissions": 7,
         "image": "assets/competitions/gemma-4-developer-agent.png",
         "orgLogo": "",
         "writeups": []
@@ -78,7 +78,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 10866,
+        "teamCount": 11017,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -99,7 +99,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3850,
+        "teamCount": 3844,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -216,5 +216,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-13"
+  "lastUpdated": "2026-10-14"
 }
