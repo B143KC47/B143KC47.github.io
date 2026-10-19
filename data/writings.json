@@ -1,6 +1,15 @@
 {
   "writings": [
     {
+      "title": "Kaggle Pandas 入门实战：从 DataFrame 到数据合并的完整指南",
+      "url": "https://blog.csdn.net/B143KC47/article/details/168343116",
+      "platform": "CSDN",
+      "date": "2026-10-18",
+      "desc": "本文介绍了pandas核心对象DataFrame与Series，涵盖数据创建、读写、索引选择、条件筛选、赋值、汇总统计、数据映射、分组聚合及合并操作。通过实例演示如何使用read_csv加载数据，利用iloc/loc进行行列定位，结合布尔掩",
+      "image": "",
+      "source": "auto"
+    },
+    {
       "title": "micrograd：从神经元到反向传播",
       "url": "https://blog.csdn.net/B143KC47/article/details/168030543",
       "platform": "CSDN",
@@ -96,5 +105,5 @@
       "source": "auto"
     }
   ],
-  "lastUpdated": "2026-10-18T05:06:27.656Z"
+  "lastUpdated": "2026-10-19T05:17:30.169Z"
 }
