@@ -35,8 +35,8 @@
         "deadline": "2026-12-02",
         "started": "2026-09-23",
         "status": "Ongoing",
-        "rank": 1989,
-        "teamCount": 4168,
+        "rank": 2037,
+        "teamCount": 4247,
         "score": "0.15",
         "privateRank": null,
         "privateScore": null,
@@ -57,7 +57,7 @@
         "started": "2012-09-28",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 11807,
+        "teamCount": 11783,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -78,7 +78,7 @@
         "started": "2018-07-18",
         "status": "Ongoing",
         "rank": null,
-        "teamCount": 3861,
+        "teamCount": 3866,
         "score": null,
         "privateRank": null,
         "privateScore": null,
@@ -216,5 +216,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-30"
+  "lastUpdated": "2026-10-31"
 }
