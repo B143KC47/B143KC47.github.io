@@ -1,0 +1,142 @@
+\documentclass[10pt,a4paper]{article}
+% Compile with XeLaTeX or pdfLaTeX (single-page A4 resume).
+\usepackage[top=0.42in,bottom=0.42in,left=0.52in,right=0.52in]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
+  \IfFileExists{glyphtounicode.tex}{\input{glyphtounicode}}{}
+  \pdfgentounicode=1
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{TeX Gyre Heros}
+    {\setmainfont{TeX Gyre Heros}}
+    {\IfFontExistsTF{Liberation Sans}
+      {\setmainfont{Liberation Sans}}
+      {\setmainfont{Arial}}}
+\fi
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ink}{HTML}{1D242B}
+\definecolor{muted}{HTML}{4C5965}
+\definecolor{accent}{HTML}{143C55}
+\definecolor{rulegray}{HTML}{CBD3D9}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\raggedright
+\color{ink}
+\urlstyle{same}
+\emergencystretch=2em
+
+\hypersetup{
+  pdfauthor={Ho Tin Ko},
+  pdftitle={Ho Tin Ko - Curriculum Vitae},
+  pdfsubject={LLM Agents, Quantitative AI Evaluation, and Software Engineering}
+}
+
+\setlist[itemize]{leftmargin=1.15em,labelsep=0.38em,itemsep=1.3pt,topsep=1.8pt,parsep=0pt,partopsep=0pt}
+\renewcommand\labelitemi{\textcolor{accent}{\textbullet}}
+
+\titleformat{\section}{\needspace{3\baselineskip}\fontsize{10.5}{12.5}\selectfont\bfseries\color{accent}}{}{0em}{}[\vspace{1.2pt}{\color{rulegray}\titlerule[0.5pt]}]
+\titlespacing*{\section}{0pt}{7.2pt}{3.5pt}
+
+\newcommand{\targetrole}{AI Researcher \& Software Engineering Student}
+\newcommand{\sep}{\hspace{0.48em}\textcolor{muted}{\textbar}\hspace{0.48em}}
+\newcommand{\entry}[2]{\needspace{3\baselineskip}\textbf{#1}\hfill{\small\textcolor{accent}{#2}}\par}
+\newcommand{\detail}[1]{{\fontsize{9.5}{11.2}\selectfont\textcolor{muted}{#1}\par}}
+\newcommand{\gap}{\vspace{3.2pt}}
+
+\begin{document}
+\fontsize{10}{12.2}\selectfont
+
+\begin{center}
+  {\fontsize{21}{23}\selectfont\textbf{Ho Tin Ko}}\\[2.5pt]
+  {\fontsize{10}{11.5}\selectfont\textcolor{accent}{\targetrole\enspace---\enspace LLM Agents, Evaluation \& Quantitative AI}}\\[3.5pt]
+  {\small Hong Kong\sep\href{mailto:hotinko@outlook.com}{hotinko@outlook.com}\sep
+  \href{tel:+85292980087}{+852 9298 0087}\sep
+  \href{tel:+8615899896645}{+86 158 9989 6645}\sep
+  \href{https://b143kc47.github.io/}{b143kc47.github.io}}\\[2pt]
+  {\small\href{https://github.com/B143KC47}{GitHub: B143KC47}\sep
+  \href{https://www.linkedin.com/in/kohotin/}{LinkedIn: kohotin}\sep
+  \href{https://scholar.google.com/citations?user=gz7ciBUAAAAJ}{Google Scholar}\sep
+  \href{https://orcid.org/0009-0002-7298-8196}{ORCID: 0009-0002-7298-8196}\sep
+  \href{https://www.kaggle.com/b14ckc4tmr}{Kaggle: b14ckc4tmr}}
+\end{center}
+
+\vspace{-4pt}
+
+\section*{Education}
+\entry{PolyU Hong Kong Community College (PolyU HKCC)}{Sep 2026 -- Expected 2028}
+\detail{Associate in Statistics and Data Science \textbar{} The Hong Kong Polytechnic University}
+\gap
+\entry{Yuen Long Merchants Association Secondary School}{Sep 2020 -- Jul 2026}
+\detail{Secondary Education \textbar{} Pre-University Enrichment: CityUHK Gifted Education Fund GenAIoT Programme (2023--2025); IEEE CIS Summer School on Quantum Computational Intelligence, Tokyo Metropolitan University (Jun 2024)}
+
+\section*{Research \& Publications}
+\entry{\href{https://aclanthology.org/2026.acl-demo.7/}{QFinZero}\enspace\textnormal{\small(Co-first author)}}{ACL 2026 System Demonstrations}
+\detail{A Unified Financial Toolchain for LLM-Based Trading Agents\enspace\textbar{}\enspace\href{https://aclanthology.org/2026.acl-demo.7.pdf}{[Anthology PDF]}\enspace\href{https://github.com/CityU-MLO/qfinzero}{[Code]}}
+\begin{itemize}
+  \item Tested market-data, news-retrieval, and brokerage-simulation services; contributed evaluation cases across the financial-agent toolchain.
+  \item Prepared reproducible workflow examples and demonstration materials for the unified trading environment.
+\end{itemize}
+\gap
+\entry{\href{https://openreview.net/forum?id=d97Q8r7ZKZ}{AlphaBench}\enspace\textnormal{\small(Second author)}}{ICLR 2026 Poster}
+\detail{Benchmarking Large Language Models in Formulaic Alpha Factor Mining\enspace\textbar{}\enspace\href{https://openreview.net/pdf?id=d97Q8r7ZKZ}{[PDF]}\enspace\href{https://alphabench.cc/}{[Project]}\enspace\href{https://github.com/CityU-MLO/AlphaBench}{[Code]}}
+\begin{itemize}
+  \item Contributed API, MCP, CLI, typed-client, web-interface, and test components for the Factor Feature Oracle (FFO) alpha-factor execution engine.
+  \item Supported schema-driven LLM factor-search workflows with controller and evaluator agents, configurable search strategies, and YAML cold/warm starts.
+\end{itemize}
+\gap
+\entry{\href{https://openreview.net/forum?id=ALpLmURYWy}{EvoAlpha}\enspace\textnormal{\small(Second author)}}{NeurIPS 2025 Workshop}
+\detail{Evolutionary Alpha Factor Discovery with Large Language Models (Generative AI in Finance)\enspace\textbar{}\enspace\href{https://openreview.net/forum?id=ALpLmURYWy}{[OpenReview]}}
+\begin{itemize}
+  \item Co-developed LLM-guided evolutionary search methods and adapted search workflows to AlphaBench's in-memory search framework.
+  \item Validated search workflows across four equity universes: CSI300, CSI500, CSI1000, and S\&P 500.
+\end{itemize}
+\gap
+\entry{City University of Hong Kong (CityU-MLO) -- Research Attachment}{2024 -- Present}
+\detail{Bright Future Engineering Talent Hub Summer Research Attachment (2025) \& Ongoing Collaborating Student Researcher}
+\begin{itemize}
+  \item Completed a one-month laboratory research attachment under PhD-student supervision and continued collaborating with Prof.\ Chen Liu's MLO Group on LLM agents and quantitative AI benchmarks.
+\end{itemize}
+
+\section*{Selected Software Projects}
+\entry{\href{https://github.com/B143KC47/deep-research-skill}{Deep Research Skill}}{2026}
+\detail{Python \textbar{} Standard-Library CLI \textbar{} Research Agent Tooling}
+\begin{itemize}
+  \item Built a zero-dependency Python CLI to track sources, claims, and counterevidence in an auditable research ledger with validation checks, unit tests, and evaluation fixtures.
+\end{itemize}
+\gap
+\entry{\href{https://github.com/B143KC47/claudeCO-webui}{Claude Code WebUI}}{2025}
+\detail{React \textbar{} TypeScript \textbar{} Deno \textbar{} AI Developer Tooling}
+\begin{itemize}
+  \item Implemented command discovery and handling across built-in, project, personal, MCP, and plugin commands; added context-aware command suggestions to the coding-agent interface.
+\end{itemize}
+\gap
+\entry{\href{https://github.com/B143KC47/Ultratranslate}{Ultratranslate}}{2025}
+\detail{JavaScript \textbar{} Chrome Extension (Manifest V3)}
+\begin{itemize}
+  \item Built an in-place DOM translation extension supporting dynamic page updates across DeepSeek, OpenAI, Google, and Baidu translation backends.
+\end{itemize}
+
+\section*{Competitions}
+\entry{\href{https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks}{AI Agent Security -- Multi-Step Tool Attacks}}{2026}
+\detail{Kaggle Featured Competition (OpenAI, Google \& IEEE)\enspace\textbar{}\enspace\textbf{Silver Medal -- 139th / 4,187 teams (Top 3.3\%)} on the private leaderboard.}
+\gap
+\entry{Other Ranked Kaggle Results}{2026}
+\detail{\href{https://www.kaggle.com/competitions/playground-series-s6e7}{Predicting Student Health Risk}: \textbf{70th / 3,356 teams (Top 2.1\%)}\enspace\textbar{}\enspace\href{https://www.kaggle.com/competitions/biohub-cell-tracking-during-development}{Biohub Cell Tracking}: \textbf{511th / 3,950 teams (Top 13.0\%)}.}
+
+\section*{Technical Skills}
+\textbf{Languages:} Python, TypeScript, JavaScript, SQL, LaTeX, HTML/CSS \textbar{} \textbf{Frameworks \& Data:} PyTorch, Qlib, Scikit-learn, React, Deno, Pandas, NumPy\\
+\textbf{AI Systems \& Tooling:} LLM Evaluation, Agent Tool Use, Model Context Protocol (MCP), Git, GitHub Actions, Docker, Linux, CLI Tooling, Testing/CI
+
+\end{document}

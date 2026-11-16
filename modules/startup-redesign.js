@@ -10,16 +10,118 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    // Fancy pointer-driven effects (custom cursor, card tilt, parallax) only run
-    // with a fine pointer and motion allowed. Touch + reduced-motion get the
-    // native cursor and a calm page.
-    const allowFancy = !prefersReducedMotion && !isTouch;
-    const repoCacheKey = 'ko_profile_github_repos_v3';
-    const repoCacheDuration = 10 * 60 * 1000;
+    const allowFancyCursor = !prefersReducedMotion && !isTouch;
+    const repoCacheKey = 'ko_profile_github_repos_v4';
+    const repoCacheDuration = 15 * 60 * 1000;
 
-    // Theme: the <html data-theme> attribute is set pre-paint by an inline <head>
-    // script (localStorage > prefers-color-scheme > dark). This wires the header
-    // toggle and keeps its label in sync.
+    const SELF_NAMES = ['Ho Tin Ko', 'KO Ho Tin'];
+    const PAGE_SIZES = { publications: 8, writings: 12, competitions: 8 };
+    const TIER_LADDER = ['Novice', 'Contributor', 'Expert', 'Master', 'Grandmaster'];
+    const TIER_ABBR = { Novice: 'Nov', Contributor: 'Con', Expert: 'Exp', Master: 'Mas', Grandmaster: 'GM' };
+    const MEDAL_ORDER = { gold: 0, silver: 1, bronze: 2 };
+
+    const CURATED_PROJECTS = [
+        {
+            fullName: 'CityU-MLO/qfinzero',
+            owner: 'CityU-MLO',
+            name: 'qfinzero',
+            role: 'Co-First Author',
+            language: 'Python',
+            description: 'Unified financial toolchain & stateful brokerage simulation environment (UPQ, NPP, PMB) for LLM-based trading agents (ACL 2026 Demo).',
+            topics: ['LLM Agents', 'MCP', 'Quant Finance'],
+            html_url: 'https://github.com/CityU-MLO/qfinzero',
+            stargazers_count: 0,
+            forks_count: 0
+        },
+        {
+            fullName: 'CityU-MLO/AlphaBench',
+            owner: 'CityU-MLO',
+            name: 'AlphaBench',
+            role: 'Co-Author',
+            language: 'Python',
+            description: 'Systematic closed-loop benchmark for evaluating LLMs in formulaic alpha-factor mining across Qlib and Assay backtesting engines (ICLR 2026).',
+            topics: ['Benchmark', 'Alpha Mining', 'ICLR 2026'],
+            html_url: 'https://github.com/CityU-MLO/AlphaBench',
+            stargazers_count: 0,
+            forks_count: 0
+        },
+        {
+            fullName: 'B143KC47/claudeCO-webui',
+            owner: 'B143KC47',
+            name: 'claudeCO-webui',
+            role: 'Author',
+            language: 'TypeScript',
+            description: 'Full-featured web interface for Claude Code with integrated terminal, file workspace, session persistence, and MCP server management.',
+            topics: ['React', 'TypeScript', 'MCP'],
+            html_url: 'https://github.com/B143KC47/claudeCO-webui',
+            stargazers_count: 0,
+            forks_count: 0
+        },
+        {
+            fullName: 'B143KC47/deep-research-skill',
+            owner: 'B143KC47',
+            name: 'deep-research-skill',
+            role: 'Author',
+            language: 'Python',
+            description: 'Evidence-first deep research agent skill featuring source tracking, inline citations, contradiction checks, and uncertainty-aware synthesis.',
+            topics: ['AI Agents', 'Research', 'CLI'],
+            html_url: 'https://github.com/B143KC47/deep-research-skill',
+            stargazers_count: 0,
+            forks_count: 0
+        },
+        {
+            fullName: 'B143KC47/Ultratranslate',
+            owner: 'B143KC47',
+            name: 'Ultratranslate',
+            role: 'Author',
+            language: 'JavaScript',
+            description: 'Chrome MV3 extension for in-place DOM translation powered by DeepSeek, OpenAI, Google, and Baidu APIs.',
+            topics: ['Chrome MV3', 'LLM Translation'],
+            html_url: 'https://github.com/B143KC47/Ultratranslate',
+            stargazers_count: 0,
+            forks_count: 0
+        },
+        {
+            fullName: 'B143KC47/VSC4T',
+            owner: 'B143KC47',
+            name: 'VSC4T',
+            role: 'Author',
+            language: 'CSS',
+            description: 'Minimalist dark Hexo blog theme inspired by Visual Studio Code with clean code typography and responsive navigation.',
+            topics: ['Hexo Theme', 'Design'],
+            html_url: 'https://github.com/B143KC47/VSC4T',
+            stargazers_count: 0,
+            forks_count: 0
+        }
+    ];
+
+    const CATEGORY_NORMALIZE = {
+        'Neuro Sceince': 'Neuroscience',
+        'Neural-Networks-Zero-to-Hero': 'Neural Networks: Zero to Hero',
+        'Generative AI in Finance': 'Generative AI in Finance',
+        '持续学习': 'Continual Learning',
+        'Cognitive Science': 'Cognitive Science'
+    };
+
+    const BLOG_TITLE_OVERRIDES = {
+        Alphabench: 'AlphaBench — Paper & Architecture Notes',
+        Evoalpha: 'EvoAlpha — Evolutionary Alpha Factor Notes',
+        Qfinzero: 'QFinZero — Financial Toolchain Notes',
+        micrograd: 'micrograd — Autograd Engine from Scratch',
+        Roadmap: 'Neuroscience & AI Study Roadmap'
+    };
+
+    const BLOG_SUMMARY_OVERRIDES = {
+        'Cognitive Science': 'Reading and conceptual notes on human cognition, memory, and learning frameworks.',
+        '持续学习': 'Notes on continual learning, overcoming catastrophic forgetting, and lifelong model adaptation.',
+        Roadmap: 'Structured study roadmap connecting computational neuroscience and modern deep learning.',
+        micrograd: 'Walkthrough implementing scalar autograd and backpropagation from scratch following Zero to Hero.',
+        Alphabench: 'Research notes on evaluating LLMs in formulaic alpha mining across generation, evaluation, and search.',
+        Evoalpha: 'Notes on LLM-guided evolutionary operators for interpretable alpha-factor discovery.',
+        Qfinzero: 'System notes covering unified market data, news retrieval, and brokerage simulation primitives.'
+    };
+
+    // ── Theme & Print ───────────────────────────────────────────────
     function initTheme() {
         const btn = document.getElementById('theme-toggle');
         if (!btn) return;
@@ -30,7 +132,7 @@
             btn.setAttribute('aria-pressed', String(t === 'light'));
             btn.setAttribute('aria-label', `Switch to ${t === 'light' ? 'dark' : 'light'} mode`);
             const themeColor = document.querySelector('meta[name="theme-color"]');
-            if (themeColor) themeColor.setAttribute('content', t === 'light' ? '#f6f6f6' : '#000000');
+            if (themeColor) themeColor.setAttribute('content', t === 'light' ? '#f2f2f2' : '#000000');
         };
         btn.addEventListener('click', () => {
             const next = current() === 'light' ? 'dark' : 'light';
@@ -41,6 +143,21 @@
         sync();
     }
 
+    function initPrint() {
+        const buttons = document.querySelectorAll('[data-print-cv]');
+        if (!buttons.length) return;
+        const triggerPrint = () => {
+            document.documentElement.classList.remove('nav-open');
+            const nav = document.querySelector('[data-nav]');
+            const toggle = document.querySelector('[data-nav-toggle]');
+            if (nav) nav.classList.remove('is-open');
+            if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            window.print();
+        };
+        buttons.forEach(btn => btn.addEventListener('click', triggerPrint));
+    }
+
+    // ── Sticky Header & Mobile Drawer ───────────────────────────────
     function initHeader() {
         const header = document.querySelector('[data-header]');
         const toggle = document.querySelector('[data-nav-toggle]');
@@ -49,14 +166,11 @@
         if (!header || !toggle || !nav) return;
 
         const setScrolled = () => {
-            header.classList.toggle('is-scrolled', window.scrollY > 20);
+            header.classList.toggle('is-scrolled', window.scrollY > 12);
         };
         setScrolled();
         window.addEventListener('scroll', setScrolled, { passive: true });
 
-        // Single source of truth for the mobile drawer: toggles the panel, the
-        // backdrop scrim, the hamburger->X (via aria-expanded), and a scroll lock
-        // on <html> so the page can't scroll behind the open menu.
         const setNav = open => {
             nav.classList.toggle('is-open', open);
             document.documentElement.classList.toggle('nav-open', open);
@@ -64,7 +178,9 @@
         };
 
         toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')));
-        nav.addEventListener('click', event => { if (event.target.closest('a')) setNav(false); });
+        nav.addEventListener('click', event => {
+            if (event.target.closest('a')) setNav(false);
+        });
         if (backdrop) backdrop.addEventListener('click', () => setNav(false));
 
         document.addEventListener('keydown', event => {
@@ -74,9 +190,7 @@
             }
         });
 
-        // Close the drawer (clearing the scroll lock + backdrop) if the viewport
-        // grows to desktop while it's open, so neither lingers on the inline nav.
-        const desktop = window.matchMedia('(min-width: 961px)');
+        const desktop = window.matchMedia('(min-width: 1025px)');
         const onDesktop = event => { if (event.matches) setNav(false); };
         if (desktop.addEventListener) desktop.addEventListener('change', onDesktop);
         else if (desktop.addListener) desktop.addListener(onDesktop);
@@ -85,28 +199,24 @@
     function initReveal() {
         const elements = document.querySelectorAll('.reveal');
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-            elements.forEach(element => element.classList.add('in-view'));
+            elements.forEach(el => el.classList.add('in-view'));
             return;
         }
-
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
                 entry.target.classList.add('in-view');
                 observer.unobserve(entry.target);
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -42px' });
-
-        elements.forEach(element => observer.observe(element));
+        }, { threshold: 0.05, rootMargin: '0px 0px -20px' });
+        elements.forEach(el => observer.observe(el));
     }
 
-    const FANCY_TARGETS = 'a, button, .project-row, .paper-card, .practice-card, .timeline-item, .writing-row, .competition-row, .nav-toggle';
-    const TILT_TARGETS = '.project-row, .paper-card, .practice-card, .timeline-item';
+    // ── Subtle Monochrome Cursor (no 3D card tilt) ──────────────────
+    const CURSOR_TARGETS = 'a, button, .cv-expandable, .writing-row__mirror, .nav-toggle';
 
-    // Custom cursor: an instant dot + a trailing ring that swells over interactive
-    // elements. Native cursor is hidden only while this is active.
     function initCursor() {
-        if (!allowFancy) return;
+        if (!allowFancyCursor) return;
         const dot = document.querySelector('.cursor-dot');
         const ring = document.querySelector('.cursor-ring');
         if (!dot || !ring) return;
@@ -120,8 +230,8 @@
         let raf = 0;
 
         const loop = () => {
-            ringX += (mouseX - ringX) * 0.18;
-            ringY += (mouseY - ringY) * 0.18;
+            ringX += (mouseX - ringX) * 0.22;
+            ringY += (mouseY - ringY) * 0.22;
             ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
             if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
                 raf = requestAnimationFrame(loop);
@@ -139,10 +249,10 @@
         }, { passive: true });
 
         document.addEventListener('pointerover', event => {
-            if (event.target.closest(FANCY_TARGETS)) ring.classList.add('cursor-hover');
+            if (event.target.closest(CURSOR_TARGETS)) ring.classList.add('cursor-hover');
         }, { passive: true });
         document.addEventListener('pointerout', event => {
-            if (event.target.closest(FANCY_TARGETS)) ring.classList.remove('cursor-hover');
+            if (event.target.closest(CURSOR_TARGETS)) ring.classList.remove('cursor-hover');
         }, { passive: true });
 
         document.addEventListener('mouseleave', () => {
@@ -155,310 +265,11 @@
         });
     }
 
-    // Subtle 3D tilt on cards. Uses event delegation so rows injected after the
-    // GitHub/OpenReview fetch are covered without re-binding. JS writes --rx/--ry;
-    // cosmic.css applies the perspective transform when <body> has .allow-tilt.
-    function initTilt() {
-        if (!allowFancy) return;
-        document.body.classList.add('allow-tilt');
-        const MAX = 6;
-
-        document.addEventListener('pointermove', event => {
-            const card = event.target.closest(TILT_TARGETS);
-            if (!card) return;
-            const rect = card.getBoundingClientRect();
-            const px = (event.clientX - rect.left) / rect.width - 0.5;
-            const py = (event.clientY - rect.top) / rect.height - 0.5;
-            card.style.setProperty('--ry', `${(px * MAX).toFixed(2)}deg`);
-            card.style.setProperty('--rx', `${(-py * MAX).toFixed(2)}deg`);
-        }, { passive: true });
-
-        document.addEventListener('pointerout', event => {
-            const card = event.target.closest(TILT_TARGETS);
-            if (!card || card.contains(event.relatedTarget)) return;
-            card.style.setProperty('--rx', '0deg');
-            card.style.setProperty('--ry', '0deg');
-        }, { passive: true });
-    }
-
-    // Light scroll parallax on the hero glow for depth (rAF-throttled).
-    function initParallax() {
-        if (!allowFancy) return;
-        const grid = document.querySelector('.hero-grid');
-        if (!grid) return;
-        let ticking = false;
-
-        const update = () => {
-            grid.style.transform = `translateY(${window.scrollY * 0.12}px)`;
-            ticking = false;
-        };
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                ticking = true;
-                requestAnimationFrame(update);
-            }
-        }, { passive: true });
-    }
-
-    class HeroField {
-        constructor(canvas) {
-            this.canvas = canvas;
-            this.ctx = canvas.getContext('2d');
-            this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-            this.points = [];
-            this.time = 0;
-            this.mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-            this.resize = this.resize.bind(this);
-            this.animate = this.animate.bind(this);
-            this.draw = this.draw.bind(this);
-            this.init();
-        }
-
-        init() {
-            this.resize();
-            window.addEventListener('resize', this.resize, { passive: true });
-            this.canvas.addEventListener('pointermove', event => {
-                const rect = this.canvas.getBoundingClientRect();
-                this.mouse.tx = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-                this.mouse.ty = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-            }, { passive: true });
-            this.canvas.addEventListener('pointerleave', () => {
-                this.mouse.tx = 0;
-                this.mouse.ty = 0;
-            }, { passive: true });
-
-            if (prefersReducedMotion) this.draw();
-            else this.animate();
-        }
-
-        resize() {
-            const rect = this.canvas.getBoundingClientRect();
-            this.width = Math.max(320, rect.width || window.innerWidth);
-            this.height = Math.max(460, rect.height || window.innerHeight);
-            this.canvas.width = Math.floor(this.width * this.pixelRatio);
-            this.canvas.height = Math.floor(this.height * this.pixelRatio);
-            this.ctx.setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
-            const count = this.width < 760 ? 38 : 78;
-            this.points = Array.from({ length: count }, (_, index) => ({
-                x: Math.random() * this.width,
-                y: Math.random() * this.height,
-                vx: (Math.random() - 0.5) * 0.22,
-                vy: (Math.random() - 0.5) * 0.22,
-                size: index % 9 === 0 ? 2.7 : 1.4 + Math.random() * 1.6,
-                accent: index % 11 === 0
-            }));
-            this.draw();
-        }
-
-        draw() {
-            const ctx = this.ctx;
-            ctx.clearRect(0, 0, this.width, this.height);
-            this.mouse.x += (this.mouse.tx - this.mouse.x) * 0.055;
-            this.mouse.y += (this.mouse.ty - this.mouse.y) * 0.055;
-
-            this.points.forEach(point => {
-                if (!prefersReducedMotion) {
-                    point.x += point.vx + this.mouse.x * 0.012;
-                    point.y += point.vy + this.mouse.y * 0.012;
-                    if (point.x < -20) point.x = this.width + 20;
-                    if (point.x > this.width + 20) point.x = -20;
-                    if (point.y < -20) point.y = this.height + 20;
-                    if (point.y > this.height + 20) point.y = -20;
-                }
-            });
-
-            for (let i = 0; i < this.points.length; i++) {
-                for (let j = i + 1; j < this.points.length; j++) {
-                    const a = this.points[i];
-                    const b = this.points[j];
-                    const dx = a.x - b.x;
-                    const dy = a.y - b.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const max = this.width < 760 ? 95 : 145;
-                    if (dist < max) {
-                        ctx.beginPath();
-                        ctx.moveTo(a.x, a.y);
-                        ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = `rgba(245,245,245,${(1 - dist / max) * 0.18})`;
-                        ctx.lineWidth = 0.8;
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            this.points.forEach(point => {
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-                ctx.fillStyle = point.accent ? 'rgba(245,245,245,0.9)' : 'rgba(245,245,245,0.45)';
-                ctx.fill();
-            });
-        }
-
-        animate() {
-            this.time += 16;
-            // Skip the (O(n^2)) draw while the fallback canvas is hidden — e.g.
-            // once the 3D transformer takes over and sets display:none on it.
-            if (!document.hidden && this.canvas.offsetParent !== null) this.draw();
-            requestAnimationFrame(this.animate);
-        }
-    }
-
+    // ── Data Helpers ────────────────────────────────────────────────
     async function fetchJson(url, options) {
         const response = await fetch(url, options);
         if (!response.ok) throw new Error(`${url} returned ${response.status}`);
         return response.json();
-    }
-
-    function readRepoCache() {
-        try {
-            const cached = JSON.parse(localStorage.getItem(repoCacheKey));
-            if (!cached || Date.now() - cached.timestamp > repoCacheDuration) return null;
-            return cached.data;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    function writeRepoCache(data) {
-        try {
-            localStorage.setItem(repoCacheKey, JSON.stringify({ data, timestamp: Date.now() }));
-        } catch (error) {
-            // Browsers may block storage in private mode; fetching still works.
-        }
-    }
-
-    async function loadGitHubProjects() {
-        const list = document.getElementById('project-list');
-        const source = document.getElementById('github-source');
-        const sync = document.getElementById('github-sync');
-        const count = document.getElementById('github-count');
-        if (!list) return;
-
-        try {
-            let data = readRepoCache();
-            if (!data) {
-                const [user, repos] = await Promise.all([
-                    fetchJson(`https://api.github.com/users/${PROFILE.githubUser}`),
-                    fetchJson(`https://api.github.com/users/${PROFILE.githubUser}/repos?sort=updated&per_page=30`)
-                ]);
-                data = { user, repos };
-                writeRepoCache(data);
-            } else if (source) {
-                source.textContent = 'GitHub API cache';
-            }
-
-            const repos = (data.repos || [])
-                .filter(repo => !repo.fork && repo.name !== PROFILE.githubUser && repo.name !== `${PROFILE.githubUser}.github.io`)
-                .sort((a, b) => scoreRepo(b) - scoreRepo(a))
-                .slice(0, 6);
-
-            if (count) count.textContent = `${data.user.public_repos || repos.length} public repos`;
-            if (sync) sync.textContent = new Date().toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-            if (!repos.length) {
-                list.innerHTML = `<div class="empty-state">No public repositories were returned. Visit <a href="${PROFILE.githubUrl}" target="_blank" rel="noopener noreferrer">GitHub</a>.</div>`;
-                return;
-            }
-
-            list.innerHTML = repos.map(repo => renderRepo(repo)).join('');
-        } catch (error) {
-            if (source) source.textContent = 'Fallback link';
-            if (sync) sync.textContent = 'Unavailable';
-            if (count) count.textContent = 'View profile';
-            list.innerHTML = `
-                <div class="error-state">
-                    GitHub data could not be loaded from this browser. Open the full project list at
-                    <a href="${PROFILE.githubUrl}" target="_blank" rel="noopener noreferrer">github.com/${PROFILE.githubUser}</a>.
-                </div>
-            `;
-        }
-    }
-
-    function scoreRepo(repo) {
-        const updated = new Date(repo.pushed_at || repo.updated_at || 0).getTime();
-        const recency = Number.isFinite(updated) ? updated / 100000000000 : 0;
-        return (repo.stargazers_count || 0) * 10 + (repo.forks_count || 0) * 3 + recency;
-    }
-
-    function renderRepo(repo) {
-        const topics = Array.isArray(repo.topics) ? repo.topics.slice(0, 3) : [];
-        const updated = repo.pushed_at || repo.updated_at;
-        const meta = [
-            repo.language || 'Code',
-            `${repo.stargazers_count || 0} stars`,
-            `${repo.forks_count || 0} forks`,
-            updated ? `Updated ${formatDate(updated)}` : null
-        ].filter(Boolean);
-
-        return `
-            <a class="project-row" href="${escapeAttr(repo.html_url)}" target="_blank" rel="noopener noreferrer">
-                <div>
-                    <h3>${escapeHtml(repo.name)}</h3>
-                    <p>${escapeHtml(repo.description || 'Public GitHub project from the live repository feed.')}</p>
-                    <div class="project-meta">
-                        ${meta.map(item => `<span>${escapeHtml(item)}</span>`).join('')}
-                        ${topics.map(topic => `<span class="topic-pill">${escapeHtml(topic)}</span>`).join('')}
-                    </div>
-                </div>
-                <span class="project-arrow" aria-hidden="true">-></span>
-            </a>
-        `;
-    }
-
-    async function loadPublications() {
-        const list = document.getElementById('publication-list');
-        const sync = document.getElementById('publication-sync');
-        if (!list) return;
-
-        let data = readInlineJson('publications-data', { publications: [] });
-        try {
-            if (window.location.protocol !== 'file:') {
-                data = await fetchJson('data/publications.json');
-            }
-        } catch (error) {
-            // Inline JSON is kept as a static fallback and is updated by the workflow.
-        }
-
-        const figures = await loadPaperFigures();
-        const publications = Array.isArray(data.publications) ? data.publications : [];
-        if (sync) {
-            const label = data.lastUpdated ? `Updated ${formatDate(data.lastUpdated)}` : 'Static profile data';
-            sync.textContent = `${label} - ${publications.length} items`;
-        }
-
-        if (!publications.length) {
-            list.innerHTML = `
-                <div class="empty-state">
-                    No publications are available in the local feed yet. Open
-                    <a href="${PROFILE.openReviewUrl}" target="_blank" rel="noopener noreferrer">OpenReview</a>.
-                </div>
-            `;
-            return;
-        }
-
-        let page = 0;
-        const renderPage = () => {
-            const slice = publications.slice(page * PAGE_SIZES.publications, (page + 1) * PAGE_SIZES.publications);
-            list.innerHTML = slice.map(pub => renderPublication(pub, figures[pub.id] || {})).join('');
-            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
-            mountPager(list, publications.length, PAGE_SIZES.publications, page, (p) => { page = p; renderPage(); });
-        };
-        renderPage();
-    }
-
-    // Figure/link extras per paper, keyed by OpenReview id. Auto-extracted from the
-    // paper PDFs by scripts/fetch-paper-figures.mjs; manual entries win.
-    async function loadPaperFigures() {
-        let data = readInlineJson('paper-figures-data', { figures: {} });
-        try {
-            if (window.location.protocol !== 'file:') {
-                data = await fetchJson('data/paper-figures.json');
-            }
-        } catch (error) {
-            // Inline fallback already covers it.
-        }
-        return data && data.figures ? data.figures : {};
     }
 
     function readInlineJson(id, fallback) {
@@ -470,35 +281,39 @@
         }
     }
 
-    // Hero quick-stats cell: counts read from the same inline JSON blocks the sections
-    // render from, so the numbers track the daily syncs. Keeps the static fallback text
-    // if anything is missing.
-    function renderHeroStats() {
-        const el = document.getElementById('hero-stats');
-        if (!el) return;
-        const pubs = readInlineJson('publications-data', { publications: [] });
-        const profs = readInlineJson('profiles-data', {});
-        const writes = readInlineJson('writings-data', { writings: [] });
-        const kg = profs.kaggle || {};
-        const lc = profs.leetcode || {};
-        const bits = [
-            pubs.publications.length ? `${pubs.publications.length} papers` : null,
-            kg.tier ? `Kaggle ${kg.tier}` : null,
-            Array.isArray(kg.competitionList) && kg.competitionList.length ? `${kg.competitionList.length} comps` : null,
-            lc.solved != null ? `LeetCode ${lc.solved}` : null,
-            writes.writings.length ? `${writes.writings.length} articles` : null,
-        ].filter(Boolean);
-        if (bits.length) el.textContent = bits.join(' · ');
+    function formatDate(value) {
+        try {
+            return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value));
+        } catch (error) {
+            return String(value);
+        }
     }
 
-    const SELF_NAMES = ['Ho Tin Ko', 'KO Ho Tin'];
+    function formatMonthYear(value) {
+        try {
+            return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short' }).format(new Date(value));
+        } catch (error) {
+            return String(value);
+        }
+    }
 
-    // ── List pagination ─────────────────────────────────────
-    // Shared mini-pager for the lists that grow over time (papers, articles,
-    // competitions): each renders at most one page of rows and the control only
-    // appears when the data outgrows a page, so sections stay bounded as the daily
-    // syncs append new items. GitHub projects are already capped at a fixed top-6.
-    const PAGE_SIZES = { publications: 5, writings: 6, competitions: 6 };
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    function escapeAttr(value) {
+        return escapeHtml(value);
+    }
+
+    function normalizeTags(tags) {
+        if (!Array.isArray(tags)) return [];
+        return tags.flatMap(tag => String(tag).split(';')).map(tag => tag.trim()).filter(Boolean);
+    }
 
     function mountPager(list, total, perPage, page, onPage) {
         let pager = list.nextElementSibling;
@@ -521,259 +336,589 @@
         });
     }
 
+    // ── Shared Expandable Rows (Publications & Competitions) ────────
+    function initExpandableRows() {
+        const toggleRow = row => {
+            const open = row.classList.toggle('is-open');
+            row.setAttribute('aria-expanded', String(open));
+            row.querySelectorAll('.cv-drawer').forEach(drawer => {
+                drawer.hidden = !open;
+            });
+            const icon = row.querySelector('.cv-expand-icon');
+            if (icon) {
+                const openLabel = icon.dataset.openLabel || '−';
+                const closedLabel = icon.dataset.closedLabel || '+';
+                icon.textContent = open ? openLabel : closedLabel;
+                if (icon.tagName === 'BUTTON') {
+                    icon.setAttribute('aria-expanded', String(open));
+                }
+            }
+        };
+
+        document.addEventListener('click', event => {
+            const toggleBtn = event.target.closest('.pub-abstract-toggle, .comp-detail-toggle');
+            if (toggleBtn) {
+                const row = toggleBtn.closest('.cv-expandable');
+                if (row) toggleRow(row);
+                return;
+            }
+            const row = event.target.closest('.cv-expandable');
+            if (!row || event.target.closest('a, button')) return;
+            toggleRow(row);
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const row = event.target.closest('.cv-expandable');
+            if (!row || row !== event.target || event.target.closest('a, button')) return;
+            event.preventDefault();
+            toggleRow(row);
+        });
+    }
+
+    // ── 03. Selected Publications (Figure-Left + Clean Action Pills) ─
+    async function loadPaperFigures() {
+        let data = readInlineJson('paper-figures-data', { figures: {} });
+        try {
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/paper-figures.json');
+            }
+        } catch (error) { /* inline fallback */ }
+        return data && data.figures ? data.figures : {};
+    }
+
     function renderAuthors(publication) {
         const list = Array.isArray(publication.authors) && publication.authors.length ? publication.authors : ['Ho Tin Ko'];
         const equal = new Set(Array.isArray(publication.equalContribution) ? publication.equalContribution : []);
         return list
             .map(name => {
                 const star = equal.has(name) ? '<sup>*</sup>' : '';
-                return SELF_NAMES.includes(name) ? `<strong>${escapeHtml(name)}${star}</strong>` : `${escapeHtml(name)}${star}`;
+                return SELF_NAMES.includes(name)
+                    ? `<strong class="pub-self-author">${escapeHtml(name)}${star}</strong>`
+                    : `${escapeHtml(name)}${star}`;
             })
             .join(', ');
     }
 
+    function formatVenueDisplay(venue, year) {
+        const v = String(venue || '').trim();
+        if (/ACL\s*2026/i.test(v)) {
+            return { full: 'ACL 2026 System Demonstrations', badge: 'ACL 2026 Demo' };
+        }
+        if (/ICLR\s*2026/i.test(v)) {
+            return { full: 'International Conference on Learning Representations (ICLR), 2026', badge: 'ICLR 2026' };
+        }
+        if (/GenAI in Finance/i.test(v) || /NeurIPS\s*2025/i.test(v)) {
+            return { full: 'NeurIPS 2025 Workshop on Generative AI in Finance', badge: 'NeurIPS 2025 WS' };
+        }
+        return { full: year ? `${v || 'Publication'}, ${year}` : (v || 'Publication'), badge: year ? String(year) : 'Paper' };
+    }
+
     function renderPublication(publication, figure) {
         const title = publication.title || 'Untitled publication';
+        const vInfo = formatVenueDisplay(publication.venue, publication.year);
         const tags = normalizeTags(publication.tags).slice(0, 4);
-        const meta = [publication.venue || 'OpenReview', publication.year || null, publication.status || null].filter(Boolean);
-        const abstract = publication.abstract || 'Research publication available on OpenReview.';
-        const isLongAbstract = abstract.length > 260;
-        const abstractPreview = isLongAbstract ? abstract.slice(0, 257) : abstract;
+        const abstract = publication.abstract || 'Research publication available online.';
+        const hasEqual = Array.isArray(publication.equalContribution) && publication.equalContribution.length > 0;
 
-        // Venue page label follows the actual host (OpenReview vs ACL Anthology).
         const pubUrl = publication.openreviewUrl || PROFILE.openReviewUrl;
         const pubLabel = pubUrl.includes('openreview.net') ? 'OpenReview'
-            : pubUrl.includes('aclanthology.org') ? 'Anthology' : 'Link';
+            : pubUrl.includes('aclanthology.org') ? 'Anthology' : 'Paper';
         const links = [
             figure.pdfUrl ? ['PDF', figure.pdfUrl] : null,
             [pubLabel, pubUrl],
             figure.projectUrl ? ['Project', figure.projectUrl] : null,
-            figure.codeUrl ? ['Code', figure.codeUrl] : null,
-        ].filter(item => item && item[0]);
+            figure.codeUrl ? ['Code', figure.codeUrl] : null
+        ].filter(Boolean);
+
+        const figSrc = figure.src ? `${figure.src}${figure.src.includes('?') ? '&' : '?'}v=2` : '';
 
         return `
-        <article class="paper-card reveal" tabindex="0" aria-expanded="false" data-full="${escapeAttr(abstract)}" data-preview="${escapeAttr(abstractPreview + (isLongAbstract ? '…' : ''))}">
-            ${figure.src ? `
-            <figure class="paper-card__media">
-                <img src="${escapeAttr(figure.src)}" alt="${escapeAttr(figure.caption || `Figure from ${title}`)}" loading="lazy" decoding="async">
-                <figcaption>${escapeHtml(figure.caption || '')}</figcaption>
-            </figure>` : ''}
-            <div class="paper-card__body">
-                <h3>${escapeHtml(title)}</h3>
-                <p class="paper-card__authors">${renderAuthors(publication)}</p>
-                ${(Array.isArray(publication.equalContribution) && publication.equalContribution.length)
-                    ? '<p class="paper-card__equal">* Equal contribution (co-first author)</p>' : ''}
-                <div class="publication-meta">
-                    ${meta.map(item => `<span>${escapeHtml(String(item))}</span>`).join('')}
-                    ${tags.map(tag => `<span class="topic-pill">${escapeHtml(tag)}</span>`).join('')}
+        <article class="pub-row cv-expandable" tabindex="0" aria-expanded="false">
+            <figure class="pub-row__thumb">
+                ${figSrc
+                    ? `<div class="pub-row__plate">
+                           <img src="${escapeAttr(figSrc)}" alt="${escapeAttr(figure.caption || `Architecture figure for ${title}`)}" loading="lazy" decoding="async">
+                       </div>`
+                    : `<div class="pub-row__plate pub-row__plate--placeholder"><span>${escapeHtml(vInfo.badge)}</span></div>`}
+            </figure>
+            <div class="pub-row__body">
+                <div class="pub-row__top">
+                    <h3 class="pub-row__title"><a href="${escapeAttr(pubUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a></h3>
+                    <span class="pub-venue-pill">${escapeHtml(vInfo.badge)}</span>
                 </div>
-                <p class="paper-card__abstract">${escapeHtml(abstractPreview)}${isLongAbstract ? '&hellip;' : ''}</p>
-                <div class="paper-card__links">
-                    ${links.map(([label, url]) => `<a class="paper-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`).join('')}
+                <p class="pub-row__authors">${renderAuthors(publication)}${hasEqual ? ' <span class="pub-row__equal">(* equal contribution)</span>' : ''}</p>
+                <p class="pub-row__venue"><em>${escapeHtml(vInfo.full)}</em></p>
+                <div class="pub-row__footer">
+                    <div class="pub-row__links">
+                        ${links.map(([label, url]) => `<a class="pub-action-pill" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ↗</a>`).join('')}
+                        <button type="button" class="pub-action-pill pub-abstract-toggle cv-expand-icon" data-closed-label="Abstract +" data-open-label="Abstract −" aria-expanded="false">Abstract +</button>
+                    </div>
+                    ${tags.length ? `<div class="cv-tag-row">${tags.map(tag => `<span class="cv-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
+                </div>
+                <div class="pub-row__drawer cv-drawer" hidden>
+                    <p class="pub-row__abstract">${escapeHtml(abstract)}</p>
+                    ${figure.caption ? `<p class="pub-row__caption">${escapeHtml(figure.caption)}</p>` : ''}
                 </div>
             </div>
-            <span class="publication-arrow" aria-hidden="true">+</span>
         </article>`;
     }
 
-    function normalizeTags(tags) {
-        if (!Array.isArray(tags)) return [];
-        return tags.flatMap(tag => String(tag).split(';')).map(tag => tag.trim()).filter(Boolean);
-    }
+    async function loadPublications() {
+        const list = document.getElementById('publication-list');
+        const sync = document.getElementById('publication-sync');
+        if (!list) return;
 
-    function formatDate(value) {
+        let data = readInlineJson('publications-data', { publications: [] });
         try {
-            return new Intl.DateTimeFormat([], { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value));
-        } catch (error) {
-            return String(value);
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/publications.json');
+            }
+        } catch (error) { /* inline fallback */ }
+
+        const figures = await loadPaperFigures();
+        const publications = Array.isArray(data.publications) ? data.publications : [];
+        if (sync) {
+            sync.textContent = `${publications.length} paper${publications.length === 1 ? '' : 's'} · click Abstract + to read summary`;
         }
-    }
 
-    function escapeHtml(value) {
-        return String(value)
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#039;');
-    }
+        if (!publications.length) {
+            list.innerHTML = `<div class="empty-state">No publications in local feed. View <a href="${PROFILE.openReviewUrl}" target="_blank" rel="noopener noreferrer">OpenReview</a>.</div>`;
+            return;
+        }
 
-    function escapeAttr(value) {
-        return escapeHtml(value);
-    }
-
-    function initPublicationExpand() {
-        const toggleRow = row => {
-            const p = row.querySelector('.paper-card__abstract');
-            if (!p) return;
-            const open = row.classList.toggle('is-open');
-            p.textContent = open ? row.dataset.full : row.dataset.preview;
-            row.setAttribute('aria-expanded', String(open));
-            const arrow = row.querySelector('.publication-arrow');
-            if (arrow) arrow.textContent = open ? '–' : '+';
+        let page = 0;
+        const renderPage = () => {
+            const slice = publications.slice(page * PAGE_SIZES.publications, (page + 1) * PAGE_SIZES.publications);
+            list.innerHTML = slice.map(pub => renderPublication(pub, figures[pub.id] || {})).join('');
+            mountPager(list, publications.length, PAGE_SIZES.publications, page, p => { page = p; renderPage(); });
         };
-        document.addEventListener('click', event => {
-            const row = event.target.closest('.paper-card');
-            if (!row || event.target.closest('a')) return;
-            toggleRow(row);
-        });
-        document.addEventListener('keydown', event => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            const row = event.target.closest('.paper-card');
-            if (!row || row !== event.target || event.target.closest('a')) return;
-            event.preventDefault();
-            toggleRow(row);
+        renderPage();
+    }
+
+    // ── 04. Competitions & Practice (Kaggle + LeetCode) ─────────────
+    function renderKaggleSummary(kg) {
+        const tier = kg.tier || 'Contributor';
+        const idx = Math.max(0, TIER_LADDER.indexOf(tier));
+        const comps = Array.isArray(kg.competitionList) ? kg.competitionList : [];
+        const medals = comps.reduce((acc, c) => {
+            const m = String(c.medal || '').toLowerCase();
+            if (m === 'gold' || m === 'silver' || m === 'bronze') acc[m] = (acc[m] || 0) + 1;
+            return acc;
+        }, {});
+        const pcts = comps
+            .map(c => {
+                const r = c.privateRank ?? c.rank;
+                return (r != null && c.teamCount) ? (r / c.teamCount) * 100 : null;
+            })
+            .filter(v => v != null);
+        const bestPct = pcts.length ? Math.min(...pcts) : null;
+
+        const medalBits = [
+            medals.gold ? `${medals.gold} Gold` : null,
+            medals.silver ? `${medals.silver} Silver Medal` : null,
+            medals.bronze ? `${medals.bronze} Bronze` : null
+        ].filter(Boolean);
+        const metaBits = [
+            ...medalBits,
+            bestPct != null ? `Best Top ${Math.max(bestPct, 0.1).toFixed(1)}%` : null,
+            comps.length ? `${comps.length} entered` : null,
+            kg.badges != null ? `${kg.badges} badges` : null,
+            kg.memberSince != null ? `since ${kg.memberSince}` : null
+        ].filter(Boolean).join(' · ');
+
+        const dots = TIER_LADDER.map((name, i) => {
+            const cls = i === idx ? ' is-current' : (i < idx ? ' is-passed' : '');
+            return `<span class="mini-tier__node${cls}" title="${escapeAttr(name)}">${escapeHtml(TIER_ABBR[name] || name)}</span>`;
+        }).join('');
+
+        return `
+        <a class="cv-summary-cell" href="${escapeAttr(kg.url || 'https://www.kaggle.com/b14ckc4tmr')}" target="_blank" rel="noopener noreferrer">
+            <div class="cv-summary-cell__top">
+                <span class="cv-summary-cell__label">Kaggle · @${escapeHtml(kg.handle || 'b14ckc4tmr')}</span>
+                <span class="cv-link-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="cv-summary-cell__main">
+                <strong>${escapeHtml(tier)}</strong>
+                <span class="mini-tier" aria-label="Kaggle tier ${escapeAttr(tier)}">${dots}</span>
+            </div>
+            <p class="cv-summary-cell__meta">${escapeHtml(metaBits)}</p>
+        </a>`;
+    }
+
+    function renderLeetSummary(lc) {
+        const d = lc.byDifficulty || {};
+        const easy = d.easy || 0;
+        const medium = d.medium || 0;
+        const hard = d.hard || 0;
+        const total = easy + medium + hard;
+        const solved = lc.solved != null ? lc.solved : total;
+        const pct = v => (total > 0 ? ((v / total) * 100).toFixed(1) : '0');
+        const metaBits = [
+            `${easy} Easy · ${medium} Med · ${hard} Hard`,
+            lc.submissions != null ? `${lc.submissions} submissions` : null
+        ].filter(Boolean).join(' · ');
+
+        return `
+        <a class="cv-summary-cell" href="${escapeAttr(lc.url || 'https://leetcode.com/u/B143KC47/')}" target="_blank" rel="noopener noreferrer">
+            <div class="cv-summary-cell__top">
+                <span class="cv-summary-cell__label">LeetCode · @${escapeHtml(lc.handle || 'B143KC47')}</span>
+                <span class="cv-link-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="cv-summary-cell__main">
+                <strong>${escapeHtml(String(solved))} solved</strong>
+                <span class="mini-diffbar" role="img" aria-label="${easy} Easy, ${medium} Medium, ${hard} Hard">
+                    <span class="mini-diffbar__seg mini-diffbar__seg--easy" style="width:${pct(easy)}%"></span>
+                    <span class="mini-diffbar__seg mini-diffbar__seg--med" style="width:${pct(medium)}%"></span>
+                    <span class="mini-diffbar__seg mini-diffbar__seg--hard" style="width:${pct(hard)}%"></span>
+                </span>
+            </div>
+            <p class="cv-summary-cell__meta">${escapeHtml(metaBits)}</p>
+        </a>`;
+    }
+
+    function sortCompetitionsForCv(comps) {
+        return [...comps].sort((a, b) => {
+            const ma = MEDAL_ORDER[String(a.medal || '').toLowerCase()] ?? 99;
+            const mb = MEDAL_ORDER[String(b.medal || '').toLowerCase()] ?? 99;
+            if (ma !== mb) return ma - mb;
+
+            const rankA = a.privateRank ?? a.rank;
+            const rankB = b.privateRank ?? b.rank;
+            const hasRankA = rankA != null && a.teamCount;
+            const hasRankB = rankB != null && b.teamCount;
+            if (hasRankA !== hasRankB) return hasRankA ? -1 : 1;
+            if (hasRankA && hasRankB) {
+                const pctA = rankA / a.teamCount;
+                const pctB = rankB / b.teamCount;
+                if (Math.abs(pctA - pctB) > 0.0001) return pctA - pctB;
+            }
+            return (b.submissions || 0) - (a.submissions || 0);
         });
     }
 
-    // ── Practice trail (LeetCode + Kaggle) ──────────────────────────
-    // Static, honest "where I practice" cards rendered from the inline
-    // #profiles-data block (same idiom as #publications-data). We show counts
-    // of things done and omit floor-level ranks/reputation by design.
-    const TIER_LADDER = ['Novice', 'Contributor', 'Expert', 'Master', 'Grandmaster'];
-    const TIER_ABBR = { Novice: 'Nov', Contributor: 'Con', Expert: 'Exp', Master: 'Mas', Grandmaster: 'GM' };
-
-    function readInlineProfiles() {
-        try {
-            const script = document.getElementById('profiles-data');
-            return script ? JSON.parse(script.textContent) : null;
-        } catch (error) {
-            return null;
+    function resolveCompOrgLogo(c) {
+        if (String(c.organization || '').toLowerCase() === 'kaggle') {
+            return 'assets/logos/kaggle.svg?v=2';
         }
+        return c.orgLogo || '';
+    }
+
+    function renderCompetition(c) {
+        const writeups = Array.isArray(c.writeups) ? c.writeups : [];
+        const url = c.url || 'https://www.kaggle.com/b14ckc4tmr/competitions';
+        const orgLogoSrc = resolveCompOrgLogo(c);
+        const medal = ['gold', 'silver', 'bronze'].includes(String(c.medal || '').toLowerCase())
+            ? String(c.medal).toLowerCase()
+            : '';
+        const medalLabel = medal ? `${medal.charAt(0).toUpperCase()}${medal.slice(1)} Medal` : '';
+
+        const yearMatch = String(c.started || c.deadline || '').match(/^\d{4}/);
+        const compYear = yearMatch ? yearMatch[0] : '';
+        const orgMeta = [c.organization || 'Kaggle', c.category || null, compYear || null].filter(Boolean).join(' · ');
+
+        const activeRank = c.privateRank ?? c.rank;
+        const pctVal = (activeRank != null && c.teamCount)
+            ? Math.max((activeRank / c.teamCount) * 100, 0.1)
+            : null;
+        const pctText = pctVal != null ? `Top ${pctVal.toFixed(1)}%` : '';
+
+        const kpiBadge = medal
+            ? `<span class="comp-kpi comp-kpi--medal"><span class="cv-medal__dot" aria-hidden="true"></span>${escapeHtml(medalLabel)}${pctText ? ` · ${escapeHtml(pctText)}` : ''}</span>`
+            : pctVal != null
+                ? `<span class="comp-kpi${pctVal <= 20 ? ' comp-kpi--top' : ''}">${escapeHtml(pctText)}</span>`
+                : `<span class="comp-kpi">${escapeHtml(c.status || 'Entered')}</span>`;
+
+        const hasPrivate = c.privateRank != null && c.teamCount;
+        const rankStr = hasPrivate
+            ? `Private #${c.privateRank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()}`
+            : (c.rank != null && c.teamCount ? `Public #${c.rank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()}` : null);
+        const reward = c.reward ? (/\d/.test(c.reward) ? `$${String(c.reward).replace(/\s*usd/i, '')} prize` : c.reward) : null;
+        const metricSummary = [
+            rankStr,
+            reward,
+            c.submissions ? `${c.submissions} sub${c.submissions === 1 ? '' : 's'}` : null
+        ].filter(Boolean).join(' · ');
+
+        const detailBits = [
+            hasPrivate && c.rank != null && c.rank !== c.privateRank ? `Public rank: #${c.rank.toLocaleString()}` : null,
+            hasPrivate && c.privateScore ? `Private score: ${c.privateScore}` : (c.score ? `Score: ${c.score}` : null),
+            c.teamCount ? `Teams: ${Number(c.teamCount).toLocaleString()}` : null,
+            c.deadline ? `${c.status === 'Ongoing' ? 'Deadline' : 'Concluded'}: ${c.deadline}` : null
+        ].filter(Boolean);
+
+        return `
+        <article class="comp-card cv-expandable" tabindex="0" aria-expanded="false">
+            <div class="comp-card__head">
+                <span class="comp-card__org">
+                    ${orgLogoSrc ? `<img src="${escapeAttr(orgLogoSrc)}" alt="" width="16" height="16" loading="lazy" decoding="async">` : ''}
+                    <span>${escapeHtml(orgMeta)}</span>
+                </span>
+                ${kpiBadge}
+            </div>
+            <h3 class="comp-card__title"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h3>
+            <div class="comp-card__foot">
+                <span class="comp-card__metrics">${escapeHtml(metricSummary)}</span>
+                <button type="button" class="pub-action-pill comp-detail-toggle cv-expand-icon" data-closed-label="Details +" data-open-label="Details −" aria-expanded="false">Details +</button>
+            </div>
+            <div class="comp-card__drawer cv-drawer" hidden>
+                ${detailBits.length ? `<p class="comp-card__details">${escapeHtml(detailBits.join(' · '))}</p>` : ''}
+                <div class="pub-row__links">
+                    <a class="pub-action-pill" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Competition ↗</a>
+                    ${writeups.map(wu => `<a class="pub-action-pill" href="${escapeAttr(wu.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(wu.title || 'Write-up')} ↗</a>`).join('')}
+                </div>
+            </div>
+        </article>`;
+    }
+
+    function renderCompetitions(kg) {
+        const block = document.getElementById('competition-block');
+        const list = document.getElementById('competition-list');
+        const filters = document.getElementById('comp-filters');
+        if (!block || !list) return;
+        const raw = Array.isArray(kg.competitionList) ? kg.competitionList : [];
+        if (!raw.length) return;
+
+        const allSorted = sortCompetitionsForCv(raw);
+        const competitive = allSorted.filter(c => !(c.category === 'Getting Started' && c.rank == null && c.privateRank == null));
+        const hasSplit = competitive.length > 0 && competitive.length < allSorted.length;
+
+        let mode = hasSplit ? 'competitive' : 'all';
+        let page = 0;
+
+        const renderPage = () => {
+            const sourceList = mode === 'competitive' ? competitive : allSorted;
+            const slice = sourceList.slice(page * PAGE_SIZES.competitions, (page + 1) * PAGE_SIZES.competitions);
+            list.innerHTML = slice.map(renderCompetition).join('');
+            mountPager(list, sourceList.length, PAGE_SIZES.competitions, page, p => { page = p; renderPage(); });
+        };
+
+        if (filters && hasSplit) {
+            filters.innerHTML = `
+                <button type="button" class="writing-filter is-active" data-comp-mode="competitive">Ranked (${competitive.length})</button>
+                <button type="button" class="writing-filter" data-comp-mode="all">All (${allSorted.length})</button>`;
+            filters.addEventListener('click', event => {
+                const btn = event.target.closest('[data-comp-mode]');
+                if (!btn) return;
+                filters.querySelectorAll('[data-comp-mode]').forEach(b => b.classList.toggle('is-active', b === btn));
+                mode = btn.dataset.compMode;
+                page = 0;
+                renderPage();
+            });
+        }
+
+        renderPage();
+        block.hidden = false;
     }
 
     async function loadProfiles() {
         const list = document.getElementById('practice-list');
         if (!list) return;
 
-        let data = readInlineProfiles();
+        let data = readInlineJson('profiles-data', null);
         try {
             if (window.location.protocol !== 'file:') {
                 data = await fetchJson('data/profiles.json');
             }
-        } catch (error) {
-            // Inline JSON is kept as a static fallback and is updated by the workflow.
-        }
+        } catch (error) { /* inline fallback */ }
 
         if (!data || (!data.leetcode && !data.kaggle)) {
             list.innerHTML = '<div class="empty-state">Practice profile data is unavailable.</div>';
             return;
         }
 
-        const cards = [];
-        if (data.leetcode) cards.push(renderLeetCard(data.leetcode));
-        if (data.kaggle) cards.push(renderKaggleCard(data.kaggle));
-        list.innerHTML = cards.join('');
-        // Cards are injected after the IntersectionObserver was wired, so reveal them now.
-        list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+        const cells = [];
+        if (data.kaggle) cells.push(renderKaggleSummary(data.kaggle));
+        if (data.leetcode) cells.push(renderLeetSummary(data.leetcode));
+        list.innerHTML = cells.join('');
 
         if (data.kaggle) renderCompetitions(data.kaggle);
     }
 
-    // ── Kaggle competition record ───────────────────────────────────
-    // competitionList (profiles.json -> kaggle) is synced daily by scripts/fetch-kaggle.mjs
-    // via the official API: only competitions with >= 1 submission are kept (mirrors the
-    // Kaggle profile tab). Covers/organizer logos are local assets; write-ups are curated
-    // per-slug and survive refreshes.
-    function renderCompetitions(kg) {
-        const block = document.getElementById('competition-block');
-        const list = document.getElementById('competition-list');
-        if (!block || !list) return;
-        const comps = Array.isArray(kg.competitionList) ? kg.competitionList : [];
-        if (!comps.length) return;
-
-        let page = 0;
-        const renderPage = () => {
-            const slice = comps.slice(page * PAGE_SIZES.competitions, (page + 1) * PAGE_SIZES.competitions);
-            list.innerHTML = slice.map(renderCompetition).join('');
-            initCompetitionImages(list);
-            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
-            mountPager(list, comps.length, PAGE_SIZES.competitions, page, (p) => { page = p; renderPage(); });
-        };
-        renderPage();
-        block.hidden = false;
+    // ── 05. Selected Open-Source Projects (Curated Research + Live GH)
+    function readRepoCache() {
+        try {
+            const cached = JSON.parse(localStorage.getItem(repoCacheKey));
+            if (!cached || Date.now() - cached.timestamp > repoCacheDuration) return null;
+            return cached.data;
+        } catch (error) {
+            return null;
+        }
     }
 
-    function renderCompetition(c) {
-        const writeups = Array.isArray(c.writeups) ? c.writeups : [];
-        const url = c.url || 'https://www.kaggle.com/b14ckc4tmr/competitions';
-        const initials = String(c.name || 'K').split(/[\s\-–—]+/).filter(Boolean)
-            .slice(0, 2).map(s => s.charAt(0)).join('').toUpperCase();
-        const generatedCover = c.slug ? `assets/competitions/gen-${c.slug}.png` : '';
-        const fallbackCover = c.image && c.image !== generatedCover ? generatedCover : '';
-        const medal = ['gold', 'silver', 'bronze'].includes(String(c.medal || '').toLowerCase())
-            ? String(c.medal).toLowerCase()
-            : '';
-        const medalLabel = medal ? `${medal.charAt(0).toUpperCase()}${medal.slice(1)} medal` : '';
-        const rankOf = (r) => `${r} / ${Number(c.teamCount).toLocaleString()} (top ${(Math.max(r / c.teamCount, 0.0001) * 100).toFixed(1)}%)`;
-        // Ended comps carry the final private-leaderboard rank — that's the result that
-        // counts; the public rank stays as a secondary reference when it differs.
-        const hasPrivate = c.privateRank != null && c.teamCount;
-        const rankPart = hasPrivate
-            ? `Private rank ${rankOf(c.privateRank)}`
-            : c.rank != null && c.teamCount ? `Rank ${rankOf(c.rank)}` : null;
-        const stats = [
-            rankPart,
-            hasPrivate && c.rank != null && c.rank !== c.privateRank ? `public rank ${c.rank}` : null,
-            hasPrivate && c.privateScore ? `score ${c.privateScore}` : (c.score ? `score ${c.score}` : null),
-            c.submissions ? `${c.submissions} submission${c.submissions === 1 ? '' : 's'}` : null,
+    function writeRepoCache(data) {
+        try {
+            localStorage.setItem(repoCacheKey, JSON.stringify({ data, timestamp: Date.now() }));
+        } catch (error) { /* storage blocked */ }
+    }
+
+    function renderRepo(repo) {
+        const topics = Array.isArray(repo.topics) ? repo.topics.slice(0, 3) : [];
+        const updated = repo.pushed_at || repo.updated_at;
+        const stars = repo.stargazers_count || 0;
+        const forks = repo.forks_count || 0;
+        const owner = repo.owner && typeof repo.owner === 'object' ? repo.owner.login : (repo.owner || PROFILE.githubUser);
+        const metaParts = [
+            repo.language || 'Code',
+            stars > 0 ? `★ ${stars}` : null,
+            forks > 0 ? `⑂ ${forks}` : null,
+            updated ? formatMonthYear(updated) : null
         ].filter(Boolean);
-        const orgLine = [c.organization || null, c.category || null].filter(Boolean).join(' · ');
-        const reward = c.reward ? (/\d/.test(c.reward) ? `$${String(c.reward).replace(/\s*usd/i, '')} prize` : c.reward) : null;
-        const details = [
-            reward,
-            c.teamCount ? `${Number(c.teamCount).toLocaleString()} teams` : null,
-            c.deadline ? `${c.status === 'Ongoing' ? 'ends' : 'ended'} ${c.deadline}` : null,
-        ].filter(Boolean);
+
         return `
-        <article class="comp-card reveal">
-            <a class="comp-card__media" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(c.name || 'Kaggle competition')}">
-                <span class="comp-card__placeholder" aria-hidden="true">${escapeHtml(initials)}</span>
-                ${c.image ? `<img src="${escapeAttr(c.image)}"${fallbackCover ? ` data-fallback-src="${escapeAttr(fallbackCover)}"` : ''} alt="" loading="eager" fetchpriority="low" decoding="async">` : ''}
-                ${c.status ? `<span class="comp-card__status${c.status === 'Ongoing' ? ' comp-card__status--live' : ''}">${escapeHtml(c.status)}</span>` : ''}
-                ${medal ? `<span class="comp-card__medal comp-card__medal--${medal}" aria-label="Official Kaggle ${medalLabel.toLowerCase()}"><span class="comp-card__medal-mark" aria-hidden="true">${medal.charAt(0).toUpperCase()}</span>${medalLabel}</span>` : ''}
-            </a>
-            <div class="comp-card__body">
-                <h4 class="comp-card__name"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h4>
-                ${orgLine ? `
-                <p class="comp-card__org">
-                    ${c.orgLogo ? `<img class="comp-card__logo" src="${escapeAttr(c.orgLogo)}" alt="" loading="lazy" decoding="async">` : ''}
-                    <span>${escapeHtml(orgLine)}</span>
-                </p>` : ''}
-                ${stats.length ? `<p class="comp-card__stats">${escapeHtml(stats.join(' · '))}</p>` : ''}
-                ${details.length ? `<p class="comp-card__meta">${escapeHtml(details.join(' · '))}</p>` : ''}
-                ${writeups.length ? `
-                <p class="comp-card__writeups">
-                    ${writeups.map(wu => `<a class="paper-link" href="${escapeAttr(wu.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(wu.title || 'Write-up')}</a>`).join('')}
-                </p>` : ''}
+        <a class="proj-cell" href="${escapeAttr(repo.html_url)}" target="_blank" rel="noopener noreferrer">
+            <div class="proj-cell__top">
+                <div class="proj-cell__heading">
+                    <span class="proj-cell__owner">${escapeHtml(owner)} /</span>
+                    <h3 class="proj-cell__title">${escapeHtml(repo.name)}</h3>
+                </div>
+                <div class="proj-cell__right">
+                    ${repo.role ? `<span class="proj-cell__role">${escapeHtml(repo.role)}</span>` : ''}
+                    <span class="cv-link-arrow" aria-hidden="true">↗</span>
+                </div>
             </div>
-        </article>`;
+            <p class="proj-cell__desc">${escapeHtml(repo.description || 'Public open-source repository on GitHub.')}</p>
+            <div class="proj-cell__foot">
+                <span class="proj-cell__meta">
+                    <span class="proj-lang-dot" aria-hidden="true"></span>
+                    <span>${escapeHtml(metaParts.join(' · '))}</span>
+                </span>
+                ${topics.length ? `<div class="cv-tag-row">${topics.map(t => `<span class="cv-tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+            </div>
+        </a>`;
     }
 
-    function initCompetitionImages(list) {
-        list.querySelectorAll('.comp-card__media img').forEach(img => {
-            const media = img.closest('.comp-card__media');
-            const showImage = () => media?.classList.add('is-loaded');
-            const handleError = () => {
-                const fallback = img.dataset.fallbackSrc;
-                if (fallback) {
-                    delete img.dataset.fallbackSrc;
-                    img.src = fallback;
-                    return;
-                }
-                media?.classList.add('is-missing');
-            };
-
-            img.addEventListener('load', showImage, { once: true });
-            img.addEventListener('error', handleError);
-            if (img.complete) {
-                if (img.naturalWidth > 0) showImage();
-                else handleError();
-            }
+    function buildMergedProjects(liveRepos) {
+        const byFullName = new Map();
+        (liveRepos || []).forEach(r => {
+            if (!r || !r.full_name) return;
+            byFullName.set(r.full_name.toLowerCase(), r);
         });
+
+        const merged = CURATED_PROJECTS.map(curated => {
+            const live = byFullName.get(curated.fullName.toLowerCase());
+            if (!live) return curated;
+            return {
+                ...curated,
+                stargazers_count: live.stargazers_count ?? curated.stargazers_count,
+                forks_count: live.forks_count ?? curated.forks_count,
+                language: live.language || curated.language,
+                description: (live.description && live.description.trim().length > 18) ? live.description : curated.description,
+                topics: (Array.isArray(live.topics) && live.topics.length) ? live.topics : curated.topics,
+                pushed_at: live.pushed_at || live.updated_at || null
+            };
+        });
+
+        const usedNames = new Set(merged.map(m => m.fullName.toLowerCase()));
+        const extras = (liveRepos || [])
+            .filter(r => r && !r.fork && !usedNames.has(r.full_name.toLowerCase())
+                && r.name !== PROFILE.githubUser && r.name !== `${PROFILE.githubUser}.github.io`)
+            .sort((a, b) => (b.stargazers_count || 0) * 10 - (a.stargazers_count || 0) * 10);
+
+        return [...merged, ...extras.map(r => ({
+            fullName: r.full_name,
+            owner: (r.owner && r.owner.login) || PROFILE.githubUser,
+            name: r.name,
+            role: 'Author',
+            language: r.language || 'Code',
+            description: r.description || 'Public open-source repository on GitHub.',
+            topics: Array.isArray(r.topics) ? r.topics : [],
+            html_url: r.html_url,
+            stargazers_count: r.stargazers_count || 0,
+            forks_count: r.forks_count || 0,
+            pushed_at: r.pushed_at || r.updated_at
+        }))].slice(0, 6);
     }
 
-    // ── Writing (Zhihu / CSDN / blog articles) ──────────────────────
+    async function loadGitHubProjects() {
+        const list = document.getElementById('project-list');
+        const source = document.getElementById('github-source');
+        const sync = document.getElementById('github-sync');
+        const count = document.getElementById('github-count');
+        if (!list) return;
+
+        // Render curated baseline immediately so layout never blocks or shows error boxes
+        let renderedProjects = buildMergedProjects([]);
+        list.innerHTML = renderedProjects.map(renderRepo).join('');
+        if (source) source.textContent = 'CityU-MLO + @B143KC47';
+        if (count) count.textContent = `${renderedProjects.length} featured`;
+        if (sync) sync.textContent = 'Curated';
+
+        try {
+            let data = readRepoCache();
+            if (!data) {
+                const results = await Promise.allSettled([
+                    fetchJson(`https://api.github.com/users/${PROFILE.githubUser}`),
+                    fetchJson(`https://api.github.com/users/${PROFILE.githubUser}/repos?sort=updated&per_page=30`),
+                    fetchJson('https://api.github.com/repos/CityU-MLO/qfinzero'),
+                    fetchJson('https://api.github.com/repos/CityU-MLO/AlphaBench')
+                ]);
+                const user = results[0].status === 'fulfilled' ? results[0].value : null;
+                const userRepos = results[1].status === 'fulfilled' ? results[1].value : [];
+                const orgRepos = [results[2], results[3]]
+                    .filter(r => r.status === 'fulfilled' && r.value)
+                    .map(r => r.value);
+                if (!user && !userRepos.length && !orgRepos.length) throw new Error('GitHub API unreachable');
+                data = { user, repos: [...orgRepos, ...userRepos] };
+                writeRepoCache(data);
+                if (sync) sync.textContent = 'Live metrics';
+            } else if (sync) {
+                sync.textContent = 'Cached metrics';
+            }
+
+            renderedProjects = buildMergedProjects(data.repos || []);
+            if (count && data.user && data.user.public_repos) {
+                count.textContent = `${renderedProjects.length} featured · ${data.user.public_repos} personal repos`;
+            }
+            list.innerHTML = renderedProjects.map(renderRepo).join('');
+        } catch (error) {
+            if (sync) sync.textContent = 'Curated selection';
+        }
+    }
+
+    // ── 06. Writing & Technical Notes ───────────────────────────────
+    function inferWritingContext(w) {
+        const platform = w.platform || 'Other';
+        let rawCat = '';
+        const urlMatch = String(w.url || '').match(/\/blog\/\d{4}\/\d{2}\/\d{2}\/([^/]+)\//i);
+        if (urlMatch && urlMatch[1]) {
+            try { rawCat = decodeURIComponent(urlMatch[1]).trim(); } catch (e) { rawCat = urlMatch[1]; }
+        }
+        const cleanTitle = w.title && BLOG_TITLE_OVERRIDES[w.title] ? BLOG_TITLE_OVERRIDES[w.title] : (w.title || 'Untitled Note');
+        const normalizedCat = CATEGORY_NORMALIZE[rawCat] || rawCat || (platform === 'CSDN' ? 'Deep Learning' : 'Technical Notes');
+        const summary = (w.desc && w.desc.trim())
+            || BLOG_SUMMARY_OVERRIDES[w.title]
+            || (rawCat ? `Technical notes from ${normalizedCat} series.` : `Published on ${platform}.`);
+
+        return {
+            displayTitle: cleanTitle,
+            category: normalizedCat,
+            summary
+        };
+    }
+
+    function renderWriting(w) {
+        const date = w.date ? formatDate(w.date) : '';
+        const platform = w.platform || 'Other';
+        const ctx = inferWritingContext(w);
+
+        return `
+        <a class="writing-cell" href="${escapeAttr(w.url)}" target="_blank" rel="noopener noreferrer" data-platform="${escapeAttr(platform)}">
+            <div class="writing-cell__meta">
+                <span class="writing-cell__cat">${escapeHtml(platform)} · ${escapeHtml(ctx.category)}</span>
+                <time class="writing-cell__date">${escapeHtml(date)}</time>
+            </div>
+            <div class="writing-cell__top">
+                <h3 class="writing-cell__title">${escapeHtml(ctx.displayTitle)}</h3>
+                <span class="cv-link-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="writing-cell__foot">
+                <p class="writing-cell__desc">${escapeHtml(ctx.summary)}</p>
+                ${w.zhihuUrl ? `<span class="pub-bracket-link writing-row__mirror" role="link" tabindex="0" data-href="${escapeAttr(w.zhihuUrl)}" title="Also on Zhihu">[Zhihu ↗]</span>` : ''}
+            </div>
+        </a>`;
+    }
+
     async function loadWritings() {
         const list = document.getElementById('writing-list');
         const filters = document.getElementById('writing-filters');
@@ -785,28 +930,29 @@
             if (window.location.protocol !== 'file:') {
                 data = await fetchJson('data/writings.json');
             }
-        } catch (error) {
-            // Inline JSON is the static fallback.
-        }
+        } catch (error) { /* inline fallback */ }
 
         const writings = Array.isArray(data.writings) ? data.writings : [];
         if (sync) {
-            const label = data.lastUpdated ? `Updated ${formatDate(data.lastUpdated)}` : 'Static data';
-            sync.textContent = `${label} - ${writings.length} articles`;
+            sync.textContent = `${writings.length} notes`;
         }
 
         if (!writings.length) {
             list.innerHTML = `
                 <div class="empty-state">
-                    Articles live on <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>,
-                    <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN</a> and the
-                    <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">BlackCat blog</a>.
-                </div>
-            `;
+                    Articles live on <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog</a>,
+                    <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>, and
+                    <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN</a>.
+                </div>`;
             return;
         }
 
-        const platforms = [...new Set(writings.map(w => w.platform || 'Other'))];
+        const counts = writings.reduce((acc, w) => {
+            const p = w.platform || 'Other';
+            acc[p] = (acc[p] || 0) + 1;
+            return acc;
+        }, {});
+        const platforms = Object.keys(counts);
         let activePlatform = 'All';
         let page = 0;
 
@@ -821,132 +967,46 @@
             }
             const slice = visible.slice(page * PAGE_SIZES.writings, (page + 1) * PAGE_SIZES.writings);
             list.innerHTML = slice.map(renderWriting).join('');
-            list.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
-            mountPager(list, visible.length, PAGE_SIZES.writings, page, (p) => { page = p; renderPage(); });
+            mountPager(list, visible.length, PAGE_SIZES.writings, page, p => { page = p; renderPage(); });
         };
 
         if (filters) {
-            filters.innerHTML = ['All', ...platforms]
-                .map((p, i) => `<button type="button" class="writing-filter${i === 0 ? ' is-active' : ''}" data-platform="${escapeAttr(p)}">${escapeHtml(p)}</button>`)
+            const filterItems = [
+                { key: 'All', label: `All (${writings.length})` },
+                ...platforms.map(p => ({ key: p, label: `${p} (${counts[p]})` }))
+            ];
+            filters.innerHTML = filterItems
+                .map((item, i) => `<button type="button" class="writing-filter${i === 0 ? ' is-active' : ''}" data-platform="${escapeAttr(item.key)}">${escapeHtml(item.label)}</button>`)
                 .join('');
             filters.addEventListener('click', event => {
                 const btn = event.target.closest('.writing-filter');
                 if (!btn) return;
                 filters.querySelectorAll('.writing-filter').forEach(b => b.classList.toggle('is-active', b === btn));
                 activePlatform = btn.dataset.platform;
-                page = 0; // a new filter always restarts from the first page
+                page = 0;
                 renderPage();
             });
         }
 
         renderPage();
 
-        // Mirror badges ("Zhihu" chip on a CSDN row) are spans, not nested anchors —
-        // open them via delegation so the row's primary link stays intact.
-        list.addEventListener('click', event => {
-            const mirror = event.target.closest('.writing-row__mirror');
-            if (!mirror) return;
+        const openMirror = (mirror, event) => {
             event.preventDefault();
             event.stopPropagation();
             window.open(mirror.dataset.href, '_blank', 'noopener');
+        };
+        list.addEventListener('click', event => {
+            const mirror = event.target.closest('.writing-row__mirror');
+            if (mirror) openMirror(mirror, event);
+        });
+        list.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const mirror = event.target.closest('.writing-row__mirror');
+            if (mirror) openMirror(mirror, event);
         });
     }
 
-    function renderWriting(w) {
-        const date = w.date ? formatDate(w.date) : '';
-        return `
-        <a class="writing-row reveal" href="${escapeAttr(w.url)}" target="_blank" rel="noopener noreferrer" data-platform="${escapeAttr(w.platform || 'Other')}">
-            ${w.image ? `
-            <span class="writing-row__thumb"><img src="${escapeAttr(w.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>` : ''}
-            <span class="writing-row__main">
-                <span class="writing-row__title">${escapeHtml(w.title)}</span>
-                ${w.desc ? `<span class="writing-row__desc">${escapeHtml(w.desc)}</span>` : ''}
-            </span>
-            <span class="writing-row__meta">
-                <span class="writing-row__platform">${escapeHtml(w.platform || 'Other')}</span>
-                ${w.zhihuUrl ? `<span class="writing-row__mirror" role="link" tabindex="0" data-href="${escapeAttr(w.zhihuUrl)}" title="Also on Zhihu">Zhihu ↗</span>` : ''}
-                ${date ? `<span class="writing-row__date">${escapeHtml(date)}</span>` : ''}
-            </span>
-            <span class="writing-row__go" aria-hidden="true">-&gt;</span>
-        </a>`;
-    }
-
-    function renderLeetCard(lc) {
-        const d = lc.byDifficulty || {};
-        const easy = d.easy || 0;
-        const medium = d.medium || 0;
-        const hard = d.hard || 0;
-        const total = easy + medium + hard;
-        const pct = value => (total > 0 ? (value / total) * 100 : 0).toFixed(1);
-        const solved = String(lc.solved != null ? lc.solved : total).padStart(2, '0');
-        const foot = [
-            lc.submissions != null ? `${lc.submissions} submissions` : null,
-            lc.activePeriod ? `active ${lc.activePeriod}` : null
-        ].filter(Boolean).join(' · ');
-
-        return `
-        <a class="practice-card reveal" href="${escapeAttr(lc.url)}" target="_blank" rel="noopener noreferrer">
-            <header class="practice-card__head">
-                <span class="practice-card__brand">LeetCode</span>
-                <span class="practice-card__handle">@${escapeHtml(lc.handle)} <span class="practice-card__go" aria-hidden="true">-&gt;</span></span>
-            </header>
-            <div class="practice-stat">
-                <span class="practice-stat__num">${escapeHtml(solved)}</span>
-                <span class="practice-stat__label">problems solved</span>
-            </div>
-            <div class="diffbar" role="img" aria-label="${easy} Easy, ${medium} Medium, ${hard} Hard solved">
-                <span class="diffbar__seg diffbar__seg--easy" style="width:${pct(easy)}%"></span>
-                <span class="diffbar__seg diffbar__seg--med" style="width:${pct(medium)}%"></span>
-                <span class="diffbar__seg diffbar__seg--hard" style="width:${pct(hard)}%"></span>
-            </div>
-            <ul class="practice-legend" aria-hidden="true">
-                <li><i class="legend-dot legend-dot--easy"></i>${easy} Easy</li>
-                <li><i class="legend-dot legend-dot--med"></i>${medium} Medium</li>
-                <li><i class="legend-dot legend-dot--hard"></i>${hard} Hard</li>
-            </ul>
-            ${foot ? `<p class="practice-foot">${escapeHtml(foot)}</p>` : ''}
-        </a>`;
-    }
-
-    function renderKaggleCard(kg) {
-        const tier = kg.tier || 'Novice';
-        const idx = Math.max(0, TIER_LADDER.indexOf(tier));
-        const cats = Array.isArray(kg.categories) ? kg.categories.map(c => String(c).toLowerCase()).join(' · ') : '';
-        const nodes = TIER_LADDER.map((name, i) => {
-            const state = i === idx ? ' is-current' : (i < idx ? ' is-passed' : '');
-            const current = i === idx ? ' aria-current="true"' : '';
-            return `
-                <li class="tierladder__node${state}"${current}>
-                    <i class="tierladder__dot" aria-hidden="true"></i>
-                    <span class="tierladder__abbr">${escapeHtml(TIER_ABBR[name] || name)}</span>
-                </li>`;
-        }).join('');
-        const entered = Array.isArray(kg.competitionList) && kg.competitionList.length
-            ? `${kg.competitionList.length} entered`
-            : (kg.competitions != null ? `${kg.competitions} competition${kg.competitions === 1 ? '' : 's'}` : null);
-        const foot = [
-            kg.badges != null ? `${kg.badges} badges` : null,
-            entered,
-            kg.memberSince != null ? `member since ${kg.memberSince}` : null
-        ].filter(Boolean).join(' · ');
-
-        return `
-        <a class="practice-card reveal" href="${escapeAttr(kg.url)}" target="_blank" rel="noopener noreferrer">
-            <header class="practice-card__head">
-                <span class="practice-card__brand">Kaggle</span>
-                <span class="practice-card__handle">@${escapeHtml(kg.handle)} <span class="practice-card__go" aria-hidden="true">-&gt;</span></span>
-            </header>
-            <div class="practice-stat">
-                <span class="practice-stat__num practice-stat__num--tier">${escapeHtml(tier)}</span>
-                <span class="practice-stat__label">${escapeHtml(cats)}</span>
-            </div>
-            <ol class="tierladder" role="img" aria-label="Kaggle tier: ${escapeAttr(tier)} (${idx + 1} of ${TIER_LADDER.length})">
-                ${nodes}
-            </ol>
-            ${foot ? `<p class="practice-foot">${escapeHtml(foot)}</p>` : ''}
-        </a>`;
-    }
-
+    // ── Utilities ───────────────────────────────────────────────────
     function initFooterYear() {
         const year = document.getElementById('footer-year');
         if (year) year.textContent = String(new Date().getFullYear());
@@ -963,41 +1023,46 @@
             ticking = false;
         };
         update();
-        window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        }, { passive: true });
     }
 
     function initActiveNav() {
         const links = [...document.querySelectorAll('[data-nav] a[href^="#"]')];
         const map = new Map();
-        links.forEach(a => { const el = document.querySelector(a.getAttribute('href')); if (el) map.set(el, a); });
+        links.forEach(a => {
+            const el = document.querySelector(a.getAttribute('href'));
+            if (el) map.set(el, a);
+        });
         if (!map.size || !('IntersectionObserver' in window)) return;
         const obs = new IntersectionObserver(entries => {
-            entries.forEach(e => { if (e.isIntersecting) {
-                links.forEach(l => l.classList.remove('is-active'));
-                map.get(e.target)?.classList.add('is-active');
-            }});
-        }, { rootMargin: '-50% 0px -50% 0px' });
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    links.forEach(l => l.classList.remove('is-active'));
+                    map.get(e.target)?.classList.add('is-active');
+                }
+            });
+        }, { rootMargin: '-25% 0px -60% 0px' });
         map.forEach((_, el) => obs.observe(el));
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         initTheme();
+        initPrint();
         initHeader();
         initReveal();
         initFooterYear();
         initScrollProgress();
         initActiveNav();
-        renderHeroStats();
-        loadGitHubProjects();
+        initExpandableRows();
         loadPublications();
+        loadGitHubProjects();
         loadProfiles();
         loadWritings();
-        initPublicationExpand();
         initCursor();
-        initTilt();
-        initParallax();
-
-        const heroCanvas = document.getElementById('hero-field');
-        if (heroCanvas) new HeroField(heroCanvas);
     });
 })();

@@ -3,214 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>KO Ho Tin - AI Researcher & Builder</title>
-    <meta name="description" content="KO Ho Tin's personal research profile, live GitHub projects, OpenReview publications, ORCID iD, Google Scholar link, and AI systems work.">
-    <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, AI researcher, LLM agents, quant AI, computer vision, OpenReview, ORCID, Google Scholar, GitHub projects">
-    <meta name="author" content="KO Ho Tin">
+    <title>Ho Tin Ko — Curriculum Vitae</title>
+    <meta name="description" content="Curriculum Vitae of Ho Tin Ko (BlackCat) — AI Researcher & Builder working on LLM agents, quantitative AI, benchmarking, and computer vision.">
+    <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, CV, Curriculum Vitae, AI researcher, LLM agents, quant AI, AlphaBench, QFinZero, EvoAlpha, OpenReview, ORCID">
+    <meta name="author" content="Ho Tin Ko">
     <meta name="theme-color" content="#000000">
     <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs">
-    <meta property="og:title" content="KO Ho Tin - AI Researcher & Builder">
-    <meta property="og:description" content="A focused personal profile with live GitHub projects, research publications, and academic profile links.">
+    <meta property="og:title" content="Ho Tin Ko — Curriculum Vitae">
+    <meta property="og:description" content="Minimalist Curriculum Vitae of Ho Tin Ko: education, research experience, publications, open-source projects, and competitions.">
     <meta property="og:image" content="assets/avatar-profile.jpg">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="profile">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.github.com">
-    <link rel="preconnect" href="https://api2.openreview.net">
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
-    <link rel="icon" href="assets/avatar-profile.jpg" type="image/jpeg">
+    <link rel="icon" href="assets/avatar-profile.jpg?v=2" type="image/jpeg">
     <script>
         // Set the theme before first paint: saved choice > OS preference > dark.
         try {
-            document.documentElement.dataset.theme = localStorage.getItem('theme')
+            var t = localStorage.getItem('theme')
                 || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.dataset.theme = t;
         } catch (error) { document.documentElement.dataset.theme = 'dark'; }
     </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=30">
-    <link rel="stylesheet" href="styles/cosmic.css?v=6">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=37">
+    <link rel="stylesheet" href="styles/cosmic.css?v=7">
 </head>
 <body>
-    <a class="skip-link" href="#research">Skip to research</a>
+    <a class="skip-link" href="#about">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
 
     <div class="cursor-ring" aria-hidden="true"></div>
     <div class="cursor-dot" aria-hidden="true"></div>
 
     <header class="site-header" data-header>
-        <a class="brand" href="#top" aria-label="KO Ho Tin home">
-            <span class="brand-mark" aria-hidden="true">KO</span>
-            <span class="brand-copy">
-                <strong>KO Ho Tin</strong>
-                <small>AI research profile</small>
-            </span>
-        </a>
-        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="site-nav" aria-label="Primary navigation" data-nav>
-            <a href="#research">Research</a>
-            <a href="#writing">Writing</a>
-            <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
-            <a href="#build">GitHub</a>
-            <a href="#practice">Practice</a>
-            <a href="#profile">Profile</a>
-            <button type="button" id="theme-toggle" class="theme-toggle">Light</button>
-            <a class="nav-cta" href="#contact">Contact</a>
-        </nav>
+        <div class="site-header__inner">
+            <a class="brand" href="#top" aria-label="Ho Tin Ko home">
+                <strong class="brand-name">Ho Tin Ko</strong>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="site-nav" aria-label="Primary navigation" data-nav>
+                <a href="#about">About Me</a>
+                <a href="#education">Education &amp; Experience</a>
+                <a href="#research">Publications</a>
+                <a href="#practice">Competitions</a>
+                <a href="#build">Projects</a>
+                <a href="#writing">Writing</a>
+                <a href="#skills">Skills</a>
+                <div class="site-nav__tools">
+                    <button type="button" id="theme-toggle" class="util-btn">Light</button>
+                    <a href="assets/Ho_Tin_Ko_CV.pdf?v=1" download="Ho_Tin_Ko_CV.pdf" class="util-btn util-btn--solid">CV (PDF)</a>
+                </div>
+            </nav>
+        </div>
     </header>
     <div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>
 
-    <main id="top">
-  <!-- 1. HERO -->
-  <section class="hero" aria-labelledby="hero-title">
-    <div id="transformer-stage" class="hero-stage" aria-hidden="true"></div>
-    <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-inner section-inner">
-      <p class="eyebrow reveal">AI researcher / engineering student / builder</p>
-      <h1 id="hero-title" class="hero-title reveal">Building AI systems with visible evidence.</h1>
-      <p class="hero-lede reveal">LLM agents, formulaic alpha-factor mining, computer vision, and research tooling — kept in one place: live code, papers, and contact routes.</p>
-      <div class="hero-actions reveal">
-        <a class="btn btn--solid" href="#research">View research</a>
-        <a class="btn btn--ghost" href="#build">Live GitHub</a>
-        <a class="btn btn--ghost" href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Read my blog</a>
-      </div>
-    </div>
-    <div class="hero-foot" aria-label="Quick facts">
-      <p class="hero-foot__cell hero-foot__status"><span class="status-dot" aria-hidden="true"></span>Open to research collaboration</p>
-      <p class="hero-foot__cell hero-foot__stats" id="hero-stats">Research · Competitions · Writing</p>
-      <nav class="hero-foot__cell hero-foot__links" aria-label="Quick links">
-        <a href="https://scholar.google.com/scholar?q=%22Ho+Tin+Ko%22" target="_blank" rel="noopener noreferrer">Scholar</a>
-        <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">Kaggle</a>
-        <a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
-        <a href="mailto:s20200057@ylmass.edu.hk">Email</a>
-      </nav>
-      <a class="hero-foot__cell hero-foot__scroll" href="#research">Scroll<span aria-hidden="true">&nbsp;↓</span></a>
-    </div>
-  </section>
+    <main id="top" class="cv-page">
+        <div id="cv-main" class="cv-container">
 
-  <!-- 3. RESEARCH (lead with impact) -->
-  <section id="research" class="section research" aria-labelledby="research-title">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Selected research</p>
-        <h2 id="research-title">Papers, published beside the code.</h2>
-      </div>
-      <div id="publication-list" class="publication-list" aria-live="polite">
-        <div class="skeleton-line"></div><div class="skeleton-line"></div>
-      </div>
-      <div class="research-links reveal">
-        <a class="meta-link" href="https://scholar.google.com/scholar?q=%22Ho+Tin+Ko%22" target="_blank" rel="noopener noreferrer"><span>Google Scholar</span></a>
-        <a class="meta-link" href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer"><span>OpenReview ~Ho_Tin_Ko2</span></a>
-        <a class="meta-link" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer"><span>ORCID 0009-0002-7298-8196</span></a>
-        <span class="meta-link meta-link--status" id="publication-sync">Loading…</span>
-      </div>
-    </div>
-  </section>
+            <!-- 1. BIO & PROFILE CARD (yinminzhong.com top card layout, full width) -->
+            <section id="about" class="cv-card cv-bio-card reveal" aria-labelledby="bio-name">
+                <div class="bio-grid">
+                    <div class="bio-main">
+                        <div class="bio-heading">
+                            <h1 id="bio-name" class="bio-name">Ho Tin Ko</h1>
+                            <span class="bio-alias">BlackCat · B143KC47</span>
+                        </div>
+                        <p class="bio-subtitle">
+                            <img class="bio-subtitle__logo" src="assets/logos/polyu-hkcc.svg?v=1" alt="" width="20" height="20" decoding="async">
+                            <span>Statistics &amp; Data Science Student @ <a href="https://www.hkcc-polyu.edu.hk/" target="_blank" rel="noopener noreferrer">PolyU HKCC</a></span>
+                            <span class="meta-sep" aria-hidden="true">·</span>
+                            <img class="bio-subtitle__logo" src="assets/logos/cityu.svg?v=2" alt="" width="20" height="20" decoding="async">
+                            <span>Collaborating Researcher @ <a href="https://www.cityu.edu.hk/" target="_blank" rel="noopener noreferrer">CityUHK (CityU-MLO)</a></span>
+                        </p>
 
-  <!-- 3b. WRITING (Zhihu / CSDN / blog articles) -->
-  <section id="writing" class="section section--paper writing" aria-labelledby="writing-title">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Writing</p>
-        <h2 id="writing-title">Notes and articles, published across platforms.</h2>
-      </div>
-      <div class="writing-filters reveal" id="writing-filters" role="group" aria-label="Filter articles by platform"></div>
-      <div id="writing-list" class="writing-list" aria-live="polite">
-        <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
-      </div>
-      <div class="research-links reveal">
-        <a class="meta-link" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer"><span>Zhihu @B143KC47</span></a>
-        <a class="meta-link" href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer"><span>CSDN @B143KC47</span></a>
-        <a class="meta-link" href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer"><span>BlackCat blog</span></a>
-        <span class="meta-link meta-link--status" id="writing-sync">Loading…</span>
-      </div>
-    </div>
-  </section>
+                        <div class="bio-prose">
+                            <p>
+                                I am an Associate in Statistics and Data Science student at <a href="https://www.hkcc-polyu.edu.hk/" target="_blank" rel="noopener noreferrer">PolyU Hong Kong Community College (PolyU HKCC)</a> and a collaborating student researcher with the Machine Learning &amp; Optimization Group (<strong>CityU-MLO</strong>) at City University of Hong Kong, advised by <a href="mailto:chen.liu@cityu.edu.hk">Prof. Chen Liu</a>.
+                            </p>
+                            <p>
+                                My research interests lie in <strong>tool-using large language model (LLM) agents</strong>, <strong>quantitative AI &amp; formulaic alpha-factor mining</strong>, <strong>reproducible benchmarking</strong>, and <strong>computer vision</strong> — including co-first-authored work on <a href="https://aclanthology.org/2026.acl-demo.7/" target="_blank" rel="noopener noreferrer">QFinZero</a> (ACL 2026 System Demonstrations) and co-authored work on <a href="https://alphabench.cc/" target="_blank" rel="noopener noreferrer">AlphaBench</a> (ICLR 2026) and <a href="https://openreview.net/forum?id=ALpLmURYWy" target="_blank" rel="noopener noreferrer">EvoAlpha</a> (NeurIPS 2025 Workshop).
+                            </p>
+                            <p>
+                                Beyond academic research, I compete in machine learning challenges on <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">Kaggle</a> (Silver Medalist) and publish technical notes on deep learning, generative AI, and cognitive science on my <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">BlackCat Blog</a>, <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>, and <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN</a>.
+                            </p>
+                        </div>
 
-  <!-- 4. BUILD TRAIL -->
-  <section id="build" class="section section--paper build" aria-labelledby="build-title">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Build trail</p>
-        <h2 id="build-title">Live projects, pulled from GitHub on load.</h2>
-      </div>
-      <div class="github-status reveal">
-        <div><span class="status-label">Source</span><strong id="github-source">GitHub API</strong></div>
-        <div><span class="status-label">Last sync</span><strong id="github-sync">Fetching…</strong></div>
-        <div><span class="status-label">Public signal</span><strong id="github-count">--</strong></div>
-      </div>
-      <div id="project-list" class="project-list" aria-live="polite">
-        <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
-      </div>
-    </div>
-  </section>
+                        <p class="bio-cv-action">
+                            <a href="assets/Ho_Tin_Ko_CV.pdf?v=1" download="Ho_Tin_Ko_CV.pdf" class="bio-cv-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
+                                <span>Curriculum Vitae (1-Page PDF)</span>
+                            </a>
+                        </p>
 
-  <!-- 4b. PRACTICE TRAIL -->
-  <section id="practice" class="section practice" aria-labelledby="practice-title">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Practice trail</p>
-        <h2 id="practice-title">Where I practice and compete, in the open.</h2>
-      </div>
-      <div id="practice-list" class="practice-list" aria-live="polite">
-        <div class="skeleton-line"></div><div class="skeleton-line"></div>
-      </div>
-      <div id="competition-block" class="competition-block" hidden>
-        <h3 class="competition-block__title">Kaggle competition record</h3>
-        <div id="competition-list" class="competition-list" aria-live="polite"></div>
-      </div>
-    </div>
-  </section>
+                        <hr class="bio-divider">
 
-  <!-- 5. PROFILE -->
-  <section id="profile" class="section profile" aria-labelledby="profile-title">
-    <div class="section-inner profile-grid">
-      <figure class="profile-figure reveal">
-        <img src="assets/avatar-profile.jpg" alt="Portrait of KO Ho Tin (BlackCat), AI researcher" width="800" height="800" loading="lazy" decoding="async">
-        <figcaption>KO Ho Tin · BlackCat</figcaption>
-      </figure>
-      <div class="profile-body reveal">
-        <p class="eyebrow">Profile</p>
-        <h2 id="profile-title">A compact evidence layer.</h2>
-        <p>I am KO Ho Tin, also known as BlackCat online — focused on LLM benchmarks, alpha-factor discovery, and practical automation. This site is who I am, what I build, where it is published, and how to reach me.</p>
-        <dl class="facts">
-          <div><dt>Name</dt><dd>KO Ho Tin</dd></div>
-          <div><dt>Alias</dt><dd>BlackCat / B143KC47</dd></div>
-          <div><dt>Email</dt><dd><a href="mailto:s20200057@ylmass.edu.hk">s20200057@ylmass.edu.hk</a></dd></div>
-          <div><dt>ORCID iD</dt><dd><a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">0009-0002-7298-8196</a></dd></div>
-          <div><dt>Core topics</dt><dd>LLM agents, quantitative AI, computer vision, evaluation</dd></div>
-        </dl>
-      </div>
-    </div>
-  </section>
+                        <ul class="bio-links" aria-label="Contact and academic profile links">
+                            <li>
+                                <a href="mailto:hotinko@outlook.com">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                                    <span>hotinko@outlook.com</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg>
+                                    <span>Google Scholar</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                                    <span>OpenReview</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8.5" y1="10" x2="8.5" y2="16"/><circle cx="8.5" cy="7.5" r="0.6" fill="currentColor"/><path d="M11.5 10h2.2a2.8 2.8 0 0 1 0 5.6h-2.2V10z"/></svg>
+                                    <span>ORCID</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polyline points="4 4 4 20"/><polyline points="18 6 9 13 18 20"/></svg>
+                                    <span>Kaggle</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/in/kohotin/" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                    <span>LinkedIn</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                    <span>Blog</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    <span>Zhihu</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                                    <span>CSDN</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-  <!-- 7. CONTACT -->
-  <section id="contact" class="section contact" aria-labelledby="contact-title">
-    <div class="section-inner reveal">
-      <p class="eyebrow">Contact</p>
-      <h2 id="contact-title">For research, AI systems, or collaboration — reach out.</h2>
-      <div class="contact-actions">
-        <a class="btn btn--solid" href="mailto:s20200057@ylmass.edu.hk">Email me</a>
-        <a class="btn btn--ghost" href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="btn btn--ghost" href="https://www.linkedin.com/in/kohotin/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a class="btn btn--ghost" href="https://orcid.org/0009-0002-7298-8196" target="_blank" rel="me noopener noreferrer">ORCID</a>
-        <a class="btn btn--ghost" href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>
-      </div>
-    </div>
-  </section>
-</main>
+                    <figure class="bio-portrait">
+                        <img src="assets/avatar-profile.jpg?v=2" alt="Portrait of Ho Tin Ko" width="832" height="502" decoding="async">
+                    </figure>
+                </div>
+            </section>
 
-<footer class="site-footer">
-  <span>KO Ho Tin</span>
-  <span>AI Researcher &amp; Builder</span>
-  <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">BlackCat blog</a>
-  <span id="footer-year">2026</span>
-</footer>
+            <!-- 2. TWO-COLUMN EDUCATION & EXPERIENCE CARD (yinminzhong.com 50/50 split) -->
+            <div class="cv-card cv-split-card reveal">
+                <section id="education" class="cv-split-col" aria-labelledby="education-title">
+                    <h2 id="education-title" class="card-col-title">Education</h2>
+                    <ul class="media-list">
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/polyu-hkcc.svg?v=1" alt="PolyU Hong Kong Community College emblem" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">PolyU Hong Kong Community College (PolyU HKCC)</div>
+                                <div class="media-row">
+                                    <span>Associate in Statistics and Data Science · The Hong Kong Polytechnic University</span>
+                                    <time class="media-date">2026 – 2028 (Expected)</time>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/ylmass.png?v=2" alt="Yuen Long Merchants Association Secondary School crest" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">Yuen Long Merchants Association Secondary School</div>
+                                <div class="media-row">
+                                    <span>Secondary Education · Hong Kong</span>
+                                    <time class="media-date">2020 – 2026</time>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/cityu.svg?v=2" alt="City University of Hong Kong emblem" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">City University of Hong Kong</div>
+                                <div class="media-row">
+                                    <span>Dept. of Electrical Engineering · Gifted Education Fund Programme (GenAIoT)</span>
+                                    <time class="media-date">2023 – 2025</time>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/ieee.svg?v=2" alt="IEEE emblem" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">IEEE CIS Summer School on Quantum Computational Intelligence</div>
+                                <div class="media-row">
+                                    <span>Tokyo Metropolitan University &amp; IEEE WCCI · Japan</span>
+                                    <time class="media-date">Jun. 2024</time>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="experience" class="cv-split-col" aria-labelledby="experience-title">
+                    <h2 id="experience-title" class="card-col-title">Experience</h2>
+                    <ul class="media-list">
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/cityu.svg?v=2" alt="City University of Hong Kong emblem" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">City University of Hong Kong — CityU-MLO</div>
+                                <div class="media-row">
+                                    <span>Research Intern &amp; Collaborating Student Researcher (Prof. Chen Liu)</span>
+                                    <time class="media-date">2024 – present</time>
+                                </div>
+                                <p class="media-note">Co-first author (<code>*</code>) on <strong>QFinZero</strong> (ACL 2026 Demo); co-author on <strong>AlphaBench</strong> (ICLR 2026) and <strong>EvoAlpha</strong> (NeurIPS 2025 GenAI in Finance).</p>
+                            </div>
+                        </li>
+                        <li class="media-item">
+                            <span class="media-logo"><img src="assets/logos/kaggle.svg?v=2" alt="Kaggle logo" width="36" height="36" loading="lazy" decoding="async"></span>
+                            <div class="media-body">
+                                <div class="media-title">Competitive Machine Learning (Kaggle)</div>
+                                <div class="media-row">
+                                    <span>Silver Medalist · Contributor (@b14ckc4tmr)</span>
+                                    <time class="media-date">2024 – present</time>
+                                </div>
+                                <p class="media-note">Private Rank 139 / 4,187 (Top 3.3%, Silver Medal) in OpenAI <em>AI Agent Security</em>; Private Rank 70 / 3,356 (Top 2.1%) in <em>Predicting Student Health Risk</em>.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- 3. SELECTED PUBLICATIONS CARD (yinminzhong.com figure-left + details-right) -->
+            <section id="research" class="cv-card cv-flush-card reveal" aria-labelledby="research-title">
+                <div class="card-strip-head">
+                    <h2 id="research-title" class="card-strip-title">
+                        <span class="star-mark" aria-hidden="true">★</span> Selected Publications
+                    </h2>
+                    <div class="card-strip-meta">
+                        <span id="publication-sync">Loading…</span>
+                        <span class="meta-sep" aria-hidden="true">·</span>
+                        <a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar &raquo;</a>
+                        <a href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">OpenReview &raquo;</a>
+                    </div>
+                </div>
+                <div id="publication-list" class="pub-list" aria-live="polite">
+                    <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+                </div>
+            </section>
+
+            <!-- 4. COMPETITIONS & PRACTICE CARD (full-width 2-col stat bar + 2-col competition rows) -->
+            <section id="practice" class="cv-card cv-flush-card reveal" aria-labelledby="practice-title">
+                <div class="card-strip-head">
+                    <h2 id="practice-title" class="card-strip-title">Competitions &amp; Practice</h2>
+                    <div class="card-strip-meta">
+                        <div class="writing-filters" id="comp-filters" role="group" aria-label="Filter competitions"></div>
+                        <span class="meta-sep" aria-hidden="true">·</span>
+                        <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">Kaggle @b14ckc4tmr &raquo;</a>
+                        <a href="https://leetcode.com/u/B143KC47/" target="_blank" rel="noopener noreferrer">LeetCode @B143KC47 &raquo;</a>
+                    </div>
+                </div>
+                <div id="practice-list" class="cv-practice-summary" aria-live="polite">
+                    <div class="skeleton-block"><div class="skeleton-line"></div></div>
+                </div>
+                <div id="competition-block" class="cv-comp-block" hidden>
+                    <div id="competition-list" class="comp-grid" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <!-- 5. SELECTED PROJECTS CARD (full-width 3-col GitHub grid) -->
+            <section id="build" class="cv-card cv-flush-card reveal" aria-labelledby="build-title">
+                <div class="card-strip-head">
+                    <h2 id="build-title" class="card-strip-title">Selected Open-Source Projects</h2>
+                    <div class="card-strip-meta">
+                        <span id="github-source">GitHub</span> · <span id="github-count">--</span> · <span id="github-sync">Fetching…</span>
+                        <span class="meta-sep" aria-hidden="true">·</span>
+                        <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">All repositories &raquo;</a>
+                    </div>
+                </div>
+                <div id="project-list" class="proj-grid" aria-live="polite">
+                    <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+                </div>
+            </section>
+
+            <!-- 6. WRITING & TECHNICAL NOTES CARD (full-width 2-col article rows) -->
+            <section id="writing" class="cv-card cv-flush-card reveal" aria-labelledby="writing-title">
+                <div class="card-strip-head">
+                    <h2 id="writing-title" class="card-strip-title">Writing &amp; Technical Notes</h2>
+                    <div class="card-strip-meta">
+                        <div class="writing-filters" id="writing-filters" role="group" aria-label="Filter articles by platform"></div>
+                        <span id="writing-sync" class="cv-sync-note">Loading…</span>
+                        <span class="meta-sep" aria-hidden="true">·</span>
+                        <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog &raquo;</a>
+                        <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu &raquo;</a>
+                        <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN &raquo;</a>
+                    </div>
+                </div>
+                <div id="writing-list" class="writing-grid" aria-live="polite">
+                    <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+                </div>
+            </section>
+
+            <!-- 7. TECHNICAL SKILLS CARD (full-width 4-col grid) -->
+            <section id="skills" class="cv-card cv-flush-card reveal" aria-labelledby="skills-title">
+                <div class="card-strip-head">
+                    <h2 id="skills-title" class="card-strip-title">Technical Skills</h2>
+                </div>
+                <dl class="skills-grid">
+                    <div class="skills-cell">
+                        <dt>Research &amp; AI</dt>
+                        <dd>LLM Agents &amp; Tool Use (MCP, LangGraph), Benchmarking &amp; Evaluation, Quantitative AI (Formulaic Alpha Mining, Sparse Portfolio Optimization), Computer Vision</dd>
+                    </div>
+                    <div class="skills-cell">
+                        <dt>ML Frameworks</dt>
+                        <dd>PyTorch, Qlib, Scikit-learn, OpenCV, NumPy, Pandas</dd>
+                    </div>
+                    <div class="skills-cell">
+                        <dt>Languages</dt>
+                        <dd>Python, JavaScript (ES6+ / Node.js), SQL, HTML/CSS, LaTeX</dd>
+                    </div>
+                    <div class="skills-cell">
+                        <dt>Systems &amp; Data</dt>
+                        <dd>Git, GitHub Actions, Docker, Linux, MongoDB, SQLite, Parquet</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <footer class="cv-footer">
+                <span>Ho Tin Ko · Curriculum Vitae</span>
+                <span><a href="https://b143kc47.github.io">b143kc47.github.io</a> · Last updated <span id="footer-year">2026</span></span>
+            </footer>
+        </div>
+    </main>
 
     <script id="publications-data" type="application/json">
 {
@@ -529,8 +669,8 @@
   "figures": {
     "d97Q8r7ZKZ": {
       "src": "assets/papers/d97Q8r7ZKZ.png",
-      "caption": "AlphaBench — Figure 1: formulaic alpha factors distilled from real market series.",
-      "source": "auto",
+      "caption": "AlphaBench — Overview of closed-loop LLM evaluation across factor generation, zero-shot evaluation, and iterative search.",
+      "source": "manual",
       "pdfUrl": "https://openreview.net/pdf?id=d97Q8r7ZKZ",
       "projectUrl": "https://alphabench.cc/",
       "codeUrl": "https://github.com/CityU-MLO/AlphaBench"
@@ -549,7 +689,7 @@
       "source": "manual",
       "pdfUrl": "https://aclanthology.org/2026.acl-demo.7.pdf",
       "projectUrl": "",
-      "codeUrl": ""
+      "codeUrl": "https://github.com/CityU-MLO/qfinzero"
     }
   },
   "lastUpdated": "2026-08-02T09:16:57.101Z"
@@ -666,7 +806,6 @@
   "lastUpdated": "2026-11-16T07:14:39.965Z"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=17"></script>
-    <script src="modules/transformer-arch.js?v=3" defer></script>
+    <script src="modules/startup-redesign.js?v=22"></script>
 </body>
 </html>
