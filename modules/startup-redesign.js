@@ -125,80 +125,75 @@
     // ── Theme & Print ───────────────────────────────────────────────
     function initTheme() {
         const btn = document.getElementById('theme-toggle');
-        if (!btn) return;
+        const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+        const systemTheme = () => (mq && mq.matches ? 'dark' : 'light');
         const current = () => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
-        const sync = () => {
-            const t = current();
-            btn.textContent = t === 'light' ? 'Dark' : 'Light';
-            btn.setAttribute('aria-pressed', String(t === 'light'));
-            btn.setAttribute('aria-label', `Switch to ${t === 'light' ? 'dark' : 'light'} mode`);
+
+        try { localStorage.removeItem('theme'); } catch (error) { /* private mode */ }
+
+        const applyTheme = theme => {
+            document.documentElement.dataset.theme = theme;
             const themeColor = document.querySelector('meta[name="theme-color"]');
-            if (themeColor) themeColor.setAttribute('content', t === 'light' ? '#f2f2f2' : '#000000');
+            if (themeColor) themeColor.setAttribute('content', theme === 'light' ? '#f8f9fa' : '#000000');
+            if (btn) {
+                const label = `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`;
+                btn.setAttribute('aria-pressed', String(theme === 'light'));
+                btn.setAttribute('aria-label', label);
+                btn.setAttribute('title', label);
+            }
         };
+
+        let saved = null;
+        try { saved = localStorage.getItem('theme-preference'); } catch (error) { /* private mode */ }
+        applyTheme((saved === 'dark' || saved === 'light') ? saved : systemTheme());
+
+        if (mq) {
+            const onSystemChange = event => {
+                let manual = null;
+                try { manual = localStorage.getItem('theme-preference'); } catch (error) { /* private mode */ }
+                if (manual !== 'dark' && manual !== 'light') {
+                    applyTheme(event.matches ? 'dark' : 'light');
+                }
+            };
+            if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+            else if (mq.addListener) mq.addListener(onSystemChange);
+        }
+
+        if (!btn) return;
         btn.addEventListener('click', () => {
             const next = current() === 'light' ? 'dark' : 'light';
-            document.documentElement.dataset.theme = next;
-            try { localStorage.setItem('theme', next); } catch (error) { /* private mode */ }
-            sync();
+            try {
+                if (next === systemTheme()) localStorage.removeItem('theme-preference');
+                else localStorage.setItem('theme-preference', next);
+            } catch (error) { /* private mode */ }
+            applyTheme(next);
         });
-        sync();
     }
 
     function initPrint() {
         const buttons = document.querySelectorAll('[data-print-cv]');
         if (!buttons.length) return;
         const triggerPrint = () => {
-            document.documentElement.classList.remove('nav-open');
-            const nav = document.querySelector('[data-nav]');
-            const toggle = document.querySelector('[data-nav-toggle]');
-            if (nav) nav.classList.remove('is-open');
-            if (toggle) toggle.setAttribute('aria-expanded', 'false');
             window.print();
         };
         buttons.forEach(btn => btn.addEventListener('click', triggerPrint));
     }
 
-    // ── Sticky Header & Mobile Drawer ───────────────────────────────
+    // ── Sticky Header ───────────────────────────────────────────────
     function initHeader() {
         const header = document.querySelector('[data-header]');
-        const toggle = document.querySelector('[data-nav-toggle]');
-        const nav = document.querySelector('[data-nav]');
-        const backdrop = document.querySelector('[data-nav-backdrop]');
-        if (!header || !toggle || !nav) return;
+        if (!header) return;
 
         const setScrolled = () => {
             header.classList.toggle('is-scrolled', window.scrollY > 12);
         };
         setScrolled();
         window.addEventListener('scroll', setScrolled, { passive: true });
-
-        const setNav = open => {
-            nav.classList.toggle('is-open', open);
-            document.documentElement.classList.toggle('nav-open', open);
-            toggle.setAttribute('aria-expanded', String(open));
-        };
-
-        toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')));
-        nav.addEventListener('click', event => {
-            if (event.target.closest('a')) setNav(false);
-        });
-        if (backdrop) backdrop.addEventListener('click', () => setNav(false));
-
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && nav.classList.contains('is-open')) {
-                setNav(false);
-                toggle.focus();
-            }
-        });
-
-        const desktop = window.matchMedia('(min-width: 1025px)');
-        const onDesktop = event => { if (event.matches) setNav(false); };
-        if (desktop.addEventListener) desktop.addEventListener('change', onDesktop);
-        else if (desktop.addListener) desktop.addListener(onDesktop);
     }
 
     function initReveal() {
         const elements = document.querySelectorAll('.reveal');
+        if (!elements.length) return;
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
             elements.forEach(el => el.classList.add('in-view'));
             return;
@@ -214,7 +209,7 @@
     }
 
     // ── Subtle Monochrome Cursor (no 3D card tilt) ──────────────────
-    const CURSOR_TARGETS = 'a, button, .nav-toggle';
+    const CURSOR_TARGETS = 'a, button';
 
     function initCursor() {
         if (!allowFancyCursor) return;
@@ -441,6 +436,73 @@
             mountPager(list, publications.length, PAGE_SIZES.publications, page, p => { page = p; renderPage(); });
         };
         renderPage();
+    }
+
+    async function loadPublicationsArchive() {
+        const archive = document.querySelector('[data-pub-archive]');
+        const yearNav = document.querySelector('[data-pub-year-nav]');
+        if (!archive) return;
+
+        let data = readInlineJson('publications-data', { publications: [] });
+        try {
+            if (window.location.protocol !== 'file:') {
+                data = await fetchJson('data/publications.json');
+            }
+        } catch (error) { /* inline fallback */ }
+
+        const figures = await loadPaperFigures();
+        const publications = Array.isArray(data.publications) ? data.publications : [];
+
+        if (!publications.length) {
+            archive.innerHTML = `<div class="cv-card cv-flush-card"><div class="empty-state">No publications in local feed. View <a href="${PROFILE.openReviewUrl}" target="_blank" rel="noopener noreferrer">OpenReview</a>.</div></div>`;
+            if (yearNav) yearNav.innerHTML = '';
+            return;
+        }
+
+        const byYear = new Map();
+        publications.forEach(pub => {
+            const yr = formatVenueDisplay(pub.venue, pub.year).yearText || String(pub.year || 'Other');
+            if (!byYear.has(yr)) byYear.set(yr, []);
+            byYear.get(yr).push(pub);
+        });
+
+        const years = [...byYear.keys()].sort((a, b) => (Number(b) || 0) - (Number(a) || 0));
+
+        archive.innerHTML = years.map(yr => `
+            <section id="year-${escapeAttr(yr)}" class="pub-year-section">
+                <h2 class="pub-year-heading">${escapeHtml(yr)}</h2>
+                <div class="cv-card cv-flush-card pub-list">
+                    ${byYear.get(yr).map(pub => renderPublication(pub, figures[pub.id] || {})).join('')}
+                </div>
+            </section>`).join('');
+
+        if (yearNav) {
+            yearNav.innerHTML = years
+                .map((yr, i) => `<a class="pub-year-link${i === 0 ? ' is-active' : ''}" href="#year-${escapeAttr(yr)}">${escapeHtml(yr)}</a>`)
+                .join('');
+
+            const yearLinks = [...yearNav.querySelectorAll('.pub-year-link')];
+            const setActive = id => {
+                yearLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
+            };
+
+            yearNav.addEventListener('click', event => {
+                const link = event.target.closest('.pub-year-link');
+                if (!link) return;
+                const href = link.getAttribute('href') || '';
+                if (href.startsWith('#')) setActive(href.slice(1));
+            });
+
+            if ('IntersectionObserver' in window) {
+                const sections = [...archive.querySelectorAll('.pub-year-section')];
+                const obs = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) setActive(entry.target.id);
+                    });
+                }, { rootMargin: '-20% 0px -65% 0px' });
+                sections.forEach(sec => obs.observe(sec));
+            }
+        }
     }
 
     // ── 04. Kaggle Competitions ─────────────────────────────────────
@@ -895,6 +957,7 @@
         initScrollProgress();
         initActiveNav();
         loadPublications();
+        loadPublicationsArchive();
         loadGitHubProjects();
         loadProfiles();
         loadWritings();

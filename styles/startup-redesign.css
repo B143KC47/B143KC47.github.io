@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   /* Signal Monochrome palette — strictly pure black, white, and neutral gray */
   --ink: #000000;
   --sheet: #090909;
@@ -33,6 +34,7 @@
 
 /* ── Light theme ("academic paper cards" on subtle neutral canvas) ──── */
 [data-theme="light"] {
+  color-scheme: light;
   --ink: #f8f9fa;
   --sheet: #ffffff;
   --ink-2: #f4f6f8;
@@ -164,141 +166,67 @@ code {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  gap: clamp(0.85rem, 2vw, 1.5rem);
+  font-family: var(--font-body);
+  font-size: 0.93rem;
+  font-weight: 400;
 }
 .site-nav > a {
   color: var(--gray-70);
-  transition: color 0.2s var(--ease);
+  transition: color 0.18s var(--ease);
   white-space: nowrap;
 }
-.site-nav > a:hover,
+.site-nav > a:hover {
+  color: var(--paper);
+}
 .site-nav > a.is-active {
   color: var(--paper);
+  font-weight: 600;
 }
 
-.site-nav__tools {
+.theme-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  margin-left: 0.35rem;
-}
-
-.util-btn {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
   color: var(--gray-70);
-  background: transparent;
-  border: 1px solid var(--line-dark);
-  padding: 0.34rem 0.72rem;
   cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease);
+  flex: none;
+  transition: color 0.18s var(--ease), background 0.18s var(--ease);
 }
-.util-btn:hover {
+.theme-toggle-btn:hover {
   color: var(--paper);
-  border-color: var(--line-strong);
-}
-.util-btn--solid {
-  background: var(--paper);
-  color: var(--sheet);
-  border-color: var(--paper);
-  font-weight: 500;
-}
-.util-btn--solid:hover {
-  background: transparent;
-  color: var(--paper);
+  background: var(--ink-3);
 }
 
-.nav-toggle { display: none; }
-
-.nav-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s var(--ease);
+.theme-icon {
+  display: block;
 }
-.nav-open .nav-backdrop {
-  opacity: 1;
-  pointer-events: auto;
+.theme-icon--sun {
+  display: none;
 }
-.nav-open { overflow: hidden; }
+.theme-icon--moon {
+  display: block;
+}
+[data-theme="light"] .theme-icon--sun {
+  display: block;
+}
+[data-theme="light"] .theme-icon--moon {
+  display: none;
+}
 
-@media (max-width: 1024px) {
+@media (max-width: 520px) {
+  .brand-name {
+    font-size: 0.96rem;
+  }
   .site-nav {
-    position: fixed;
-    inset: 0 0 0 auto;
-    width: min(82vw, 330px);
-    height: 100dvh;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 0;
-    background: var(--sheet);
-    border-left: 1px solid var(--line-dark);
-    box-shadow: -24px 0 64px var(--nav-shadow);
-    padding: 4.5rem 1.5rem 2rem;
-    transform: translateX(100%);
-    transition: transform 0.35s var(--ease);
-    overflow-y: auto;
-  }
-  .site-nav.is-open { transform: none; }
-  .site-nav > a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.9rem 0.2rem;
-    border-top: 1px solid var(--line-dark);
-    font-size: 0.88rem;
-  }
-  .site-nav > a::after {
-    content: "->";
-    color: var(--gray-50);
-    font-size: 0.76rem;
-  }
-  .site-nav__tools {
-    margin: 1rem 0 0;
-    padding-top: 1rem;
-    border-top: 1px solid var(--line-dark);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
-  .site-nav__tools .util-btn {
-    padding: 0.65rem 0.75rem;
-    text-align: center;
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    z-index: 102;
-    padding: 0.4rem;
-  }
-  .nav-toggle span {
-    width: 22px;
-    height: 1.5px;
-    background: var(--paper);
-    display: block;
-    transition: transform 0.28s var(--ease);
-    transform-origin: center;
-  }
-  .nav-toggle[aria-expanded="true"] span:nth-child(1) {
-    transform: translateY(3.25px) rotate(45deg);
-  }
-  .nav-toggle[aria-expanded="true"] span:nth-child(2) {
-    transform: translateY(-3.25px) rotate(-45deg);
+    gap: 0.75rem;
+    font-size: 0.86rem;
   }
 }
 
@@ -1106,6 +1034,66 @@ code {
   color: var(--paper);
 }
 
+/* ── Dedicated Publications Archive Page (publications.html) ────────── */
+.pub-archive-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8.5rem;
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  align-items: start;
+}
+
+.pub-archive-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.pub-year-section {
+  scroll-margin-top: 4.8rem;
+}
+
+.pub-year-heading {
+  font-family: var(--font-body);
+  font-size: clamp(1.45rem, 1.25rem + 0.7vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 0.65rem;
+}
+
+.pub-archive-rail {
+  position: sticky;
+  top: 4.8rem;
+}
+
+.pub-year-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-top: 2.5rem;
+}
+
+.pub-year-link {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  color: var(--link);
+  transition: color 0.15s var(--ease);
+}
+.pub-year-link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.pub-year-link.is-active {
+  font-weight: 700;
+  color: var(--link);
+}
+
+.pub-archive-footer {
+  margin-top: 1.5rem;
+}
+
 /* ── Responsive Breakpoints (Tablet & Mobile) ───────────────────────── */
 @media (max-width: 1180px) {
   .proj-grid {
@@ -1126,6 +1114,23 @@ code {
   }
   .writing-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .pub-archive-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .pub-archive-rail {
+    order: -1;
+    position: static;
+  }
+  .pub-year-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0;
   }
 }
 
@@ -1199,11 +1204,11 @@ code {
   }
 
   .site-header,
-  .nav-backdrop,
   .scroll-progress,
   .bio-cv-action,
   .writing-filters,
   .list-pager,
+  .pub-archive-rail,
   .skip-link {
     display: none !important;
   }

@@ -20,15 +20,21 @@
     <link rel="icon" href="assets/github-avatar.png?v=1" type="image/png">
     <link rel="apple-touch-icon" href="assets/github-avatar.png?v=1">
     <script>
-        // Set the theme before first paint: saved choice > OS preference > dark.
+        // Follow OS color scheme by default; apply manual override only when explicitly set.
         try {
-            var t = localStorage.getItem('theme')
-                || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            localStorage.removeItem('theme');
+            var saved = localStorage.getItem('theme-preference');
+            var sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            var t = (saved === 'dark' || saved === 'light') ? saved : sys;
             document.documentElement.dataset.theme = t;
-        } catch (error) { document.documentElement.dataset.theme = 'dark'; }
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', t === 'light' ? '#f8f9fa' : '#000000');
+        } catch (error) {
+            document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=38">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=39">
     <link rel="stylesheet" href="styles/cosmic.css?v=7">
 </head>
 <body>
@@ -40,28 +46,31 @@
 
     <header class="site-header" data-header>
         <div class="site-header__inner">
-            <a class="brand" href="#top" aria-label="Ho Tin Ko home">
+            <a class="brand" href="index.html" aria-label="Ho Tin Ko home">
                 <strong class="brand-name">Ho Tin Ko</strong>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
-                <span></span>
-                <span></span>
-            </button>
             <nav class="site-nav" aria-label="Primary navigation" data-nav>
-                <a href="#about">About Me</a>
-                <a href="#education">Education &amp; Experience</a>
-                <a href="#research">Publications</a>
-                <a href="#practice">Competitions</a>
-                <a href="#build">Projects</a>
-                <a href="#writing">Blog</a>
-                <div class="site-nav__tools">
-                    <button type="button" id="theme-toggle" class="util-btn">Light</button>
-                    <a href="assets/Ho_Tin_Ko_CV.pdf?v=1" download="Ho_Tin_Ko_CV.pdf" class="util-btn util-btn--solid">CV (PDF)</a>
-                </div>
+                <a href="index.html" class="is-active" aria-current="page">About Me</a>
+                <a href="publications.html">Publications</a>
+                <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Switch color theme">
+                    <svg class="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4.5"></circle>
+                        <line x1="12" y1="2" x2="12" y2="4"></line>
+                        <line x1="12" y1="20" x2="12" y2="22"></line>
+                        <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+                        <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+                        <line x1="2" y1="12" x2="4" y2="12"></line>
+                        <line x1="20" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+                        <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </nav>
         </div>
     </header>
-    <div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>
 
     <main id="top" class="cv-page">
         <div id="cv-main" class="cv-container">
@@ -255,14 +264,14 @@
                 <div class="card-strip-head">
                     <h2 id="research-title" class="card-strip-title">
                         <span class="star-mark" aria-hidden="true">★</span> Selected Publications
-                        <span class="card-strip-more">(<a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar &raquo;</a> · <a href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">OpenReview &raquo;</a>)</span>
+                        <span class="card-strip-more">(<a href="publications.html">view all &raquo;</a>)</span>
                     </h2>
                 </div>
                 <div id="publication-list" class="pub-list" aria-live="polite">
                     <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
                 </div>
                 <div class="card-strip-foot">
-                    <a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">All publications &raquo;</a>
+                    <a href="publications.html">All publications &raquo;</a>
                 </div>
             </section>
 
@@ -779,6 +788,6 @@
   "lastUpdated": "2026-11-16T07:14:39.965Z"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=23"></script>
+    <script src="modules/startup-redesign.js?v=24"></script>
 </body>
 </html>
