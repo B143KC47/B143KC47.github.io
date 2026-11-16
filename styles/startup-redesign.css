@@ -251,6 +251,9 @@ code {
   border-radius: 0.25rem;
   box-shadow: var(--card-shadow);
 }
+[data-theme="light"] .cv-card {
+  border-color: transparent;
+}
 
 /* ── 1. Bio & Profile Card (yinminzhong.com top card, full width) ───── */
 .cv-bio-card {
@@ -584,9 +587,23 @@ code {
   text-underline-offset: 2px;
 }
 .cv-sync-note {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  font-family: var(--font-body);
+  font-size: 0.83rem;
   color: var(--gray-70);
+}
+.kaggle-tier-medal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  color: var(--paper-2);
+  font-weight: 500;
+}
+.kaggle-medal-icon {
+  display: block;
+  flex: none;
 }
 .meta-sep {
   color: var(--gray-40);
@@ -661,8 +678,8 @@ code {
   height: auto;
   border-radius: 0.22rem;
   background: #ffffff;
-  padding: 0.3rem;
-  border: 1px solid var(--line-dark);
+  padding: 0.2rem;
+  border: 0;
 }
 
 .pub-row__placeholder {
@@ -771,25 +788,25 @@ code {
 }
 
 .comp-badge {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 400;
   color: var(--gray-70);
-  border: 1px solid var(--line-dark);
-  border-radius: 2px;
-  padding: 0.1rem 0.44rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
   white-space: nowrap;
   flex: none;
 }
 .comp-badge--top {
-  color: var(--paper);
-  border-color: var(--line-strong);
+  color: var(--paper-2);
+  font-weight: 500;
 }
 .comp-badge--medal {
-  background: var(--paper);
-  color: var(--sheet);
-  border-color: var(--paper);
+  color: var(--paper);
   font-weight: 600;
 }
 
@@ -963,29 +980,26 @@ code {
   gap: 0.75rem;
   padding: 0.72rem var(--card-px);
   border-top: 1px solid var(--line-dark);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--gray-50);
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  color: var(--gray-70);
 }
 .list-pager__info {
-  color: var(--gray-50);
+  color: var(--gray-70);
 }
 .list-pager__btn {
-  background: none;
-  border: 1px solid var(--line-dark);
-  color: var(--gray-70);
+  background: transparent;
+  border: 0;
+  color: var(--link);
   font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  padding: 0.28rem 0.68rem;
+  padding: 0.1rem 0.2rem;
   cursor: pointer;
-  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  transition: color 0.15s var(--ease);
 }
 .list-pager__btn:hover:not(:disabled) {
-  color: var(--paper);
-  border-color: var(--paper);
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .list-pager__btn:disabled {
   opacity: 0.35;

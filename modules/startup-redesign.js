@@ -319,9 +319,9 @@
             return;
         }
         pager.innerHTML = `
-            <button type="button" class="list-pager__btn" data-dir="-1" ${page <= 0 ? 'disabled' : ''} aria-label="Previous page">&larr; Prev</button>
+            <button type="button" class="list-pager__btn" data-dir="-1" ${page <= 0 ? 'disabled' : ''} aria-label="Previous page">[&larr; Prev]</button>
             <span class="list-pager__info">${page + 1} / ${pages} &middot; ${total} items</span>
-            <button type="button" class="list-pager__btn" data-dir="1" ${page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">Next &rarr;</button>`;
+            <button type="button" class="list-pager__btn" data-dir="1" ${page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">[Next &rarr;]</button>`;
         pager.querySelectorAll('.list-pager__btn').forEach(btn => {
             btn.addEventListener('click', () => onPage(page + Number(btn.dataset.dir)));
         });
@@ -526,6 +526,18 @@
         });
     }
 
+    const MEDAL_PALETTES = {
+        gold:   { ribL: '#b45309', ribR: '#d97706', rim: '#b45309', face: '#f59e0b', shine: '#fef08a', ring: '#fffbeb' },
+        silver: { ribL: '#64748b', ribR: '#94a3b8', rim: '#7b8798', face: '#cbd5e1', shine: '#f1f5f9', ring: '#f8fafc' },
+        bronze: { ribL: '#7c2d12', ribR: '#b45309', rim: '#9a3412', face: '#d97706', shine: '#fed7aa', ring: '#fff7ed' }
+    };
+
+    function renderMedalIcon(medal, size = 18) {
+        const p = MEDAL_PALETTES[medal] || MEDAL_PALETTES.silver;
+        const label = `${medal.charAt(0).toUpperCase()}${medal.slice(1)} Medal`;
+        return `<svg class="kaggle-medal-icon" width="${size}" height="${size}" viewBox="0 0 24 24" role="img" aria-label="${escapeAttr(label)}"><title>${escapeHtml(label)}</title><path d="M8.2 13.8L5.8 21.5l4.2-2.1 1.5 2.4 1.8-6.2z" fill="${p.ribL}"/><path d="M15.8 13.8l2.4 7.7-4.2-2.1-1.5 2.4-1.8-6.2z" fill="${p.ribR}"/><circle cx="12" cy="9.5" r="7.2" fill="${p.rim}"/><circle cx="12" cy="9.5" r="6.2" fill="${p.face}"/><path d="M7.6 5.1a6.2 6.2 0 0 1 8.8 0 6.2 6.2 0 0 0-8.8 8.8 6.2 6.2 0 0 1 0-8.8z" fill="${p.shine}"/><circle cx="12" cy="9.5" r="4.6" fill="none" stroke="${p.ring}" stroke-width="0.9" opacity="0.9"/><polygon points="12,6.1 12.95,8.15 15.2,8.42 13.55,9.95 13.98,12.18 12,11.08 10.02,12.18 10.45,9.95 8.8,8.42 11.05,8.15" fill="#ffffff"/></svg>`;
+    }
+
     function resolveCompOrgLogo(c) {
         if (String(c.organization || '').toLowerCase() === 'kaggle') {
             return 'assets/logos/kaggle.svg?v=2';
@@ -553,7 +565,7 @@
         const pctText = pctVal != null ? `Top ${pctVal.toFixed(1)}%` : '';
 
         const badgeHtml = medal
-            ? `<span class="comp-badge comp-badge--medal">${escapeHtml(medalLabel)}${pctText ? ` · ${escapeHtml(pctText)}` : ''}</span>`
+            ? `<span class="comp-badge comp-badge--medal" title="${escapeAttr(`Kaggle ${medalLabel}`)}">${renderMedalIcon(medal, 19)}${pctText ? `<span>${escapeHtml(pctText)}</span>` : ''}</span>`
             : pctVal != null
                 ? `<span class="comp-badge${pctVal <= 20 ? ' comp-badge--top' : ''}">${escapeHtml(pctText)}</span>`
                 : `<span class="comp-badge">${escapeHtml(c.status || 'Entered')}</span>`;
@@ -654,9 +666,9 @@
                 return acc;
             }, {});
             const medalBits = [
-                medals.gold ? `${medals.gold} Gold` : null,
-                medals.silver ? `${medals.silver} Silver Medal${medals.silver > 1 ? 's' : ''}` : null,
-                medals.bronze ? `${medals.bronze} Bronze` : null
+                medals.gold ? `<span class="kaggle-tier-medal">${renderMedalIcon('gold', 15)}<span>${medals.gold}</span></span>` : null,
+                medals.silver ? `<span class="kaggle-tier-medal">${renderMedalIcon('silver', 15)}<span>${medals.silver}</span></span>` : null,
+                medals.bronze ? `<span class="kaggle-tier-medal">${renderMedalIcon('bronze', 15)}<span>${medals.bronze}</span></span>` : null
             ].filter(Boolean);
             const pcts = comps
                 .map(c => {
@@ -665,11 +677,11 @@
                 })
                 .filter(v => v != null);
             const bestPct = pcts.length ? Math.max(Math.min(...pcts), 0.1).toFixed(1) : null;
-            tierNote.textContent = [
-                data.kaggle.tier || 'Contributor',
+            tierNote.innerHTML = [
+                escapeHtml(data.kaggle.tier || 'Contributor'),
                 ...medalBits,
-                bestPct != null ? `Best Top ${bestPct}%` : null
-            ].filter(Boolean).join(' · ');
+                bestPct != null ? escapeHtml(`Best Top ${bestPct}%`) : null
+            ].filter(Boolean).join(' <span class="meta-sep" aria-hidden="true">·</span> ');
         }
 
         renderCompetitions(data.kaggle);
