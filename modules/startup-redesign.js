@@ -16,8 +16,6 @@
 
     const SELF_NAMES = ['Ho Tin Ko', 'KO Ho Tin'];
     const PAGE_SIZES = { publications: 8, writings: 12, competitions: 8 };
-    const TIER_LADDER = ['Novice', 'Contributor', 'Expert', 'Master', 'Grandmaster'];
-    const TIER_ABBR = { Novice: 'Nov', Contributor: 'Con', Expert: 'Exp', Master: 'Mas', Grandmaster: 'GM' };
     const MEDAL_ORDER = { gold: 0, silver: 1, bronze: 2 };
 
     const CURATED_PROJECTS = [
@@ -30,6 +28,7 @@
             description: 'Unified financial toolchain & stateful brokerage simulation environment (UPQ, NPP, PMB) for LLM-based trading agents (ACL 2026 Demo).',
             topics: ['LLM Agents', 'MCP', 'Quant Finance'],
             html_url: 'https://github.com/CityU-MLO/qfinzero',
+            paperUrl: 'https://aclanthology.org/2026.acl-demo.7.pdf',
             stargazers_count: 0,
             forks_count: 0
         },
@@ -42,6 +41,8 @@
             description: 'Systematic closed-loop benchmark for evaluating LLMs in formulaic alpha-factor mining across Qlib and Assay backtesting engines (ICLR 2026).',
             topics: ['Benchmark', 'Alpha Mining', 'ICLR 2026'],
             html_url: 'https://github.com/CityU-MLO/AlphaBench',
+            websiteUrl: 'https://alphabench.cc/',
+            paperUrl: 'https://openreview.net/pdf?id=d97Q8r7ZKZ',
             stargazers_count: 0,
             forks_count: 0
         },
@@ -213,7 +214,7 @@
     }
 
     // ── Subtle Monochrome Cursor (no 3D card tilt) ──────────────────
-    const CURSOR_TARGETS = 'a, button, .cv-expandable, .writing-row__mirror, .nav-toggle';
+    const CURSOR_TARGETS = 'a, button, .nav-toggle';
 
     function initCursor() {
         if (!allowFancyCursor) return;
@@ -310,11 +311,6 @@
         return escapeHtml(value);
     }
 
-    function normalizeTags(tags) {
-        if (!Array.isArray(tags)) return [];
-        return tags.flatMap(tag => String(tag).split(';')).map(tag => tag.trim()).filter(Boolean);
-    }
-
     function mountPager(list, total, perPage, page, onPage) {
         let pager = list.nextElementSibling;
         if (!pager || !pager.classList.contains('list-pager')) {
@@ -336,47 +332,7 @@
         });
     }
 
-    // ── Shared Expandable Rows (Publications & Competitions) ────────
-    function initExpandableRows() {
-        const toggleRow = row => {
-            const open = row.classList.toggle('is-open');
-            row.setAttribute('aria-expanded', String(open));
-            row.querySelectorAll('.cv-drawer').forEach(drawer => {
-                drawer.hidden = !open;
-            });
-            const icon = row.querySelector('.cv-expand-icon');
-            if (icon) {
-                const openLabel = icon.dataset.openLabel || '−';
-                const closedLabel = icon.dataset.closedLabel || '+';
-                icon.textContent = open ? openLabel : closedLabel;
-                if (icon.tagName === 'BUTTON') {
-                    icon.setAttribute('aria-expanded', String(open));
-                }
-            }
-        };
-
-        document.addEventListener('click', event => {
-            const toggleBtn = event.target.closest('.pub-abstract-toggle, .comp-detail-toggle');
-            if (toggleBtn) {
-                const row = toggleBtn.closest('.cv-expandable');
-                if (row) toggleRow(row);
-                return;
-            }
-            const row = event.target.closest('.cv-expandable');
-            if (!row || event.target.closest('a, button')) return;
-            toggleRow(row);
-        });
-
-        document.addEventListener('keydown', event => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            const row = event.target.closest('.cv-expandable');
-            if (!row || row !== event.target || event.target.closest('a, button')) return;
-            event.preventDefault();
-            toggleRow(row);
-        });
-    }
-
-    // ── 03. Selected Publications (Figure-Left + Clean Action Pills) ─
+    // ── 03. Selected Publications (luost26/academic-homepage layout) ──
     async function loadPaperFigures() {
         let data = readInlineJson('paper-figures-data', { figures: {} });
         try {
@@ -392,7 +348,7 @@
         const equal = new Set(Array.isArray(publication.equalContribution) ? publication.equalContribution : []);
         return list
             .map(name => {
-                const star = equal.has(name) ? '<sup>*</sup>' : '';
+                const star = equal.has(name) ? '*' : '';
                 return SELF_NAMES.includes(name)
                     ? `<strong class="pub-self-author">${escapeHtml(name)}${star}</strong>`
                     : `${escapeHtml(name)}${star}`;
@@ -403,70 +359,64 @@
     function formatVenueDisplay(venue, year) {
         const v = String(venue || '').trim();
         if (/ACL\s*2026/i.test(v)) {
-            return { full: 'ACL 2026 System Demonstrations', badge: 'ACL 2026 Demo' };
+            return { venueName: 'Annual Meeting of the Association for Computational Linguistics (ACL System Demonstrations)', yearText: '2026' };
         }
         if (/ICLR\s*2026/i.test(v)) {
-            return { full: 'International Conference on Learning Representations (ICLR), 2026', badge: 'ICLR 2026' };
+            return { venueName: 'International Conference on Learning Representations (ICLR)', yearText: '2026' };
         }
         if (/GenAI in Finance/i.test(v) || /NeurIPS\s*2025/i.test(v)) {
-            return { full: 'NeurIPS 2025 Workshop on Generative AI in Finance', badge: 'NeurIPS 2025 WS' };
+            return { venueName: 'NeurIPS Workshop on Generative AI in Finance (GenAI in Finance)', yearText: '2025' };
         }
-        return { full: year ? `${v || 'Publication'}, ${year}` : (v || 'Publication'), badge: year ? String(year) : 'Paper' };
+        return { venueName: v || 'Publication', yearText: year ? String(year) : '' };
+    }
+
+    function cleanAbstractText(raw) {
+        return String(raw || '')
+            .replace(/\$\\ell_0\$/g, 'ℓ₀')
+            .replace(/\$([^$]+)\$/g, '$1')
+            .trim();
     }
 
     function renderPublication(publication, figure) {
         const title = publication.title || 'Untitled publication';
         const vInfo = formatVenueDisplay(publication.venue, publication.year);
-        const tags = normalizeTags(publication.tags).slice(0, 4);
         const abstract = publication.abstract || 'Research publication available online.';
         const hasEqual = Array.isArray(publication.equalContribution) && publication.equalContribution.length > 0;
 
         const pubUrl = publication.openreviewUrl || PROFILE.openReviewUrl;
-        const pubLabel = pubUrl.includes('openreview.net') ? 'OpenReview'
-            : pubUrl.includes('aclanthology.org') ? 'Anthology' : 'Paper';
+        const paperHref = figure.pdfUrl || pubUrl;
+        const forumLabel = pubUrl.includes('openreview.net') ? 'OpenReview'
+            : pubUrl.includes('aclanthology.org') ? 'Anthology' : null;
         const links = [
-            figure.pdfUrl ? ['PDF', figure.pdfUrl] : null,
-            [pubLabel, pubUrl],
-            figure.projectUrl ? ['Project', figure.projectUrl] : null,
+            ['Paper', paperHref],
+            (figure.pdfUrl && pubUrl && figure.pdfUrl !== pubUrl && forumLabel) ? [forumLabel, pubUrl] : null,
+            figure.projectUrl ? ['Website', figure.projectUrl] : null,
             figure.codeUrl ? ['Code', figure.codeUrl] : null
         ].filter(Boolean);
 
         const figSrc = figure.src ? `${figure.src}${figure.src.includes('?') ? '&' : '?'}v=2` : '';
 
         return `
-        <article class="pub-row cv-expandable" tabindex="0" aria-expanded="false">
-            <figure class="pub-row__thumb">
+        <article class="pub-row">
+            <div class="pub-row__thumb">
                 ${figSrc
-                    ? `<div class="pub-row__plate">
-                           <img src="${escapeAttr(figSrc)}" alt="${escapeAttr(figure.caption || `Architecture figure for ${title}`)}" loading="lazy" decoding="async">
-                       </div>`
-                    : `<div class="pub-row__plate pub-row__plate--placeholder"><span>${escapeHtml(vInfo.badge)}</span></div>`}
-            </figure>
+                    ? `<img class="pub-row__img" src="${escapeAttr(figSrc)}" alt="${escapeAttr(figure.caption || title)}" loading="lazy" decoding="async">`
+                    : `<div class="pub-row__placeholder">${escapeHtml(vInfo.yearText || 'Paper')}</div>`}
+            </div>
             <div class="pub-row__body">
-                <div class="pub-row__top">
-                    <h3 class="pub-row__title"><a href="${escapeAttr(pubUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a></h3>
-                    <span class="pub-venue-pill">${escapeHtml(vInfo.badge)}</span>
-                </div>
-                <p class="pub-row__authors">${renderAuthors(publication)}${hasEqual ? ' <span class="pub-row__equal">(* equal contribution)</span>' : ''}</p>
-                <p class="pub-row__venue"><em>${escapeHtml(vInfo.full)}</em></p>
-                <div class="pub-row__footer">
-                    <div class="pub-row__links">
-                        ${links.map(([label, url]) => `<a class="pub-action-pill" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ↗</a>`).join('')}
-                        <button type="button" class="pub-action-pill pub-abstract-toggle cv-expand-icon" data-closed-label="Abstract +" data-open-label="Abstract −" aria-expanded="false">Abstract +</button>
-                    </div>
-                    ${tags.length ? `<div class="cv-tag-row">${tags.map(tag => `<span class="cv-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
-                </div>
-                <div class="pub-row__drawer cv-drawer" hidden>
-                    <p class="pub-row__abstract">${escapeHtml(abstract)}</p>
-                    ${figure.caption ? `<p class="pub-row__caption">${escapeHtml(figure.caption)}</p>` : ''}
-                </div>
+                <h3 class="pub-row__title"><a href="${escapeAttr(paperHref)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a></h3>
+                <p class="pub-row__authors">${renderAuthors(publication)}${hasEqual ? ' <span class="pub-row__equal">(<i>* equal contribution</i>)</span>' : ''}</p>
+                <p class="pub-row__venue"><i>${escapeHtml(vInfo.venueName)}</i>${vInfo.yearText ? ` ${escapeHtml(vInfo.yearText)}` : ''}</p>
+                <p class="pub-row__abstract">${escapeHtml(cleanAbstractText(abstract))}</p>
+                <p class="cv-item-links">
+                    ${links.map(([label, url]) => `<a class="cv-bracket-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">[${escapeHtml(label)}]</a>`).join(' ')}
+                </p>
             </div>
         </article>`;
     }
 
     async function loadPublications() {
         const list = document.getElementById('publication-list');
-        const sync = document.getElementById('publication-sync');
         if (!list) return;
 
         let data = readInlineJson('publications-data', { publications: [] });
@@ -478,9 +428,6 @@
 
         const figures = await loadPaperFigures();
         const publications = Array.isArray(data.publications) ? data.publications : [];
-        if (sync) {
-            sync.textContent = `${publications.length} paper${publications.length === 1 ? '' : 's'} · click Abstract + to read summary`;
-        }
 
         if (!publications.length) {
             list.innerHTML = `<div class="empty-state">No publications in local feed. View <a href="${PROFILE.openReviewUrl}" target="_blank" rel="noopener noreferrer">OpenReview</a>.</div>`;
@@ -496,87 +443,7 @@
         renderPage();
     }
 
-    // ── 04. Competitions & Practice (Kaggle + LeetCode) ─────────────
-    function renderKaggleSummary(kg) {
-        const tier = kg.tier || 'Contributor';
-        const idx = Math.max(0, TIER_LADDER.indexOf(tier));
-        const comps = Array.isArray(kg.competitionList) ? kg.competitionList : [];
-        const medals = comps.reduce((acc, c) => {
-            const m = String(c.medal || '').toLowerCase();
-            if (m === 'gold' || m === 'silver' || m === 'bronze') acc[m] = (acc[m] || 0) + 1;
-            return acc;
-        }, {});
-        const pcts = comps
-            .map(c => {
-                const r = c.privateRank ?? c.rank;
-                return (r != null && c.teamCount) ? (r / c.teamCount) * 100 : null;
-            })
-            .filter(v => v != null);
-        const bestPct = pcts.length ? Math.min(...pcts) : null;
-
-        const medalBits = [
-            medals.gold ? `${medals.gold} Gold` : null,
-            medals.silver ? `${medals.silver} Silver Medal` : null,
-            medals.bronze ? `${medals.bronze} Bronze` : null
-        ].filter(Boolean);
-        const metaBits = [
-            ...medalBits,
-            bestPct != null ? `Best Top ${Math.max(bestPct, 0.1).toFixed(1)}%` : null,
-            comps.length ? `${comps.length} entered` : null,
-            kg.badges != null ? `${kg.badges} badges` : null,
-            kg.memberSince != null ? `since ${kg.memberSince}` : null
-        ].filter(Boolean).join(' · ');
-
-        const dots = TIER_LADDER.map((name, i) => {
-            const cls = i === idx ? ' is-current' : (i < idx ? ' is-passed' : '');
-            return `<span class="mini-tier__node${cls}" title="${escapeAttr(name)}">${escapeHtml(TIER_ABBR[name] || name)}</span>`;
-        }).join('');
-
-        return `
-        <a class="cv-summary-cell" href="${escapeAttr(kg.url || 'https://www.kaggle.com/b14ckc4tmr')}" target="_blank" rel="noopener noreferrer">
-            <div class="cv-summary-cell__top">
-                <span class="cv-summary-cell__label">Kaggle · @${escapeHtml(kg.handle || 'b14ckc4tmr')}</span>
-                <span class="cv-link-arrow" aria-hidden="true">↗</span>
-            </div>
-            <div class="cv-summary-cell__main">
-                <strong>${escapeHtml(tier)}</strong>
-                <span class="mini-tier" aria-label="Kaggle tier ${escapeAttr(tier)}">${dots}</span>
-            </div>
-            <p class="cv-summary-cell__meta">${escapeHtml(metaBits)}</p>
-        </a>`;
-    }
-
-    function renderLeetSummary(lc) {
-        const d = lc.byDifficulty || {};
-        const easy = d.easy || 0;
-        const medium = d.medium || 0;
-        const hard = d.hard || 0;
-        const total = easy + medium + hard;
-        const solved = lc.solved != null ? lc.solved : total;
-        const pct = v => (total > 0 ? ((v / total) * 100).toFixed(1) : '0');
-        const metaBits = [
-            `${easy} Easy · ${medium} Med · ${hard} Hard`,
-            lc.submissions != null ? `${lc.submissions} submissions` : null
-        ].filter(Boolean).join(' · ');
-
-        return `
-        <a class="cv-summary-cell" href="${escapeAttr(lc.url || 'https://leetcode.com/u/B143KC47/')}" target="_blank" rel="noopener noreferrer">
-            <div class="cv-summary-cell__top">
-                <span class="cv-summary-cell__label">LeetCode · @${escapeHtml(lc.handle || 'B143KC47')}</span>
-                <span class="cv-link-arrow" aria-hidden="true">↗</span>
-            </div>
-            <div class="cv-summary-cell__main">
-                <strong>${escapeHtml(String(solved))} solved</strong>
-                <span class="mini-diffbar" role="img" aria-label="${easy} Easy, ${medium} Medium, ${hard} Hard">
-                    <span class="mini-diffbar__seg mini-diffbar__seg--easy" style="width:${pct(easy)}%"></span>
-                    <span class="mini-diffbar__seg mini-diffbar__seg--med" style="width:${pct(medium)}%"></span>
-                    <span class="mini-diffbar__seg mini-diffbar__seg--hard" style="width:${pct(hard)}%"></span>
-                </span>
-            </div>
-            <p class="cv-summary-cell__meta">${escapeHtml(metaBits)}</p>
-        </a>`;
-    }
-
+    // ── 04. Kaggle Competitions ─────────────────────────────────────
     function sortCompetitionsForCv(comps) {
         return [...comps].sort((a, b) => {
             const ma = MEDAL_ORDER[String(a.medal || '').toLowerCase()] ?? 99;
@@ -615,7 +482,7 @@
 
         const yearMatch = String(c.started || c.deadline || '').match(/^\d{4}/);
         const compYear = yearMatch ? yearMatch[0] : '';
-        const orgMeta = [c.organization || 'Kaggle', c.category || null, compYear || null].filter(Boolean).join(' · ');
+        const orgSub = [c.organization || 'Kaggle', c.category || null].filter(Boolean).join(' · ');
 
         const activeRank = c.privateRank ?? c.rank;
         const pctVal = (activeRank != null && c.teamCount)
@@ -623,61 +490,51 @@
             : null;
         const pctText = pctVal != null ? `Top ${pctVal.toFixed(1)}%` : '';
 
-        const kpiBadge = medal
-            ? `<span class="comp-kpi comp-kpi--medal"><span class="cv-medal__dot" aria-hidden="true"></span>${escapeHtml(medalLabel)}${pctText ? ` · ${escapeHtml(pctText)}` : ''}</span>`
+        const badgeHtml = medal
+            ? `<span class="comp-badge comp-badge--medal">${escapeHtml(medalLabel)}${pctText ? ` · ${escapeHtml(pctText)}` : ''}</span>`
             : pctVal != null
-                ? `<span class="comp-kpi${pctVal <= 20 ? ' comp-kpi--top' : ''}">${escapeHtml(pctText)}</span>`
-                : `<span class="comp-kpi">${escapeHtml(c.status || 'Entered')}</span>`;
+                ? `<span class="comp-badge${pctVal <= 20 ? ' comp-badge--top' : ''}">${escapeHtml(pctText)}</span>`
+                : `<span class="comp-badge">${escapeHtml(c.status || 'Entered')}</span>`;
 
         const hasPrivate = c.privateRank != null && c.teamCount;
         const rankStr = hasPrivate
-            ? `Private #${c.privateRank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()}`
-            : (c.rank != null && c.teamCount ? `Public #${c.rank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()}` : null);
+            ? `Private Rank #${c.privateRank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()} teams`
+            : (c.rank != null && c.teamCount ? `Public Rank #${c.rank.toLocaleString()} / ${Number(c.teamCount).toLocaleString()} teams` : null);
         const reward = c.reward ? (/\d/.test(c.reward) ? `$${String(c.reward).replace(/\s*usd/i, '')} prize` : c.reward) : null;
-        const metricSummary = [
-            rankStr,
-            reward,
-            c.submissions ? `${c.submissions} sub${c.submissions === 1 ? '' : 's'}` : null
-        ].filter(Boolean).join(' · ');
+        const subsStr = c.submissions ? `${c.submissions} submission${c.submissions === 1 ? '' : 's'}` : null;
+        const metricSummary = [rankStr, reward, subsStr].filter(Boolean).join(' · ');
 
-        const detailBits = [
-            hasPrivate && c.rank != null && c.rank !== c.privateRank ? `Public rank: #${c.rank.toLocaleString()}` : null,
-            hasPrivate && c.privateScore ? `Private score: ${c.privateScore}` : (c.score ? `Score: ${c.score}` : null),
-            c.teamCount ? `Teams: ${Number(c.teamCount).toLocaleString()}` : null,
-            c.deadline ? `${c.status === 'Ongoing' ? 'Deadline' : 'Concluded'}: ${c.deadline}` : null
-        ].filter(Boolean);
+        const links = [
+            ['Competition', url],
+            ...writeups.map(wu => [wu.title || 'Write-up', wu.url])
+        ];
 
         return `
-        <article class="comp-card cv-expandable" tabindex="0" aria-expanded="false">
+        <article class="comp-card">
             <div class="comp-card__head">
-                <span class="comp-card__org">
-                    ${orgLogoSrc ? `<img src="${escapeAttr(orgLogoSrc)}" alt="" width="16" height="16" loading="lazy" decoding="async">` : ''}
-                    <span>${escapeHtml(orgMeta)}</span>
-                </span>
-                ${kpiBadge}
+                <h3 class="comp-card__title"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h3>
+                ${badgeHtml}
             </div>
-            <h3 class="comp-card__title"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name || 'Kaggle competition')}</a></h3>
-            <div class="comp-card__foot">
-                <span class="comp-card__metrics">${escapeHtml(metricSummary)}</span>
-                <button type="button" class="pub-action-pill comp-detail-toggle cv-expand-icon" data-closed-label="Details +" data-open-label="Details −" aria-expanded="false">Details +</button>
-            </div>
-            <div class="comp-card__drawer cv-drawer" hidden>
-                ${detailBits.length ? `<p class="comp-card__details">${escapeHtml(detailBits.join(' · '))}</p>` : ''}
-                <div class="pub-row__links">
-                    <a class="pub-action-pill" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Competition ↗</a>
-                    ${writeups.map(wu => `<a class="pub-action-pill" href="${escapeAttr(wu.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(wu.title || 'Write-up')} ↗</a>`).join('')}
-                </div>
-            </div>
+            <p class="comp-card__sub">
+                ${orgLogoSrc ? `<img src="${escapeAttr(orgLogoSrc)}" alt="" width="15" height="15" loading="lazy" decoding="async">` : ''}
+                <span><i>${escapeHtml(orgSub)}</i>${compYear ? ` ${escapeHtml(compYear)}` : ''}</span>
+            </p>
+            <p class="comp-card__desc">${escapeHtml(metricSummary || 'Kaggle machine learning competition.')}</p>
+            <p class="cv-item-links">
+                ${links.map(([label, href]) => `<a class="cv-bracket-btn" href="${escapeAttr(href)}" target="_blank" rel="noopener noreferrer">[${escapeHtml(label)}]</a>`).join(' ')}
+            </p>
         </article>`;
     }
 
     function renderCompetitions(kg) {
-        const block = document.getElementById('competition-block');
         const list = document.getElementById('competition-list');
         const filters = document.getElementById('comp-filters');
-        if (!block || !list) return;
+        if (!list) return;
         const raw = Array.isArray(kg.competitionList) ? kg.competitionList : [];
-        if (!raw.length) return;
+        if (!raw.length) {
+            list.innerHTML = '<div class="empty-state">No Kaggle competitions found.</div>';
+            return;
+        }
 
         const allSorted = sortCompetitionsForCv(raw);
         const competitive = allSorted.filter(c => !(c.category === 'Getting Started' && c.rank == null && c.privateRank == null));
@@ -695,8 +552,8 @@
 
         if (filters && hasSplit) {
             filters.innerHTML = `
-                <button type="button" class="writing-filter is-active" data-comp-mode="competitive">Ranked (${competitive.length})</button>
-                <button type="button" class="writing-filter" data-comp-mode="all">All (${allSorted.length})</button>`;
+                <button type="button" class="writing-filter is-active" data-comp-mode="competitive">[Ranked (${competitive.length})]</button>
+                <button type="button" class="writing-filter" data-comp-mode="all">[All (${allSorted.length})]</button>`;
             filters.addEventListener('click', event => {
                 const btn = event.target.closest('[data-comp-mode]');
                 if (!btn) return;
@@ -708,11 +565,11 @@
         }
 
         renderPage();
-        block.hidden = false;
     }
 
     async function loadProfiles() {
-        const list = document.getElementById('practice-list');
+        const list = document.getElementById('competition-list');
+        const tierNote = document.getElementById('kaggle-tier-note');
         if (!list) return;
 
         let data = readInlineJson('profiles-data', null);
@@ -722,20 +579,41 @@
             }
         } catch (error) { /* inline fallback */ }
 
-        if (!data || (!data.leetcode && !data.kaggle)) {
-            list.innerHTML = '<div class="empty-state">Practice profile data is unavailable.</div>';
+        if (!data || !data.kaggle) {
+            list.innerHTML = '<div class="empty-state">Kaggle competition history is unavailable.</div>';
             return;
         }
 
-        const cells = [];
-        if (data.kaggle) cells.push(renderKaggleSummary(data.kaggle));
-        if (data.leetcode) cells.push(renderLeetSummary(data.leetcode));
-        list.innerHTML = cells.join('');
+        if (tierNote) {
+            const comps = Array.isArray(data.kaggle.competitionList) ? data.kaggle.competitionList : [];
+            const medals = comps.reduce((acc, c) => {
+                const m = String(c.medal || '').toLowerCase();
+                if (m === 'gold' || m === 'silver' || m === 'bronze') acc[m] = (acc[m] || 0) + 1;
+                return acc;
+            }, {});
+            const medalBits = [
+                medals.gold ? `${medals.gold} Gold` : null,
+                medals.silver ? `${medals.silver} Silver Medal${medals.silver > 1 ? 's' : ''}` : null,
+                medals.bronze ? `${medals.bronze} Bronze` : null
+            ].filter(Boolean);
+            const pcts = comps
+                .map(c => {
+                    const r = c.privateRank ?? c.rank;
+                    return (r != null && c.teamCount) ? (r / c.teamCount) * 100 : null;
+                })
+                .filter(v => v != null);
+            const bestPct = pcts.length ? Math.max(Math.min(...pcts), 0.1).toFixed(1) : null;
+            tierNote.textContent = [
+                data.kaggle.tier || 'Contributor',
+                ...medalBits,
+                bestPct != null ? `Best Top ${bestPct}%` : null
+            ].filter(Boolean).join(' · ');
+        }
 
-        if (data.kaggle) renderCompetitions(data.kaggle);
+        renderCompetitions(data.kaggle);
     }
 
-    // ── 05. Selected Open-Source Projects (Curated Research + Live GH)
+    // ── 05. Selected Projects (Curated Research + Live GH) ──────────
     function readRepoCache() {
         try {
             const cached = JSON.parse(localStorage.getItem(repoCacheKey));
@@ -753,7 +631,6 @@
     }
 
     function renderRepo(repo) {
-        const topics = Array.isArray(repo.topics) ? repo.topics.slice(0, 3) : [];
         const updated = repo.pushed_at || repo.updated_at;
         const stars = repo.stargazers_count || 0;
         const forks = repo.forks_count || 0;
@@ -764,28 +641,21 @@
             forks > 0 ? `⑂ ${forks}` : null,
             updated ? formatMonthYear(updated) : null
         ].filter(Boolean);
+        const links = [
+            ['Code', repo.html_url],
+            repo.websiteUrl ? ['Website', repo.websiteUrl] : null,
+            repo.paperUrl ? ['Paper', repo.paperUrl] : null
+        ].filter(Boolean);
 
         return `
-        <a class="proj-cell" href="${escapeAttr(repo.html_url)}" target="_blank" rel="noopener noreferrer">
-            <div class="proj-cell__top">
-                <div class="proj-cell__heading">
-                    <span class="proj-cell__owner">${escapeHtml(owner)} /</span>
-                    <h3 class="proj-cell__title">${escapeHtml(repo.name)}</h3>
-                </div>
-                <div class="proj-cell__right">
-                    ${repo.role ? `<span class="proj-cell__role">${escapeHtml(repo.role)}</span>` : ''}
-                    <span class="cv-link-arrow" aria-hidden="true">↗</span>
-                </div>
-            </div>
+        <article class="proj-cell">
+            <h3 class="proj-cell__title"><a href="${escapeAttr(repo.html_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(owner)}/${escapeHtml(repo.name)}</a></h3>
+            <p class="proj-cell__sub"><i>${escapeHtml(repo.role || 'Author')}</i> · ${escapeHtml(metaParts.join(' · '))}</p>
             <p class="proj-cell__desc">${escapeHtml(repo.description || 'Public open-source repository on GitHub.')}</p>
-            <div class="proj-cell__foot">
-                <span class="proj-cell__meta">
-                    <span class="proj-lang-dot" aria-hidden="true"></span>
-                    <span>${escapeHtml(metaParts.join(' · '))}</span>
-                </span>
-                ${topics.length ? `<div class="cv-tag-row">${topics.map(t => `<span class="cv-tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
-            </div>
-        </a>`;
+            <p class="cv-item-links">
+                ${links.map(([label, url]) => `<a class="cv-bracket-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">[${escapeHtml(label)}]</a>`).join(' ')}
+            </p>
+        </article>`;
     }
 
     function buildMergedProjects(liveRepos) {
@@ -832,17 +702,11 @@
 
     async function loadGitHubProjects() {
         const list = document.getElementById('project-list');
-        const source = document.getElementById('github-source');
-        const sync = document.getElementById('github-sync');
-        const count = document.getElementById('github-count');
         if (!list) return;
 
         // Render curated baseline immediately so layout never blocks or shows error boxes
         let renderedProjects = buildMergedProjects([]);
         list.innerHTML = renderedProjects.map(renderRepo).join('');
-        if (source) source.textContent = 'CityU-MLO + @B143KC47';
-        if (count) count.textContent = `${renderedProjects.length} featured`;
-        if (sync) sync.textContent = 'Curated';
 
         try {
             let data = readRepoCache();
@@ -861,22 +725,14 @@
                 if (!user && !userRepos.length && !orgRepos.length) throw new Error('GitHub API unreachable');
                 data = { user, repos: [...orgRepos, ...userRepos] };
                 writeRepoCache(data);
-                if (sync) sync.textContent = 'Live metrics';
-            } else if (sync) {
-                sync.textContent = 'Cached metrics';
             }
 
             renderedProjects = buildMergedProjects(data.repos || []);
-            if (count && data.user && data.user.public_repos) {
-                count.textContent = `${renderedProjects.length} featured · ${data.user.public_repos} personal repos`;
-            }
             list.innerHTML = renderedProjects.map(renderRepo).join('');
-        } catch (error) {
-            if (sync) sync.textContent = 'Curated selection';
-        }
+        } catch (error) { /* keep curated baseline */ }
     }
 
-    // ── 06. Writing & Technical Notes ───────────────────────────────
+    // ── 06. Blog ────────────────────────────────────────────────────
     function inferWritingContext(w) {
         const platform = w.platform || 'Other';
         let rawCat = '';
@@ -901,28 +757,26 @@
         const date = w.date ? formatDate(w.date) : '';
         const platform = w.platform || 'Other';
         const ctx = inferWritingContext(w);
+        const primaryLabel = platform === 'Blog' ? 'Blog' : platform;
+        const links = [
+            [primaryLabel, w.url],
+            w.zhihuUrl ? ['Zhihu', w.zhihuUrl] : null
+        ].filter(Boolean);
 
         return `
-        <a class="writing-cell" href="${escapeAttr(w.url)}" target="_blank" rel="noopener noreferrer" data-platform="${escapeAttr(platform)}">
-            <div class="writing-cell__meta">
-                <span class="writing-cell__cat">${escapeHtml(platform)} · ${escapeHtml(ctx.category)}</span>
-                <time class="writing-cell__date">${escapeHtml(date)}</time>
-            </div>
-            <div class="writing-cell__top">
-                <h3 class="writing-cell__title">${escapeHtml(ctx.displayTitle)}</h3>
-                <span class="cv-link-arrow" aria-hidden="true">↗</span>
-            </div>
-            <div class="writing-cell__foot">
-                <p class="writing-cell__desc">${escapeHtml(ctx.summary)}</p>
-                ${w.zhihuUrl ? `<span class="pub-bracket-link writing-row__mirror" role="link" tabindex="0" data-href="${escapeAttr(w.zhihuUrl)}" title="Also on Zhihu">[Zhihu ↗]</span>` : ''}
-            </div>
-        </a>`;
+        <article class="writing-cell" data-platform="${escapeAttr(platform)}">
+            <h3 class="writing-cell__title"><a href="${escapeAttr(w.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ctx.displayTitle)}</a></h3>
+            <p class="writing-cell__sub"><i>${escapeHtml(ctx.category)}</i>${date ? ` · ${escapeHtml(date)}` : ''}</p>
+            <p class="writing-cell__desc">${escapeHtml(ctx.summary)}</p>
+            <p class="cv-item-links">
+                ${links.map(([label, url]) => `<a class="cv-bracket-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">[${escapeHtml(label)}]</a>`).join(' ')}
+            </p>
+        </article>`;
     }
 
     async function loadWritings() {
         const list = document.getElementById('writing-list');
         const filters = document.getElementById('writing-filters');
-        const sync = document.getElementById('writing-sync');
         if (!list) return;
 
         let data = readInlineJson('writings-data', { writings: [] });
@@ -933,14 +787,11 @@
         } catch (error) { /* inline fallback */ }
 
         const writings = Array.isArray(data.writings) ? data.writings : [];
-        if (sync) {
-            sync.textContent = `${writings.length} notes`;
-        }
 
         if (!writings.length) {
             list.innerHTML = `
                 <div class="empty-state">
-                    Articles live on <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog</a>,
+                    Posts live on <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog</a>,
                     <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu</a>, and
                     <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN</a>.
                 </div>`;
@@ -961,7 +812,7 @@
                 ? writings
                 : writings.filter(w => (w.platform || 'Other') === activePlatform);
             if (!visible.length) {
-                list.innerHTML = '<div class="empty-state">No articles on this platform yet.</div>';
+                list.innerHTML = '<div class="empty-state">No blog posts on this platform yet.</div>';
                 mountPager(list, 0, PAGE_SIZES.writings, 0, () => {});
                 return;
             }
@@ -972,8 +823,8 @@
 
         if (filters) {
             const filterItems = [
-                { key: 'All', label: `All (${writings.length})` },
-                ...platforms.map(p => ({ key: p, label: `${p} (${counts[p]})` }))
+                { key: 'All', label: `[All (${writings.length})]` },
+                ...platforms.map(p => ({ key: p, label: `[${p} (${counts[p]})]` }))
             ];
             filters.innerHTML = filterItems
                 .map((item, i) => `<button type="button" class="writing-filter${i === 0 ? ' is-active' : ''}" data-platform="${escapeAttr(item.key)}">${escapeHtml(item.label)}</button>`)
@@ -989,21 +840,6 @@
         }
 
         renderPage();
-
-        const openMirror = (mirror, event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            window.open(mirror.dataset.href, '_blank', 'noopener');
-        };
-        list.addEventListener('click', event => {
-            const mirror = event.target.closest('.writing-row__mirror');
-            if (mirror) openMirror(mirror, event);
-        });
-        list.addEventListener('keydown', event => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            const mirror = event.target.closest('.writing-row__mirror');
-            if (mirror) openMirror(mirror, event);
-        });
     }
 
     // ── Utilities ───────────────────────────────────────────────────
@@ -1058,7 +894,6 @@
         initFooterYear();
         initScrollProgress();
         initActiveNav();
-        initExpandableRows();
         loadPublications();
         loadGitHubProjects();
         loadProfiles();

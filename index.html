@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ho Tin Ko — Curriculum Vitae</title>
+    <title>Homepage - Hotin KO</title>
     <meta name="description" content="Curriculum Vitae of Ho Tin Ko (BlackCat) — AI Researcher & Builder working on LLM agents, quantitative AI, benchmarking, and computer vision.">
     <meta name="keywords" content="KO Ho Tin, Ho Tin Ko, B143KC47, CV, Curriculum Vitae, AI researcher, LLM agents, quant AI, AlphaBench, QFinZero, EvoAlpha, OpenReview, ORCID">
     <meta name="author" content="Ho Tin Ko">
     <meta name="theme-color" content="#000000">
     <meta name="google-site-verification" content="UjriGGmlAHny8qnL656nIswOfdZKxTWG8C6n5qdWRIs">
-    <meta property="og:title" content="Ho Tin Ko — Curriculum Vitae">
+    <meta property="og:title" content="Homepage - Hotin KO">
     <meta property="og:description" content="Minimalist Curriculum Vitae of Ho Tin Ko: education, research experience, publications, open-source projects, and competitions.">
     <meta property="og:image" content="assets/avatar-profile.jpg">
     <meta property="og:type" content="profile">
@@ -17,7 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.github.com">
     <link rel="me" href="https://orcid.org/0009-0002-7298-8196">
-    <link rel="icon" href="assets/avatar-profile.jpg?v=2" type="image/jpeg">
+    <link rel="icon" href="assets/github-avatar.png?v=1" type="image/png">
+    <link rel="apple-touch-icon" href="assets/github-avatar.png?v=1">
     <script>
         // Set the theme before first paint: saved choice > OS preference > dark.
         try {
@@ -27,7 +28,7 @@
         } catch (error) { document.documentElement.dataset.theme = 'dark'; }
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="styles/startup-redesign.css?v=37">
+    <link rel="stylesheet" href="styles/startup-redesign.css?v=38">
     <link rel="stylesheet" href="styles/cosmic.css?v=7">
 </head>
 <body>
@@ -52,8 +53,7 @@
                 <a href="#research">Publications</a>
                 <a href="#practice">Competitions</a>
                 <a href="#build">Projects</a>
-                <a href="#writing">Writing</a>
-                <a href="#skills">Skills</a>
+                <a href="#writing">Blog</a>
                 <div class="site-nav__tools">
                     <button type="button" id="theme-toggle" class="util-btn">Light</button>
                     <a href="assets/Ho_Tin_Ko_CV.pdf?v=1" download="Ho_Tin_Ko_CV.pdf" class="util-btn util-btn--solid">CV (PDF)</a>
@@ -97,7 +97,7 @@
                         <p class="bio-cv-action">
                             <a href="assets/Ho_Tin_Ko_CV.pdf?v=1" download="Ho_Tin_Ko_CV.pdf" class="bio-cv-btn">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
-                                <span>Curriculum Vitae (1-Page PDF)</span>
+                                <span>Curriculum Vitae</span>
                             </a>
                         </p>
 
@@ -250,99 +250,72 @@
                 </section>
             </div>
 
-            <!-- 3. SELECTED PUBLICATIONS CARD (yinminzhong.com figure-left + details-right) -->
+            <!-- 3. SELECTED PUBLICATIONS CARD (luost26/academic-homepage & yinminzhong.com layout) -->
             <section id="research" class="cv-card cv-flush-card reveal" aria-labelledby="research-title">
                 <div class="card-strip-head">
                     <h2 id="research-title" class="card-strip-title">
                         <span class="star-mark" aria-hidden="true">★</span> Selected Publications
+                        <span class="card-strip-more">(<a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar &raquo;</a> · <a href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">OpenReview &raquo;</a>)</span>
                     </h2>
-                    <div class="card-strip-meta">
-                        <span id="publication-sync">Loading…</span>
-                        <span class="meta-sep" aria-hidden="true">·</span>
-                        <a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar &raquo;</a>
-                        <a href="https://openreview.net/profile?id=%7EHo_Tin_Ko2" target="_blank" rel="noopener noreferrer">OpenReview &raquo;</a>
-                    </div>
                 </div>
                 <div id="publication-list" class="pub-list" aria-live="polite">
                     <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
                 </div>
+                <div class="card-strip-foot">
+                    <a href="https://scholar.google.com/citations?user=gz7ciBUAAAAJ" target="_blank" rel="noopener noreferrer">All publications &raquo;</a>
+                </div>
             </section>
 
-            <!-- 4. COMPETITIONS & PRACTICE CARD (full-width 2-col stat bar + 2-col competition rows) -->
+            <!-- 4. KAGGLE COMPETITIONS CARD -->
             <section id="practice" class="cv-card cv-flush-card reveal" aria-labelledby="practice-title">
                 <div class="card-strip-head">
-                    <h2 id="practice-title" class="card-strip-title">Competitions &amp; Practice</h2>
+                    <h2 id="practice-title" class="card-strip-title">
+                        Kaggle Competitions
+                        <span class="card-strip-more">(<a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">view profile &raquo;</a>)</span>
+                    </h2>
                     <div class="card-strip-meta">
+                        <span id="kaggle-tier-note" class="cv-sync-note"></span>
                         <div class="writing-filters" id="comp-filters" role="group" aria-label="Filter competitions"></div>
-                        <span class="meta-sep" aria-hidden="true">·</span>
-                        <a href="https://www.kaggle.com/b14ckc4tmr" target="_blank" rel="noopener noreferrer">Kaggle @b14ckc4tmr &raquo;</a>
-                        <a href="https://leetcode.com/u/B143KC47/" target="_blank" rel="noopener noreferrer">LeetCode @B143KC47 &raquo;</a>
                     </div>
                 </div>
-                <div id="practice-list" class="cv-practice-summary" aria-live="polite">
+                <div id="competition-list" class="comp-grid" aria-live="polite">
                     <div class="skeleton-block"><div class="skeleton-line"></div></div>
-                </div>
-                <div id="competition-block" class="cv-comp-block" hidden>
-                    <div id="competition-list" class="comp-grid" aria-live="polite"></div>
                 </div>
             </section>
 
-            <!-- 5. SELECTED PROJECTS CARD (full-width 3-col GitHub grid) -->
+            <!-- 5. SELECTED PROJECTS CARD -->
             <section id="build" class="cv-card cv-flush-card reveal" aria-labelledby="build-title">
                 <div class="card-strip-head">
-                    <h2 id="build-title" class="card-strip-title">Selected Open-Source Projects</h2>
-                    <div class="card-strip-meta">
-                        <span id="github-source">GitHub</span> · <span id="github-count">--</span> · <span id="github-sync">Fetching…</span>
-                        <span class="meta-sep" aria-hidden="true">·</span>
-                        <a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">All repositories &raquo;</a>
-                    </div>
+                    <h2 id="build-title" class="card-strip-title">
+                        Selected Projects
+                        <span class="card-strip-more">(<a href="https://github.com/B143KC47" target="_blank" rel="noopener noreferrer">view all &raquo;</a>)</span>
+                    </h2>
                 </div>
                 <div id="project-list" class="proj-grid" aria-live="polite">
                     <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
                 </div>
+                <div class="card-strip-foot">
+                    <a href="https://github.com/B143KC47?tab=repositories" target="_blank" rel="noopener noreferrer">All repositories &raquo;</a>
+                </div>
             </section>
 
-            <!-- 6. WRITING & TECHNICAL NOTES CARD (full-width 2-col article rows) -->
+            <!-- 6. BLOG CARD -->
             <section id="writing" class="cv-card cv-flush-card reveal" aria-labelledby="writing-title">
                 <div class="card-strip-head">
-                    <h2 id="writing-title" class="card-strip-title">Writing &amp; Technical Notes</h2>
+                    <h2 id="writing-title" class="card-strip-title">
+                        Blog
+                        <span class="card-strip-more">(<a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">BlackCat Blog &raquo;</a> · <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu &raquo;</a> · <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN &raquo;</a>)</span>
+                    </h2>
                     <div class="card-strip-meta">
-                        <div class="writing-filters" id="writing-filters" role="group" aria-label="Filter articles by platform"></div>
-                        <span id="writing-sync" class="cv-sync-note">Loading…</span>
-                        <span class="meta-sep" aria-hidden="true">·</span>
-                        <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">Blog &raquo;</a>
-                        <a href="https://www.zhihu.com/people/B143KC47" target="_blank" rel="noopener noreferrer">Zhihu &raquo;</a>
-                        <a href="https://blog.csdn.net/B143KC47" target="_blank" rel="noopener noreferrer">CSDN &raquo;</a>
+                        <div class="writing-filters" id="writing-filters" role="group" aria-label="Filter blog posts by platform"></div>
                     </div>
                 </div>
                 <div id="writing-list" class="writing-grid" aria-live="polite">
                     <div class="skeleton-block"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
                 </div>
-            </section>
-
-            <!-- 7. TECHNICAL SKILLS CARD (full-width 4-col grid) -->
-            <section id="skills" class="cv-card cv-flush-card reveal" aria-labelledby="skills-title">
-                <div class="card-strip-head">
-                    <h2 id="skills-title" class="card-strip-title">Technical Skills</h2>
+                <div class="card-strip-foot">
+                    <a href="https://b143kc47.github.io/blog/" target="_blank" rel="noopener noreferrer">All blog posts &raquo;</a>
                 </div>
-                <dl class="skills-grid">
-                    <div class="skills-cell">
-                        <dt>Research &amp; AI</dt>
-                        <dd>LLM Agents &amp; Tool Use (MCP, LangGraph), Benchmarking &amp; Evaluation, Quantitative AI (Formulaic Alpha Mining, Sparse Portfolio Optimization), Computer Vision</dd>
-                    </div>
-                    <div class="skills-cell">
-                        <dt>ML Frameworks</dt>
-                        <dd>PyTorch, Qlib, Scikit-learn, OpenCV, NumPy, Pandas</dd>
-                    </div>
-                    <div class="skills-cell">
-                        <dt>Languages</dt>
-                        <dd>Python, JavaScript (ES6+ / Node.js), SQL, HTML/CSS, LaTeX</dd>
-                    </div>
-                    <div class="skills-cell">
-                        <dt>Systems &amp; Data</dt>
-                        <dd>Git, GitHub Actions, Docker, Linux, MongoDB, SQLite, Parquet</dd>
-                    </div>
-                </dl>
             </section>
 
             <footer class="cv-footer">
@@ -806,6 +779,6 @@
   "lastUpdated": "2026-11-16T07:14:39.965Z"
 }
 </script>
-    <script src="modules/startup-redesign.js?v=22"></script>
+    <script src="modules/startup-redesign.js?v=23"></script>
 </body>
 </html>
