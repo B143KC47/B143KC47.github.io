@@ -403,6 +403,7 @@
                 <p class="pub-row__authors">${renderAuthors(publication)}${hasEqual ? ' <span class="pub-row__equal">(<i>* equal contribution</i>)</span>' : ''}</p>
                 <p class="pub-row__venue"><i>${escapeHtml(vInfo.venueName)}</i>${vInfo.yearText ? ` ${escapeHtml(vInfo.yearText)}` : ''}</p>
                 <p class="pub-row__abstract">${escapeHtml(cleanAbstractText(abstract))}</p>
+                <button type="button" class="pub-abstract-more" aria-expanded="false">[Read more]</button>
                 <p class="cv-item-links">
                     ${links.map(([label, url]) => `<a class="cv-bracket-btn" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">[${escapeHtml(label)}]</a>`).join(' ')}
                 </p>
@@ -528,7 +529,7 @@
 
     const MEDAL_PALETTES = {
         gold:   { ribL: '#b45309', ribR: '#d97706', rim: '#b45309', face: '#f59e0b', shine: '#fef08a', ring: '#fffbeb' },
-        silver: { ribL: '#64748b', ribR: '#94a3b8', rim: '#7b8798', face: '#cbd5e1', shine: '#f1f5f9', ring: '#f8fafc' },
+        silver: { ribL: '#7c8ea3', ribR: '#a8b8cb', rim: '#7b8798', face: '#cbd5e1', shine: '#f1f5f9', ring: '#f8fafc' },
         bronze: { ribL: '#7c2d12', ribR: '#b45309', rim: '#9a3412', face: '#d97706', shine: '#fed7aa', ring: '#fff7ed' }
     };
 
@@ -960,6 +961,18 @@
         map.forEach((_, el) => obs.observe(el));
     }
 
+    function initMobileAbstractToggle() {
+        document.addEventListener('click', event => {
+            const btn = event.target.closest('.pub-abstract-more');
+            if (!btn) return;
+            const row = btn.closest('.pub-row');
+            if (!row) return;
+            const open = row.classList.toggle('is-abstract-open');
+            btn.setAttribute('aria-expanded', String(open));
+            btn.textContent = open ? '[Show less]' : '[Read more]';
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initTheme();
         initPrint();
@@ -968,6 +981,7 @@
         initFooterYear();
         initScrollProgress();
         initActiveNav();
+        initMobileAbstractToggle();
         loadPublications();
         loadPublicationsArchive();
         loadGitHubProjects();
